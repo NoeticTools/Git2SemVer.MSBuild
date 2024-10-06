@@ -52,7 +52,7 @@ public class GitTool : IGitTool
                 continue;
             }
 
-            var regex = new Regex(@"^(?<shortSha>[^\|]*)?\|(?<parents>[^\|]*)?\|(?<summary>[^\|]*)?\|(( \(tag: (?<tags>[^\|,]+),.*\))|([^\|]*))\|$",
+            var regex = new Regex(@"^(?<shortSha>[^\|]*)?\|(?<parents>[^\|]*)?\|(?<summary>[^\|]*)?\|(( \(tag: (?<tags>[^\|]+)*\))|([^\|]*))\|$",
                                   RegexOptions.Multiline);
             var match = regex.Match(line.Trim());
             if (!match.Success)
