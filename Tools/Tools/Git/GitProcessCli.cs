@@ -14,7 +14,7 @@ public class GitProcessCli : IGitProcessCli
     {
         _inner = new ProcessCli(logger);
 
-        var teamCityGitPath = Environment.GetEnvironmentVariable("TEAMCITY_VERSION") ?? "";
+        var teamCityGitPath = Environment.GetEnvironmentVariable("TEAMCITY_GIT_PATH") ?? "";
 
         _gitPath = teamCityGitPath.Length > 0 ? teamCityGitPath : "git";
         logger.LogInfo($"== Git path is '{_gitPath}'");
