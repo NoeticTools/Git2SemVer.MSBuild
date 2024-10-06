@@ -26,8 +26,6 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
 
     public HostTypeIds HostTypeId => HostTypeIds.TeamCity;
 
-    public bool IsControlled => true;
-
     public string Name => "TeamCity";
 
     public string BumpBuildNumber()
