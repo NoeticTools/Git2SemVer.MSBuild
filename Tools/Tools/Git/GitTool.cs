@@ -71,6 +71,7 @@ public class GitTool : IGitTool
                 _logger.LogInfo($"=====================");
                 _logger.LogInfo($"  sha:  {shortSha}");
                 _logger.LogInfo($"  tags: {tags}");
+                _logger.LogInfo($"{line}");
                 _logger.LogInfo($"=====================");
             }
             // >>>
