@@ -72,7 +72,6 @@ public sealed class ProcessCli : IProcessCli
         if (completed)
         {
             process.WaitForExit();
-            System.Threading.Thread.Sleep(100);//>>>
         }
 
         if (!completed)
