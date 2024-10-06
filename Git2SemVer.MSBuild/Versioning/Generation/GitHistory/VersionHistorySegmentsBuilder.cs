@@ -77,7 +77,8 @@ internal sealed class VersionHistorySegmentsBuilder
 
     private SegmentWalkResult OnCommit(Commit commit)
     {
-        _logger.LogTrace($"Commit: {commit.CommitId.ShortSha}  {commit.ReleasedVersion?.ToString() ?? ""}");
+        //_logger.LogTrace($"Commit: {commit.CommitId.ShortSha}  {commit.ReleasedVersion?.ToString() ?? ""}");
+        _logger.LogDebug($"Commit: {commit.CommitId.ShortSha}  {commit.ReleasedVersion?.ToString() ?? ""}");
 
         if (_commitsCache.ContainsKey(commit.CommitId))
         {
@@ -90,6 +91,7 @@ internal sealed class VersionHistorySegmentsBuilder
 
         if (commit.ReleasedVersion != null)
         {
+            _logger.LogDebug($"Release tagged commit: {commit.CommitId.ShortSha}  {commit.ReleasedVersion?.ToString() ?? ""}");
             _segment.TaggedReleasedVersion = commit.ReleasedVersion;
             return SegmentWalkResult.FoundStart;
         }
