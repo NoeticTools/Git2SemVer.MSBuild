@@ -64,6 +64,17 @@ public class GitTool : IGitTool
             var shortSha = GetGroupValue(match, "shortSha");
             var parents = GetGroupValue(match, "parents").Split(' ');
             var summary = GetGroupValue(match, "summary");
+
+            // >>>
+            if (shortSha.StartsWith("d77cae7"))
+            {
+                _logger.LogInfo($"=====================");
+                _logger.LogInfo($"  sha:  {shortSha}");
+                _logger.LogInfo($"  tags: {tags}");
+                _logger.LogInfo($"=====================");
+            }
+            // >>>
+
             commits.Add(new Commit(shortSha, parents, summary, tags));
         }
 
