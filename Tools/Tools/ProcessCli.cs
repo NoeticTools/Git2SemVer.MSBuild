@@ -43,7 +43,7 @@ public sealed class ProcessCli : IProcessCli
     public int Run(string application, string commandLineArguments,
                    TextWriter standardOut, TextWriter? errorOut = null)
     {
-        Logger.LogInfo($"Running '{application} {commandLineArguments}'.");
+        Logger.LogDebug($"Running '{application} {commandLineArguments}'.");
 
         using var process = new Process();
         process.StartInfo.FileName = application;
