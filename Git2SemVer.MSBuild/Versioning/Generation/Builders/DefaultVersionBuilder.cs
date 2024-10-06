@@ -32,7 +32,7 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
         var informationalVersion = GetInformationalVersion(version, context);
         context.Outputs.SetAllVersionPropertiesFrom(informationalVersion);
 
-        var buildSystemLabel = string.IsNullOrWhiteSpace(prereleaseLabel) ? version : version.WithPrerelease(prereleaseLabel);
+        var buildSystemLabel = string.IsNullOrWhiteSpace(prereleaseLabel) ? version : version.WithPrerelease(prereleaseLabel, context.Host.BuildId.ToArray());
         context.Outputs.BuildSystemVersion = buildSystemLabel;
 
         var gitOutputs = context.Outputs.Git;

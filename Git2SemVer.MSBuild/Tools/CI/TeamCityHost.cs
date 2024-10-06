@@ -30,7 +30,7 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
 
     public string BumpBuildNumber()
     {
-        // Not supported
+        // Not supported - do nothing
         return BuildNumber;
     }
 
