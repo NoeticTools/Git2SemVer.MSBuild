@@ -181,12 +181,12 @@ internal sealed class AddCommand : ISetupCommand
 
             content += $"""
 
-                        # Git2SemVer version info share folder
-                        {Git2SemverConstants.ShareFolderName}
+                        # Generated version properties file
+                        {Git2SemverConstants.ShareFolderName}/{Git2SemverConstants.SharedVersionPropertiesFilename}
 
                         """;
             File.WriteAllText(fullName, content);
-            _console.WriteInfoLine($"\t- Added shared version info directory '{Git2SemverConstants.ShareFolderName}' to .gitignore file.");
+            _console.WriteInfoLine($"\t- Added generated version properties file '{Git2SemverConstants.SharedVersionPropertiesFilename}' to .gitignore file.");
         }
         else
         {
