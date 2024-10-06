@@ -26,6 +26,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tools\CliExecution\**" />
+    <Compile Remove="Tools\Git\**" />
+    <EmbeddedResource Remove="Tools\CliExecution\**" />
+    <EmbeddedResource Remove="Tools\Git\**" />
+    <None Remove="Tools\CliExecution\**" />
+    <None Remove="Tools\Git\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>NoeticTools.Git2SemVer.MSBuild.Tests</_Parameter1>
     </AssemblyAttribute>
@@ -70,11 +79,6 @@
     <ProjectReference Include="..\MSBuildScripting\MSBuild.Tasking.csproj" />
     <ProjectReference Include="..\MSBuildTask.Logging\MSBuild.TaskLogging.csproj" />
     <ProjectReference Include="..\Tools\Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Tools\CliExecution\" />
-    <Folder Include="Tools\Git\" />
   </ItemGroup>
 
 </Project>
