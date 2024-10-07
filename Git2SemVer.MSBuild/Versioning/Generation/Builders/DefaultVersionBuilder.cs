@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using NoeticTools.Common.Logging;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Framework.Config;
@@ -120,8 +121,13 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
     {
         var versionPrefix = _paths.BestPath.Version;
         var isARelease = string.IsNullOrWhiteSpace(prereleaseLabel);
-        return isARelease
-            ? versionPrefix
-            : versionPrefix.WithPrerelease(prereleaseLabel, host.BuildNumber, host.BuildContext);
+        if (isARelease)
+        {
+            return versionPrefix;
+        }
+
+        var prereleaseIdentifiers = new List<string> { prereleaseLabel };
+        prereleaseIdentifiers.AddRange(host.BuildId);
+        return versionPrefix.WithPrerelease(prereleaseIdentifiers.ToArray());
     }
 }
