@@ -78,14 +78,12 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
             ? GetPrereleaseLabelFromBranchName(context)
             : inputs.VersionSuffix;
 
-        if (labelPrefix.Length > 0)
+        if (labelPrefix.Length > 0 && prereleaseLabel.Length > 1)
         {
             prereleaseLabel = char.ToUpper(prereleaseLabel[0]) + prereleaseLabel.Substring(1);
         }
-
         return labelPrefix + prereleaseLabel;
     }
-
     private static string GetPrereleaseLabelFromBranchName(IVersioningContext context)
     {
         var inputs = context.Inputs;
