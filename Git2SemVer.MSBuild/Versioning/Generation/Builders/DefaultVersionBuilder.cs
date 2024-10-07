@@ -16,13 +16,11 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 /// </summary>
 internal sealed class DefaultVersionBuilder : IVersionBuilder
 {
-    private readonly ILogger _logger;
     private readonly HistoryPaths _paths;
 
     public DefaultVersionBuilder(HistoryPaths paths, ILogger logger)
     {
         _paths = paths;
-        _logger = logger;
     }
 
     public void Build(VersioningContext context)
