@@ -13,12 +13,10 @@ internal class GitHubHost : BuildHostBase, IBuildHost
         _logger = logger;
         BuildContext = "UNKNOWN";
         BuildNumber = "UNKNOWN";
-        DefaultBuildNumberFunc = () => [BuildContext, BuildNumber];
+        DefaultBuildNumberFunc = () => [BuildNumber, BuildContext];
     }
 
     public HostTypeIds HostTypeId => HostTypeIds.GitHub;
-
-    public bool IsControlled => true;
 
     public string Name => "GitHub";
 

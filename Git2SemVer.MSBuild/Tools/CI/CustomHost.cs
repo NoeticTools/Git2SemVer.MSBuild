@@ -18,8 +18,6 @@ internal class CustomHost : BuildHostBase, IDetectableBuildHost
 
     public HostTypeIds HostTypeId => HostTypeIds.Custom;
 
-    public bool IsControlled => true;
-
     public string Name => "Custom";
 
     public string BumpBuildNumber()
