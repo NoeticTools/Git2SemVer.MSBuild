@@ -98,7 +98,7 @@ public interface IVersionOutputs
     ///         <see href="https://semver.org/#spec-item-4">Semantic Versioning spec 4</see> states that a 0 major version
     ///         number indicates that the code is in initial development.
     ///         The first stable release will be 1.0.0.
-    ///         Hence, Git2SemVer's default behaviour is to make all 0.x.x builds "Initial" prereleases.
+    ///         Hence, Git2SemVer's default behaviour is to make all 0.x.x builds "InitialDev" prereleases.
     ///     </para>
     ///     <para>
     ///         So, making a first release 1.0.0 tells the consumer that it is a stable (production) release.
@@ -151,7 +151,7 @@ public interface IVersionOutputs
     ///     <para>
     ///         This method will:
     ///         <list type="bullet">
-    ///             <item>0.x.x versions are 'Initial' prereleases</item>
+    ///             <item>0.x.x versions are 'InitialDev' prereleases</item>
     ///             <item>
     ///                 Set <seealso cref="BuildSystemVersion" /> to <seealso cref="Version" />. Consider modifying
     ///                 BuildSystemLabel after this method is called.
