@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.7.0</VersionPrefix>
+    <VersionPrefix>0.7.1</VersionPrefix>
     <Title>Simple automatic Git to Semantic Versioning for .NET projects.</Title>
-    <Description>Automated Semantic Versioning for Visual Studio and dotnet cli.</Description>
+    <Description>Automated Semantic Versioning for Visual Studio and dotnet CLI.</Description>
     <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer</PackageProjectUrl>
     <PackageIcon>Git2SemVer_icon_32x32.png</PackageIcon>
     <ApplicationIcon>Git2SemVer_icon_64x64.ico</ApplicationIcon>

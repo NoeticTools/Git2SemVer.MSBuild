@@ -59,23 +59,24 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
     private string GetPrereleaseLabel(IVersioningContext context)
     {
         var versionPrefix = _paths.BestPath.Version;
+        var labelPrefix = "";
         if (versionPrefix.Major == 0)
         {
-            return VersioningConstants.DefaultInitialDevelopmentLabel;
+            labelPrefix = VersioningConstants.DefaultInitialDevelopmentLabel;
         }
 
         var inputs = context.Inputs;
         if (VersioningConstants.BranchMaturityPatternReleaseGroupName.Equals(inputs.VersionSuffix,
                                                                              StringComparison.CurrentCultureIgnoreCase))
         {
-            return "";
+            return labelPrefix;
         }
 
         var prereleaseLabel = string.IsNullOrWhiteSpace(inputs.VersionSuffix)
             ? GetPrereleaseLabelFromBranchName(context)
             : inputs.VersionSuffix;
 
-        return prereleaseLabel;
+        return labelPrefix + prereleaseLabel;
     }
 
     private static string GetPrereleaseLabelFromBranchName(IVersioningContext context)
