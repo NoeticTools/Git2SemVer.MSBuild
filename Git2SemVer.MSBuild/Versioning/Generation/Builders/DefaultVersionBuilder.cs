@@ -50,10 +50,13 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
         var commitId = context.Outputs.Git.HeadCommit.CommitId.Id;
         var branchName = context.Outputs.Git.BranchName.ToNormalisedSemVerIdentifier();
         var host = context.Host;
-        var informationalVersion = version.IsRelease
-            ? version.WithMetadata(host.BuildNumber, host.BuildContext, branchName, commitId)
-            : version.WithMetadata(branchName, commitId);
-        return informationalVersion;
+        var metadata = new List<string>();
+        if (version.IsRelease)
+        {
+            metadata.AddRange(host.BuildId);
+        }
+        metadata.AddRange([branchName, commitId]);
+        return version.WithMetadata(metadata.ToArray());
     }
 
     private string GetPrereleaseLabel(IVersioningContext context)
