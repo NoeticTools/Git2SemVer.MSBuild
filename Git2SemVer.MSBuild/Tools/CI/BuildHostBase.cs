@@ -50,11 +50,11 @@ internal abstract class BuildHostBase : ToolBase
         }
     }
 
-    protected IReadOnlyList<string> CustomBuildIdFormat()
+    private IReadOnlyList<string> CustomBuildIdFormat()
     {
         if (string.IsNullOrWhiteSpace(BuildIdFormat))
         {
-            throw new Git2SemVerConfigurationException("Host `BuildIdFormat` is required to generate a build ID.");
+            throw new Git2SemVerConfigurationException("Host `BuildIdFormat` is required to generate a custom build ID.");
         }
 
         var buildId = BuildIdFormat.Replace("BUILD_NUMBER", BuildNumber)
