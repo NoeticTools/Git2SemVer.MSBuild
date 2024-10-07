@@ -5,7 +5,7 @@ using NoeticTools.Git2SemVer.Tool.MSBuild;
 using Spectre.Console;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.SetupCommand;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
 
 [RegisterSingleton]
 internal sealed class UserAddSolutionVersioningOptionsPrompt : IUserOptionsPrompt

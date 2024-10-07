@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97
 		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTests", "CommonTests\CommonTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,12 @@ Global
 		{772E9B23-85D4-4FBC-A832-A89EC2FB4EAE}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
 		{772E9B23-85D4-4FBC-A832-A89EC2FB4EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{772E9B23-85D4-4FBC-A832-A89EC2FB4EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B968388D-5D60-4320-9038-E48A5D37AF75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B968388D-5D60-4320-9038-E48A5D37AF75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B968388D-5D60-4320-9038-E48A5D37AF75}.DebugPack|Any CPU.ActiveCfg = Debug|Any CPU
+		{B968388D-5D60-4320-9038-E48A5D37AF75}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
+		{B968388D-5D60-4320-9038-E48A5D37AF75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B968388D-5D60-4320-9038-E48A5D37AF75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +143,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3E909B24-393B-4075-9536-FD93CAA62D3A} = {2CBD5F54-15F6-41C2-A55D-D6301A52B4E8}
 		{94BE20A7-2746-4A31-8D14-D530E37D32F7} = {2CBD5F54-15F6-41C2-A55D-D6301A52B4E8}
+		{B968388D-5D60-4320-9038-E48A5D37AF75} = {2CBD5F54-15F6-41C2-A55D-D6301A52B4E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C89AA72-27F1-4410-8A4F-6F87F721B719}

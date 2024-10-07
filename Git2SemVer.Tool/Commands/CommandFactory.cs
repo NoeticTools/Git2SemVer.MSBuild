@@ -1,7 +1,7 @@
 ﻿using Injectio.Attributes;
 using Microsoft.Extensions.DependencyInjection;
-using NoeticTools.Git2SemVer.Tool.Commands.RemoveCommand;
-using NoeticTools.Git2SemVer.Tool.SetupCommand;
+using NoeticTools.Git2SemVer.Tool.Commands.Add;
+using NoeticTools.Git2SemVer.Tool.Commands.Remove;
 
 
 // ReSharper disable ClassNeverInstantiated.Global

@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.Tool.Commands.RemoveCommand;
+﻿namespace NoeticTools.Git2SemVer.Tool.Commands.Remove;
 
 internal interface IRemoveCommand
 {

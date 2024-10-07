@@ -7,10 +7,9 @@ using NoeticTools.Git2SemVer.Tool.Framework;
 using NoeticTools.Git2SemVer.Tool.MSBuild;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Projects;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
-using NoeticTools.Git2SemVer.Tool.SetupCommand;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.SetupCommand;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
 
 [RegisterSingleton]
 internal sealed class AddCommand : ISetupCommand
@@ -19,7 +18,7 @@ internal sealed class AddCommand : ISetupCommand
     private readonly IDotNetTool _dotNetCli;
     private readonly IEmbeddedResources<Git2SemverEmbeddedResources> _embeddedResources;
     private readonly ILogger _logger;
-    private readonly ISetupPreconditionValidator _preconditionsValidator;
+    private readonly IAddPreconditionValidator _preconditionsValidator;
     private readonly IProjectDocumentReader _projectDocumentReader;
     private readonly ISolutionFinder _solutionFinder;
     private readonly IUserOptionsPrompt _userOptionsPrompt;
@@ -29,7 +28,7 @@ internal sealed class AddCommand : ISetupCommand
                       IDotNetTool dotNetCli,
                       IEmbeddedResources<Git2SemverEmbeddedResources> embeddedResources,
                       IProjectDocumentReader projectDocumentReader,
-                      ISetupPreconditionValidator preconditionsValidator,
+                      IAddPreconditionValidator preconditionsValidator,
                       IConsoleIO console,
                       ILogger logger)
     {

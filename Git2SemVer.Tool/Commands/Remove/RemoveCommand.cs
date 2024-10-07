@@ -2,38 +2,36 @@
 using Injectio.Attributes;
 using NoeticTools.Common;
 using NoeticTools.Common.Logging;
+using NoeticTools.Common.Tools;
 using NoeticTools.Common.Tools.DotnetCli;
-using NoeticTools.Git2Semver.Common;
-using NoeticTools.Git2SemVer.Tool.Commands.SetupCommand;
+using NoeticTools.Git2SemVer.Tool.Commands.Add;
 using NoeticTools.Git2SemVer.Tool.Framework;
 using NoeticTools.Git2SemVer.Tool.MSBuild;
-using NoeticTools.Git2SemVer.Tool.MSBuild.Projects;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.RemoveCommand;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Remove;
 
 [RegisterSingleton]
 internal sealed class RemoveCommand : IRemoveCommand
 {
     private readonly IConsoleIO _console;
+    private readonly IContentEditor _contentEditor;
     private readonly IDotNetTool _dotNetCli;
-    private readonly IProjectDocumentReader _projectDocumentReader;
-
     private readonly ISolutionFinder _solutionFinder;
 
     public RemoveCommand(ISolutionFinder solutionFinder,
                          IUserOptionsPrompt userOptionsPrompt,
                          IDotNetTool dotNetCli,
-                         IProjectDocumentReader projectDocumentReader,
                          IConsoleIO console,
+                         IContentEditor contentEditor,
                          ILogger logger)
     {
         UserOptionsPrompt = userOptionsPrompt;
         _solutionFinder = solutionFinder;
         _dotNetCli = dotNetCli;
-        _projectDocumentReader = projectDocumentReader;
         _console = console;
+        _contentEditor = contentEditor;
     }
 
     public bool HasError => _console.HasError;
@@ -140,12 +138,14 @@ internal sealed class RemoveCommand : IRemoveCommand
         var existingContent = File.ReadAllText(buildPropsFile.FullName);
         const string
             includeLine =
-                $"<Import Project=\"{SolutionVersioningConstants.DirectoryVersionPropsFilename}\"/>"; // todo - regex & add detection to add command
+                $"<Import Project=\"{SolutionVersioningConstants.DirectoryVersionPropsFilename}\"/>";
+
         if (existingContent.Contains(includeLine, StringComparison.CurrentCultureIgnoreCase))
         {
-            // todo - regex to be less whitespace dependent
-            existingContent = existingContent.Replace(includeLine, "", StringComparison.CurrentCultureIgnoreCase);
-            File.WriteAllText(buildPropsFile.FullName, existingContent);
+            var content = _contentEditor.RemoveLinesWith(includeLine, existingContent);
+            File.WriteAllText(buildPropsFile.FullName, content);
+            //existingContent = existingContent.Replace(includeLine, "", StringComparison.CurrentCultureIgnoreCase);
+            //File.WriteAllText(buildPropsFile.FullName, existingContent);
             _console.WriteInfoLine($"\t- Updated '{buildPropsFile.Name}'.");
             return true;
         }

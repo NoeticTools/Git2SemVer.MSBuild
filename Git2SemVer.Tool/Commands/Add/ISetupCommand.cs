@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.Tool.SetupCommand;
+﻿namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
 
 internal interface ISetupCommand
 {

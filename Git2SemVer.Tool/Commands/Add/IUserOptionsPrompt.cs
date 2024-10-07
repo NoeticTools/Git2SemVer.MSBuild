@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.Tool.Commands.SetupCommand;
+﻿namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
 
 internal interface IUserOptionsPrompt
 {
