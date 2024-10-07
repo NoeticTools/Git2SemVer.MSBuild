@@ -38,9 +38,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     }
 
     /// <summary>
-    ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "beata".
+    ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "Beta".
     /// </summary>
-    public string Input_BranchMaturityPattern { get; set; } = "^((?<release>main|release)|(?<beta>feature)|(?<alpha>.+))[\\/_]?";
+    public string Input_BranchMaturityPattern { get; set; } = "";
 
     /// <summary>
     ///     The optional MSBuild <c>Git2SemVer_BuildContext</c> property value.
