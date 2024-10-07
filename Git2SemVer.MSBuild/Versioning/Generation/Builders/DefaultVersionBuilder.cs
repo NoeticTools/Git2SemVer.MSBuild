@@ -78,7 +78,7 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
 
         if (labelPrefix.Length > 0)
         {
-            prereleaseLabel = $"{char.ToUpper(prereleaseLabel[0])}{prereleaseLabel[1..]}";
+            prereleaseLabel = char.ToUpper(prereleaseLabel[0]) + prereleaseLabel.Substring(1);
         }
 
         return labelPrefix + prereleaseLabel;
