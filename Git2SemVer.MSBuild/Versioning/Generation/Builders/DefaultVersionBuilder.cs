@@ -59,7 +59,7 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
     private string GetPrereleaseLabel(IVersioningContext context)
     {
         var versionPrefix = _paths.BestPath.Version;
-        if (versionPrefix.Major > 0)
+        if (versionPrefix.Major == 0)
         {
             return VersioningConstants.DefaultInitialDevelopmentLabel;
         }
