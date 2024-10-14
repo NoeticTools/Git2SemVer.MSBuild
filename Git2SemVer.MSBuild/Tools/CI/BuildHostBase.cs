@@ -17,7 +17,7 @@ internal abstract class BuildHostBase : ToolBase
     protected BuildHostBase(ILogger logger)
     {
         _logger = logger;
-        _defaultBuildNumberFunc = () => [$"{BuildNumber}"];
+        _defaultBuildNumberFunc = () => [BuildNumber];
         _buildNumberFunc = _defaultBuildNumberFunc;
     }
 
