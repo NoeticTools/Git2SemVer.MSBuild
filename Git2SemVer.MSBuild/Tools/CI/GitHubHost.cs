@@ -8,11 +8,9 @@ internal class GitHubHost : BuildHostBase, IBuildHost
 {
     private readonly ILogger _logger;
 
-    public GitHubHost(ILogger logger)
+    public GitHubHost(ILogger logger) : base(logger)
     {
         _logger = logger;
-        BuildContext = "UNKNOWN";
-        BuildNumber = "UNKNOWN";
         DefaultBuildNumberFunc = () => [BuildNumber, BuildContext];
     }
 

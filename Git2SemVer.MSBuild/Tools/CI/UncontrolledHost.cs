@@ -12,7 +12,7 @@ internal class UncontrolledHost : BuildHostBase, IDetectableBuildHost
     private readonly IConfiguration _config;
     private readonly ILogger _logger;
 
-    public UncontrolledHost(IConfiguration config, ILogger logger)
+    public UncontrolledHost(IConfiguration config, ILogger logger) : base(logger)
     {
         _config = config;
         _logger = logger;

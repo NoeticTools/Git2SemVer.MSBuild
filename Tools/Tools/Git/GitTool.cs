@@ -2,6 +2,7 @@
 using Injectio.Attributes;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
+using Semver;
 
 
 namespace NoeticTools.Common.Tools.Git;
@@ -105,18 +106,18 @@ public class GitTool : IGitTool
     {
         var result = Run("status -b -s --porcelain");
 
-        var regex = new Regex(@"^## (?<branchName>\S+)(\.\.\.)?");
+        var regex = new Regex(@"^## (?<branchName>\S+?)(\.\.\..*)?$", RegexOptions.Multiline);
         var match = regex.Match(result.stdOutput);
 
         if (!match.Success)
         {
-            _logger.LogError($"Unable to read branch name from Git status. Received: '{result.stdOutput}'");
+            _logger.LogError($"Unable to read branch name from Git status response '{result.stdOutput}'.");
         }
 
         return match.Groups["branchName"].Value;
     }
 
-    private string GetGitVersion()
+    private string GetVersion()
     {
         var process = new ProcessCli(_logger);
         var result = process.Run("git", "--version");

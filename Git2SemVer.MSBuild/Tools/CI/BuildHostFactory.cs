@@ -35,7 +35,7 @@ internal sealed class BuildHostFactory
             host.BuildIdFormat = inputsBuildIdFormat;
         }
 
-        _logger.LogInfo($"Using '{host.Name}' host. Build ID = {host.BuildId}.");
+        _logger.LogInfo($"Using '{host.Name}' host. Build ID: {string.Join(".", host.BuildId)}");
 
         return host;
     }

@@ -1,4 +1,5 @@
 ﻿using NoeticTools.Common.Exceptions;
+using NoeticTools.Common.Logging;
 using NoeticTools.Git2SemVer.MSBuild.Framework;
 
 
@@ -6,17 +7,33 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tools.CI;
 
 internal abstract class BuildHostBase : ToolBase
 {
+    private readonly ILogger _logger;
     private string _buildIdFormat = "";
     private Func<IReadOnlyList<string>> _buildNumberFunc;
     private Func<IReadOnlyList<string>> _defaultBuildNumberFunc;
+    private string _buildNumber = "UNKNOWN";
+    private string _buildContext = "UNKNOWN";
 
-    protected BuildHostBase()
+    protected BuildHostBase(ILogger logger)
     {
+        _logger = logger;
         _defaultBuildNumberFunc = () => [$"{BuildNumber}"];
         _buildNumberFunc = _defaultBuildNumberFunc;
     }
 
-    public string BuildContext { get; set; } = "UNKNOWN";
+    public string BuildContext
+    {
+        get => _buildContext;
+        set
+        {
+            if (_buildContext.Equals(value))
+            {
+                return;
+            }
+            _buildContext = value;
+            _logger.LogDebug("Build context set to {0}.", _buildContext);
+        }
+    }
 
     public IReadOnlyList<string> BuildId => _buildNumberFunc();
 
@@ -25,15 +42,29 @@ internal abstract class BuildHostBase : ToolBase
         get => _buildIdFormat;
         set
         {
-            if (_buildIdFormat != value)
+            if (_buildIdFormat == value)
             {
-                _buildIdFormat = value;
-                SetBuildIdFunc();
+                return;
             }
+            _buildIdFormat = value;
+            _logger.LogDebug("Build ID format set to {0}.", _buildIdFormat);
+            SetBuildIdFunc();
         }
     }
 
-    public string BuildNumber { get; set; } = "UNKNOWN";
+    public string BuildNumber
+    {
+        get => _buildNumber;
+        set
+        {
+            if (_buildNumber.Equals(value))
+            {
+                return;
+            }
+            _buildNumber = value;
+            _logger.LogDebug("Build number set to {0}.", _buildNumber);
+        }
+    }
 
     private void SetBuildIdFunc()
     {

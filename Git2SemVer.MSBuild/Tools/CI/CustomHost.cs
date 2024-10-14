@@ -8,7 +8,7 @@ internal class CustomHost : BuildHostBase, IDetectableBuildHost
 {
     private readonly ILogger _logger;
 
-    public CustomHost(ILogger logger)
+    public CustomHost(ILogger logger) : base(logger)
     {
         _logger = logger;
         BuildNumber = "UNKNOWN";

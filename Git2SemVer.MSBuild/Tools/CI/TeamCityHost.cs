@@ -9,7 +9,7 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     private readonly ILogger _logger;
     private readonly string _teamCityVersion;
 
-    public TeamCityHost(ILogger logger)
+    public TeamCityHost(ILogger logger) : base(logger)
     {
         _logger = logger;
         _teamCityVersion = Environment.GetEnvironmentVariable("TEAMCITY_VERSION") ?? "";
