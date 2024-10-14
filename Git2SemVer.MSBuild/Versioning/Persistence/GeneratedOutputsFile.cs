@@ -27,12 +27,11 @@ internal sealed class GeneratedOutputsFile : IGeneratedOutputsFile
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-            IncludeFields = false
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin),
+            IncludeFields = false,
         };
 
         var json = JsonSerializer.Serialize(outputs, options);
-        json = Regex.Unescape(json);
         File.WriteAllText(GetPropertiesFilePath(directory), json);
     }
 

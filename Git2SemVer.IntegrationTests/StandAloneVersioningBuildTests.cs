@@ -40,7 +40,7 @@ internal class StandAloneVersioningBuildTests : SolutionTestsBase
     {
         var scriptPath = DeployScript("ForceProperties2.csx");
 
-        var result = DotNetCli.Pack(TestSolutionPath, BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath}");
+        var result = DotNetCli.Pack(TestSolutionPath, BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath} --verbosity normal");
         TestContext.Progress.WriteLine(result.stdOutput);
         Assert.That(File.Exists(_outputAppPath), Is.True, $"File '{_outputAppPath}' does not exist after build and pack.");
         Assert.That(result.returnCode, Is.EqualTo(0));
