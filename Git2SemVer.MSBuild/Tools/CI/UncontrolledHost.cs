@@ -34,6 +34,7 @@ internal class UncontrolledHost : BuildHostBase, IDetectableBuildHost
     {
         _config.BuildNumber++;
         _config.Save();
+        _logger.LogTrace("Bumped build number to {0}.", _config.BuildNumber);
         BuildNumber = _config.BuildNumber.ToString();
         return BuildNumber;
     }

@@ -29,7 +29,9 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
 
         var version = GetVersion(prereleaseLabel, context.Host);
         var informationalVersion = GetInformationalVersion(version, context);
-        context.Outputs.SetAllVersionPropertiesFrom(informationalVersion);
+        context.Outputs.SetAllVersionPropertiesFrom(informationalVersion, 
+                                                    context.Host.BuildNumber,
+                                                    context.Host.BuildContext);
 
         var buildSystemLabel = string.IsNullOrWhiteSpace(prereleaseLabel) ? version : version.WithPrerelease(prereleaseLabel, context.Host.BuildId.ToArray());
         context.Outputs.BuildSystemVersion = buildSystemLabel;

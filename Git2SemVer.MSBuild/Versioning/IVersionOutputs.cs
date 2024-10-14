@@ -159,5 +159,5 @@ public interface IVersionOutputs
     ///         </list>
     ///     </para>
     /// </remarks>
-    void SetAllVersionPropertiesFrom(SemVersion informationalVersion);
+    void SetAllVersionPropertiesFrom(SemVersion informationalVersion, string buildNumber, string buildContext);
 }

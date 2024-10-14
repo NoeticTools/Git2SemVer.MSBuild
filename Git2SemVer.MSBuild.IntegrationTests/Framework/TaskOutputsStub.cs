@@ -32,7 +32,7 @@ internal class TaskOutputsStub : IVersionOutputs
 
     public SemVersion? Version { get; set; }
 
-    public void SetAllVersionPropertiesFrom(SemVersion informationalVersion)
+    public void SetAllVersionPropertiesFrom(SemVersion informationalVersion, string buildNumber, string buildContext)
     {
         throw new NotImplementedException();
     }

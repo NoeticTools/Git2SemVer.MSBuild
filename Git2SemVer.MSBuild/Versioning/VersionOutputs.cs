@@ -47,7 +47,9 @@ internal sealed class VersionOutputs : IVersionOutputs
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion? Version { get; set; }
 
-    public void SetAllVersionPropertiesFrom(SemVersion informationalVersion)
+    public void SetAllVersionPropertiesFrom(SemVersion informationalVersion,
+                                            string buildNumber,
+                                            string buildContext)
     {
         var version = informationalVersion.WithoutMetadata();
         var versionPrefix = informationalVersion.WithoutMetadata()
@@ -62,5 +64,7 @@ internal sealed class VersionOutputs : IVersionOutputs
             ? ""
             : informationalVersion.PrereleaseIdentifiers[0];
         IsInInitialDevelopment = informationalVersion.Major == 0;
+        BuildNumber = buildNumber;
+        BuildContext = buildContext;
     }
 }
