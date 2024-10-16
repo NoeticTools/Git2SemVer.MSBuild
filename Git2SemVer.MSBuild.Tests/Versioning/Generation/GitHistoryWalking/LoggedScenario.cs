@@ -6,9 +6,12 @@ internal sealed class LoggedScenario
 
     public string ActualGitLog { get; }
 
-    public LoggedScenario(string expectedVersion, string actualGitLog)
+    public string HeadCommitId { get; }
+
+    public LoggedScenario(string expectedVersion, string headCommitId, string actualGitLog)
     {
         ExpectedVersion = expectedVersion;
         ActualGitLog = actualGitLog;
+        HeadCommitId = headCommitId;
     }
 }

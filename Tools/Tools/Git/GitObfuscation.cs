@@ -33,6 +33,7 @@ public static class GitObfuscation
             return line;
         }
 
+        //| (HEAD -> main, tag: v0.3.3, origin/main, origin/HEAD)|
         //(HEAD -> main, tag: v0.3.3, origin/main, origin/HEAD)
 
         var regex = new Regex(@"^(?<graph>[^\.]*)(\.\|(?<sha>[^\|]*)?\|(?<parents>[^\|]*)?\|(?<summary>[^\|]*)?\|(?<refs>[^\|]*)?\|)?$",

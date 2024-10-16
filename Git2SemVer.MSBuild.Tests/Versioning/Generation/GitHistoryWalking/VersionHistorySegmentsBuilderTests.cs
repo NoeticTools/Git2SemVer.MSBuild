@@ -32,10 +32,10 @@ internal class VersionHistorySegmentsBuilderTests : GitHistoryWalkingTestsBase
         _logger.Dispose();
     }
 
-    [TestCaseSource(typeof(ScenariosFromBuildLogs), nameof(ScenariosFromBuildLogs.Scenarios))]
-    public void BasicScenariosTest(LoggedScenario scenario)
+    [TestCaseSource(typeof(ScenariosFromBuildLogsTestSource))]
+    public void BasicScenariosTest(string name, LoggedScenario scenario)
     {
-        var commits = SetupGitRepository(scenario.ActualGitLog);
+        var commits = SetupGitRepository(scenario);
 
         var segments = _target.BuildTo(commits["0001"]);
 
@@ -45,10 +45,10 @@ internal class VersionHistorySegmentsBuilderTests : GitHistoryWalkingTestsBase
     [TestCase]
     public void DetailedScenario01SegmentsTest()
     {
-        var gitLog = ((LoggedScenario)ScenariosFromBuildLogs.Scenarios[0]).ActualGitLog;
-        var commits = SetupGitRepository(gitLog);
+        var scenario = new ScenariosFromBuildLogsTestSource().Scenario01;
+        var commits = SetupGitRepository(scenario);
 
-        var segments = _target.BuildTo(commits["0001"]);
+        var segments = _target.BuildTo(commits[scenario.HeadCommitId]);
 
         Assert.That(segments, Is.Not.Null);
         Assert.That(segments, Has.Count.EqualTo(8));

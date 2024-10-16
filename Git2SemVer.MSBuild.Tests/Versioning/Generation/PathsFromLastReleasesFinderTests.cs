@@ -45,7 +45,7 @@ internal class PathsFromLastReleasesFinderTests
         _logger.Dispose();
     }
 
-    [TestCaseSource(typeof(GitTestRepositories))]
+    [TestCaseSource(typeof(ManufacturedGitRepositoriesTestSource))]
     public void FindPathsToHead(string name, GitTestRepository scenario)
     {
         _logger.LogInfo(scenario.Description + "\n");

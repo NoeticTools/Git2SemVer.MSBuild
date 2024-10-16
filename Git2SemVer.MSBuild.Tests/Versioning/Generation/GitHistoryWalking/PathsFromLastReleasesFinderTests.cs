@@ -33,10 +33,10 @@ internal class PathsFromLastReleasesFinderTests : GitHistoryWalkingTestsBase
     }
 
 
-    [TestCaseSource(typeof(ScenariosFromBuildLogs), nameof(ScenariosFromBuildLogs.Scenarios))]
-    public void BasicScenariosTest(LoggedScenario scenario)
+    [TestCaseSource(typeof(ScenariosFromBuildLogsTestSource))]
+    public void BasicScenariosTest(string name, LoggedScenario scenario)
     {
-        var commits = SetupGitRepository(scenario.ActualGitLog);
+        var commits = SetupGitRepository(scenario);
 
         var paths = _target.FindPathsToHead();
 

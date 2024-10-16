@@ -4,7 +4,7 @@ using NoeticTools.Common.Tools.Git;
 
 namespace NoeticTools.Git2SemVer.MSBuild.Tests.TestScenarios;
 
-public sealed class GitTestRepositories : IEnumerable
+public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
 {
     public IEnumerator GetEnumerator()
     {
@@ -44,8 +44,8 @@ public sealed class GitTestRepositories : IEnumerable
             new[]
             {
                 new Commit("1.001.0000", [], "First commit in repo", ""),
-                new Commit("1.002.0000", ["1.001.0000"], "", "A tag"),
-                new Commit("1.003.0000", ["1.002.0000"], "", "A6.7.8"),
+                new Commit("1.002.0000", ["1.001.0000"], "", "tag: A tag"),
+                new Commit("1.003.0000", ["1.002.0000"], "", "tag: A6.7.8"),
                 new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", ""),
                 new Commit("1.005.0000", ["1.004.0000"], "", ""),
                 new Commit("1.006.0000", ["1.005.0000"], "", ""),
@@ -59,8 +59,8 @@ public sealed class GitTestRepositories : IEnumerable
                 new Commit("2.003.0000", ["2.002.0000"], "", ""),
 
                 new Commit("3.001.0000", ["1.007.0000"], "Branch commit", ""),
-                new Commit("3.002.0000", ["3.001.0000"], "", "v1.2.3"),
-                new Commit("3.003.0000", ["3.002.0000"], "", "v1.2.4"),
+                new Commit("3.002.0000", ["3.001.0000"], "", "tag: v1.2.3"),
+                new Commit("3.003.0000", ["3.002.0000"], "", "tag: v1.2.4"),
                 new Commit("3.004.0000", ["3.003.0000"], "", ""),
                 new Commit("3.005.0000", ["3.004.0000"], "", "")
             },
@@ -92,12 +92,12 @@ public sealed class GitTestRepositories : IEnumerable
             {
                 new Commit("1.001.0000", [], "First commit in repo", ""),
                 new Commit("1.007.0000", ["1.001.0000"], "", "Branched from"),
-                new Commit("1.008.0000", ["1.007.0000", "2.005.0000"], "Merge commit", "v1.2.2"),
+                new Commit("1.008.0000", ["1.007.0000", "2.005.0000"], "Merge commit", "tag: v1.2.2"),
                 new Commit("1.009.0000", ["1.008.0000"], "", ""),
                 new Commit("1.010.0000", ["1.009.0000"], "Head commit", ""),
 
                 new Commit("2.001.0000", ["1.007.0000"], "Branch commit", ""),
-                new Commit("2.003.0000", ["2.001.0000"], "", "v1.2.4"),
+                new Commit("2.003.0000", ["2.001.0000"], "", "tag: v1.2.4"),
                 new Commit("2.005.0000", ["2.003.0000"], "", "")
             },
             "master",
@@ -125,9 +125,9 @@ public sealed class GitTestRepositories : IEnumerable
             {
                 new Commit("1.001", [], "First commit in repo", ""),
                 new Commit("1.002", ["1.001"], "", ""),
-                new Commit("1.003", ["1.002"], "", "v2.2.2"),
+                new Commit("1.003", ["1.002"], "", "tag: v2.2.2"),
                 new Commit("1.004", ["1.003"], "", ""),
-                new Commit("1.005", ["1.004"], "", "V1.5.9"),
+                new Commit("1.005", ["1.004"], "", "tag: V1.5.9"),
                 new Commit("1.006", ["1.005"], "", "Head commit")
             },
             "master",
@@ -162,7 +162,7 @@ public sealed class GitTestRepositories : IEnumerable
             """,
             new[]
             {
-                new Commit("1.001.0000", [], "First commit in repo", "v1.0.0")
+                new Commit("1.001.0000", [], "First commit in repo", "tag: v1.0.0")
             },
             "master",
             "1.001.0000",
@@ -190,17 +190,17 @@ public sealed class GitTestRepositories : IEnumerable
             {
                 new Commit("1.001.0000", [], "First commit in repo", ""),
                 new Commit("1.002.0000", ["1.001.0000"], "Branch from", ""),
-                new Commit("1.003.0000", ["1.002.0000"], "", "v5.7.0"),
+                new Commit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0"),
                 new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", ""),
                 new Commit("1.005.0000", ["1.004.0000", "3.003.0000"], "Merge", ""),
                 new Commit("1.006.0000", ["1.005.0000"], "Head commit", ""),
 
                 new Commit("2.001.0000", ["1.002.0000"], "Branch", ""),
-                new Commit("2.002.0000", ["2.001.0000"], "", "v5.7.1"),
+                new Commit("2.002.0000", ["2.001.0000"], "", "tag: v5.7.1"),
                 new Commit("2.003.0000", ["2.002.0000"], "", ""),
 
                 new Commit("3.001.0000", ["1.002.0000"], "Branch", ""),
-                new Commit("3.002.0000", ["3.001.0000"], "", "v5.6.99"),
+                new Commit("3.002.0000", ["3.001.0000"], "", "tag: v5.6.99"),
                 new Commit("3.003.0000", ["3.002.0000"], "", "")
             },
             "master",

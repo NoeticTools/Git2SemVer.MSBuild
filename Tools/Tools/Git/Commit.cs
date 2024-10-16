@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using Semver;
+#pragma warning disable SYSLIB1045
 
 
 // ReSharper disable MergeIntoPattern
@@ -11,9 +12,11 @@ namespace NoeticTools.Common.Tools.Git;
 public class Commit
 {
     private const string TagVersionPrefix = "v";
-    private readonly Regex _tagVersionRegex = new(@$"^{TagVersionPrefix}(?<version>\d+\.\d+\.\d+)([\W_]|$)", RegexOptions.IgnoreCase);
 
-    public Commit(string sha, string[] parents, string message, string tags)
+    private readonly string _refs;
+    private readonly Regex _tagVersionRegex = new(@$"tag: {TagVersionPrefix}(?<version>\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
+
+    public Commit(string sha, string[] parents, string message, string refs)
     {
         CommitId = new CommitId(sha);
         if (parents.Length == 1 && parents[0].Length == 0)
@@ -25,8 +28,9 @@ public class Commit
             Parents = parents.Select(x => new CommitId(x)).ToArray();
         }
 
+        _refs = refs;
+
         Message = message;
-        Tags = tags;
         ReleasedVersion = GetReleaseTag();
     }
 
@@ -41,35 +45,25 @@ public class Commit
 
     public SemVersion? ReleasedVersion { get; }
 
-    public string Tags { get; }
-
     private SemVersion? GetReleaseTag()
     {
-        var tags = Tags.Split(' ', ',');
-        if (!tags.Any())
+        if (_refs.Length == 0)
+        {
+            return null;
+        }
+
+        var matches = _tagVersionRegex.Matches(_refs);
+        if (matches.Count == 0)
         {
             return null;
         }
 
         var versions = new List<SemVersion>();
-        foreach (var tag in tags)
+        foreach (Match match in matches)
         {
-            var match = _tagVersionRegex.Match(tag);
-            if (!match.Success)
-            {
-                continue;
-            }
-
             var version = SemVersion.Parse(match.Groups["version"].Value, SemVersionStyles.Strict);
-            version = new SemVersion(version.Major, version.Minor, version.Patch);
             versions.Add(version);
         }
-
-        if (!versions.Any())
-        {
-            return null;
-        }
-
         return versions.Max()!;
     }
 }

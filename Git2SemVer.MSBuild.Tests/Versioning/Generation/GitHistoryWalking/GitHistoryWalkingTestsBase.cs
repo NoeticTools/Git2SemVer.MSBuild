@@ -28,11 +28,11 @@ internal abstract class GitHistoryWalkingTestsBase
         return commits;
     }
 
-    protected Dictionary<string, Commit> SetupGitRepository(string gitLog)
+    protected Dictionary<string, Commit> SetupGitRepository(LoggedScenario scenario)
     {
-        var commits = GetCommits(gitLog).ToDictionary(k => k.CommitId.Id, v => v);
+        var commits = GetCommits(scenario.ActualGitLog).ToDictionary(k => k.CommitId.Id, v => v);
         _repository.Setup(x => x.Get(It.IsAny<CommitId>())).Returns<CommitId>(id => commits[id.Id]);
-        _repository.Setup(x => x.Head).Returns(commits["0001"]);
+        _repository.Setup(x => x.Head).Returns(commits[scenario.HeadCommitId]);
         return commits;
     }
 

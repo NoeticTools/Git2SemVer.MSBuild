@@ -3,6 +3,7 @@ using Injectio.Attributes;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
 using Semver;
+#pragma warning disable SYSLIB1045
 
 
 namespace NoeticTools.Common.Tools.Git;
@@ -42,7 +43,6 @@ public class GitTool : IGitTool
         var lines = result.stdOutput.Split('\n');
         foreach (var line in lines)
         {
-            _logger.LogTrace($" == {line}.");//>>>
             obfuscatedGitLog.Add(GitObfuscation.ObfuscateLogLine(line));
 
             if (!line.Contains(" .|"))
@@ -64,9 +64,8 @@ public class GitTool : IGitTool
     public static Commit ParseLogLine(string line, ILogger logger)
     {
         var regex =
-            new
-                Regex(@"^(?<graph>[^\.]*)(\.\|(?<sha>[^\|]*)?\|(?<parents>[^\|]*)?\|(?<summary>[^\|]*)?\|(( \(tag: (?<tags>[^\|]+)*\))|([^\|]*))\|)?$",
-                      RegexOptions.Multiline);
+                  new Regex(@"^(?<graph>[^\.]*)(\.\|(?<sha>[^\|]*)?\|(?<parents>[^\|]*)?\|(?<summary>[^\|]*)?\|( \((?<refs>.*?)\))?\|)?$",
+                            RegexOptions.Multiline);
         var match = regex.Match(line.Trim());
         if (!match.Success)
         {
@@ -74,11 +73,11 @@ public class GitTool : IGitTool
         }
 
         var sha = GetGroupValue(match, "sha");
-        var tags = GetGroupValue(match, "tags")!;
+        var refs = GetGroupValue(match, "refs")!;
         var parents = GetGroupValue(match, "parents").Split(' ');
         var summary = GetGroupValue(match, "summary");
 
-        var commit = new Commit(sha, parents, summary, tags);
+        var commit = new Commit(sha, parents, summary, refs);
         return commit;
     }
 
