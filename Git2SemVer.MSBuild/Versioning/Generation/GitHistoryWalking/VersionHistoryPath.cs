@@ -2,7 +2,7 @@
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistory;
+namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
 
 #pragma warning disable CS1591
 internal sealed class VersionHistoryPath

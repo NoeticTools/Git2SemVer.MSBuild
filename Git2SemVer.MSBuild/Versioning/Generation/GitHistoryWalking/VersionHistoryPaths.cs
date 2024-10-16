@@ -2,7 +2,7 @@
 using NoeticTools.Common.Tools.Git;
 
 
-namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistory;
+namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
 
 internal sealed class HistoryPaths
 {

@@ -4,7 +4,7 @@ using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Scripting;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistory;
+using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 
 

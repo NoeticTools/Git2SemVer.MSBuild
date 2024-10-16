@@ -1,6 +1,6 @@
 ﻿using NoeticTools.Common.Logging;
 using NoeticTools.Common.Tools.Git;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistory;
+using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
 
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
