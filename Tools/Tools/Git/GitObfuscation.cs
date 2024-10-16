@@ -47,12 +47,12 @@ public static class GitObfuscation
 
         var sha = GetGroupValue(match, "sha");
         var parents = GetGroupValue(match, "parents").Split(' ');
-        var tags = GetGroupValue(match, "refs")!;
-        var redactedRefs = new Regex(@"HEAD -> \S+?(?=[,\)])").Replace(tags, "HEAD -> REDACTED_BRANCH");
-        redactedRefs = new Regex(@"origin\/\S+?(?=[,\)])").Replace(redactedRefs, "origin/REDACTED_BRANCH");
+        var refs = GetGroupValue(match, "refs")!;
+        var redactedRefs = new Regex(@"HEAD -> \S+?(?=[,\)])").Replace(refs, "HEAD -> REDACTED_BRANCH");
+        var redactedRefs2 = new Regex(@"origin\/\S+?(?=[,\)])").Replace(redactedRefs, "origin/REDACTED_BRANCH");
         var parentShas = parents.Length > 0 ? string.Join(" ", parents.Select(GetObfuscatedSha)) : string.Empty;
 
-        return sha.Length == 0 ? $"{graph,-12}" : $"{graph,-15} .|{GetObfuscatedSha(sha)}|{parentShas}|REDACTED|{redactedRefs}|";
+        return sha.Length == 0 ? $"{graph,-12}" : $"{graph,-15} .|{GetObfuscatedSha(sha)}|{parentShas}|REDACTED|{redactedRefs2}|";
     }
 
     public static void Reset()

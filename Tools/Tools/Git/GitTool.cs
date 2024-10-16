@@ -42,6 +42,7 @@ public class GitTool : IGitTool
         var lines = result.stdOutput.Split('\n');
         foreach (var line in lines)
         {
+            _logger.LogTrace($" == {line}.");//>>>
             obfuscatedGitLog.Add(GitObfuscation.ObfuscateLogLine(line));
 
             if (!line.Contains(" .|"))
