@@ -21,7 +21,7 @@
 
     <!-- Generate version information -->
 
-    <Git2SemVerGenerateVersionTask Input_BuildNumber="$(Git2SemVer_BuidNumber)"
+    <Git2SemVerGenerateVersionTask Input_BuildNumber="$(Git2SemVer_BuildNumber)"
                                    Input_BuildContext="$(Git2SemVer_BuildContext)"
                                    Input_BuildIdFormat="$(Git2SemVer_BuildIDFormat)"
                                    Input_Version="$(Version)"

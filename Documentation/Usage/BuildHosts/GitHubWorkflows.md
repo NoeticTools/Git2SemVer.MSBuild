@@ -32,8 +32,8 @@ In a github workflow yml pass these two numbers to Git2SemVer like this:
           RUN_NUMBER: ${{ github.run_number }}
           RUN_ATTEMPT: ${{ github.run_attempt }}
       run: |
-          dotnet build MyApplication.sln -p:Git2SemVer_BuidNumber=${{ env.run_number }} \
-                                         -p:Git2SemVer_BuidContext=${{ env.run_attempt }} \
+          dotnet build MyApplication.sln -p:Git2SemVer_BuildNumber=${{ env.run_number }} \
+                                         -p:Git2SemVer_BuildContext=${{ env.run_attempt }} \
                                          -p:Git2SemVer_Env_HostType=GitHub
 ```
 
