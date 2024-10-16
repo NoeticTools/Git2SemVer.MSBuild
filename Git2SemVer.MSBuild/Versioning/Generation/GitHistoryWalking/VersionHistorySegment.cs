@@ -106,19 +106,19 @@ internal sealed class VersionHistorySegment
     public override string ToString()
     {
         var toSegments = !To.Any()
-            ? "To: none (head)"
-            : $"To: {string.Join(",", To.Select(x => x.Id))}";
+            ? "none (head)"
+            : $"{string.Join(",", To.Select(x => x.Id))}";
 
         var fromSegments = From.Any()
-            ? $"From: {string.Join(",", From.Select(x => x.Id))}"
-            : "From: none";
+            ? $"{string.Join(",", From.Select(x => x.Id))}"
+            : "none";
 
         var commitsCount = $"({_commits.Count})";
 
         var release = TaggedReleasedVersion != null ? TaggedReleasedVersion.ToString() : "";
 
         return
-            $"Segment {Id,-3} {LastCommit.CommitId.ObfuscatedSha} -> {FirstCommit.CommitId.ObfuscatedSha}  {commitsCount,5}  {Bumps.ToString() ?? "???"}  {toSegments,-16}  {fromSegments,-16}  {release}";
+            $"Segment {Id,-3} {LastCommit.CommitId.ObfuscatedSha} -> {FirstCommit.CommitId.ObfuscatedSha}  {commitsCount,5}   {Bumps.ToString() ?? "???"}   {toSegments,-16}  {fromSegments,-16}  {release}";
     }
 
     private ApiChanges GetVersionBumps()

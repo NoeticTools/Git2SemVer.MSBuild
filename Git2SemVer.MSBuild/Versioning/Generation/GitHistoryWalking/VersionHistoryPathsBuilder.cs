@@ -42,7 +42,7 @@ internal sealed class VersionHistoryPathsBuilder
         _logger.LogDebug($"Found {paths.Count} paths.");
         using (_logger.EnterLogScope())
         {
-            _logger.LogDebug("Path #   Segments                   Bumps  Ver from/to");
+            _logger.LogDebug("Path #   Segments (count)            Bumps    Ver from/to");
             foreach (var path in paths)
             {
                 _logger.LogDebug(path.ToString());
