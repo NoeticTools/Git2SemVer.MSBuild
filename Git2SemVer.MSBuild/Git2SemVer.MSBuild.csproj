@@ -60,7 +60,7 @@
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
   <Target Name="SetTeamCityBuildLabel" 
-          BeforeTargets="DispatchToInnerBuilds" 
+          BeforeTargets="Pack;GenerateNuspec" 
           Condition=" '$(TeamCityHostDetected)' == 'true' ">
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
   </Target>
