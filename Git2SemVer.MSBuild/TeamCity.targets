@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project>
+
+  <!-- 
+  Set TeamCity build label to semmantic version. 
+  
+  Only works if:
+
+  - Build verbosity is not minimal or quiet. 
+  - A NuGet package build is performed.
+  -->
+
+  <PropertyGroup>
+    <TeamCityHostDetected Condition=" '$(TEAMCITY_VERSION)' != '' ">true</TeamCityHostDetected>
+    <TeamCityHostDetected Condition=" '$(TeamCityHostDetected)' == '' ">true</TeamCityHostDetected>
+    <TeamCityBuildNumber Condition=" '$(TeamCityHostDetected)' == 'true' ">$(BUILD_NUMBER)</TeamCityBuildNumber>
+    <TeamCityBuildNumber Condition=" '$(TeamCityBuildNumber)' == '' ">0</TeamCityBuildNumber>
+    <TeamCityBuildLabel Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(TeamCityBuildNumber)</TeamCityBuildLabel>
+    <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
+  </PropertyGroup>
+  <Target Name="SetTeamCityBuildLabel" 
+          BeforeTargets="Pack;GenerateNuspec" 
+          Condition=" '$(TeamCityHostDetected)' == 'true' And '$(BUILD_NUMBER.Contains(`.`))' == 'false'  ">
+    <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
+  </Target>
+
+</Project>
