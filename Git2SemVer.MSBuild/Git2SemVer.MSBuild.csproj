@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <VersionPrefix>0.14.1</VersionPrefix>
+    <VersionSuffix>InitialDev</VersionSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Title>Simple automatic Git to Semantic Versioning for .NET projects.</Title>
     <Description>Automated Semantic Versioning for Visual Studio and dotnet CLI.</Description>
     <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer</PackageProjectUrl>
@@ -47,7 +52,7 @@
 
   <!-- Set TeamCity build label to semmantic version. Does not work if build verbosity is minimal or quiet. -->
   <PropertyGroup>
-    <TeamCityHostDetected Condition=" '$(TEAMCITY_VERSION)' != '' ">true</TeamCityHostDetected>
+    <TeamCityHostDetected Condition=" '$(TEAMCITY_VERSION)' != '' ">false</TeamCityHostDetected>
     <TeamCityHostDetected Condition=" '$(TeamCityHostDetected)' == '' ">true</TeamCityHostDetected>
     <TeamCityBuildNumber Condition=" '$(TeamCityHostDetected)' == 'true' ">$(BUILD_NUMBER)</TeamCityBuildNumber>
     <TeamCityBuildNumber Condition=" '$(TeamCityBuildNumber)' == '' ">0</TeamCityBuildNumber>
@@ -55,7 +60,7 @@
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
   <Target Name="SetTeamCityBuildLabel" 
-          BeforeTargets="Build" 
+          BeforeTargets="DispatchToInnerBuilds" 
           Condition=" '$(TeamCityHostDetected)' == 'true' ">
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
   </Target>
