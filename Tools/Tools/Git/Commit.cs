@@ -9,7 +9,7 @@ using Semver;
 namespace NoeticTools.Common.Tools.Git;
 
 #pragma warning disable CS1591
-public class Commit
+public class Commit : ICommit
 {
     private const string TagVersionPrefix = "v";
 

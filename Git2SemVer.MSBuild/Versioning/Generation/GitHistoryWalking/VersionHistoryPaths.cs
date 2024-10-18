@@ -4,7 +4,7 @@ using NoeticTools.Common.Tools.Git;
 
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
 
-internal sealed class HistoryPaths
+internal sealed class HistoryPaths : IHistoryPaths
 {
     private readonly IReadOnlyList<VersionHistorySegment> _segments;
 
@@ -17,7 +17,7 @@ internal sealed class HistoryPaths
         HeadCommit = BestPath.HeadCommit;
     }
 
-    public VersionHistoryPath BestPath { get; }
+    public IVersionHistoryPath BestPath { get; }
 
     public Commit HeadCommit { get; }
 

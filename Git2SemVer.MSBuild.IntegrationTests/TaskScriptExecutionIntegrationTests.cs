@@ -38,9 +38,9 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     public void ControlledPrereleaseBuildScenario01()
     {
         var context = GetContext("12345", "1", true);
-        var runner = new ScriptVersionBuilder();
+        var runner = new ScriptVersionBuilder(Logger);
 
-        runner.Build(context);
+        runner.Build(context.Host, context.Inputs, context.Outputs);
 
         Assert.That(Logger.HasError, Is.False);
     }
@@ -50,9 +50,9 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     public void UncontrolledPrereleaseBuildScenario01()
     {
         var context = GetContext("12345", "MACHINE-NAME", false);
-        var runner = new ScriptVersionBuilder();
+        var runner = new ScriptVersionBuilder(Logger);
 
-        runner.Build(context);
+        runner.Build(context.Host, context.Inputs, context.Outputs);
 
         Assert.That(Logger.HasError, Is.False);
     }
@@ -62,9 +62,9 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     public void UncontrolledPrereleaseInitialDevBuildScenario01()
     {
         var context = GetContext("12345", "MACHINE-NAME", false);
-        var runner = new ScriptVersionBuilder();
+        var runner = new ScriptVersionBuilder(Logger);
 
-        runner.Build(context);
+        runner.Build(context.Host, context.Inputs, context.Outputs);
 
         Assert.That(Logger.HasError, Is.False);
     }

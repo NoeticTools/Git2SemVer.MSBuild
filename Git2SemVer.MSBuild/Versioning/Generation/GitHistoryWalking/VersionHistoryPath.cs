@@ -5,7 +5,8 @@ using Semver;
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
 
 #pragma warning disable CS1591
-internal sealed class VersionHistoryPath
+
+internal sealed class VersionHistoryPath : IVersionHistoryPath
 {
     private readonly List<VersionHistorySegment> _segments = [];
     private ApiChanges _bumps;

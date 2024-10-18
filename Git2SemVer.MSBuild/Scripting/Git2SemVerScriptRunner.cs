@@ -4,6 +4,8 @@ using NoeticTools.Common.Tools.DotnetCli;
 using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Tools.CI;
+using NoeticTools.Git2SemVer.MSBuild.Versioning;
+using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using NoeticTools.MSBuild.Tasking;
 using NuGet.Versioning;
 using Semver;
@@ -14,35 +16,39 @@ namespace NoeticTools.Git2SemVer.MSBuild.Scripting;
 public sealed class Git2SemVerScriptRunner
 {
     private readonly MSBuildScriptRunner _innerScriptRunner;
+    private readonly IBuildHost _host;
     private readonly ILogger _logger;
-    private readonly VersioningContext _scriptContext;
+    private readonly IVersionGeneratorInputs _inputs;
+    private readonly IVersionOutputs _outputs;
 
     public Git2SemVerScriptRunner(MSBuildScriptRunner innerScriptRunner,
-                                  VersioningContext scriptContext,
+                                  IBuildHost host,
+                                  IVersionGeneratorInputs inputs,
+                                  IVersionOutputs outputs,
                                   ILogger logger)
     {
-        _scriptContext = scriptContext;
+        _inputs = inputs;
+        _outputs = outputs;
         _innerScriptRunner = innerScriptRunner;
+        _host = host;
         _logger = logger;
     }
 
     internal async Task RunScript()
     {
-        var inputs = _scriptContext.Inputs;
-
-        if (inputs.RunScript == false)
+        if (_inputs.RunScript == false)
         {
             _logger.LogDebug("RunScript option is not false. Script not run.");
             return;
         }
 
-        if (inputs.RunScript == null && !File.Exists(_scriptContext.Inputs.BuildScriptPath))
+        if (_inputs.RunScript == null && !File.Exists(_inputs.BuildScriptPath))
         {
-            _logger.LogDebug($"Script not found. BuildScriptPath is '{_scriptContext.Inputs.BuildScriptPath}'.");
+            _logger.LogDebug($"Script not found. BuildScriptPath is '{_inputs.BuildScriptPath}'.");
             return;
         }
 
-        if (!inputs.Validate(_logger))
+        if (!_inputs.Validate(_logger))
         {
             return;
         }
@@ -68,10 +74,11 @@ public sealed class Git2SemVerScriptRunner
             typeof(SemVersion)
         });
 
-        await _innerScriptRunner.RunScript(_scriptContext, inputs.BuildScriptPath, metadataReferences, inMemoryTypes);
+        var context = new VersioningContext(_inputs, _outputs, _host, _logger);
+        await _innerScriptRunner.RunScript(context, _inputs.BuildScriptPath, metadataReferences, inMemoryTypes);
 
         stopwatch.Stop();
         _logger.LogInfo($"Script run completed. (in {stopwatch.Elapsed.TotalSeconds:F1} sec)");
-        _scriptContext.Host.ReportBuildStatistic("Git2SemVer_Script_Seconds", stopwatch.Elapsed.TotalSeconds);
+        _host.ReportBuildStatistic("Git2SemVer_Script_Seconds", stopwatch.Elapsed.TotalSeconds);
     }
 }

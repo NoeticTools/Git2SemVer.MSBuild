@@ -1,29 +1,11 @@
-﻿using System.Text.Json.Serialization;
-using NoeticTools.Common.Tools.Git;
-using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking;
+﻿using NoeticTools.Common.Tools.Git;
 using Semver;
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning;
 
-public sealed class GitOutputs : IGitOutputs
+public interface IGitOutputs
 {
-    [JsonConstructor]
-    internal GitOutputs()
-    {
-    }
-
-    internal GitOutputs(IGitTool gitTool, HistoryPaths paths)
-    {
-        LastReleaseVersion = paths.BestPath.LastReleasedVersion;
-        LastReleaseCommit = paths.BestPath.LastReleasedVersion == null ? null : paths.BestPath.FirstCommit;
-        HeadCommit = paths.HeadCommit;
-        BranchName = gitTool.BranchName;
-        CommitsSinceLastRelease = paths.BestPath.CommitsSinceLastRelease;
-        HasLocalChanges = gitTool.HasLocalChanges;
-    }
-
     /// <summary>
     ///     The local Git repository head's last commit SHA.
     /// </summary>
@@ -34,7 +16,7 @@ public sealed class GitOutputs : IGitOutputs
     ///         <see href="https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target">RepositoryBranch</see>
     ///     </para>
     /// </remarks>
-    public string BranchName { get; } = "";
+    string BranchName { get; }
 
     /// <summary>
     ///     The commit count (height) from the last release's commit to the head's last commit.
@@ -50,7 +32,7 @@ public sealed class GitOutputs : IGitOutputs
     ///         <see cref="IBuildHost.BuildNumber">build host's BuildNumber</see> instead.
     ///     </para>
     /// </remarks>
-    public int CommitsSinceLastRelease { get; }
+    int CommitsSinceLastRelease { get; }
 
     /// <summary>
     ///     True if there are local changes since the last commit.
@@ -60,7 +42,7 @@ public sealed class GitOutputs : IGitOutputs
     ///         Not used by Git2SemVer. Provided for C# script use.
     ///     </para>
     /// </remarks>
-    public bool HasLocalChanges { get; }
+    bool HasLocalChanges { get; }
 
     /// <summary>
     ///     The local Git repository head's last commit SHA.
@@ -72,15 +54,15 @@ public sealed class GitOutputs : IGitOutputs
     ///         <see href="https://learn.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target">RepositoryCommit</see>
     ///     </para>
     /// </remarks>
-    public ICommit HeadCommit { get; } = Commit.Null;
+    ICommit HeadCommit { get; }
 
     /// <summary>
     ///     The last release's commit. Null if no prior release found.
     /// </summary>
-    public ICommit? LastReleaseCommit { get; }
+    ICommit? LastReleaseCommit { get; }
 
     /// <summary>
     ///     The last release's version. Null if no prior release.
     /// </summary>
-    public SemVersion? LastReleaseVersion { get; }
+    SemVersion? LastReleaseVersion { get; }
 }

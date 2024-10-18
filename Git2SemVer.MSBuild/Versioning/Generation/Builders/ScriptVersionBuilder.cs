@@ -1,4 +1,6 @@
-﻿using NoeticTools.Git2SemVer.MSBuild.Scripting;
+﻿using NoeticTools.Common.Logging;
+using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
+using NoeticTools.Git2SemVer.MSBuild.Scripting;
 using NoeticTools.MSBuild.Tasking;
 
 
@@ -6,16 +8,25 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 
 public sealed class ScriptVersionBuilder : IVersionBuilder
 {
-    public void Build(VersioningContext context)
+    private readonly ILogger _logger;
+
+    public ScriptVersionBuilder(ILogger logger)
     {
-        if (context.Inputs.RunScript == false)
+        _logger = logger;
+    }
+
+    public void Build(IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
+    {
+        if (inputs.RunScript == false)
         {
             return;
         }
 
-        var scriptRunner = new Git2SemVerScriptRunner(new MSBuildScriptRunner(context.Logger),
-                                                      context,
-                                                      context.Logger);
+        var scriptRunner = new Git2SemVerScriptRunner(new MSBuildScriptRunner(_logger), 
+                                                      host,
+                                                      inputs, 
+                                                      outputs,
+                                                      _logger);
         var task = scriptRunner!.RunScript();
     }
 }

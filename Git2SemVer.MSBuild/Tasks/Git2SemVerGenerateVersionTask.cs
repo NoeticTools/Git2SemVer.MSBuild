@@ -238,7 +238,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
             var gitPathsFinder = new PathsFromLastReleasesFinder(commitsRepo, gitTool, logger);
 
             var defaultBuilderFactory = new DefaultVersionBuilderFactory(logger);
-            var scriptBuilder = new ScriptVersionBuilder();
+            var scriptBuilder = new ScriptVersionBuilder(logger);
             var versionGenerator = new VersionGenerator(inputs, host, new GeneratedOutputsFile(), gitTool, gitPathsFinder, defaultBuilderFactory,
                                                         scriptBuilder, logger);
             SetOutputs(versionGenerator.Run());

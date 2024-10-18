@@ -81,7 +81,7 @@ public interface IVersionOutputs
     /// </remarks>
     Version? FileVersion { get; set; }
 
-    GitOutputs Git { get; }
+    IGitOutputs Git { get; }
 
     /// <summary>
     ///     The calculated informational version.

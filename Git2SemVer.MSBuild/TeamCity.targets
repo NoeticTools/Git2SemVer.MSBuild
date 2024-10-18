@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<Project>
-
-  <!-- 
-  Set TeamCity build label to semmantic version. 
+<!-- 
+  An MSBuild targets file to set TeamCity build label to semmantic version.
+  Required as Git2SemVer cannot consume its nuget package as that leads to circular references.
   
   Only works if:
 
   - Build verbosity is not minimal or quiet. 
   - A NuGet package build is performed.
+  
+  Version (VersionPrefix and VersionSuffix) must be manually updated.
   -->
+
+<Project>
 
   <PropertyGroup>
     <TeamCityHostDetected Condition=" '$(TEAMCITY_VERSION)' != '' ">true</TeamCityHostDetected>

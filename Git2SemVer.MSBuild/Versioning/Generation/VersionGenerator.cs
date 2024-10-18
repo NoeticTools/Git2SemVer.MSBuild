@@ -94,9 +94,8 @@ internal class VersionGenerator
 
     private void RunBuilders(VersionOutputs outputs, HistoryPaths historyPaths)
     {
-        var versioningContext = new VersioningContext(_inputs, outputs, _host, _logger);
-        _defaultVersionBuilderFactory.Create(historyPaths).Build(versioningContext);
-        _scriptBuilder.Build(versioningContext);
+        _defaultVersionBuilderFactory.Create(historyPaths, _host, _inputs, outputs).Build(_host, _inputs, outputs);
+        _scriptBuilder.Build(_host, _inputs, outputs);
     }
 
     private void SaveGeneratedVersion(VersionOutputs outputs)

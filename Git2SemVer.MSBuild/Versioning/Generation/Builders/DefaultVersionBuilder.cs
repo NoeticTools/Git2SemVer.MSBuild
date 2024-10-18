@@ -15,43 +15,42 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 /// </summary>
 internal sealed class DefaultVersionBuilder : IVersionBuilder
 {
-    private readonly HistoryPaths _paths;
+    private readonly IHistoryPaths _paths;
 
-    public DefaultVersionBuilder(HistoryPaths paths, ILogger logger)
+    public DefaultVersionBuilder(IHistoryPaths paths, ILogger logger)
     {
         _paths = paths;
     }
 
-    public void Build(VersioningContext context)
+    public void Build(IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
-        var prereleaseLabel = GetPrereleaseLabel(context);
+        var prereleaseLabel = GetPrereleaseLabel(inputs, outputs);
 
-        var version = GetVersion(prereleaseLabel, context.Host);
-        var informationalVersion = GetInformationalVersion(version, context);
-        context.Outputs.SetAllVersionPropertiesFrom(informationalVersion,
-                                                    context.Host.BuildNumber,
-                                                    context.Host.BuildContext);
+        var version = GetVersion(prereleaseLabel, host);
+        var informationalVersion = GetInformationalVersion(version, host, outputs);
+        outputs.SetAllVersionPropertiesFrom(informationalVersion,
+                                                    host.BuildNumber,
+                                                    host.BuildContext);
 
         var buildSystemLabel = string.IsNullOrWhiteSpace(prereleaseLabel)
             ? version
-            : version.WithPrerelease(prereleaseLabel, context.Host.BuildId.ToArray());
-        context.Outputs.BuildSystemVersion = buildSystemLabel;
+            : version.WithPrerelease(prereleaseLabel, host.BuildId.ToArray());
+        outputs.BuildSystemVersion = buildSystemLabel;
 
-        var gitOutputs = context.Outputs.Git;
+        var gitOutputs = outputs.Git;
         var config = Git2SemVerConfiguration.Load();
-        config.AddLogEntry(context.Host.BuildNumber,
+        config.AddLogEntry(host.BuildNumber,
                            gitOutputs.HasLocalChanges,
                            gitOutputs.BranchName,
                            gitOutputs.HeadCommit.CommitId.ShortSha,
-                           context.Inputs.WorkingDirectory);
+                           inputs.WorkingDirectory);
         config.Save();
     }
 
-    private static SemVersion GetInformationalVersion(SemVersion version, IVersioningContext context)
+    private static SemVersion GetInformationalVersion(SemVersion version, IBuildHost host, IVersionOutputs outputs)
     {
-        var commitId = context.Outputs.Git.HeadCommit.CommitId.Id;
-        var branchName = context.Outputs.Git.BranchName.ToNormalisedSemVerIdentifier();
-        var host = context.Host;
+        var commitId = outputs.Git.HeadCommit.CommitId.Id;
+        var branchName = outputs.Git.BranchName.ToNormalisedSemVerIdentifier();
         var metadata = new List<string>();
         if (version.IsRelease)
         {
@@ -62,42 +61,39 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
         return version.WithMetadata(metadata.ToArray());
     }
 
-    private string GetPrereleaseLabel(IVersioningContext context)
+    private string GetPrereleaseLabel(IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
         var versionPrefix = _paths.BestPath.Version;
-        var labelSuffix = "";
+        var initialDevSuffix = "";
         if (versionPrefix.Major == 0)
         {
-            labelSuffix = VersioningConstants.InitialDevelopmentLabel;
+            initialDevSuffix = VersioningConstants.InitialDevelopmentLabel;
         }
 
-        var inputs = context.Inputs;
         if (VersioningConstants.ReleaseGroupName.Equals(inputs.VersionSuffix,
                                                         StringComparison.CurrentCultureIgnoreCase))
         {
-            return labelSuffix;
+            return initialDevSuffix;
         }
 
         var prereleaseLabel = string.IsNullOrWhiteSpace(inputs.VersionSuffix)
-            ? GetPrereleaseLabelFromBranchName(context)
+            ? GetPrereleaseLabelFromBranchName(inputs, outputs)
             : inputs.VersionSuffix;
-
-        if (labelSuffix.Length > 0 && prereleaseLabel.Length > 1)
+        if (!string.IsNullOrWhiteSpace(prereleaseLabel))
         {
-            prereleaseLabel = char.ToUpper(prereleaseLabel[0]) + prereleaseLabel.Substring(1);
+            prereleaseLabel += "-";
         }
 
-        return prereleaseLabel + labelSuffix;
+        return prereleaseLabel + initialDevSuffix;
     }
 
-    private static string GetPrereleaseLabelFromBranchName(IVersioningContext context)
+    private static string GetPrereleaseLabelFromBranchName(IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
-        var inputs = context.Inputs;
-        var branchName = context.Outputs.Git.BranchName;
+        var branchName = outputs.Git.BranchName;
         var pattern = string.IsNullOrWhiteSpace(inputs.BranchMaturityPattern)
             ? VersioningConstants.DefaultBranchMaturityPattern
             : inputs.BranchMaturityPattern;
-        var regex = new Regex(pattern);
+        var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 
         var match = regex.Match(branchName);
 
