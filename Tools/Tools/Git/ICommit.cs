@@ -1,8 +1,10 @@
 ﻿using Semver;
+using System.Text.Json.Serialization;
 
 
 namespace NoeticTools.Common.Tools.Git;
 
+[JsonDerivedType(typeof(Commit))]
 public interface ICommit
 {
     CommitId CommitId { get; }

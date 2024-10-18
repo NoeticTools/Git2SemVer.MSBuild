@@ -24,6 +24,12 @@ internal sealed class GeneratedOutputsFile : IGeneratedOutputsFile
 
     public void Save(string directory, VersionOutputs outputs)
     {
+        var json = ToJson(outputs);
+        File.WriteAllText(GetPropertiesFilePath(directory), json);
+    }
+
+    public static string ToJson(VersionOutputs outputs)
+    {
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
@@ -32,7 +38,7 @@ internal sealed class GeneratedOutputsFile : IGeneratedOutputsFile
         };
 
         var json = JsonSerializer.Serialize(outputs, options);
-        File.WriteAllText(GetPropertiesFilePath(directory), json);
+        return json;
     }
 
     private static string GetPropertiesFilePath(string directory)

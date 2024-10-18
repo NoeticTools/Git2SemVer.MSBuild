@@ -16,7 +16,7 @@ internal class TaskOutputsStub : IVersionOutputs
 
     public Version? FileVersion { get; set; }
 
-    public IGitOutputs Git { get; } = null!;
+    public GitOutputs Git { get; } = null!;
 
     public SemVersion? InformationalVersion { get; set; }
 
