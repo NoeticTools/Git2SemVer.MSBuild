@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Versioning;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 using Semver;
@@ -17,6 +18,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
         [Test]
         public void CanSerialise()
         {
+            GitObfuscation.Reset();
             var target = new VersionOutputs
             {
                 AssemblyVersion = new Version(10,11,12),
@@ -37,10 +39,12 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                                       "BuildSystemVersion": "5.6.7-TEST",
                                       "FileVersion": null,
                                       "Git": {
+                                        "$type": "GitOutputs",
                                         "BranchName": "",
                                         "CommitsSinceLastRelease": 0,
                                         "HasLocalChanges": false,
                                         "HeadCommit": {
+                                          "$type": "Commit",
                                           "CommitId": {
                                             "Id": "00000000",
                                             "ObfuscatedSha": "0001",

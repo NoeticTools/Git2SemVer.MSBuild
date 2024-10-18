@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace NoeticTools.Common.Tools.Git;
 
-[JsonDerivedType(typeof(Commit))]
+[JsonDerivedType(typeof(Commit), typeDiscriminator: "Commit")]
 public interface ICommit
 {
     CommitId CommitId { get; }
