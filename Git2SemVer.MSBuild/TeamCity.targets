@@ -27,13 +27,9 @@
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
 
     <!-- Set the NuGet package version to include the build number -->
-    <Target Name="SetPackageVersion"
-            BeforeTargets="Build;Pack;GenerateNuspec"
-            Condition=" '$(TeamCityHostDetected)' == 'true'  ">
-      <PropertyGroup>
-        <PackageVersion>$(TeamCityBuildLabel)</PackageVersion>
-      </PropertyGroup>
-    </Target>
+    <PropertyGroup>
+      <PackageVersion>$(TeamCityBuildLabel)</PackageVersion>
+    </PropertyGroup>
 
   </Target>
 
