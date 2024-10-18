@@ -7,6 +7,7 @@ using Moq;
 using NoeticTools.Common.Logging;
 using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
+using NoeticTools.Git2SemVer.MSBuild.Framework.Semver;
 using NoeticTools.Git2SemVer.MSBuild.Scripting;
 using NoeticTools.Git2SemVer.MSBuild.Versioning;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
@@ -51,6 +52,8 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.Builders
             _gitOutputs = new Mock<IGitOutputs>();
             _outputs = new Mock<IVersionOutputs>();
 
+            _host.Setup(x => x.BuildNumber).Returns("BUILD_NUMBER");
+            _host.Setup(x => x.BuildContext).Returns("BUILD_CONTEXT");
             _host.Setup(x => x.BuildId).Returns(["77"]);
             _inputs.Setup(x => x.WorkingDirectory).Returns("WorkingDirectory");
             _headCommit.Setup(x => x.CommitId).Returns(new CommitId("001"));
@@ -79,7 +82,12 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.Builders
 
             _target.Build(_host.Object, _inputs.Object, _outputs.Object);
 
-            _outputs.VerifySet(x => x.BuildSystemVersion = _version.WithPrerelease(expectedPrereleaseLabel, "77"), Times.Once);
+            var expectedVersion = _version.WithPrerelease(expectedPrereleaseLabel, "77")
+                                          .WithMetadata(branchName.ToNormalisedSemVerIdentifier(), "001");
+            _outputs.VerifySet(x => x.BuildSystemVersion = expectedVersion.WithoutMetadata(), Times.Once);
+            _outputs.Verify(x => x.SetAllVersionPropertiesFrom(expectedVersion,
+                                                               "BUILD_NUMBER",
+                                                               "BUILD_CONTEXT"));
         }
 
         [TestCase("1.0.0", "main")]

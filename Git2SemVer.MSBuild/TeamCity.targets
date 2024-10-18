@@ -22,10 +22,16 @@
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(TeamCityBuildNumber)</TeamCityBuildLabel>
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
+
   <Target Name="SetTeamCityBuildLabel" 
           BeforeTargets="Pack;GenerateNuspec" 
           Condition=" '$(TeamCityHostDetected)' == 'true' And '$(BUILD_NUMBER.Contains(`.`))' == 'false'  ">
+
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
+
+    <PropertyGroup>
+      <PackageVersion Condition=" '$(PackageVersion)' == '' ">$(TeamCityBuildLabel)</PackageVersion>
+    </PropertyGroup>
   </Target>
 
 </Project>

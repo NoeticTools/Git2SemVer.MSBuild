@@ -15,10 +15,28 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
     [TestFixture]
     internal class VersionOutputsTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            GitObfuscation.Reset();
+        }
+
+        [Test]
+        public void SetAllVersionPropertiesFrom()
+        {
+            var target = new VersionOutputs();
+            var informationalVersion = new SemVersion(0,5,6).WithPrerelease("Beta-InitialDev", "77")
+                                                            .WithMetadata("METADATA");
+
+            target.SetAllVersionPropertiesFrom(informationalVersion, "BUILD_NUMBER", "BUILD_CONTEXT");
+
+            Assert.That(target.InformationalVersion, Is.EqualTo(informationalVersion));
+            Assert.That(target.PackageVersion, Is.EqualTo(informationalVersion.WithoutMetadata()));
+        }
+
         [Test]
         public void CanSerialise()
         {
-            GitObfuscation.Reset();
             var target = new VersionOutputs
             {
                 AssemblyVersion = new Version(10,11,12),
