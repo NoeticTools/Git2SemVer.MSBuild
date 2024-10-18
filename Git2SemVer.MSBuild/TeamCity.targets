@@ -17,7 +17,7 @@
   <PropertyGroup>
     <TeamCityHostDetected Condition=" '$(TEAMCITY_VERSION)' != '' ">true</TeamCityHostDetected>
     <TeamCityHostDetected Condition=" '$(TeamCityHostDetected)' == '' ">false</TeamCityHostDetected>
-    <Git2SemVer_BuildNumber Condition="'$(Git2SemVer_BuildNumber)' == ''">0</Git2SemVer_BuildNumber>
+    <Git2SemVer_BuildNumber Condition=" '$(TeamCityHostDetected)' == 'true'">$(BUILD_NUMBER)"</Git2SemVer_BuildNumber>
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(Git2SemVer_BuildNumber)</TeamCityBuildLabel>
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(Git2SemVer_BuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
