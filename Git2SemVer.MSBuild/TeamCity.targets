@@ -25,7 +25,10 @@
   <Target Name="SetTeamCityBuildLabel"
           BeforeTargets="Build;Pack;GenerateNuspec"
           Condition=" '$(TeamCityHostDetected)' == 'true' ">
+    <!--
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
+    -->
+    <Message Text="##teamcity[setParameter name='env.BuildLabel' value='$(TeamCityBuildLabel)']" Importance="high" />
 
     <!-- Set the NuGet package version to include the build number -->
     <PropertyGroup>
