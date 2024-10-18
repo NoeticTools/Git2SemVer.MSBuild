@@ -17,25 +17,24 @@
   <PropertyGroup>
     <TeamCityHostDetected Condition=" '$(TEAMCITY_VERSION)' != '' ">true</TeamCityHostDetected>
     <TeamCityHostDetected Condition=" '$(TeamCityHostDetected)' == '' ">false</TeamCityHostDetected>
-    <TeamCityBuildNumber Condition=" '$(TeamCityHostDetected)' == 'true' ">$(BUILD_NUMBER)</TeamCityBuildNumber>
-    <TeamCityBuildNumber Condition=" '$(TeamCityBuildNumber)' == '' ">0</TeamCityBuildNumber>
-    <TeamCityBuildLabel Condition=" '$(BUILD_NUMBER.Contains(`.`))' == 'false' And '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(TeamCityBuildNumber)</TeamCityBuildLabel>
-    <TeamCityBuildLabel Condition=" '$(BUILD_NUMBER.Contains(`.`))' == 'false' And '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
+    <TeamCityBuildLabel Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(Git2SemVer_BuildNumber)</TeamCityBuildLabel>
+    <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(Git2SemVer_BuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
 
   <Target Name="SetTeamCityBuildLabel"
           BeforeTargets="Build;Pack;GenerateNuspec"
-          Condition=" '$(TeamCityHostDetected)' == 'true' And '$(BUILD_NUMBER.Contains(`.`))' == 'false'  ">
+          Condition=" '$(TeamCityHostDetected)' == 'true' ">
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
-  </Target>
 
-  <!-- Set the NuGet package version to include the build number -->
-  <Target Name="SetPackageVersion"
-          BeforeTargets="Build;Pack;GenerateNuspec"
-          Condition=" '$(TeamCityHostDetected)' == 'true'  ">
-    <PropertyGroup>
-      <PackageVersion>$(TeamCityBuildLabel)</PackageVersion>
-    </PropertyGroup>
+    <!-- Set the NuGet package version to include the build number -->
+    <Target Name="SetPackageVersion"
+            BeforeTargets="Build;Pack;GenerateNuspec"
+            Condition=" '$(TeamCityHostDetected)' == 'true'  ">
+      <PropertyGroup>
+        <PackageVersion>$(TeamCityBuildLabel)</PackageVersion>
+      </PropertyGroup>
+    </Target>
+
   </Target>
 
 </Project>
