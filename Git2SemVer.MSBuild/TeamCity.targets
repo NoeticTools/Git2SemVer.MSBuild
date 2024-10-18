@@ -23,14 +23,15 @@
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
 
-  <Target Name="SetTeamCityBuildLabel" 
-          BeforeTargets="Pack;GenerateNuspec" 
+  <Target Name="SetTeamCityBuildLabel"
+          BeforeTargets="Pack;GenerateNuspec"
           Condition=" '$(TeamCityHostDetected)' == 'true' And '$(BUILD_NUMBER.Contains(`.`))' == 'false'  ">
 
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
 
+    <!-- Set the NuGet package version to include the build number -->
     <PropertyGroup>
-      <PackageVersion Condition=" '$(PackageVersion)' == '' ">$(TeamCityBuildLabel)</PackageVersion>
+      <PackageVersion>$(TeamCityBuildLabel)</PackageVersion>
     </PropertyGroup>
   </Target>
 
