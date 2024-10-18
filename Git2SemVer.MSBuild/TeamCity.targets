@@ -19,8 +19,8 @@
     <TeamCityHostDetected Condition=" '$(TeamCityHostDetected)' == '' ">false</TeamCityHostDetected>
     <TeamCityBuildNumber Condition=" '$(TeamCityHostDetected)' == 'true' ">$(BUILD_NUMBER)</TeamCityBuildNumber>
     <TeamCityBuildNumber Condition=" '$(TeamCityBuildNumber)' == '' ">0</TeamCityBuildNumber>
-    <TeamCityBuildLabel Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(TeamCityBuildNumber)</TeamCityBuildLabel>
-    <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
+    <TeamCityBuildLabel Condition=" '$(BUILD_NUMBER.Contains(`.`))' == 'false' And '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(TeamCityBuildNumber)</TeamCityBuildLabel>
+    <TeamCityBuildLabel Condition=" '$(BUILD_NUMBER.Contains(`.`))' == 'false' And '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
 
   <Target Name="SetTeamCityBuildLabel"
