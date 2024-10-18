@@ -64,37 +64,35 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.Builders
             _logger.Dispose();
         }
 
-        [TestCase("0.5.1", "main")]
-        [TestCase("0.5.1", "release")]
-        [TestCase("0.5.1", "release/anything")]
-        [TestCase("0.5.1", "Release/anything")]
-        public void ReleaseBranchInitialDevBuild(string version, string branchName)
+        [TestCase("0.1.0", "main", "InitialDev")]
+        [TestCase("0.5.1", "release", "InitialDev")]
+        [TestCase("0.5.1", "release/anything", "InitialDev")]
+        [TestCase("0.5.1", "Release/anything", "InitialDev")]
+        [TestCase("0.5.1", "JohnsOwnBranch", "Alpha-InitialDev")]
+        [TestCase("0.5.1", "devs/JohnsOwnBranch", "Alpha-InitialDev")]
+        [TestCase("0.999.0", "feature", "Beta-InitialDev")]
+        [TestCase("0.5.1", "Feature", "Beta-InitialDev")]
+        [TestCase("0.1.0", "features/mine", "Beta-InitialDev")]
+        public void PrereleaseBuildTest(string version, string branchName, string expectedPrereleaseLabel)
         {
             SetupInputs(version, branchName);
 
             _target.Build(_host.Object, _inputs.Object, _outputs.Object);
 
-            _outputs.VerifySet(x => x.BuildSystemVersion = _version.WithPrerelease("InitialDev", "77"), Times.Once);
+            _outputs.VerifySet(x => x.BuildSystemVersion = _version.WithPrerelease(expectedPrereleaseLabel, "77"), Times.Once);
         }
 
-        [Test]
-        public void DevBranchInitialDevBuild()
+        [TestCase("1.0.0", "main")]
+        [TestCase("1.0.1", "release")]
+        [TestCase("9999.999.999", "release/anything")]
+        [TestCase("1.2.3", "Release/anything")]
+        public void ReleaseBuildTest(string version, string branchName)
         {
-            SetupInputs("0.5.1", "JohnsOwnBranch");
+            SetupInputs(version, branchName);
 
             _target.Build(_host.Object, _inputs.Object, _outputs.Object);
 
-            _outputs.VerifySet(x => x.BuildSystemVersion = _version.WithPrerelease("Alpha-InitialDev", "77"), Times.Once);
-        }
-
-        [Test]
-        public void FeatureBranchInitialDevBuild()
-        {
-            SetupInputs("0.5.1", "feature/anything");
-
-            _target.Build(_host.Object, _inputs.Object, _outputs.Object);
-
-            _outputs.VerifySet(x => x.BuildSystemVersion = _version.WithPrerelease("Beta-InitialDev", "77"), Times.Once);
+            _outputs.VerifySet(x => x.BuildSystemVersion = _version, Times.Once);
         }
 
         private void SetupInputs(string version, string branchName)
