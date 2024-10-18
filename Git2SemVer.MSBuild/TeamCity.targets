@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <Target Name="SetTeamCityBuildLabel"
-          BeforeTargets="Pack;GenerateNuspec"
+          BeforeTargets="Build;Pack;GenerateNuspec"
           Condition=" '$(TeamCityHostDetected)' == 'true' And '$(BUILD_NUMBER.Contains(`.`))' == 'false'  ">
 
     <Message Text="##teamcity[buildNumber '$(TeamCityBuildLabel)']" Importance="high" />
