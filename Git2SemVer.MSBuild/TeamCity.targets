@@ -19,7 +19,7 @@
     <TeamCityHostDetected Condition=" '$(TeamCityHostDetected)' == '' ">false</TeamCityHostDetected>
     <TeamCityBuildNumberUpdated Condition=" '$(BUILD_NUMBER.Contains(`.`))' == 'true' ">true</TeamCityBuildNumberUpdated>
     <TeamCityBuildNumberUpdated Condition=" '$(TeamCityBuildNumberUpdated)' == '' ">false</TeamCityBuildNumberUpdated>
-    <TeamCityBuildNumber Condition=" '$(TeamCityHostDetected)' == 'true' ">$(BUILD_NUMBER)"</TeamCityBuildNumber>
+    <TeamCityBuildNumber Condition=" '$(TeamCityHostDetected)' == 'true' ">$(BUILD_NUMBER)</TeamCityBuildNumber>
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)+$(TeamCityBuildNumber)</TeamCityBuildLabel>
     <TeamCityBuildLabel Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix).$(TeamCityBuildNumber)</TeamCityBuildLabel>
   </PropertyGroup>
