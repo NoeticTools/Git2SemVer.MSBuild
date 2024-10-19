@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.MSBuild.Versioning;
+﻿namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 
 internal struct ApiChanges
 {

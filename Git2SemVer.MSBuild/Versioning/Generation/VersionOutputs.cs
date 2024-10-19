@@ -3,7 +3,7 @@ using NoeticTools.Git2SemVer.MSBuild.Framework.Semver;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.MSBuild.Versioning;
+namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 
 internal sealed class VersionOutputs : IVersionOutputs
 {

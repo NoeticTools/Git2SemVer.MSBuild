@@ -106,12 +106,17 @@ public class GitTool : IGitTool
     {
         var result = Run("status -b -s --porcelain");
 
-        var regex = new Regex(@"^## (?<branchName>\S+?)(\.\.\..*)?$", RegexOptions.Multiline);
-        var match = regex.Match(result.stdOutput);
+        return ParseStatusResponseBranchName(result.stdOutput);
+    }
 
+    public static string ParseStatusResponseBranchName(string stdOutput)
+    {
+        var regex = new Regex(@"^## (?<branchName>[a-zA-Z0-9!$*\._\/-]+?)(\.\.\..*)?\s*?$", RegexOptions.Multiline);
+        var match = regex.Match(stdOutput);
+        
         if (!match.Success)
         {
-            _logger.LogError($"Unable to read branch name from Git status response '{result.stdOutput}'.");
+            throw new Git2SemVerGitOperationException($"Unable to read branch name from Git status response '{stdOutput}'.\n");
         }
 
         return match.Groups["branchName"].Value;

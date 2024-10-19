@@ -1,5 +1,5 @@
 ﻿using Microsoft.Build.Framework;
-using NoeticTools.Git2SemVer.MSBuild.Versioning;
+using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using Task = Microsoft.Build.Utilities.Task;
 
 

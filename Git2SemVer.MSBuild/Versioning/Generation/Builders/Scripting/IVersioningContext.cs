@@ -3,7 +3,7 @@ using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.MSBuild.Tasking;
 
 
-namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
+namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 
 /// <summary>
 ///     The C# script runner. These properties are exposed as global when running from Git2SemVer/

@@ -4,14 +4,13 @@ using NoeticTools.Common.Tools.DotnetCli;
 using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Tools.CI;
-using NoeticTools.Git2SemVer.MSBuild.Versioning;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using NoeticTools.MSBuild.Tasking;
 using NuGet.Versioning;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.MSBuild.Scripting;
+namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 
 public sealed class Git2SemVerScriptRunner
 {

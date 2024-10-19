@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Text.Unicode;
+using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;

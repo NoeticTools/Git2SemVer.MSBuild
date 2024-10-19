@@ -1,11 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Framework.Semver;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.MSBuild.Versioning;
+namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 
 /// <summary>
 ///     Task outputs for C# script use.
