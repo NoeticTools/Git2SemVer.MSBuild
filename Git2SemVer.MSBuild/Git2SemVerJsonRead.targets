@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <Project>
+  <!--
   <UsingTask TaskName="JsonPeek" AssemblyFile="C:\Users\Robert\.nuget\packages\jsonpeek\1.2.0\build\JsonPeek.dll"/>
+  <UsingTask TaskName="JsonPeek" AssemblyFile="JsonPeek.dll"/>
+  -->
 
   <Target Name="PeekSimpleValue"
           BeforeTargets="Clean;Build;Pack;GenerateNuspec;SetTeamCityBuildLabel">
 
-    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningPropsFile)" Empty="$empty" Query="$.InformationalVersion">
+    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningPropsFile)" Empty="$empty" Query="$InformationalVersion">
       <Output TaskParameter="Result" PropertyName="Git2SemVer_InformationalVersion" />
     </JsonPeek>
 

@@ -1,11 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Having to give a full path to the assembly file seems very wrong - TBD -->
+  <UsingTask TaskName="JsonPeek" AssemblyFile="$(USERPROFILE)\.nuget\packages\jsonpeek\1.2.0\build\JsonPeek.dll"/>
+
   <PropertyGroup>
     <TargetFrameworks>net8.0;net472</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.14.5</VersionPrefix>
+    <VersionPrefix>0.14.6</VersionPrefix>
     <VersionSuffix>InitialDev</VersionSuffix>
   </PropertyGroup>
 
@@ -46,7 +49,7 @@
       <_Parameter1>NoeticTools.Git2SemVer.MSBuild.IntegrationTests</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-       <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
