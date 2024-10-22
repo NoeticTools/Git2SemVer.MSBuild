@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Git2SemVer.csx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Git2SemVer.csx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NoeticTools.Git2SemVer.MSBuild" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="0.13.4" />
+  </ItemGroup>
+
+</Project>

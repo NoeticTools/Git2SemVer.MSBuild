@@ -1,4 +1,6 @@
-﻿using Injectio.Attributes;
+﻿using System.Diagnostics;
+using System.Linq.Expressions;
+using Injectio.Attributes;
 
 
 namespace NoeticTools.Common.Logging;
@@ -12,7 +14,26 @@ public class FileLogger : ILogger
 
     public FileLogger(string filePath)
     {
-        _stream = new StreamWriter(filePath, false);
+        var stopwatch = Stopwatch.StartNew();
+        while (true)
+        {
+            try
+            {
+                _stream = new StreamWriter(filePath, false) { AutoFlush = true };
+                break;
+            }
+            catch (IOException)
+            {
+                if (stopwatch.ElapsedMilliseconds < 3000)
+                {
+                    Thread.Sleep(25);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
     }
 
     public string Errors => string.Join("\n", _errorMessages);
@@ -27,6 +48,7 @@ public class FileLogger : ILogger
     {
         _stream.Flush();
         _stream.Close();
+        _stream.Dispose();
     }
 
     public IDisposable EnterLogScope()

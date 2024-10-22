@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{D4
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
+		Directory.Versioning.Build.props = Directory.Versioning.Build.props
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -47,7 +48,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97
 		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTests", "CommonTests\CommonTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTests", "CommonTests\CommonTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolutionVersioningProject", "SolutionVersioningProject\SolutionVersioningProject.csproj", "{68681521-BAFA-4FD8-9FAE-126CBBEB7663}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -136,6 +139,12 @@ Global
 		{B968388D-5D60-4320-9038-E48A5D37AF75}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
 		{B968388D-5D60-4320-9038-E48A5D37AF75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B968388D-5D60-4320-9038-E48A5D37AF75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663}.DebugPack|Any CPU.ActiveCfg = Debug|Any CPU
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

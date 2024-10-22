@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.14.2</VersionPrefix>
+    <VersionPrefix>0.14.3</VersionPrefix>
     <VersionSuffix>InitialDev</VersionSuffix>
   </PropertyGroup>
 
@@ -50,7 +50,8 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <Import Project="TeamCity.targets" />
+  <Import Project="Git2SemVerJsonRead.targets" />
+  <Import Project="Build/TeamCity.targets" />
 
   <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
     <ItemGroup>
@@ -66,6 +67,7 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
+    <PackageReference Include="JsonPeek" Version="1.2.0" />
     <PackageReference Include="Microsoft.Build.Framework" Version="17.11.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.11.4" PrivateAssets="all" ExcludeAssets="Runtime" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.11.0" PrivateAssets="all" />

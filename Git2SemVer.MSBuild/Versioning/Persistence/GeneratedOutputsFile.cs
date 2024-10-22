@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Text.Unicode;
+using NoeticTools.Git2Semver.Common;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 
 
@@ -9,8 +10,6 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 
 internal sealed class GeneratedOutputsFile : IGeneratedOutputsFile
 {
-    private const string FileName = "Git2SemVer.VersionProperties.json";
-
     public VersionOutputs Load(string directory)
     {
         var propertiesFilePath = GetPropertiesFilePath(directory);
@@ -44,7 +43,7 @@ internal sealed class GeneratedOutputsFile : IGeneratedOutputsFile
 
     private static string GetPropertiesFilePath(string directory)
     {
-        var propertiesFilePath = Path.Combine(directory, FileName);
+        var propertiesFilePath = Path.Combine(directory, Git2SemverConstants.SharedVersionPropertiesFilename);
         return propertiesFilePath;
     }
 }
