@@ -5,9 +5,19 @@
 
   <Target Name="PeekSimpleValue"
           BeforeTargets="Clean;Build;Pack;GenerateNuspec;SetTeamCityBuildLabel">
-    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningPropsFile)" Query="$.http">
-      <Output TaskParameter="Result" ItemName="Http" />
+
+    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningPropsFile)" Empty="$empty" Query="$.InformationalVersion">
+      <Output TaskParameter="Result" PropertyName="Git2SemVer_InformationalVersion" />
     </JsonPeek>
+
+    <Message Text="Informational verson: $(Git2SemVer_InformationalVersion)" Importance="High"/>
+
+    <Error Condition="'$(Git2SemVer_InformationalVersion)' == '$empty'" Text="Missing Git2SemVer_InformationalVersion." />
+
+    <PropertyGroup>
+      <InformationalVersion>$(Git2SemVer_InformationalVersion)</InformationalVersion>
+    </PropertyGroup>
+
   </Target>
 
 </Project>

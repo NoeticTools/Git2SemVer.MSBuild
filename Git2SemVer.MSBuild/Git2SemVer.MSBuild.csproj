@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.14.4</VersionPrefix>
+    <VersionPrefix>0.14.5</VersionPrefix>
     <VersionSuffix>InitialDev</VersionSuffix>
   </PropertyGroup>
 
@@ -46,13 +46,11 @@
       <_Parameter1>NoeticTools.Git2SemVer.MSBuild.IntegrationTests</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+       <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
-  <!--
   <Import Project="Git2SemVerJsonRead.targets" />
-  -->
   <Import Project="Build/TeamCity.targets" />
 
   <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">

@@ -8,9 +8,7 @@
     <AssemblyName>NoeticTools.$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
-  <!--
   <Import Project="Directory.Versioning.Build.props"/>
-  -->
 
   <PropertyGroup>
     <Git2SemVer_TestSolutionsDirectory>$(MSBuildThisFileDirectory)TestSolutions/</Git2SemVer_TestSolutionsDirectory>
