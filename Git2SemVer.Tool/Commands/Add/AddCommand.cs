@@ -74,6 +74,7 @@ internal sealed class AddCommand : ISetupCommand
 
         var propertiesDocument = AddVersioningPropsDocument(solutionDirectory);
         propertiesDocument.Properties["Git2SemVer_VersioningProjectName"].Value = userOptions.VersioningProjectName;
+        propertiesDocument.Save();
 
         CreateVersioningProject(userOptions, solution);
         SetupGitIgnore(solutionDirectory);

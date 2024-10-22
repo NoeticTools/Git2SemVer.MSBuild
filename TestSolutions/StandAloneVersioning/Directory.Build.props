@@ -1,11 +1,30 @@
 <Project>
-  
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>NoeticTools.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>NoeticTools.$(MSBuildProjectName)</AssemblyName>
+  </PropertyGroup>
+ 
   <PropertyGroup>
     <Git2SemVerSolutionDirectory>$(MSBuildThisFileDirectory)../../</Git2SemVerSolutionDirectory>
     <Git2SemVer_NuGetLoad_Disable >true</Git2SemVer_NuGetLoad_Disable>
   </PropertyGroup>
+ 
+  <!-- NuGet package properties -->
+  <PropertyGroup>
+    <Authors>RobSmyth</Authors>
+    <RepositoryUrl>https://github.com/NoeticTools/Git2SemVer</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) RobSmyth $([System.DateTime]::Now.Year)</Copyright>
+    <NoWarn>NU5100;NU1803;NU5128</NoWarn>
+  </PropertyGroup>
 
+<!--
   <Import Project="$(Git2SemVerSolutionDirectory)Directory.Build.props" />
+  -->
 
   <Import Project="$(Git2SemVerSolutionDirectory)Git2SemVer.MSBuild/Build/NoeticTools.Git2SemVer.MSBuild.props" />
 

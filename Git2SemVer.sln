@@ -31,12 +31,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.Tool.Tests", "Git2SemVer.Tool.Tests\Git2SemVer.Tool.Tests.csproj", "{9F7D093A-213B-4F21-95F6-1DD62FF3285E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Tools\Common.csproj", "{3E909B24-393B-4075-9536-FD93CAA62D3A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663} = {68681521-BAFA-4FD8-9FAE-126CBBEB7663}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Common", "TestingCommon\Testing.Common.csproj", "{94BE20A7-2746-4A31-8D14-D530E37D32F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommonProjects", "CommonProjects", "{2CBD5F54-15F6-41C2-A55D-D6301A52B4E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2Semver.Common", "Git2Semver.Common\Git2Semver.Common.csproj", "{B549FC8E-1E2E-4065-92EE-E0D218FCBAFD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{68681521-BAFA-4FD8-9FAE-126CBBEB7663} = {68681521-BAFA-4FD8-9FAE-126CBBEB7663}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.IntegrationTests", "Git2SemVer.IntegrationTests\Git2SemVer.IntegrationTests.csproj", "{772E9B23-85D4-4FBC-A832-A89EC2FB4EAE}"
 EndProject
