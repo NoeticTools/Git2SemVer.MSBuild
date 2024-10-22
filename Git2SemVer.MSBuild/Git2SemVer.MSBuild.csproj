@@ -50,7 +50,9 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <!--
   <Import Project="Git2SemVerJsonRead.targets" />
+  -->
   <Import Project="Build/TeamCity.targets" />
 
   <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
