@@ -239,7 +239,10 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
 
             var defaultBuilderFactory = new DefaultVersionBuilderFactory(logger);
             var scriptBuilder = new ScriptVersionBuilder(logger);
-            var versionGenerator = new VersionGenerator(inputs, host, new GeneratedOutputsFile(), gitTool, gitPathsFinder, defaultBuilderFactory,
+            var versionGenerator = new VersionGenerator(inputs, host, 
+                                                        new GeneratedVersionsJsonFile(), 
+                                                        new GeneratedVersionsPropsFile(),
+                                                        gitTool, gitPathsFinder, defaultBuilderFactory,
                                                         scriptBuilder, logger);
             SetOutputs(versionGenerator.Run());
             return !Log.HasLoggedErrors;

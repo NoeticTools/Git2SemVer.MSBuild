@@ -46,7 +46,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                 BuildSystemVersion = new SemVersion(5, 6, 7).WithPrerelease("TEST")
             };
 
-            var result = GeneratedOutputsFile.ToJson(target);
+            var result = GeneratedVersionsJsonFile.GetContent(target);
 
             Assert.That(result, Is.Not.Null);
 

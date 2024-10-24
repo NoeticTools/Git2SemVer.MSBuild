@@ -14,7 +14,8 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 internal class VersionGenerator
 {
     private readonly IDefaultVersionBuilderFactory _defaultVersionBuilderFactory;
-    private readonly IGeneratedOutputsFile _generatedOutputsFile;
+    private readonly IGeneratedOutputsJsonFile _generatedOutputsJsonFile;
+    private readonly IGeneratedOutputsPropFile _generatedOutputsPropFile;
     private readonly IGitHistoryPathsFinder _gitPathsFinder;
     private readonly IGitTool _gitTool;
     private readonly IBuildHost _host;
@@ -23,7 +24,8 @@ internal class VersionGenerator
     private readonly IVersionBuilder _scriptBuilder;
 
     public VersionGenerator(IVersionGeneratorInputs inputs, IBuildHost host,
-                            IGeneratedOutputsFile generatedOutputsFile,
+                            IGeneratedOutputsJsonFile generatedOutputsJsonFile,
+                            IGeneratedOutputsPropFile generatedOutputsPropFile,
                             IGitTool gitTool,
                             IGitHistoryPathsFinder gitPathsFinder,
                             IDefaultVersionBuilderFactory defaultVersionBuilderFactory,
@@ -32,7 +34,8 @@ internal class VersionGenerator
     {
         _inputs = inputs;
         _host = host;
-        _generatedOutputsFile = generatedOutputsFile;
+        _generatedOutputsJsonFile = generatedOutputsJsonFile;
+        _generatedOutputsPropFile = generatedOutputsPropFile;
         _gitTool = gitTool;
         _gitPathsFinder = gitPathsFinder;
         _defaultVersionBuilderFactory = defaultVersionBuilderFactory;
@@ -55,15 +58,15 @@ internal class VersionGenerator
                 return output;
             }
 
-            var localCache = _generatedOutputsFile.Load(_inputs.IntermediateOutputDirectory);
+            var localCache = _generatedOutputsJsonFile.Load(_inputs.IntermediateOutputDirectory);
             if (localCache.BuildNumber == _host.BuildNumber)
             {
                 return GenerateVersion();
             }
 
             // Copy solution shared file to local outputs file
-            var generatedOutputs = _generatedOutputsFile.Load(_inputs.SolutionSharedDirectory);
-            _generatedOutputsFile.Save(_inputs.IntermediateOutputDirectory, generatedOutputs);
+            var generatedOutputs = _generatedOutputsJsonFile.Load(_inputs.SolutionSharedDirectory);
+            WriteOutputsToFile(_inputs.IntermediateOutputDirectory, generatedOutputs);
             return generatedOutputs;
         }
         catch (Exception exception)
@@ -82,7 +85,7 @@ internal class VersionGenerator
         var outputs = new VersionOutputs(new GitOutputs(_gitTool, historyPaths));
 
         RunBuilders(outputs, historyPaths);
-        SaveGeneratedVersion(outputs);
+        SaveGeneratedVersions(outputs);
 
         stopwatch.Stop();
         _host.ReportBuildStatistic("Git2SemVerRunTime_sec", stopwatch.Elapsed.TotalSeconds);
@@ -97,12 +100,18 @@ internal class VersionGenerator
         _scriptBuilder.Build(_host, _inputs, outputs);
     }
 
-    private void SaveGeneratedVersion(VersionOutputs outputs)
+    private void SaveGeneratedVersions(VersionOutputs outputs)
     {
-        _generatedOutputsFile.Save(_inputs.IntermediateOutputDirectory, outputs);
+        WriteOutputsToFile(_inputs.IntermediateOutputDirectory, outputs);
         if (_inputs.Mode != VersioningModeEnum.StandAloneProject)
         {
-            _generatedOutputsFile.Save(_inputs.SolutionSharedDirectory, outputs);
+            WriteOutputsToFile(_inputs.SolutionSharedDirectory, outputs);
         }
+    }
+
+    private void WriteOutputsToFile(string outputDirectory, VersionOutputs generatedOutputs)
+    {
+        _generatedOutputsJsonFile.Write(outputDirectory, generatedOutputs);
+        _generatedOutputsPropFile.Write(outputDirectory, generatedOutputs);
     }
 }

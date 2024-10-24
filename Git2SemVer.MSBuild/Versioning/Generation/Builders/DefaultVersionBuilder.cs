@@ -15,35 +15,43 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 internal sealed class DefaultVersionBuilder : IVersionBuilder
 {
     private readonly IHistoryPaths _paths;
+    private readonly ILogger _logger;
 
     public DefaultVersionBuilder(IHistoryPaths paths, ILogger logger)
     {
         _paths = paths;
+        _logger = logger;
     }
 
     public void Build(IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
-        var prereleaseLabel = GetPrereleaseLabel(inputs, outputs);
+        _logger.LogDebug("Running default version builder.");
+        using (_logger.EnterLogScope())
+        {
+            var prereleaseLabel = GetPrereleaseLabel(inputs, outputs);
 
-        var version = GetVersion(prereleaseLabel, host);
-        var informationalVersion = GetInformationalVersion(version, host, outputs);
-        outputs.SetAllVersionPropertiesFrom(informationalVersion,
-                                                    host.BuildNumber,
-                                                    host.BuildContext);
+            var version = GetVersion(prereleaseLabel, host);
+            _logger.LogDebug("Version: {0}", version.ToString());
+            var informationalVersion = GetInformationalVersion(version, host, outputs);
+            _logger.LogDebug("Informational version: {0}", informationalVersion.ToString());
+            outputs.SetAllVersionPropertiesFrom(informationalVersion,
+                                                host.BuildNumber,
+                                                host.BuildContext);
 
-        var buildSystemLabel = string.IsNullOrWhiteSpace(prereleaseLabel)
-            ? version
-            : version.WithPrerelease(prereleaseLabel, host.BuildId.ToArray());
-        outputs.BuildSystemVersion = buildSystemLabel;
+            var buildSystemLabel = string.IsNullOrWhiteSpace(prereleaseLabel)
+                ? version
+                : version.WithPrerelease(prereleaseLabel, host.BuildId.ToArray());
+            outputs.BuildSystemVersion = buildSystemLabel;
 
-        var gitOutputs = outputs.Git;
-        var config = Git2SemVerConfiguration.Load();
-        config.AddLogEntry(host.BuildNumber,
-                           gitOutputs.HasLocalChanges,
-                           gitOutputs.BranchName,
-                           gitOutputs.HeadCommit.CommitId.ShortSha,
-                           inputs.WorkingDirectory);
-        config.Save();
+            var gitOutputs = outputs.Git;
+            var config = Git2SemVerConfiguration.Load();
+            config.AddLogEntry(host.BuildNumber,
+                               gitOutputs.HasLocalChanges,
+                               gitOutputs.BranchName,
+                               gitOutputs.HeadCommit.CommitId.ShortSha,
+                               inputs.WorkingDirectory);
+            config.Save();
+        }
     }
 
     private static SemVersion GetInformationalVersion(SemVersion version, IBuildHost host, IVersionOutputs outputs)

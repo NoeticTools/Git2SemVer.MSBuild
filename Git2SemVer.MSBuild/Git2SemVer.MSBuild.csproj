@@ -1,8 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Having to give a full path to the assembly file seems very wrong - TBD -->
-  <UsingTask TaskName="JsonPeek" AssemblyFile="$(USERPROFILE)\.nuget\packages\jsonpeek\1.2.0\build\JsonPeek.dll"/>
-
   <PropertyGroup>
     <TargetFrameworks>net8.0;net472</TargetFrameworks>
   </PropertyGroup>
@@ -53,7 +50,9 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <!--
   <Import Project="Git2SemVerJsonRead.targets" />
+  -->
   <Import Project="Build/TeamCity.targets" />
 
   <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
@@ -70,7 +69,6 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
-    <PackageReference Include="JsonPeek" Version="1.2.0" />
     <PackageReference Include="Microsoft.Build.Framework" Version="17.11.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.11.4" PrivateAssets="all" ExcludeAssets="Runtime" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.11.0" PrivateAssets="all" />
