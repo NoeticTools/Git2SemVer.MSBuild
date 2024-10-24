@@ -3,9 +3,7 @@
 <Project>
 
   <PropertyGroup>
-    <_Git2SemVerRuntTimeFramework Condition=" '$(MSBuildRuntimeType)' == 'Core' ">net8.0</_Git2SemVerRuntTimeFramework>
-    <_Git2SemVerRuntTimeFramework Condition=" '$(MSBuildRuntimeType)' == 'Full' ">net472</_Git2SemVerRuntTimeFramework>
-    <_Git2SemVerRuntTimeFramework Condition=" '$(_Git2SemVerRuntTimeFramework)' == '' ">NOT_SET</_Git2SemVerRuntTimeFramework>
+    <_Git2SemVerRuntTimeFramework Condition=" '$(_Git2SemVerRuntTimeFramework)' == '' ">netstandard2.0</_Git2SemVerRuntTimeFramework>
     <Git2SemVerTasksAssembly Condition="'$(Git2SemVerTasksAssembly)' == ''">$([MSBuild]::EnsureTrailingSlash($(MSBuildThisFileDirectory)..\tasks\$(_Git2SemVerRuntTimeFramework)))NoeticTools.Git2SemVer.MSBuild.dll</Git2SemVerTasksAssembly>
     <Git2SemVer_IntermediateOutputPath Condition="'$(Git2SemVer_IntermediateOutputPath)' == '' ">$(BaseIntermediateOutputPath)</Git2SemVer_IntermediateOutputPath>
     <Git2SemVer_VersionCacheDirectory Condition="'$(Git2SemVer_Mode)'=='StandAloneProject'">$(BaseIntermediateOutputPath)</Git2SemVer_VersionCacheDirectory>
@@ -32,7 +30,7 @@
                                    Input_BranchMaturityPattern="$(Git2SemVer_BranchMaturityPattern)"
                                    Input_Env_WorkingDirectory="$(MSBuildProjectDirectory)"
                                    Input_Env_SharedDirectory="$(Git2SemVer_ShareDirectory)"
-                                   Input_Env_SharedVersioningPropsFile="$(Git2SemVer_SharedVersioningPropsFile)"
+                                   Input_Env_SharedVersioningPropsFile="$(Git2SemVer_SharedVersioningJsonFile)"
                                    Input_Env_IntermediateOutputDirectory="$(Git2SemVer_IntermediateOutputPath)"
                                    Input_Env_Mode="$(Git2SemVer_Mode)">
 

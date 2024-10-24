@@ -118,7 +118,6 @@ internal sealed class AddCommand : ISetupCommand
         sharedDirectory.Create();
 
         _embeddedResources.WriteResourceFile(Git2SemverConstants.SharedVersionJsonPropertiesFilename, sharedDirectory);
-        _embeddedResources.WriteResourceFile(Git2SemverConstants.SharedEnvPropertiesFilename, sharedDirectory);
 
         _console.WriteInfoLine($"\t- Added '{Git2SemverConstants.ShareFolderName}' shared directory to versioning project directory.");
     }

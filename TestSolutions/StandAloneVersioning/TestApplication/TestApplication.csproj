@@ -10,8 +10,7 @@
 
   <PropertyGroup>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    <Git2SemVerRuntTimeFramework Condition=" '$(MSBuildRuntimeType)' == 'Core' ">net8.0</Git2SemVerRuntTimeFramework>
-    <Git2SemVerRuntTimeFramework Condition=" '$(MSBuildRuntimeType)' == 'Full' ">net472</Git2SemVerRuntTimeFramework>
+    <Git2SemVerRuntTimeFramework>netstandard2.0</Git2SemVerRuntTimeFramework>
     <_Git2SemVer_TaskFolder>../../Git2SemVer.MSBuild/bin/$(Configuration)/$(Git2SemVerRuntTimeFramework)</_Git2SemVer_TaskFolder>
     <Git2SemVerTasksAssembly>$(_Git2SemVer_TaskFolder)/NoeticTools.Git2SemVer.MSBuild.dll</Git2SemVerTasksAssembly>
   </PropertyGroup>

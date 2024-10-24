@@ -16,8 +16,8 @@
     <Git2SemVer_Installed Condition="'$(Git2SemVer_Installed)' == ''">false</Git2SemVer_Installed>
     <Git2SemVer_ExcludeProject Condition="'$(Git2SemVer_ExcludeProject)' == ''">false</Git2SemVer_ExcludeProject>
     <Git2SemVer_ShareDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/.git2semver/</Git2SemVer_ShareDirectory>
-    <Git2SemVer_SharedEnvPropsFile>$(Git2SemVer_ShareDirectory)Shared.Build.Git2SemVerEnv.props</Git2SemVer_SharedEnvPropsFile>
-    <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.json</Git2SemVer_SharedVersioningPropsFile>
+    <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.props</Git2SemVer_SharedVersioningPropsFile>
+    <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.json</Git2SemVer_SharedVersioningJsonFile>
     <Git2SemVer_NuGetLoad_Disable Condition="'$(Git2SemVer_NuGetLoad_Disable)' == ''">false</Git2SemVer_NuGetLoad_Disable>
   </PropertyGroup>
 

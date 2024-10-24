@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="0.14.3-InitialDev" />
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="0.14.7-InitialDev" />
   </ItemGroup>
 
 </Project>
