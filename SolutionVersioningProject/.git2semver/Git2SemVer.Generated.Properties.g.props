@@ -4,9 +4,9 @@
   <PropertyGroup>
 
       <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">0.1.0</VersionPrefix>
-      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">Alpha-InitialDev.NUC1.1221</VersionSuffix>
-      <PackageVersion Condition=" '$(PackageVersion)' != '' ">0.1.0-Alpha-InitialDev.NUC1.1221</PackageVersion>
-      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">0.1.0-Alpha-InitialDev.NUC1.1221+Allow-Git2SemVer-to-self-version.23b19c4d3145e1311ec5a5bfea4caa0e261c6140</InformationalVersion>
+      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">Alpha-InitialDev.NUC1.1224</VersionSuffix>
+      <PackageVersion Condition=" '$(PackageVersion)' != '' ">0.1.0-Alpha-InitialDev.NUC1.1224</PackageVersion>
+      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">0.1.0-Alpha-InitialDev.NUC1.1224+Allow-Git2SemVer-to-self-version.60d3a3a52406bf49713ffc4248a04651d2efc1c2</InformationalVersion>
       <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">0.1.0</AssemblyVersion>
       <FileVersion Condition=" '$(FileVersion)' != '' ">0.1.0</FileVersion>
 

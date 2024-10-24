@@ -88,13 +88,6 @@
     <ProjectReference Include="..\MSBuildScripting\MSBuild.Tasking.csproj" />
     <ProjectReference Include="..\MSBuildTask.Logging\MSBuild.TaskLogging.csproj" />
     <ProjectReference Include="..\Tools\Common.csproj" />
-    <!-- Make SolutionVersioningProject a dependency for all .net standard 2.0 projects -->
-    <ProjectReference Include="..\$(Git2SemVer_VersioningProjectName)\$(Git2SemVer_VersioningProjectName).csproj"
-                      Condition=" '$(TargetFramework)' == 'netstandard2.0' "
-                      SkipGetTargetFrameworkProperties="true"
-                      Private="true">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
   </ItemGroup>
 
   <Import Project="$(Git2SemVer_SharedVersioningPropsFile)"
