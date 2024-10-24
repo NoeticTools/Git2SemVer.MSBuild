@@ -28,7 +28,7 @@
     <Git2SemVer_ShareDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/.git2semver/</Git2SemVer_ShareDirectory>
     <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.props</Git2SemVer_SharedVersioningPropsFile>
     <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.json</Git2SemVer_SharedVersioningJsonFile>
-    <!-- Modification: Only the solutioning project can import Git2SemVer.MSBuild -->
+    <!-- Modification: Only the solutioning project imports Git2SemVer.MSBuild -->
     <Git2SemVer_NuGetLoad_Disable>true</Git2SemVer_NuGetLoad_Disable>
   </PropertyGroup>
 
