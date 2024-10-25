@@ -32,6 +32,26 @@
     <Git2SemVer_NuGetLoad_Disable>true</Git2SemVer_NuGetLoad_Disable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <SharedPropsFileExists Condition="Exists($(Git2SemVer_SharedVersioningPropsFile))">true</SharedPropsFileExists>
+    <SharedPropsFileExists Condition="'$(SharedPropsFileExists)'==''">false</SharedPropsFileExists>
+  </PropertyGroup>
+
+  <Target Name="EnsureSharedPropsFileExists"
+          Condition=" '$(SharedPropsFileExists)' == 'false' "
+          BeforeTargets="Restore;Pack;PrepareResources;GetReferenceAssemblyPaths">
+    <Message Text="======================================="
+             Importance="High"/>
+    <PropertyGroup>
+      <EmptyPropsFile>
+        &lt;Project/&gt;
+      </EmptyPropsFile>
+    </PropertyGroup>
+    <WriteLinestoFile File="$(Git2SemVer_SharedVersioningPropsFile)"
+                      Overwrite="true"
+                      Lines="$(EmptyPropsFile)"/>
+  </Target>
+
   <Choose>
     <When Condition="'$(Git2SemVer_Enabled)' == 'true' And '$(Git2SemVer_ExcludeProject)' == 'false'">
 
