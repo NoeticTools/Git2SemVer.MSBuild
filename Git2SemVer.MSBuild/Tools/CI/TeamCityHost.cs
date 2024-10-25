@@ -1,4 +1,5 @@
-﻿using NoeticTools.Common.Logging;
+﻿using JetBrains.TeamCity.ServiceMessages.Write.Special;
+using NoeticTools.Common.Logging;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 
 
@@ -10,7 +11,6 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     private readonly string _teamCityVersion;
     private const string TeamCityVersionEnvVarName = "TEAMCITY_VERSION";
     private const string BuildNumberEnvVarName = "BUILD_NUMBER";
-    private const string BuildNumberCacheEnvVarName = "BUILD_NUMBER_CACHE";
 
     public TeamCityHost(ILogger logger) : base(logger)
     {
@@ -24,19 +24,12 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     private static string GetBuildNumber(ILogger logger)
     {
         var buildNumberVariable = Environment.GetEnvironmentVariable(BuildNumberEnvVarName);
-        if (!int.TryParse(buildNumberVariable!, out var buildNumber))
+        if (int.TryParse(buildNumberVariable!, out var buildNumber))
         {
-            if (int.TryParse(Environment.GetEnvironmentVariable(BuildNumberCacheEnvVarName)!, out buildNumber))
-            {
-                return buildNumber.ToString();
-            }
-
-            logger.LogError($"Unable to read build number. {BuildNumberEnvVarName} is '{buildNumberVariable}'");
-            return "";
+            return buildNumber.ToString();
         }
 
-        logger.LogInfo("================================================================================");//>>>
-        Environment.SetEnvironmentVariable(BuildNumberCacheEnvVarName, buildNumberVariable);
+        logger.LogError($"Unable to read build number. {BuildNumberEnvVarName} is '{buildNumberVariable}'");
         return "";
     }
 
@@ -65,18 +58,24 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     public void ReportBuildStatistic(string key, int value)
     {
         _logger.LogInfo($"Build statistic {key} = {value}");
-        _logger.LogInfo($"##teamcity[buildStatisticValue key='{key}' value='{value}']");
+        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
+        writer.WriteBuildStatistics(key, value.ToString());
+        //_logger.LogInfo($"##teamcity[buildStatisticValue key='{key}' value='{value}']");
     }
 
     public void ReportBuildStatistic(string key, double value)
     {
         _logger.LogInfo($"Build statistic {key} = {value:G13}");
-        _logger.LogInfo($"##teamcity[buildStatisticValue key='{key}' value='{value:G13}']");
+        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
+        writer.WriteBuildStatistics(key, $"{value:G13}");
+        //_logger.LogInfo($"##teamcity[buildStatisticValue key='{key}' value='{value:G13}']");
     }
 
     public void SetBuildLabel(string label)
     {
         _logger.LogInfo($"Setting TeamCity Build label to '{label}'.");
-        _logger.LogInfo($"##teamcity[buildNumber '{label}']");
+        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
+        writer.WriteBuildNumber(label);
+        //_logger.LogInfo($"##teamcity[buildNumber '{label}']");
     }
 }

@@ -20,6 +20,7 @@
     <!-- Modification: Versioning project name set manually. -->
     <Git2SemVer_VersioningProjectName>SolutionVersioningProject</Git2SemVer_VersioningProjectName>
     <Git2SemVer_VersioningProjectDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
+    <Git2SemVer_VersioningProjectPath>$(Git2SemVer_VersioningProjectDirectory)\$(Git2SemVer_VersioningProjectName).csproj</Git2SemVer_VersioningProjectPath>
     <Git2SemVer_ScriptPath Condition="'$(Git2SemVer_ScriptPath)' == ''">$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/Git2SemVer.csx</Git2SemVer_ScriptPath>
     <!-- Modification: Installed flag set manually. -->
     <Git2SemVer_Installed Condition="'$(Git2SemVer_Installed)' == ''">true</Git2SemVer_Installed>
@@ -30,11 +31,6 @@
     <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.json</Git2SemVer_SharedVersioningJsonFile>
     <!-- Modification: Only the solutioning project imports Git2SemVer.MSBuild -->
     <Git2SemVer_NuGetLoad_Disable>true</Git2SemVer_NuGetLoad_Disable>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <SharedPropsFileExists Condition="Exists($(Git2SemVer_SharedVersioningPropsFile))">true</SharedPropsFileExists>
-    <SharedPropsFileExists Condition="'$(SharedPropsFileExists)'==''">false</SharedPropsFileExists>
   </PropertyGroup>
 
   <!-- Ensure a placeholder shared props file exists. -->
