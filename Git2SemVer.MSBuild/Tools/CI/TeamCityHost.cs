@@ -8,20 +8,36 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
 {
     private readonly ILogger _logger;
     private readonly string _teamCityVersion;
+    private const string TeamCityVersionEnvVarName = "TEAMCITY_VERSION";
+    private const string BuildNumberEnvVarName = "BUILD_NUMBER";
+    private const string BuildNumberCacheEnvVarName = "BUILD_NUMBER_CACHE";
 
     public TeamCityHost(ILogger logger) : base(logger)
     {
         _logger = logger;
-        _teamCityVersion = Environment.GetEnvironmentVariable("TEAMCITY_VERSION") ?? "";
-        if (!int.TryParse(Environment.GetEnvironmentVariable("BUILD_NUMBER")!, out var buildNumber))
-        {
-            BuildNumber = "";
-            return;
-        }
-
-        BuildNumber = buildNumber.ToString();
+        _teamCityVersion = Environment.GetEnvironmentVariable(TeamCityVersionEnvVarName) ?? "";
+        BuildNumber = (_teamCityVersion.Length > 0) ? GetBuildNumber(logger) : "";
         BuildContext = "0";
         DefaultBuildNumberFunc = () => [BuildNumber];
+    }
+
+    private static string GetBuildNumber(ILogger logger)
+    {
+        var buildNumberVariable = Environment.GetEnvironmentVariable(BuildNumberEnvVarName);
+        if (!int.TryParse(buildNumberVariable!, out var buildNumber))
+        {
+            if (int.TryParse(Environment.GetEnvironmentVariable(BuildNumberCacheEnvVarName)!, out buildNumber))
+            {
+                return buildNumber.ToString();
+            }
+
+            logger.LogError($"Unable to read build number. {BuildNumberEnvVarName} is '{buildNumberVariable}'");
+            return "";
+        }
+
+        logger.LogInfo("================================================================================");//>>>
+        Environment.SetEnvironmentVariable(BuildNumberCacheEnvVarName, buildNumberVariable);
+        return "";
     }
 
     public HostTypeIds HostTypeId => HostTypeIds.TeamCity;
