@@ -1,27 +1,27 @@
 {
   "AssemblyVersion": "0.1.0",
   "BuildContext": "NUC1",
-  "BuildNumber": "1238",
-  "BuildSystemVersion": "0.1.0-Alpha-InitialDev.NUC1.1238",
+  "BuildNumber": "1246",
+  "BuildSystemVersion": "0.1.0-Alpha-InitialDev.NUC1.1246",
   "FileVersion": "0.1.0",
   "Git": {
     "$type": "GitOutputs",
     "BranchName": "Allow-Git2SemVer-to-self-version",
-    "CommitsSinceLastRelease": 50,
+    "CommitsSinceLastRelease": 51,
     "HasLocalChanges": true,
     "HeadCommit": {
       "$type": "Commit",
       "CommitId": {
-        "Id": "4c2a5ecf4fae988a0b0df8fed0416f33d8f0ac60",
+        "Id": "829ee93b274ffbffdc398f2187e7e72e281ed9eb",
         "ObfuscatedSha": "0001",
-        "ShortSha": "4c2a5ec"
+        "ShortSha": "829ee93"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
-          "Id": "6e3356d77ef150b2aacbf03593c650ae58ee1fb5",
+          "Id": "4c2a5ecf4fae988a0b0df8fed0416f33d8f0ac60",
           "ObfuscatedSha": "0002",
-          "ShortSha": "6e3356d"
+          "ShortSha": "4c2a5ec"
         }
       ],
       "ReleasedVersion": null
@@ -29,11 +29,11 @@
     "LastReleaseCommit": null,
     "LastReleaseVersion": null
   },
-  "InformationalVersion": "0.1.0-Alpha-InitialDev.NUC1.1238\u002BAllow-Git2SemVer-to-self-version.4c2a5ecf4fae988a0b0df8fed0416f33d8f0ac60",
+  "InformationalVersion": "0.1.0-Alpha-InitialDev.NUC1.1246\u002BAllow-Git2SemVer-to-self-version.829ee93b274ffbffdc398f2187e7e72e281ed9eb",
   "IsInInitialDevelopment": true,
   "Output1": "",
   "Output2": "",
-  "PackageVersion": "0.1.0-Alpha-InitialDev.NUC1.1238",
+  "PackageVersion": "0.1.0-Alpha-InitialDev.NUC1.1246",
   "PrereleaseLabel": "Alpha-InitialDev",
-  "Version": "0.1.0-Alpha-InitialDev.NUC1.1238"
+  "Version": "0.1.0-Alpha-InitialDev.NUC1.1246"
 }

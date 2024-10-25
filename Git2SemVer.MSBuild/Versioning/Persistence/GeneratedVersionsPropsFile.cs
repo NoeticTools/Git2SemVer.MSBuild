@@ -13,6 +13,7 @@ internal sealed class GeneratedVersionsPropsFile : IGeneratedOutputsPropFile
                                         
                                           <PropertyGroup>
                                         
+                                              <Version Condition=" '$(Version)' != '' ">###Version###</Version>
                                               <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">###VersionPrefix###</VersionPrefix>
                                               <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">###VersionSuffix###</VersionSuffix>
                                               <PackageVersion Condition=" '$(PackageVersion)' != '' ">###PackageVersion###</PackageVersion>
@@ -28,6 +29,7 @@ internal sealed class GeneratedVersionsPropsFile : IGeneratedOutputsPropFile
     public void Write(string directory, VersionOutputs outputs)
     {
         var content = FileTemplate;
+        content = content.Replace("###Version###", outputs.Version?.ToString() ?? "");
         content = content.Replace("###VersionPrefix###", outputs.Version?.WithoutPrereleaseOrMetadata().ToString() ?? "");
         content = content.Replace("###VersionSuffix###", outputs.InformationalVersion?.Prerelease ?? "");
         content = content.Replace("###PackageVersion###", outputs.PackageVersion?.ToString() ?? "");
