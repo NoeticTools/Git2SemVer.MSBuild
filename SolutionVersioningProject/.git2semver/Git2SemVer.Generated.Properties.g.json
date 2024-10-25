@@ -1,0 +1,77 @@
+{
+  "AssemblyVersion": "0.17.1",
+  "BuildContext": "NUC1",
+  "BuildNumber": "1319",
+  "BuildSystemVersion": "0.17.1-Alpha-InitialDev.NUC1.1319",
+  "FileVersion": "0.17.1",
+  "Git": {
+    "$type": "GitOutputs",
+    "BranchName": "Allow-Git2SemVer-to-self-version",
+    "CommitsSinceLastRelease": 7,
+    "HasLocalChanges": false,
+    "HeadCommit": {
+      "$type": "Commit",
+      "CommitId": {
+        "Id": "fe9f179e82a47d66cbc290e89ea11a2fa13e6b42",
+        "ObfuscatedSha": "0001",
+        "ShortSha": "fe9f179"
+      },
+      "Message": "Self versioning               ",
+      "Parents": [
+        {
+          "Id": "1991361a6b3aaa71f5390e906f5414242645090a",
+          "ObfuscatedSha": "0002",
+          "ShortSha": "1991361"
+        }
+      ],
+      "ReleasedVersion": null
+    },
+    "LastReleaseCommit": {
+      "$type": "Commit",
+      "CommitId": {
+        "Id": "8ceebd2d63e46e60abd6218ea77539335183dca5",
+        "ObfuscatedSha": "0007",
+        "ShortSha": "8ceebd2"
+      },
+      "Message": "Self versioning               ",
+      "Parents": [
+        {
+          "Id": "38e229d1d5dad79fb6336703fabd79b8fccae2e2",
+          "ObfuscatedSha": "0008",
+          "ShortSha": "38e229d"
+        }
+      ],
+      "ReleasedVersion": {
+        "Major": 0,
+        "Minor": 17,
+        "Patch": 0,
+        "Prerelease": "",
+        "PrereleaseIdentifiers": [],
+        "IsPrerelease": false,
+        "IsRelease": true,
+        "Build": "",
+        "Metadata": "",
+        "MetadataIdentifiers": []
+      }
+    },
+    "LastReleaseVersion": {
+      "Major": 0,
+      "Minor": 17,
+      "Patch": 0,
+      "Prerelease": "",
+      "PrereleaseIdentifiers": [],
+      "IsPrerelease": false,
+      "IsRelease": true,
+      "Build": "",
+      "Metadata": "",
+      "MetadataIdentifiers": []
+    }
+  },
+  "InformationalVersion": "0.17.1-Alpha-InitialDev.NUC1.1319\u002BAllow-Git2SemVer-to-self-version.fe9f179e82a47d66cbc290e89ea11a2fa13e6b42",
+  "IsInInitialDevelopment": true,
+  "Output1": "",
+  "Output2": "",
+  "PackageVersion": "0.17.1-Alpha-InitialDev.NUC1.1319",
+  "PrereleaseLabel": "Alpha-InitialDev",
+  "Version": "0.17.1-Alpha-InitialDev.NUC1.1319"
+}
