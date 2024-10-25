@@ -45,7 +45,7 @@ public abstract class SolutionTestsBase : ScriptingTestsBase
     protected void BuildGit2SemVerTool()
     {
         var projectPath = Path.Combine(SolutionDirectory, "Git2SemVer.Tool/Git2SemVer.Tool.csproj");
-        var result = DotNetCli.Build(projectPath, BuildConfiguration, "-p:GeneratePackageOnBuild=false");
+        var result = DotNetCli.Build(projectPath, BuildConfiguration, "-p:GeneratePackageOnBuild=false -p:PackageOutputPath=./nupkg.tests");
         Assert.That(result.returnCode, Is.EqualTo(0));
         Assert.That(Logger.HasError, Is.False);
     }
@@ -53,7 +53,7 @@ public abstract class SolutionTestsBase : ScriptingTestsBase
     protected void BuildGit2SemVerMSBuild()
     {
         var projectPath = Path.Combine(SolutionDirectory, "Git2SemVer.MSBuild/Git2SemVer.MSBuild.csproj");
-        var result = DotNetCli.Build(projectPath, BuildConfiguration, "-p:GeneratePackageOnBuild=false");
+        var result = DotNetCli.Build(projectPath, BuildConfiguration, "-p:GeneratePackageOnBuild=false -p:PackageOutputPath=./nupkg.tests");
         Assert.That(result.returnCode, Is.EqualTo(0));
         Assert.That(Logger.HasError, Is.False);
     }

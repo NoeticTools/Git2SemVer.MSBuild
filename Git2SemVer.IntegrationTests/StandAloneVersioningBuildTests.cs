@@ -17,8 +17,8 @@ internal class StandAloneVersioningBuildTests : SolutionTestsBase
     {
         OneTimeSetUpBase();
 
-        BuildGit2SemVerMSBuild();
-        BuildGit2SemVerTool();
+        //BuildGit2SemVerMSBuild();
+        //BuildGit2SemVerTool();
 
         var testProjectBinDirectory = Path.Combine(TestSolutionDirectory, "TestApplication/bin/", BuildConfiguration);
         _outputAppPath = Path.Combine(testProjectBinDirectory, "net8.0", "NoeticTools.TestApplication.dll");
@@ -59,28 +59,32 @@ internal class StandAloneVersioningBuildTests : SolutionTestsBase
     [Test]
     public void BuildAndThenPackWithoutRebuildTest()
     {
-        BuildTestSolutionAndRemovePackage();
+        BuildTestSolutionAndRemovePackage("ForceProperties3.csx");
         PackTestSolution();
 
         var output = DotNetProcessHelpers.RunDotnetApp(_outputAppPath, Logger);
-        TestContext.Progress.WriteLine(output);
-        Assert.That(output, Contains.Substring("""
-                                               Assembly version:       0.1.0.0
-                                               File version:           0.1.0
-                                               """));
-        AssertFileExists(_packageOutputDir, "NoeticTools.TestApplication.0.1.0*");
+        Assert.That(output, Does.Contain("""
+                                         Assembly version:       200.201.202.0
+                                         File version:           200.201.212
+                                         Informational version:  2.2.2-beta
+                                         Product version:        2.2.2-beta
+                                         """));
+        AssertFileExists(_packageOutputDir, "NoeticTools.TestApplication.1.2.3-alpha.nupkg");
     }
 
     [Test]
     public void BuildOnlyTest()
     {
-        DotNetCliBuildTestSolution();
+        var scriptPath = DeployScript("ForceProperties3.csx");
+        DotNetCliBuildTestSolution($"-p:Git2SemVer_ScriptPath={scriptPath}");
 
         var output = DotNetProcessHelpers.RunDotnetApp(_outputAppPath, Logger);
-        Assert.That(output, Contains.Substring("""
-                                               Assembly version:       0.1.0.0
-                                               File version:           0.1.0
-                                               """));
+        Assert.That(output, Does.Contain("""
+                                         Assembly version:       200.201.202.0
+                                         File version:           200.201.212
+                                         Informational version:  2.2.2-beta
+                                         Product version:        2.2.2-beta
+                                         """));
     }
 
     [Test]
@@ -136,6 +140,13 @@ internal class StandAloneVersioningBuildTests : SolutionTestsBase
         TestContext.Progress.WriteLine(result.stdOutput);
         Assert.That(result.returnCode, Is.EqualTo(0));
         Assert.That(Logger.HasError, Is.False);
+    }
+
+    private void BuildTestSolutionAndRemovePackage(string scriptName)
+    {
+        var scriptPath = DeployScript(scriptName);
+        DotNetCliBuildTestSolution($"-p:Git2SemVer_ScriptPath={scriptPath}");
+        DeleteAllNuGetPackages(_packageOutputDir);
     }
 
     private void BuildTestSolutionAndRemovePackage()

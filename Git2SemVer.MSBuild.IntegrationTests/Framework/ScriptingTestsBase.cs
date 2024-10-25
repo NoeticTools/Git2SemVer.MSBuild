@@ -13,7 +13,7 @@ public abstract class ScriptingTestsBase
 
     protected void SetUpBase()
     {
-        Logger = new NUnitTaskLogger();
+        Logger = new NUnitTaskLogger() { Level = LoggingLevel.Trace };
         TestFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                                       "Git2SemVer",
                                       "TestData");

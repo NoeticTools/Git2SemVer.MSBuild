@@ -12,10 +12,12 @@
   <ItemGroup>
     <None Remove="Resources\Scripts\ForceProperties1.csx" />
     <None Remove="Resources\Scripts\ForceProperties2.csx" />
+    <None Remove="Resources\Scripts\ForceProperties3.csx" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Scripts\ForceProperties1.csx" />
+    <EmbeddedResource Include="Resources\Scripts\ForceProperties3.csx" />
     <EmbeddedResource Include="Resources\Scripts\ForceProperties2.csx" />
   </ItemGroup>
 

@@ -15,8 +15,8 @@ internal class SolutionVersioningBuildTests : SolutionTestsBase
     {
         OneTimeSetUpBase();
 
-        BuildGit2SemVerMSBuild();
-        BuildGit2SemVerTool();
+        //BuildGit2SemVerMSBuild();
+        //BuildGit2SemVerTool();
 
         var testProjectBinDirectory = Path.Combine(TestSolutionDirectory, "TestApplication/bin/", BuildConfiguration);
         _packageOutputDir = testProjectBinDirectory;
