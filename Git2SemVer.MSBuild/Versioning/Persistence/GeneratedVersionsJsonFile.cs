@@ -22,6 +22,17 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
         return json;
     }
 
+    private string LoadJson(string directory)
+    {
+        var propertiesFilePath = GetFilePath(directory);
+        if (!File.Exists(propertiesFilePath))
+        {
+            return "";
+        }
+
+        return File.ReadAllText(propertiesFilePath);
+    }
+
     public VersionOutputs Load(string directory)
     {
         var propertiesFilePath = GetFilePath(directory);
@@ -36,7 +47,18 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
 
     public void Write(string directory, VersionOutputs outputs)
     {
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
         var json = GetContent(outputs);
+        var existingJson = LoadJson(directory);
+        if (json.Equals(existingJson, StringComparison.InvariantCulture))
+        {
+            return;
+        }
+
         File.WriteAllText(GetFilePath(directory), json);
     }
 
