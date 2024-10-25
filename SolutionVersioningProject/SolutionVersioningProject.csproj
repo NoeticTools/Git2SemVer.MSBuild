@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Git2SemVer_UpdateHostBuildLabel>true</Git2SemVer_UpdateHostBuildLabel>
   </PropertyGroup>
 
   <ItemGroup>

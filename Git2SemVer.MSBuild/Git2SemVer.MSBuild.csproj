@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>0.15.0</VersionPrefix>
-    <VersionSuffix>InitialDev</VersionSuffix>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Title>Simple automatic Git to Semantic Versioning for .NET projects.</Title>
     <Description>Automated Semantic Versioning for Visual Studio and dotnet CLI.</Description>
     <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer</PackageProjectUrl>
@@ -50,7 +45,9 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <!--
   <Import Project="Build/TeamCity.targets" />
+  -->
 
   <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
     <ItemGroup>
