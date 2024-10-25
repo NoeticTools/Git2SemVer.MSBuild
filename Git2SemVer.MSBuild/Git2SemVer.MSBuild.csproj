@@ -91,6 +91,6 @@
   </ItemGroup>
 
   <Import Project="$(Git2SemVer_SharedVersioningPropsFile)"
-          Condition=" '$(SharedPropsFileExists)' == 'true' And '$(TargetFramework)' == 'netstandard2.0' And '$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)' "/>
+          Condition=" '$(TargetFramework)' == 'netstandard2.0' And '$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)' "/>
 
 </Project>

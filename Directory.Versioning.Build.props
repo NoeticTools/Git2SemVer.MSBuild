@@ -37,11 +37,10 @@
     <SharedPropsFileExists Condition="'$(SharedPropsFileExists)'==''">false</SharedPropsFileExists>
   </PropertyGroup>
 
+  <!-- Ensure a placeholder shared props file exists. -->
   <Target Name="EnsureSharedPropsFileExists"
           Condition=" '$(SharedPropsFileExists)' == 'false' "
           BeforeTargets="Restore;Pack;PrepareResources;GetReferenceAssemblyPaths">
-    <Message Text="======================================="
-             Importance="High"/>
     <PropertyGroup>
       <EmptyPropsFile>
         &lt;Project/&gt;
