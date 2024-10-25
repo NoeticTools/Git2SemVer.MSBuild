@@ -7,21 +7,21 @@
   "Git": {
     "$type": "GitOutputs",
     "BranchName": "Allow-Git2SemVer-to-self-version",
-    "CommitsSinceLastRelease": 3,
+    "CommitsSinceLastRelease": 4,
     "HasLocalChanges": true,
     "HeadCommit": {
       "$type": "Commit",
       "CommitId": {
-        "Id": "7280f4fb4ba04dd1ed40d740c0bd0bd085d3faf6",
+        "Id": "ad1d70eff0105a7ea194e80220d7d61ec52002a8",
         "ObfuscatedSha": "0001",
-        "ShortSha": "7280f4f"
+        "ShortSha": "ad1d70e"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
-          "Id": "cffede53f09335b6f6518d507df68d3ba3606c62",
+          "Id": "7280f4fb4ba04dd1ed40d740c0bd0bd085d3faf6",
           "ObfuscatedSha": "0002",
-          "ShortSha": "cffede5"
+          "ShortSha": "7280f4f"
         }
       ],
       "ReleasedVersion": null
@@ -30,14 +30,14 @@
       "$type": "Commit",
       "CommitId": {
         "Id": "31c8c326bf58f8a249564cdfee9cf98ebe3d260e",
-        "ObfuscatedSha": "0003",
+        "ObfuscatedSha": "0004",
         "ShortSha": "31c8c32"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
           "Id": "fe9f179e82a47d66cbc290e89ea11a2fa13e6b42",
-          "ObfuscatedSha": "0004",
+          "ObfuscatedSha": "0005",
           "ShortSha": "fe9f179"
         }
       ],
@@ -67,7 +67,7 @@
       "MetadataIdentifiers": []
     }
   },
-  "InformationalVersion": "0.17.2-Alpha-InitialDev.NUC1.1275\u002BAllow-Git2SemVer-to-self-version.7280f4fb4ba04dd1ed40d740c0bd0bd085d3faf6",
+  "InformationalVersion": "0.17.2-Alpha-InitialDev.NUC1.1275\u002BAllow-Git2SemVer-to-self-version.ad1d70eff0105a7ea194e80220d7d61ec52002a8",
   "IsInInitialDevelopment": true,
   "Output1": "",
   "Output2": "",
