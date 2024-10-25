@@ -1,54 +1,43 @@
 {
   "AssemblyVersion": "0.17.1",
   "BuildContext": "NUC1",
-  "BuildNumber": "1263",
-  "BuildSystemVersion": "0.17.1-Alpha-InitialDev.NUC1.1263",
+  "BuildNumber": "1269",
+  "BuildSystemVersion": "0.17.1-Alpha-InitialDev.NUC1.1269",
   "FileVersion": "0.17.1",
   "Git": {
     "$type": "GitOutputs",
     "BranchName": "Allow-Git2SemVer-to-self-version",
-    "CommitsSinceLastRelease": 1,
+    "CommitsSinceLastRelease": 3,
     "HasLocalChanges": true,
     "HeadCommit": {
       "$type": "Commit",
       "CommitId": {
-        "Id": "8ceebd2d63e46e60abd6218ea77539335183dca5",
+        "Id": "f021ccc80a7acb2123cd6c5e45c14e90c34552be",
         "ObfuscatedSha": "0001",
-        "ShortSha": "8ceebd2"
+        "ShortSha": "f021ccc"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
-          "Id": "38e229d1d5dad79fb6336703fabd79b8fccae2e2",
+          "Id": "2d4192d88fcafa25a5478aa566b1b71921ca8033",
           "ObfuscatedSha": "0002",
-          "ShortSha": "38e229d"
+          "ShortSha": "2d4192d"
         }
       ],
-      "ReleasedVersion": {
-        "Major": 0,
-        "Minor": 17,
-        "Patch": 0,
-        "Prerelease": "",
-        "PrereleaseIdentifiers": [],
-        "IsPrerelease": false,
-        "IsRelease": true,
-        "Build": "",
-        "Metadata": "",
-        "MetadataIdentifiers": []
-      }
+      "ReleasedVersion": null
     },
     "LastReleaseCommit": {
       "$type": "Commit",
       "CommitId": {
         "Id": "8ceebd2d63e46e60abd6218ea77539335183dca5",
-        "ObfuscatedSha": "0001",
+        "ObfuscatedSha": "0003",
         "ShortSha": "8ceebd2"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
           "Id": "38e229d1d5dad79fb6336703fabd79b8fccae2e2",
-          "ObfuscatedSha": "0002",
+          "ObfuscatedSha": "0004",
           "ShortSha": "38e229d"
         }
       ],
@@ -78,11 +67,11 @@
       "MetadataIdentifiers": []
     }
   },
-  "InformationalVersion": "0.17.1-Alpha-InitialDev.NUC1.1263\u002BAllow-Git2SemVer-to-self-version.8ceebd2d63e46e60abd6218ea77539335183dca5",
+  "InformationalVersion": "0.17.1-Alpha-InitialDev.NUC1.1269\u002BAllow-Git2SemVer-to-self-version.f021ccc80a7acb2123cd6c5e45c14e90c34552be",
   "IsInInitialDevelopment": true,
   "Output1": "",
   "Output2": "",
-  "PackageVersion": "0.17.1-Alpha-InitialDev.NUC1.1263",
+  "PackageVersion": "0.17.1-Alpha-InitialDev.NUC1.1269",
   "PrereleaseLabel": "Alpha-InitialDev",
-  "Version": "0.17.1-Alpha-InitialDev.NUC1.1263"
+  "Version": "0.17.1-Alpha-InitialDev.NUC1.1269"
 }
