@@ -1,39 +1,88 @@
 {
-  "AssemblyVersion": "0.1.0",
+  "AssemblyVersion": "0.17.1",
   "BuildContext": "NUC1",
-  "BuildNumber": "1260",
-  "BuildSystemVersion": "0.1.0-Alpha-InitialDev.NUC1.1260",
-  "FileVersion": "0.1.0",
+  "BuildNumber": "1263",
+  "BuildSystemVersion": "0.17.1-Alpha-InitialDev.NUC1.1263",
+  "FileVersion": "0.17.1",
   "Git": {
     "$type": "GitOutputs",
     "BranchName": "Allow-Git2SemVer-to-self-version",
-    "CommitsSinceLastRelease": 53,
+    "CommitsSinceLastRelease": 1,
     "HasLocalChanges": true,
     "HeadCommit": {
       "$type": "Commit",
       "CommitId": {
-        "Id": "38e229d1d5dad79fb6336703fabd79b8fccae2e2",
+        "Id": "8ceebd2d63e46e60abd6218ea77539335183dca5",
         "ObfuscatedSha": "0001",
-        "ShortSha": "38e229d"
+        "ShortSha": "8ceebd2"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
-          "Id": "f93d8c7d18c81e4dc4cb787ddf0136b0bc7f7b30",
+          "Id": "38e229d1d5dad79fb6336703fabd79b8fccae2e2",
           "ObfuscatedSha": "0002",
-          "ShortSha": "f93d8c7"
+          "ShortSha": "38e229d"
         }
       ],
-      "ReleasedVersion": null
+      "ReleasedVersion": {
+        "Major": 0,
+        "Minor": 17,
+        "Patch": 0,
+        "Prerelease": "",
+        "PrereleaseIdentifiers": [],
+        "IsPrerelease": false,
+        "IsRelease": true,
+        "Build": "",
+        "Metadata": "",
+        "MetadataIdentifiers": []
+      }
     },
-    "LastReleaseCommit": null,
-    "LastReleaseVersion": null
+    "LastReleaseCommit": {
+      "$type": "Commit",
+      "CommitId": {
+        "Id": "8ceebd2d63e46e60abd6218ea77539335183dca5",
+        "ObfuscatedSha": "0001",
+        "ShortSha": "8ceebd2"
+      },
+      "Message": "Self versioning               ",
+      "Parents": [
+        {
+          "Id": "38e229d1d5dad79fb6336703fabd79b8fccae2e2",
+          "ObfuscatedSha": "0002",
+          "ShortSha": "38e229d"
+        }
+      ],
+      "ReleasedVersion": {
+        "Major": 0,
+        "Minor": 17,
+        "Patch": 0,
+        "Prerelease": "",
+        "PrereleaseIdentifiers": [],
+        "IsPrerelease": false,
+        "IsRelease": true,
+        "Build": "",
+        "Metadata": "",
+        "MetadataIdentifiers": []
+      }
+    },
+    "LastReleaseVersion": {
+      "Major": 0,
+      "Minor": 17,
+      "Patch": 0,
+      "Prerelease": "",
+      "PrereleaseIdentifiers": [],
+      "IsPrerelease": false,
+      "IsRelease": true,
+      "Build": "",
+      "Metadata": "",
+      "MetadataIdentifiers": []
+    }
   },
-  "InformationalVersion": "0.1.0-Alpha-InitialDev.NUC1.1260\u002BAllow-Git2SemVer-to-self-version.38e229d1d5dad79fb6336703fabd79b8fccae2e2",
+  "InformationalVersion": "0.17.1-Alpha-InitialDev.NUC1.1263\u002BAllow-Git2SemVer-to-self-version.8ceebd2d63e46e60abd6218ea77539335183dca5",
   "IsInInitialDevelopment": true,
   "Output1": "",
   "Output2": "",
-  "PackageVersion": "0.1.0-Alpha-InitialDev.NUC1.1260",
+  "PackageVersion": "0.17.1-Alpha-InitialDev.NUC1.1263",
   "PrereleaseLabel": "Alpha-InitialDev",
-  "Version": "0.1.0-Alpha-InitialDev.NUC1.1260"
+  "Version": "0.17.1-Alpha-InitialDev.NUC1.1263"
 }
