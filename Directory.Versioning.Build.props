@@ -38,7 +38,6 @@
   </PropertyGroup>
 
   <!-- Ensure a placeholder shared props file exists. -->
-  <!--
   <Target Name="EnsureSharedPropsFileExists"
           Condition=" '$(SharedPropsFileExists)' == 'false' "
           BeforeTargets="Restore;Pack;PrepareResources;GetReferenceAssemblyPaths">
@@ -51,7 +50,6 @@
                       Overwrite="true"
                       Lines="$(EmptyPropsFile)"/>
   </Target>
-  -->
 
   <Choose>
     <When Condition="'$(Git2SemVer_Enabled)' == 'true' And '$(Git2SemVer_ExcludeProject)' == 'false'">
