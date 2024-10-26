@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Simple automatic Git to Semantic Versioning for .NET projects. </Title>
+    <Title>Simple automatic Git to Semantic Versioning for .NET projects.</Title>
     <Description>Automated Semantic Versioning for Visual Studio and dotnet CLI.</Description>
     <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer</PackageProjectUrl>
     <PackageIcon>Git2SemVer_icon_32x32.png</PackageIcon>
@@ -101,7 +101,7 @@
     </PropertyGroup>
 
     <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)"
-             Condition=" '$(SharedPropsFileExists)' == 'false' "/>
+             Condition=" '$(SharedPropsFileExists)' == 'false' " Properties="Git2SemVer_UpdateHostBuildLabel=true"/>
 
   </Target>
 
