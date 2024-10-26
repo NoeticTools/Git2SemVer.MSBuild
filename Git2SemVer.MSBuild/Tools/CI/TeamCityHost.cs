@@ -24,13 +24,7 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     private static string GetBuildNumber(ILogger logger)
     {
         var buildNumberVariable = Environment.GetEnvironmentVariable(BuildNumberEnvVarName);
-        if (int.TryParse(buildNumberVariable!, out var buildNumber))
-        {
-            return buildNumber.ToString();
-        }
-
-        logger.LogError($"Unable to read build number. {BuildNumberEnvVarName} is '{buildNumberVariable}'");
-        return "";
+        return int.TryParse(buildNumberVariable!, out var buildNumber) ? buildNumber.ToString() : "";
     }
 
     public HostTypeIds HostTypeId => HostTypeIds.TeamCity;
@@ -58,24 +52,21 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     public void ReportBuildStatistic(string key, int value)
     {
         _logger.LogInfo($"Build statistic {key} = {value}");
-        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
+        using var writer = new TeamCityServiceMessages().CreateWriter(Console.WriteLine);
         writer.WriteBuildStatistics(key, value.ToString());
-        //_logger.LogInfo($"##teamcity[buildStatisticValue key='{key}' value='{value}']");
     }
 
     public void ReportBuildStatistic(string key, double value)
     {
         _logger.LogInfo($"Build statistic {key} = {value:G13}");
-        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
+        using var writer = new TeamCityServiceMessages().CreateWriter(Console.WriteLine);
         writer.WriteBuildStatistics(key, $"{value:G13}");
-        //_logger.LogInfo($"##teamcity[buildStatisticValue key='{key}' value='{value:G13}']");
     }
 
     public void SetBuildLabel(string label)
     {
         _logger.LogInfo($"Setting TeamCity Build label to '{label}'.");
-        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
+        using var writer = new TeamCityServiceMessages().CreateWriter(Console.WriteLine);
         writer.WriteBuildNumber(label);
-        //_logger.LogInfo($"##teamcity[buildNumber '{label}']");
     }
 }

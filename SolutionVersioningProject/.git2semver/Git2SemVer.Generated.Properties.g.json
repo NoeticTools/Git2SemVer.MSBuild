@@ -1,27 +1,27 @@
 {
   "AssemblyVersion": "0.17.2",
   "BuildContext": "NUC1",
-  "BuildNumber": "1295",
-  "BuildSystemVersion": "0.17.2-Alpha-InitialDev.NUC1.1295",
+  "BuildNumber": "1301",
+  "BuildSystemVersion": "0.17.2-Alpha-InitialDev.NUC1.1301",
   "FileVersion": "0.17.2",
   "Git": {
     "$type": "GitOutputs",
     "BranchName": "Allow-Git2SemVer-to-self-version",
-    "CommitsSinceLastRelease": 6,
+    "CommitsSinceLastRelease": 7,
     "HasLocalChanges": true,
     "HeadCommit": {
       "$type": "Commit",
       "CommitId": {
-        "Id": "32b72ca8f14f0c0ddd6a0e4ba85514d6fd67a9f2",
+        "Id": "d7b5ecddb73f3269ae84e438815a2b67bfd33362",
         "ObfuscatedSha": "0001",
-        "ShortSha": "32b72ca"
+        "ShortSha": "d7b5ecd"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
-          "Id": "2a5f13e18a92a4fbcd3d11754371fc259c6feef2",
+          "Id": "32b72ca8f14f0c0ddd6a0e4ba85514d6fd67a9f2",
           "ObfuscatedSha": "0002",
-          "ShortSha": "2a5f13e"
+          "ShortSha": "32b72ca"
         }
       ],
       "ReleasedVersion": null
@@ -30,14 +30,14 @@
       "$type": "Commit",
       "CommitId": {
         "Id": "31c8c326bf58f8a249564cdfee9cf98ebe3d260e",
-        "ObfuscatedSha": "0006",
+        "ObfuscatedSha": "0007",
         "ShortSha": "31c8c32"
       },
       "Message": "Self versioning               ",
       "Parents": [
         {
           "Id": "fe9f179e82a47d66cbc290e89ea11a2fa13e6b42",
-          "ObfuscatedSha": "0007",
+          "ObfuscatedSha": "0008",
           "ShortSha": "fe9f179"
         }
       ],
@@ -67,11 +67,11 @@
       "MetadataIdentifiers": []
     }
   },
-  "InformationalVersion": "0.17.2-Alpha-InitialDev.NUC1.1295\u002BAllow-Git2SemVer-to-self-version.32b72ca8f14f0c0ddd6a0e4ba85514d6fd67a9f2",
+  "InformationalVersion": "0.17.2-Alpha-InitialDev.NUC1.1301\u002BAllow-Git2SemVer-to-self-version.d7b5ecddb73f3269ae84e438815a2b67bfd33362",
   "IsInInitialDevelopment": true,
   "Output1": "",
   "Output2": "",
-  "PackageVersion": "0.17.2-Alpha-InitialDev.NUC1.1295",
+  "PackageVersion": "0.17.2-Alpha-InitialDev.NUC1.1301",
   "PrereleaseLabel": "Alpha-InitialDev",
-  "Version": "0.17.2-Alpha-InitialDev.NUC1.1295"
+  "Version": "0.17.2-Alpha-InitialDev.NUC1.1301"
 }

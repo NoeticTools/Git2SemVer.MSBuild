@@ -48,7 +48,7 @@ public sealed class ProcessCli : IProcessCli
         using var process = new Process();
         process.StartInfo.FileName = application;
         process.StartInfo.Arguments = commandLineArguments;
-        process.StartInfo.CreateNoWindow = false;
+        process.StartInfo.CreateNoWindow = true;
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
