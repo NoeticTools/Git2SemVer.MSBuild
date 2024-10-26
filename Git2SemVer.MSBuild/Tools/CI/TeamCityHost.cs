@@ -52,21 +52,21 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     public void ReportBuildStatistic(string key, int value)
     {
         _logger.LogInfo($"Build statistic {key} = {value}");
-        using var writer = new TeamCityServiceMessages().CreateWriter(Console.WriteLine);
+        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
         writer.WriteBuildStatistics(key, value.ToString());
     }
 
     public void ReportBuildStatistic(string key, double value)
     {
         _logger.LogInfo($"Build statistic {key} = {value:G13}");
-        using var writer = new TeamCityServiceMessages().CreateWriter(Console.WriteLine);
+        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
         writer.WriteBuildStatistics(key, $"{value:G13}");
     }
 
     public void SetBuildLabel(string label)
     {
         _logger.LogInfo($"Setting TeamCity Build label to '{label}'.");
-        using var writer = new TeamCityServiceMessages().CreateWriter(Console.WriteLine);
+        using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
         writer.WriteBuildNumber(label);
     }
 }
