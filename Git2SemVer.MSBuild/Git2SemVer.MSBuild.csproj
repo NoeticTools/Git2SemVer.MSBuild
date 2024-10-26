@@ -101,8 +101,7 @@
     </PropertyGroup>
 
     <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)"
-             Condition=" '$(SharedPropsFileExists)' == 'false' " 
-             Properties="Git2SemVer_UpdateHostBuildLabel=true"/>
+             Condition=" '$(SharedPropsFileExists)' == 'false' " />
 
   </Target>
 
