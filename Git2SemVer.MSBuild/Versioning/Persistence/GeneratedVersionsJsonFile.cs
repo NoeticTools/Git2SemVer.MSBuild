@@ -9,6 +9,16 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 
 internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
 {
+    private sealed class VersioningInfo
+    {
+        public VersionOutputs? Git2SemVerVersionInfo { get; set; }
+
+        /// <summary>
+        ///     This version info's schema version.
+        /// </summary>
+        public string Version { get; set; } = "1.0.0";
+    }
+
     public static string GetContent(VersionOutputs outputs)
     {
         var options = new JsonSerializerOptions
@@ -18,7 +28,8 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
             IncludeFields = false
         };
 
-        var json = JsonSerializer.Serialize(outputs, options);
+        var versionInfo = new VersioningInfo() { Git2SemVerVersionInfo = outputs };
+        var json = JsonSerializer.Serialize(versionInfo, options);
         return json;
     }
 
@@ -42,7 +53,7 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
         }
 
         var json = File.ReadAllText(propertiesFilePath);
-        return JsonSerializer.Deserialize<VersionOutputs>(json)!;
+        return JsonSerializer.Deserialize<VersioningInfo>(json)!.Git2SemVerVersionInfo!;
     }
 
     public void Write(string directory, VersionOutputs outputs)
