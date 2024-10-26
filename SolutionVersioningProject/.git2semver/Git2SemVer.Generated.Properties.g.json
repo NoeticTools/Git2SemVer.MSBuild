@@ -1,47 +1,61 @@
 {
-  "AssemblyVersion": "0.17.3",
-  "BuildContext": "NUC1",
-  "BuildNumber": "1307",
-  "BuildSystemVersion": "0.17.3-Alpha-InitialDev.NUC1.1307",
-  "FileVersion": "0.17.3",
-  "Git": {
-    "$type": "GitOutputs",
-    "BranchName": "Allow-Git2SemVer-to-self-version",
-    "CommitsSinceLastRelease": 2,
-    "HasLocalChanges": false,
-    "HeadCommit": {
-      "$type": "Commit",
-      "CommitId": {
-        "Id": "1cb8b510e391b4cabf75c84f0a4e6214a356b0a1",
-        "ObfuscatedSha": "0001",
-        "ShortSha": "1cb8b51"
+  "Git2SemVerVersionInfo": {
+    "AssemblyVersion": "0.17.3",
+    "BuildContext": "NUC1",
+    "BuildNumber": "1330",
+    "BuildSystemVersion": "0.17.3-Alpha-InitialDev.NUC1.1330",
+    "FileVersion": "0.17.3",
+    "Git": {
+      "$type": "GitOutputs",
+      "BranchName": "Allow-Git2SemVer-to-self-version",
+      "CommitsSinceLastRelease": 3,
+      "HasLocalChanges": true,
+      "HeadCommit": {
+        "$type": "Commit",
+        "CommitId": {
+          "Id": "d9816818588ee4bf12ddc595cafcb321fbec56d0",
+          "ObfuscatedSha": "0001",
+          "ShortSha": "d981681"
+        },
+        "Message": "Self versioning               ",
+        "Parents": [
+          {
+            "Id": "1cb8b510e391b4cabf75c84f0a4e6214a356b0a1",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "1cb8b51"
+          }
+        ],
+        "ReleasedVersion": null
       },
-      "Message": "Self versioning               ",
-      "Parents": [
-        {
+      "LastReleaseCommit": {
+        "$type": "Commit",
+        "CommitId": {
           "Id": "45a3ebdda64db049a5e42dab37c02af739c87609",
-          "ObfuscatedSha": "0002",
-          "ShortSha": "45a3ebd"
-        }
-      ],
-      "ReleasedVersion": null
-    },
-    "LastReleaseCommit": {
-      "$type": "Commit",
-      "CommitId": {
-        "Id": "45a3ebdda64db049a5e42dab37c02af739c87609",
-        "ObfuscatedSha": "0002",
-        "ShortSha": "45a3ebd"
-      },
-      "Message": "Self versioning               ",
-      "Parents": [
-        {
-          "Id": "df03cb903971cf668014dd39fe8910155da4f906",
           "ObfuscatedSha": "0003",
-          "ShortSha": "df03cb9"
+          "ShortSha": "45a3ebd"
+        },
+        "Message": "Self versioning               ",
+        "Parents": [
+          {
+            "Id": "df03cb903971cf668014dd39fe8910155da4f906",
+            "ObfuscatedSha": "0004",
+            "ShortSha": "df03cb9"
+          }
+        ],
+        "ReleasedVersion": {
+          "Major": 0,
+          "Minor": 17,
+          "Patch": 2,
+          "Prerelease": "",
+          "PrereleaseIdentifiers": [],
+          "IsPrerelease": false,
+          "IsRelease": true,
+          "Build": "",
+          "Metadata": "",
+          "MetadataIdentifiers": []
         }
-      ],
-      "ReleasedVersion": {
+      },
+      "LastReleaseVersion": {
         "Major": 0,
         "Minor": 17,
         "Patch": 2,
@@ -54,24 +68,13 @@
         "MetadataIdentifiers": []
       }
     },
-    "LastReleaseVersion": {
-      "Major": 0,
-      "Minor": 17,
-      "Patch": 2,
-      "Prerelease": "",
-      "PrereleaseIdentifiers": [],
-      "IsPrerelease": false,
-      "IsRelease": true,
-      "Build": "",
-      "Metadata": "",
-      "MetadataIdentifiers": []
-    }
+    "InformationalVersion": "0.17.3-Alpha-InitialDev.NUC1.1330\u002BAllow-Git2SemVer-to-self-version.d9816818588ee4bf12ddc595cafcb321fbec56d0",
+    "IsInInitialDevelopment": true,
+    "Output1": "",
+    "Output2": "",
+    "PackageVersion": "0.17.3-Alpha-InitialDev.NUC1.1330",
+    "PrereleaseLabel": "Alpha-InitialDev",
+    "Version": "0.17.3-Alpha-InitialDev.NUC1.1330"
   },
-  "InformationalVersion": "0.17.3-Alpha-InitialDev.NUC1.1307\u002BAllow-Git2SemVer-to-self-version.1cb8b510e391b4cabf75c84f0a4e6214a356b0a1",
-  "IsInInitialDevelopment": true,
-  "Output1": "",
-  "Output2": "",
-  "PackageVersion": "0.17.3-Alpha-InitialDev.NUC1.1307",
-  "PrereleaseLabel": "Alpha-InitialDev",
-  "Version": "0.17.3-Alpha-InitialDev.NUC1.1307"
+  "Version": "1.0.0"
 }

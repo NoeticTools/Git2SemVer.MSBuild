@@ -115,30 +115,26 @@
 
   </Target>
 
+  <!-- Load generated versioning information -->
   <Target Name="LoadSharedVersionProperties" 
           DependsOnTargets="EnsureVersionPropertiesBuilt"
           AfterTargets="PrepareResources" 
           BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
-    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.PackageVersion">
-      <Output TaskParameter="Result" PropertyName="PackageVersion" />
-    </JsonPeek>
-
-    <!--
-    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.">
-      <Output TaskParameter="Result" ItemName="Git2SemVerVersioning" />
+    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.Git2SemVerVersionInfo">
+      <Output TaskParameter="Result" ItemName="Git2SemVerVersionInfo" />
     </JsonPeek>
 
     <PropertyGroup>
-      <Version>@(Git2SemVerVersioning -> '%(Version)')</Version>
-      <VersionPrefix>@(Git2SemVerVersioning -> '%(VersionPrefix)')</VersionPrefix>
-      <VersionSuffix>@(Git2SemVerVersioning -> '%(VersionSuffix)')</VersionSuffix>
-      <PackagePrefix>@(PackagePrefix -> '%(PackagePrefix)')</PackagePrefix>
-      <InformationalVersion>@(Git2SemVerVersioning -> '%(InformationalVersion)')</InformationalVersion>
-      <AssemblyVersion>@(Git2SemVerVersioning -> '%(AssemblyVersion)')</AssemblyVersion>
-      <FileVersion>@(Git2SemVerVersioning -> '%(FileVersion)')</FileVersion>
+      <Version>@(Git2SemVerVersionInfo -> '%(Version)')</Version>
+      <VersionPrefix>@(Git2SemVerVersionInfo -> '%(VersionPrefix)')</VersionPrefix>
+      <VersionSuffix>@(Git2SemVerVersionInfo -> '%(VersionSuffix)')</VersionSuffix>
+      <PackageVersion>@(Git2SemVerVersionInfo -> '%(PackageVersion)')</PackageVersion>
+      <InformationalVersion>@(Git2SemVerVersionInfo -> '%(InformationalVersion)')</InformationalVersion>
+      <AssemblyVersion>@(Git2SemVerVersionInfo -> '%(AssemblyVersion)')</AssemblyVersion>
+      <FileVersion>@(Git2SemVerVersionInfo -> '%(FileVersion)')</FileVersion>
     </PropertyGroup>
--->
+
   </Target>
 
 </Project>
