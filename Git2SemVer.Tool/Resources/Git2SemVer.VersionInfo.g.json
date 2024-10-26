@@ -1,0 +1,35 @@
+{
+  "Git2SemVerVersionInfo": {
+    "AssemblyVersion": "0.1.0",
+    "BuildContext": "",
+    "BuildNumber": "",
+    "BuildSystemVersion": "0.1.0",
+    "FileVersion": "0.1.0",
+    "Git": {
+      "BranchName": "main",
+      "CommitsSinceLastRelease": 99999,
+      "HasLocalChanges": true,
+      "HeadCommit": {
+        "CommitId": {
+          "Id": "Sample0000000",
+          "ShortSha": "Sample0"
+        },
+        "Message": "WIP",
+        "Parents": [
+        ],
+        "ReleasedVersion": null,
+        "Tags": ""
+      },
+      "LastReleaseCommit": null,
+      "LastReleaseVersion": null
+    },
+    "InformationalVersion": "0.1.0-Sample",
+    "IsInInitialDevelopment": true,
+    "Output1": "",
+    "Output2": "",
+    "PackageVersion": "0.1.0",
+    "PrereleaseLabel": "Sample",
+    "Version": "0.1.0"
+  },
+  "Version": "1.0.0"
+}

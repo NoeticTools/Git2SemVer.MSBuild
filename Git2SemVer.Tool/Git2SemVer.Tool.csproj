@@ -59,14 +59,14 @@
   <ItemGroup>
     <None Remove="Resources\Directory.Versioning.Build.props" />
     <None Remove="Resources\Git2SemVer.csx" />
-    <None Remove="Resources\Git2SemVer.Generated.Properties.g.json" />
+    <None Remove="Resources\Git2SemVer.VersionInfo.g.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="NuGet_description.md" Pack="True" PackagePath="" />
     <Content Include="Git2SemVer_icon_64x64.ico" Pack="False" />
     <EmbeddedResource Include="Resources\Git2SemVer.csx" />
-    <EmbeddedResource Include="Resources\Git2SemVer.Generated.Properties.g.json" />
+    <EmbeddedResource Include="Resources\Git2SemVer.VersionInfo.g.json" />
     <EmbeddedResource Include="Resources\Directory.Versioning.Build.props" />
     <None Include="..\Documentation\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True" PackagePath="\" />
   </ItemGroup>
