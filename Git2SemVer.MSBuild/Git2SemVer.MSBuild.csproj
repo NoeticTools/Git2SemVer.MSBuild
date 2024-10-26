@@ -45,10 +45,6 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <!--
-  <Import Project="Build/TeamCity.targets" />
-  -->
-
   <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
     <ItemGroup>
       <BuiltProjectOutputGroupOutput Include="$(ProjectDepsFilePath)" TargetPath="$(ProjectDepsFileName)" FinalOutputPath="$(ProjectDepsFilePath)" />
@@ -87,27 +83,20 @@
     <ProjectReference Include="..\MSBuildScripting\MSBuild.Tasking.csproj" />
     <ProjectReference Include="..\MSBuildTask.Logging\MSBuild.TaskLogging.csproj" />
     <ProjectReference Include="..\Tools\Common.csproj" />
-    <!-- Make SolutionVersioningProject a dependency for all .net standard 2.0 projects -->
-    <!--
-    <ProjectReference Include="$(Git2SemVer_VersioningProjectDirectory)\$(Git2SemVer_VersioningProjectName).csproj"
-                      Condition=" '$(TargetFramework)' == 'netstandard2.0' And '$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)' "
-                      SkipGetTargetFrameworkProperties="true"
-                      Private="true">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly >
-    </ProjectReference>
-    -->
   </ItemGroup>
 
-  <Target Name="EnsureVersionPropertiesBuilt"
+  <!-- Ensure that the Git2SemVer version information JSON file is available.  -->
+  <Target Name="Git2SemVerEnsureVersionInfoBuilt"
+          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
           AfterTargets="PrepareResources" 
-          BeforeTargets="CoreBuild;Build;Pack">
+          BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
-    <Message Text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    <Message Text="Git2SemVer: Generating versioning information."
              Importance="High"/>
 
     <PropertyGroup>
       <SharedPropsFileExists Condition="Exists($(Git2SemVer_SharedVersioningJsonFile))">true</SharedPropsFileExists>
-      <SharedPropsFileExists >false</SharedPropsFileExists>
+      <SharedPropsFileExists Condition="'$(SharedPropsFileExists)' == ''" >false</SharedPropsFileExists>
     </PropertyGroup>
 
     <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)" 
@@ -116,8 +105,9 @@
   </Target>
 
   <!-- Load generated versioning information -->
-  <Target Name="LoadSharedVersionProperties" 
-          DependsOnTargets="EnsureVersionPropertiesBuilt"
+  <Target Name="Git2SemVerLoadVersionInformation" 
+          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
+          DependsOnTargets="Git2SemVerEnsureVersionInfoBuilt"
           AfterTargets="PrepareResources" 
           BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
