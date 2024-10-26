@@ -36,7 +36,6 @@ internal class SolutionVersioningBuildTests : SolutionTestsBase
     }
 
     [Test]
-    [Ignore("Migrating file")]
     public void AddCommandTest()
     {
         var result = ExecuteGit2SemVerTool("add -u");

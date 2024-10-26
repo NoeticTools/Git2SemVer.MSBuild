@@ -13,9 +13,5 @@ nupkg
 /TestSolutions/TestSolutionWithTwoProjects/SolutionVersioningProject
 /TestSolutions/TestSolutionWithTwoProjects/Versioning.Build.props
 /TestSolutions/SolutionVersioning/SolutionVersioningProject
-/SolutionVersioningProject/.git2semver/Git2SemVer.VersionProperties.json
-/SolutionVersioningProject/.git2semver/Git2SemVer.Generated.Properties.g.props
-/SolutionVersioningProject/.git2semver/Git2SemVer.Generated.Properties.g.json
-/SolutionVersioningProject/.git2semver/Git2SemVer.Generated.Properties.g.json
 /SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.json
 /SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.props

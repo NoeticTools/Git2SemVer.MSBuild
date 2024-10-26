@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="0.17.4-Alpha-InitialDev.188" />
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="0.18.1-Alpha-InitialDev.194" />
   </ItemGroup>
 
 </Project>
