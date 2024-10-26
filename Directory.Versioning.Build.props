@@ -27,8 +27,8 @@
     <Git2SemVer_Enabled Condition="'$(Git2SemVer_Enabled)' == ''">true</Git2SemVer_Enabled>
     <Git2SemVer_ExcludeProject Condition="'$(Git2SemVer_ExcludeProject)' == ''">false</Git2SemVer_ExcludeProject>
     <Git2SemVer_ShareDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/.git2semver/</Git2SemVer_ShareDirectory>
-    <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.props</Git2SemVer_SharedVersioningPropsFile>
-    <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.json</Git2SemVer_SharedVersioningJsonFile>
+    <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.props</Git2SemVer_SharedVersioningPropsFile>
+    <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.json</Git2SemVer_SharedVersioningJsonFile>
     <!-- Modification: Only the solutioning project imports Git2SemVer.MSBuild -->
     <Git2SemVer_NuGetLoad_Disable>true</Git2SemVer_NuGetLoad_Disable>
   </PropertyGroup>

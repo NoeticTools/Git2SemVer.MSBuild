@@ -1,0 +1,91 @@
+{
+  "Git2SemVerVersionInfo": {
+    "AssemblyVersion": "0.18.1",
+    "BuildContext": "NUC1",
+    "BuildNumber": "1376",
+    "BuildSystemVersion": "0.18.1-Alpha-InitialDev.NUC1.1376",
+    "FileVersion": "0.18.1",
+    "Git": {
+      "$type": "GitOutputs",
+      "BranchName": "Rename-generated-ver-files",
+      "CommitsSinceLastRelease": 1,
+      "HasLocalChanges": true,
+      "HeadCommit": {
+        "$type": "Commit",
+        "CommitId": {
+          "Id": "724398efadd043c9d7998f8aad6fd73f644757fd",
+          "ObfuscatedSha": "0001",
+          "ShortSha": "724398e"
+        },
+        "Message": "Self versioning - preparatio..",
+        "Parents": [
+          {
+            "Id": "812876b2b5187c2993ce7e54f3464322b1cbd024",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "812876b"
+          }
+        ],
+        "ReleasedVersion": {
+          "Major": 0,
+          "Minor": 18,
+          "Patch": 0,
+          "Prerelease": "",
+          "PrereleaseIdentifiers": [],
+          "IsPrerelease": false,
+          "IsRelease": true,
+          "Build": "",
+          "Metadata": "",
+          "MetadataIdentifiers": []
+        }
+      },
+      "LastReleaseCommit": {
+        "$type": "Commit",
+        "CommitId": {
+          "Id": "724398efadd043c9d7998f8aad6fd73f644757fd",
+          "ObfuscatedSha": "0001",
+          "ShortSha": "724398e"
+        },
+        "Message": "Self versioning - preparatio..",
+        "Parents": [
+          {
+            "Id": "812876b2b5187c2993ce7e54f3464322b1cbd024",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "812876b"
+          }
+        ],
+        "ReleasedVersion": {
+          "Major": 0,
+          "Minor": 18,
+          "Patch": 0,
+          "Prerelease": "",
+          "PrereleaseIdentifiers": [],
+          "IsPrerelease": false,
+          "IsRelease": true,
+          "Build": "",
+          "Metadata": "",
+          "MetadataIdentifiers": []
+        }
+      },
+      "LastReleaseVersion": {
+        "Major": 0,
+        "Minor": 18,
+        "Patch": 0,
+        "Prerelease": "",
+        "PrereleaseIdentifiers": [],
+        "IsPrerelease": false,
+        "IsRelease": true,
+        "Build": "",
+        "Metadata": "",
+        "MetadataIdentifiers": []
+      }
+    },
+    "InformationalVersion": "0.18.1-Alpha-InitialDev.NUC1.1376\u002BRename-generated-ver-files.724398efadd043c9d7998f8aad6fd73f644757fd",
+    "IsInInitialDevelopment": true,
+    "Output1": "",
+    "Output2": "",
+    "PackageVersion": "0.18.1-Alpha-InitialDev.NUC1.1376",
+    "PrereleaseLabel": "Alpha-InitialDev",
+    "Version": "0.18.1-Alpha-InitialDev.NUC1.1376"
+  },
+  "Version": "1.0.0"
+}

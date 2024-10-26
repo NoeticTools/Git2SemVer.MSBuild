@@ -86,19 +86,38 @@
     <ProjectReference Include="..\Tools\Common.csproj" />
   </ItemGroup>
 
-  <!-- Ensure that the Git2SemVer version information JSON file is available.  -->
-  <Target Name="Git2SemVerEnsureVersionInfoBuilt"
-          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
+  <!-- JSON file name migrations -->
+  <Target Name="Git2SemVerMigrateJsonFilename"
           AfterTargets="PrepareResources"
           BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
-    <Message Text="Git2SemVer: Generating versioning information."
-             Importance="high"/>
+    <PropertyGroup>
+      <Git2SemVer_LegacySharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.Generated.Properties.g.json</Git2SemVer_LegacySharedVersioningJsonFile>
+      <LegacySharedPropsFileExists Condition="Exists($(Git2SemVer_LegacySharedVersioningJsonFile))">true</LegacySharedPropsFileExists>
+      <LegacySharedPropsFileExists Condition="'$(LegacySharedPropsFileExists)' == ''" >false</LegacySharedPropsFileExists>
+    </PropertyGroup>
+
+    <Copy Condition=" '$(LegacySharedPropsFileExists)' == 'true' " 
+          SourceFiles="$(Git2SemVer_LegacySharedVersioningJsonFile)"
+          DestinationFiles="$(Git2SemVer_SharedVersioningJsonFile)" />
+
+  </Target>
+
+  <!-- Ensure that the Git2SemVer version information JSON file is available. -->
+  <Target Name="Git2SemVerEnsureVersionInfoBuilt"
+          DependsOnTargets="Git2SemVerMigrateJsonFilename"
+          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
+          AfterTargets="PrepareResources"
+          BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
     <PropertyGroup>
       <SharedPropsFileExists Condition="Exists($(Git2SemVer_SharedVersioningJsonFile))">true</SharedPropsFileExists>
       <SharedPropsFileExists Condition="'$(SharedPropsFileExists)' == ''" >false</SharedPropsFileExists>
     </PropertyGroup>
+
+    <Message Text="Git2SemVer: Generating versioning information."
+             Importance="high"
+             Condition=" '$(SharedPropsFileExists)' == 'false' "/>
 
     <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)"
              Condition=" '$(SharedPropsFileExists)' == 'false' " />
