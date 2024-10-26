@@ -14,10 +14,9 @@
 
   <PropertyGroup>
     <Git2SemVerBeforeTargets Condition=" '$(Git2SemVerBeforeTargets)' == '' ">
-      BeforeCompile;
+      Build;
       CoreCompile;
       GetAssemblyVersion;
-      EnsureWixToolsetInstalled;
     </Git2SemVerBeforeTargets>
   </PropertyGroup>
 

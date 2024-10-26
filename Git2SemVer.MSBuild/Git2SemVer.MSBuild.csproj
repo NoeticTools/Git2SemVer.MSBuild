@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Title>Simple automatic Git to Semantic Versioning for .NET projects.</Title>
+    <Title>Simple automatic Git to Semantic Versioning for .NET projects. </Title>
     <Description>Automated Semantic Versioning for Visual Studio and dotnet CLI.</Description>
     <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer</PackageProjectUrl>
     <PackageIcon>Git2SemVer_icon_32x32.png</PackageIcon>
@@ -81,6 +81,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Git2Semver.Common\Git2Semver.Common.csproj" />
     <ProjectReference Include="..\MSBuildScripting\MSBuild.Tasking.csproj" />
+
     <ProjectReference Include="..\MSBuildTask.Logging\MSBuild.TaskLogging.csproj" />
     <ProjectReference Include="..\Tools\Common.csproj" />
   </ItemGroup>
@@ -88,7 +89,7 @@
   <!-- Ensure that the Git2SemVer version information JSON file is available.  -->
   <Target Name="Git2SemVerEnsureVersionInfoBuilt"
           Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
-          AfterTargets="PrepareResources" 
+          AfterTargets="PrepareResources"
           BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
     <Message Text="Git2SemVer: Generating versioning information."
@@ -99,16 +100,16 @@
       <SharedPropsFileExists Condition="'$(SharedPropsFileExists)' == ''" >false</SharedPropsFileExists>
     </PropertyGroup>
 
-    <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)" 
+    <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)"
              Condition=" '$(SharedPropsFileExists)' == 'false' "/>
 
   </Target>
 
   <!-- Load generated versioning information -->
-  <Target Name="Git2SemVerLoadVersionInformation" 
+  <Target Name="Git2SemVerLoadVersionInformation"
           Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
           DependsOnTargets="Git2SemVerEnsureVersionInfoBuilt"
-          AfterTargets="PrepareResources" 
+          AfterTargets="PrepareResources"
           BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
     <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.Git2SemVerVersionInfo">

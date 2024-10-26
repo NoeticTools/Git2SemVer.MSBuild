@@ -59,11 +59,6 @@
         <WarningsAsErrors>$(WarningsAsErrors);NU1504</WarningsAsErrors>
       </PropertyGroup>
 
-      <ItemGroup>
-        <PackageReference Include="NoeticTools.Git2SemVer.MSBuild"
-                          Condition="'$(Git2SemVer_NuGetLoad_Disable)' != 'true'" />
-      </ItemGroup>
-
     </When>
   </Choose>
 
