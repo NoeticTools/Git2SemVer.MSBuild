@@ -8,7 +8,7 @@ public interface IProcessCli
     ILogger Logger { get; }
 
     /// <summary>
-    ///     Process run time limit in milliseconds.
+    ///     Process run time limit in milliseconds  .
     /// </summary>
     int TimeLimitMilliseconds { get; set; }
 
