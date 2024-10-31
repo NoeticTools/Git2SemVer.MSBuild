@@ -50,11 +50,7 @@ public class GitTool : IGitTool
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
         foreach (var line in lines)
         {
-            var commit = ParseLogLine(line, obfuscatedGitLog);
-            if (commit != null)
-            {
-                commits.Add(commit!);
-            }
+            ParseLogLine(line, obfuscatedGitLog, commits);
         }
 
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
@@ -64,7 +60,7 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    public Commit? ParseLogLine(string line, List<string> obfuscatedGitLog)
+    public void ParseLogLine(string line, List<string> obfuscatedGitLog, List<Commit> commits)
     {
         line = line.Trim();
         var regex = new Regex(GitLogParsingPattern, RegexOptions.Multiline);
@@ -82,10 +78,12 @@ public class GitTool : IGitTool
         var body = GetGroupValue(match, "body");
 
         var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs): null;
+        if (commit != null)
+        {
+            commits.Add(commit);
+        }
 
         obfuscatedGitLog.Add(GetObfuscatedLogLine(graph, commit, refs));
-
-        return commit;
     }
 
     private string GetObfuscatedLogLine(string graph, Commit? commit, string refs)

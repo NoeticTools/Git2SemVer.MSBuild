@@ -13,16 +13,12 @@ internal abstract class GitHistoryWalkingTestsBase
     protected NUnitTaskLogger Logger = null!;
     private GitTool _gitTool = null!;
 
-    protected List<Commit> GetCommits(string gitLog)
+    private List<Commit> GetCommits(string gitLog)
     {
         var commits = new List<Commit>();
         foreach (var logLine in gitLog.Split('\n'))
         {
-            var commit = _gitTool.ParseLogLine(logLine.Trim(), new List<string>());
-            if (commit != null)
-            {
-                commits.Add(commit);
-            }
+            _gitTool.ParseLogLine(logLine.Trim(), new List<string>(), commits);
         }
         return commits;
     }
