@@ -13,7 +13,7 @@ namespace NoeticTools.Common.Tools.Git;
 public class GitTool : IGitTool
 {
     private const string GitLogParsingPattern =
-        @"^(?<graph>[^\x1f$]*)(\x1f\.\|(?<sha>[^\\|]+)?\|(?<parents>[^\\|]*)?\|\x02(?<summary>[^\x03]*)?\x03\|\x02(?<body>[^\x03]*)?\x03\|(\s\((?<refs>.*?)\))?\|$)?";
+        @"^(?<graph>[^\x1f$]*)(\x1f\.\|(?<sha>[^\|]+)?\|(?<parents>[^\|]*)?\|\x02(?<summary>[^\x03]*)?\x03\|\x02(?<body>[^\x03]*)?\x03\|(\s\((?<refs>.*?)\))?\|$)?";
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private readonly string _gitLogFormat;
@@ -63,7 +63,7 @@ public class GitTool : IGitTool
     public void ParseLogLine(string line, List<string> obfuscatedGitLog, List<Commit> commits)
     {
         line = line.Trim();
-        var regex = new Regex(GitLogParsingPattern, RegexOptions.Multiline);
+        var regex = new Regex(GitLogParsingPattern, RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
         var match = regex.Match(line);
         if (!match.Success)
         {

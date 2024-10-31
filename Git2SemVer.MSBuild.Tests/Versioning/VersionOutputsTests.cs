@@ -19,7 +19,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
         [SetUp]
         public void SetUp()
         {
-            GitObfuscation.Reset();
+            ShaObfuscator.Clear();
         }
 
         [Test]

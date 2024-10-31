@@ -25,7 +25,7 @@ internal sealed class PathsFromLastReleasesFinder : IGitHistoryPathsFinder
     public HistoryPaths FindPathsToHead()
     {
         VersionHistorySegment.Reset();
-        GitObfuscation.Reset();
+        ShaObfuscator.Clear();
 
         _logger.LogDebug($"Current branch: {_gitTool.BranchName}");
         var segments = new VersionHistorySegmentsBuilder(_commitsRepo, _logger).BuildTo(_commitsRepo.Head);

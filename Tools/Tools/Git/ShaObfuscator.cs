@@ -8,7 +8,7 @@ using NoeticTools.Common.Exceptions;
 namespace NoeticTools.Common.Tools.Git;
 
 #pragma warning disable CS1591
-public static class GitObfuscation
+public static class ShaObfuscator
 {
     private static readonly Dictionary<string, string> ObfuscatedCommitShaLookup = new();
 
@@ -24,7 +24,7 @@ public static class GitObfuscation
         return newValue;
     }
 
-    public static void Reset()
+    public static void Clear()
     {
         ObfuscatedCommitShaLookup.Clear();
     }

@@ -17,7 +17,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
         }
         Id = sha;
         ShortSha = ToShortSha(sha);
-        ObfuscatedSha = GitObfuscation.GetObfuscatedSha(Id);
+        ObfuscatedSha = ShaObfuscator.GetObfuscatedSha(Id);
     }
 
     public string Id { get; }
