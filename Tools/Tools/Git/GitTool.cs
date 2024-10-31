@@ -14,7 +14,14 @@ public class GitTool : IGitTool
 {
     private const string GitLogParsingPattern =
         """
-        ^(?<graph>[^\x1f$]*) (\x1f\.\| (?<sha>[^\|]+) \| (?<parents>[^\|]*)? \| \x02(?<summary>[^\x03]*)?\x03 \| \x02(?<body>[^\x03]*)?\x03 \| (\s\((?<refs>.*?)\))? \|$)?
+        ^(?<graph>[^\x1f$]*) 
+          (\x1f\.\|
+            (?<sha>[^\|]+) \|
+            (?<parents>[^\|]*)? \|
+            \x02(?<summary>[^\x03]*)?\x03 \|
+            \x02(?<body>[^\x03]*)?\x03 \|
+            (\s\((?<refs>.*?)\))?
+           \|$)?
         """;
         
     private readonly IGitProcessCli _inner;
