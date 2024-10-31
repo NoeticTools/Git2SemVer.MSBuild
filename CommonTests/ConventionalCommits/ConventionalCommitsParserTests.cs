@@ -38,21 +38,24 @@ namespace NoeticTools.CommonTests.ConventionalCommits
             Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
         }
 
-        [TestCase("feat: Added a real nice feature", CommitChangeTypeId.Feature)]
-        [TestCase("fix: Fixed nasty bug", CommitChangeTypeId.Fix)]
-        [TestCase("build: Build work", CommitChangeTypeId.Build)]
-        [TestCase("chore: Did something", CommitChangeTypeId.Chore)]
-        [TestCase("ci: Did something", CommitChangeTypeId.ContinuousIntegration)]
-        [TestCase("docs: Did something", CommitChangeTypeId.Documentation)]
-        [TestCase("style: Did something", CommitChangeTypeId.Style)]
-        [TestCase("refactor: Did something", CommitChangeTypeId.Refactoring)]
-        [TestCase("perf: Did something", CommitChangeTypeId.Performance)]
-        [TestCase("test: Did something", CommitChangeTypeId.Testing)]
-        public void SingleLineConventionalCommitInfoTest(string commitMessage, CommitChangeTypeId expectedChangeTypeId)
+        [TestCase("feat: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature")]
+        [TestCase("fix: Fixed nasty bug", CommitChangeTypeId.Fix, "Fixed nasty bug")]
+        [TestCase("build: Build work", CommitChangeTypeId.Build, "Build work")]
+        [TestCase("chore: Did something", CommitChangeTypeId.Chore, "Did something")]
+        [TestCase("ci: Did something", CommitChangeTypeId.ContinuousIntegration, "Did something")]
+        [TestCase("docs: Did something", CommitChangeTypeId.Documentation, "Did something")]
+        [TestCase("style: Did something", CommitChangeTypeId.Style, "Did something")]
+        [TestCase("refactor: Did something", CommitChangeTypeId.Refactoring, "Did something")]
+        [TestCase("perf: Did something", CommitChangeTypeId.Performance, "Did something")]
+        [TestCase("test: Did something", CommitChangeTypeId.Testing, "Did something")]
+        public void SingleLineConventionalCommitInfoTest(string commitMessage, 
+                                                         CommitChangeTypeId expectedChangeTypeId,
+                                                         string expectedChangeDescription)
         {
             var result = _target.Parse(commitMessage);
 
             Assert.That(result.ChangeType, Is.EqualTo(expectedChangeTypeId));
+            Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         }
     }
 }

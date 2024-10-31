@@ -2,6 +2,7 @@
 
 public class CommitMessageMetadata
 {
+    public string ChangeDescription { get; }
 
     private readonly Dictionary<string, CommitChangeTypeId> _changeTypeIdLookup = new()
     {
@@ -17,12 +18,13 @@ public class CommitMessageMetadata
         {"test", CommitChangeTypeId.Testing},
     };
 
-    public CommitMessageMetadata(string changeType)
+    public CommitMessageMetadata(string changeType, string changeDescription)
     {
+        ChangeDescription = changeDescription;
         ChangeType = ToChangeTypeId(changeType.ToLower());
     }
 
-    public CommitMessageMetadata() : this("")
+    public CommitMessageMetadata() : this("", "")
     {
     }
 

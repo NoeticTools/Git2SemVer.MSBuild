@@ -163,12 +163,6 @@ public class GitTool : IGitTool
         return result.stdOutput;
     }
 
-    private static string GetGroupValue(Match match, string groupName)
-    {
-        var group = match.Groups[groupName];
-        return group.Success ? group.Value : "";
-    }
-
     private bool GetHasLocalChanges()
     {
         var result = Run("status -u -s --porcelain");
