@@ -22,7 +22,14 @@ public class CommitMessageMetadata
     {
         ChangeDescription = changeDescription;
         ChangeType = ToChangeTypeId(changeType.ToLower());
+        Body = "";
+        Footer = "";
+        HasBreakingChange = false;
     }
+
+    public bool HasBreakingChange { get; }
+
+    public string Footer { get; }
 
     public CommitMessageMetadata() : this("", "")
     {
@@ -38,4 +45,6 @@ public class CommitMessageMetadata
         }
         return CommitChangeTypeId.None;
     }
+
+    public string Body { get; }
 }
