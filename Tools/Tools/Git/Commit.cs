@@ -58,7 +58,6 @@ public class Commit : ICommit
             return null;
         }
 
-
         var versions = new List<SemVersion>();
         foreach (Match match in matches)
         {

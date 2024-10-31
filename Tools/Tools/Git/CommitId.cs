@@ -1,5 +1,8 @@
 ﻿// ReSharper disable ReplaceSubstringWithRangeIndexer
 
+using NoeticTools.Common.Exceptions;
+
+
 namespace NoeticTools.Common.Tools.Git;
 
 public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
@@ -8,13 +11,18 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 
     internal CommitId(string sha)
     {
+        if (sha.Length == 0)
+        {
+            throw new Git2SemVerGitLogParsingException("Commit SHA not found.");
+        }
         Id = sha;
         ShortSha = ToShortSha(sha);
+        ObfuscatedSha = GitObfuscation.GetObfuscatedSha(Id);
     }
 
     public string Id { get; }
 
-    public string ObfuscatedSha => GitObfuscation.GetObfuscatedSha(Id);
+    public string ObfuscatedSha { get; }
 
     public string ShortSha { get; }
 

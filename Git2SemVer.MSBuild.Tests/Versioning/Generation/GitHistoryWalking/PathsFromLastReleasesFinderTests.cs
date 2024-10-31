@@ -21,7 +21,7 @@ internal class PathsFromLastReleasesFinderTests : GitHistoryWalkingTestsBase
 
         _gitTool = new Mock<IGitTool>();
 
-        _target = new PathsFromLastReleasesFinder(_repository.Object, _gitTool.Object, _logger);
+        _target = new PathsFromLastReleasesFinder(Repository.Object, _gitTool.Object, Logger);
 
         _gitTool.Setup(x => x.BranchName).Returns("BranchName");
     }
@@ -29,7 +29,7 @@ internal class PathsFromLastReleasesFinderTests : GitHistoryWalkingTestsBase
     [TearDown]
     public void TearDown()
     {
-        _logger.Dispose();
+        Logger.Dispose();
     }
 
 

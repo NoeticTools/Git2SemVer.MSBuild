@@ -21,7 +21,7 @@ internal class VersionHistorySegmentsBuilderTests : GitHistoryWalkingTestsBase
 
         _gitTool = new Mock<IGitTool>();
 
-        _target = new VersionHistorySegmentsBuilder(_repository.Object, _logger);
+        _target = new VersionHistorySegmentsBuilder(Repository.Object, Logger);
 
         _gitTool.Setup(x => x.BranchName).Returns("BranchName");
     }
@@ -29,7 +29,7 @@ internal class VersionHistorySegmentsBuilderTests : GitHistoryWalkingTestsBase
     [TearDown]
     public void TearDown()
     {
-        _logger.Dispose();
+        Logger.Dispose();
     }
 
     [TestCaseSource(typeof(ScenariosFromBuildLogsTestSource))]

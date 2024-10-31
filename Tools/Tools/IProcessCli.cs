@@ -8,10 +8,13 @@ public interface IProcessCli
     ILogger Logger { get; }
 
     /// <summary>
-    ///     Process run time limit in milliseconds  .
+    ///     Process run time limit in milliseconds.
     /// </summary>
     int TimeLimitMilliseconds { get; set; }
 
+    /// <summary>
+    ///     The directory from which Git will be invoked.
+    /// </summary>
     string WorkingDirectory { get; set; }
 
     (int returnCode, string stdOutput) Run(string application, string commandLineArguments);
