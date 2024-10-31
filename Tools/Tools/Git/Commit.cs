@@ -19,6 +19,7 @@ public class Commit : ICommit
     public Commit(string sha, string[] parents, string summary, string messageBody, string refs)
     {
         CommitId = new CommitId(sha);
+
         if (parents.Length == 1 && parents[0].Length == 0)
         {
             Parents = [];
@@ -33,6 +34,10 @@ public class Commit : ICommit
         Summary = summary;
         MessageBody = messageBody;
         ReleasedVersion = GetReleaseTag();
+
+        //ChangeType = // conventional commit
+        //ChangeDescription = // conventional commit
+        //HasBreakingChange = // conventional commit
     }
 
     public CommitId CommitId { get; }
