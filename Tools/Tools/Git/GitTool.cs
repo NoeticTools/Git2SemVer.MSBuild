@@ -80,12 +80,12 @@ public class GitTool : IGitTool
             throw new Git2SemVerGitLogParsingException($"Unable to parse Git log line {line}.");
         }
 
-        var graph = GetGroupValue(match, "graph");
-        var sha = GetGroupValue(match, "sha");
-        var refs = GetGroupValue(match, "refs")!;
-        var parents = GetGroupValue(match, "parents").Split(' ');
-        var summary = GetGroupValue(match, "summary");
-        var body = GetGroupValue(match, "body");
+        var graph = match.GetGroupValue("graph");
+        var sha = match.GetGroupValue("sha");
+        var refs = match.GetGroupValue("refs")!;
+        var parents = match.GetGroupValue("parents").Split(' ');
+        var summary = match.GetGroupValue("summary");
+        var body = match.GetGroupValue("body");
 
         var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs): null;
         if (commit != null)

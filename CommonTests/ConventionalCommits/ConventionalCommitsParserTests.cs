@@ -48,9 +48,6 @@ namespace NoeticTools.CommonTests.ConventionalCommits
         [TestCase("refactor: Did something", CommitChangeTypeId.Refactoring)]
         [TestCase("perf: Did something", CommitChangeTypeId.Performance)]
         [TestCase("test: Did something", CommitChangeTypeId.Testing)]
-        /*
-         * build:, chore:, ci:, docs:, style:, refactor:, perf:, test:
-         */
         public void SingleLineConventionalCommitInfoTest(string commitMessage, CommitChangeTypeId expectedChangeTypeId)
         {
             var result = _target.Parse(commitMessage);
