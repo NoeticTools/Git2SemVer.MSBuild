@@ -12,17 +12,16 @@ namespace NoeticTools.Common.Tools.Git;
 [RegisterTransient]
 public class GitTool : IGitTool
 {
+    private const string GitLogParsingPattern =
+        @"^(?<graph>[^\x1f$]*)(\x1f\.\|(?<sha>[^\\|]+)?\|(?<parents>[^\\|]*)?\|\x02(?<summary>[^\x03]*)?\x03\|\x02(?<body>[^\x03]*)?\x03\|(\s\((?<refs>.*?)\))?\|$)?";
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
-    private readonly string _gitLogParsingPattern;
     private readonly string _gitLogFormat;
     private const char RecordSeparator = ControlCharacterConstants.RS;
 
     public GitTool(ILogger logger)
     {
-        _gitLogFormat = $"%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|{RecordSeparator}";
-        _gitLogParsingPattern =
-            @"^(?<graph>[^\x1f$]*)(\x1f\.\|(?<sha>[^\\|]+)?\|(?<parents>[^\\|]*)?\|\x02(?<summary>[^\x03]*)?\x03\|\x02(?<body>[^\x03]*)?\x03\|(\s\((?<refs>.*?)\))?\|$)?";
+        _gitLogFormat = "%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e";
         _logger = logger;
         _inner = new GitProcessCli(logger);
         BranchName = GetBranchName();
@@ -43,7 +42,6 @@ public class GitTool : IGitTool
     {
         var commits = new List<Commit>();
 
-        // git log --graph --max-count=20 --pretty="format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|"
         var result = Run($"log --graph --skip={skipCount} --max-count={takeCount} --pretty=\"format:{_gitLogFormat}\"");
 
         var obfuscatedGitLog = new List<string>();
@@ -69,7 +67,7 @@ public class GitTool : IGitTool
     public Commit? ParseLogLine(string line, List<string> obfuscatedGitLog)
     {
         line = line.Trim();
-        var regex = new Regex(_gitLogParsingPattern, RegexOptions.Multiline);
+        var regex = new Regex(GitLogParsingPattern, RegexOptions.Multiline);
         var match = regex.Match(line);
         if (!match.Success)
         {
