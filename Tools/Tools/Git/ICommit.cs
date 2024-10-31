@@ -9,9 +9,11 @@ public interface ICommit
 {
     CommitId CommitId { get; }
 
-    string Message { get; }
+    string Summary { get; }
 
     CommitId[] Parents { get; }
 
     SemVersion? ReleasedVersion { get; }
+
+    string MessageBody { get; }
 }

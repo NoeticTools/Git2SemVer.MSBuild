@@ -22,7 +22,7 @@ internal sealed class ConventionalCommitParser
     {
         var changes = new ApiChanges();
 
-        var matches = _regex.Matches(commit.Message);
+        var matches = _regex.Matches(commit.Summary);
         foreach (Match match in matches)
         {
             var bumpsMajor = match.Groups["breakingChange"].Success || match.Groups["break"].Success;

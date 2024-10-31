@@ -70,7 +70,8 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                                               "ObfuscatedSha": "0001",
                                               "ShortSha": "0000000"
                                             },
-                                            "Message": "null commit",
+                                            "Summary": "null commit",
+                                            "MessageBody": "",
                                             "Parents": [],
                                             "ReleasedVersion": null
                                           },

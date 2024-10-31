@@ -16,14 +16,13 @@ public class GitTool : IGitTool
     private readonly ILogger _logger;
     private readonly string _gitLogParsingPattern;
     private readonly string _gitLogFormat;
-    private const string RecordSeparator = ControlCharacterConstants.RS;
+    private const char RecordSeparator = ControlCharacterConstants.RS;
 
     public GitTool(ILogger logger)
     {
         _gitLogFormat = $"%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|{RecordSeparator}";
         _gitLogParsingPattern =
             @"^(?<graph>[^\x1f$]*)(\x1f\.\|(?<sha>[^\\|]+)?\|(?<parents>[^\\|]*)?\|\x02(?<summary>[^\x03]*)?\x03\|\x02(?<body>[^\x03]*)?\x03\|(\s\((?<refs>.*?)\))?\|$)?";
-            //@"^(?<graph>[^\.]*)(\x001f\.\|(?<sha>[^\|]+)?\|(?<parents>[^\|]*)?\|\x0002(?<summary>[^\x0003]*)?\x0003\|\x0002(?<body>[^\x0003]*)?\x0003\|( \((?<refs>.*?)\))?\|\x001e)?$";
         _logger = logger;
         _inner = new GitProcessCli(logger);
         BranchName = GetBranchName();
@@ -48,13 +47,12 @@ public class GitTool : IGitTool
         var result = Run($"log --graph --skip={skipCount} --max-count={takeCount} --pretty=\"format:{_gitLogFormat}\"");
 
         var obfuscatedGitLog = new List<string>();
-        var lines = result.stdOutput.Split(RecordSeparator[0]); // todo - inadequate
+        var lines = result.stdOutput.Split(RecordSeparator); // todo - inadequate
 
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
-        _logger.LogTrace("Partially obfuscated git log ({0} skipped):\n\n                .|Commit|Parents|Summary|Refs|\n", skipCount);
         foreach (var line in lines)
         {
-            var commit = ParseLogLine(line);
+            var commit = ParseLogLine(line, obfuscatedGitLog);
             if (commit != null)
             {
                 commits.Add(commit!);
@@ -62,13 +60,13 @@ public class GitTool : IGitTool
         }
 
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
-        _logger.LogTrace("Partially obfuscated git log ({0} skipped):\n\n                .|Commit|Parents|Summary|Refs|\n{1}", skipCount,
+        _logger.LogTrace("Partially obfuscated git log ({0} skipped):\n\n                .|Commit|Parents|Summary|Body|Refs|\n{1}", skipCount,
                          string.Join("\n", obfuscatedGitLog));
 
         return commits;
     }
 
-    public Commit? ParseLogLine(string line)
+    public Commit? ParseLogLine(string line, List<string> obfuscatedGitLog)
     {
         line = line.Trim();
         var regex = new Regex(_gitLogParsingPattern, RegexOptions.Multiline);
@@ -83,27 +81,27 @@ public class GitTool : IGitTool
         var refs = GetGroupValue(match, "refs")!;
         var parents = GetGroupValue(match, "parents").Split(' ');
         var summary = GetGroupValue(match, "summary");
+        var body = GetGroupValue(match, "body");
 
-        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, refs): null;
+        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs): null;
 
-        LogObfuscated(graph, commit, refs);
+        obfuscatedGitLog.Add(GetObfuscatedLogLine(graph, commit, refs));
 
         return commit;
     }
 
-    private void LogObfuscated(string graph, Commit? commit, string refs)
+    private string GetObfuscatedLogLine(string graph, Commit? commit, string refs)
     {
         if (commit == null)
         {
-            _logger.LogTrace($"{graph,-12}");
-            return;
+            return $"{graph,-12}";
         }
 
         var redactedRefs = new Regex(@"HEAD -> \S+?(?=[,\)])").Replace(refs, "HEAD -> REDACTED_BRANCH");
         var redactedRefs2 = new Regex(@"origin\/\S+?(?=[,\)])").Replace(redactedRefs, "origin/REDACTED_BRANCH");
         var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => x.ObfuscatedSha)) : string.Empty;
         var sha = commit.CommitId.ObfuscatedSha;
-        _logger.LogTrace($"{graph,-15} .|{sha}|{parentShas}|REDACTED|{redactedRefs2}|");
+        return $"{graph,-15} .|{sha}|{parentShas}|REDACTED|{redactedRefs2}|";
     }
 
     public (int returnCode, string stdOutput) Run(string arguments)

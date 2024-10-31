@@ -16,9 +16,9 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
         yield return new object[] { "Scenario 05", Scenario05 };
     }
 
-    private const string STX = ControlCharacterConstants.STX;
-    private const string ETX = ControlCharacterConstants.ETX;
-    private const string US = ControlCharacterConstants.US;
+    private const char STX = ControlCharacterConstants.STX;
+    private const char ETX = ControlCharacterConstants.ETX;
+    private const char US = ControlCharacterConstants.US;
 
     public LoggedScenario Scenario01 { get; } =
         new("0.3.2", "0001", $"""

@@ -16,7 +16,7 @@ public class Commit : ICommit
     private readonly string _refs;
     private readonly Regex _tagVersionRegex = new(@$"tag: {TagVersionPrefix}(?<version>\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
 
-    public Commit(string sha, string[] parents, string message, string refs)
+    public Commit(string sha, string[] parents, string summary, string messageBody, string refs)
     {
         CommitId = new CommitId(sha);
         if (parents.Length == 1 && parents[0].Length == 0)
@@ -30,16 +30,19 @@ public class Commit : ICommit
 
         _refs = refs;
 
-        Message = message;
+        Summary = summary;
+        MessageBody = messageBody;
         ReleasedVersion = GetReleaseTag();
     }
 
     public CommitId CommitId { get; }
 
-    public string Message { get; }
+    public string Summary { get; }
+
+    public string MessageBody { get; }
 
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "");
+    public static Commit Null => new("00000000", [], "null commit", "", "");
 
     public CommitId[] Parents { get; }
 
