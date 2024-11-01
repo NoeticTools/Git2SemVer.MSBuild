@@ -20,20 +20,24 @@ public class CommitMessageMetadata
         {"test", CommitChangeTypeId.Testing},
     };
 
-    public CommitMessageMetadata(string changeType, string changeDescription, string body, List<(string key, string value)> footerKeyValues)
+    public CommitMessageMetadata(string changeType, bool breakingChangeFlagged, string changeDescription, string body,
+                                 List<(string key, string value)> footerKeyValues)
     {
-        ChangeDescription = changeDescription;
         ChangeType = ToChangeTypeId(changeType.ToLower());
+        ChangeDescription = changeDescription;
         Body = body;
         FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
-        HasBreakingChange = FooterKeyValues.Contains("BREAKING-CHANGE") || FooterKeyValues.Contains("BREAKING CHANGE");
+
+        HasBreakingChange = breakingChangeFlagged ||
+                            FooterKeyValues.Contains("BREAKING-CHANGE") || 
+                            FooterKeyValues.Contains("BREAKING CHANGE");
     }
 
     public bool HasBreakingChange { get; }
 
     public ILookup<string, string> FooterKeyValues { get; }
 
-    public CommitMessageMetadata() : this("", "", "", [])
+    public CommitMessageMetadata() : this("", false, "", "", [])
     {
     }
 

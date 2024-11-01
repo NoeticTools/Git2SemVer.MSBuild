@@ -152,7 +152,16 @@ internal class ConventionalCommitsParserTests
                  ref|1234
                  """,
                  true)]
+    [TestCase(
+                 """
+                 feat!: Added a real nice feature
 
+                 Body - paragraph1
+                 """,
+                 "Added a real nice feature",
+                 "Body - paragraph1",
+                 "",
+                 true)]
     public void MultiLineWithoutFooterTest(string commitMessage,
                                            string expectedChangeDescription,
                                            string expectedBody,

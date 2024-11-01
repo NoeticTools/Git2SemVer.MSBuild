@@ -11,7 +11,7 @@ namespace NoeticTools.Common.ConventionCommits
         private readonly Regex _regex = new Regex("""
                                                   \A
                                                     (?<ChangeType>(fix|feat|build|chore|ci|docs|style|refactor|perf|test))
-                                                      (\((?<scope>[\w\-\.]+)\))?(!)?: \s+(?<desc>\w+[^(\n|\r\n)]*)
+                                                      (\((?<scope>[\w\-\.]+)\))?(?<breakFlag>!)?: \s+(?<desc>\w+[^(\n|\r\n)]*)
                                                     ( (\n|\r\n){2} (?<body>.*?) )?
                                                     ( (\n|\r\n) 
                                                       ( 
@@ -39,10 +39,11 @@ namespace NoeticTools.Common.ConventionCommits
             }
 
             var changeType = match.GetGroupValue("ChangeType");
+            var breakingChangeFlagged = match.GetGroupValue("breakFlag").Length > 0;
             var changeDescription = match.GetGroupValue("desc");
             var body = match.GetGroupValue("body");
             var keyValuePairs = GetFooterKeyValuePairs(match);
-            return new CommitMessageMetadata(changeType, changeDescription, body, keyValuePairs);
+            return new CommitMessageMetadata(changeType, breakingChangeFlagged, changeDescription, body, keyValuePairs);
         }
 
         private static List<(string key, string value)> GetFooterKeyValuePairs(Match match)
