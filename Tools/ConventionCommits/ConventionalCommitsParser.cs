@@ -13,7 +13,13 @@ namespace NoeticTools.Common.ConventionCommits
                                                     (?<ChangeType>(fix|feat|build|chore|ci|docs|style|refactor|perf|test))
                                                       (\((?<scope>[\w\-\.]+)\))?(!)?: \s+(?<desc>\w+[^(\n|\r\n)]*)
                                                     ( (\n|\r\n){2} (?<body>.*?) )?
-                                                    ( (\n|\r\n){2} (?<footer>((BREAKING(\s|-)CHANGE):\s+\w+[^(\n|\r\n)]*)) (\n|\r\n)? )?
+                                                    ( (\n|\r\n) 
+                                                      ( 
+                                                        (\n|\r\n) 
+                                                        (?<footer>( (BREAKING(\s|-)CHANGE | \w(\w|-) ):\s+ (\w|\#)(\w|\s)*(\n|\r\n)?)* ) 
+                                                      )* 
+                                                    )?
+                                                    (\n|\r\n)?
                                                   \Z
                                                   """,
                                                   RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);

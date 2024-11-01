@@ -131,6 +131,21 @@ internal class ConventionalCommitsParserTests
                  "Added a real nice feature",
                  "Body - paragraph1",
                  "BREAKING CHANGE: Oops very sorry")]
+    [TestCase(
+                 """
+                 feat: Added a real nice feature
+
+                 Body - paragraph1
+
+                 BREAKING CHANGE: Oops very sorry
+                 ref: 1234
+                 """,
+                 "Added a real nice feature",
+                 "Body - paragraph1",
+                 """
+                 BREAKING CHANGE: Oops very sorry
+                 ref: 1234
+                 """)]
     public void MultiLineWithoutFooterTest(string commitMessage,
                                            string expectedChangeDescription,
                                            string expectedBody,
@@ -142,7 +157,7 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.HasBreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
-        Assert.That(result.Footer, Is.EqualTo(expectedFooter));
+        Assert.That(result.Footer.Trim(), Is.EqualTo(expectedFooter));
     }
 
     [SetUp]
