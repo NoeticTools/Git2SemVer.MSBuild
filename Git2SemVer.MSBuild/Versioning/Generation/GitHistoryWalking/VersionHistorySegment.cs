@@ -1,4 +1,5 @@
-﻿using NoeticTools.Common.Exceptions;
+﻿using NoeticTools.Common.ConventionCommits;
+using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
 using NoeticTools.Common.Tools.Git;
 using Semver;
@@ -130,11 +131,9 @@ internal sealed class VersionHistorySegment
 
         var bumps = new ApiChanges();
 
-        var parser = new ConventionalCommitParser(_logger);
         foreach (var commit in _commits)
         {
-            var commitBumps = parser.Parse(commit);
-            bumps.Aggregate(commitBumps);
+            bumps.Aggregate(commit.Metadata.ApiChangeFlags);
         }
 
         _bumps = bumps;

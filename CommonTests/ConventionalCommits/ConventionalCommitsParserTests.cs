@@ -75,7 +75,7 @@ internal class ConventionalCommitsParserTests
         var result = _target.Parse(commitMessage);
 
         Assert.That(result.ChangeType, Is.EqualTo(expectedChangeTypeId));
-        Assert.That(result.HasBreakingChange, Is.False);
+        Assert.That(result.ApiChangeFlags.BreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
         Assert.That(result.FooterKeyValues, Is.Empty);
@@ -171,7 +171,7 @@ internal class ConventionalCommitsParserTests
         var result = _target.Parse(commitMessage);
 
         Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
-        Assert.That(result.HasBreakingChange, Is.EqualTo(hasBreakingChange));
+        Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
 
@@ -232,7 +232,7 @@ internal class ConventionalCommitsParserTests
         var result = _target.Parse(commitMessage);
 
         Assert.That(result.ChangeType, Is.EqualTo(expectedChangeTypeId));
-        Assert.That(result.HasBreakingChange, Is.False);
+        Assert.That(result.ApiChangeFlags.BreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.Empty);
         Assert.That(result.FooterKeyValues, Is.Empty);

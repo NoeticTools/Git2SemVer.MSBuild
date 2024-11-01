@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Injectio.Attributes;
+using NoeticTools.Common.ConventionCommits;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
 using Semver;
@@ -27,6 +28,7 @@ public class GitTool : IGitTool
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private readonly string _gitLogFormat;
+    private readonly ConventionalCommitsParser _conventionalCommitParser;
     private const char RecordSeparator = ControlCharacterConstants.RS;
 
     public GitTool(ILogger logger)
@@ -34,6 +36,7 @@ public class GitTool : IGitTool
         _gitLogFormat = "%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e";
         _logger = logger;
         _inner = new GitProcessCli(logger);
+        _conventionalCommitParser = new ConventionalCommitsParser();
         BranchName = GetBranchName();
         HasLocalChanges = GetHasLocalChanges();
     }
@@ -87,7 +90,9 @@ public class GitTool : IGitTool
         var summary = match.GetGroupValue("summary");
         var body = match.GetGroupValue("body");
 
-        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs): null;
+        var commitMetadata = _conventionalCommitParser.Parse(summary, body);
+
+        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs, new CommitMessageMetadata()): null;
         if (commit != null)
         {
             commits.Add(commit);

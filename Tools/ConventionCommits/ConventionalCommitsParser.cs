@@ -29,6 +29,11 @@ namespace NoeticTools.Common.ConventionCommits
                                                   """,
                                                   RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
 
+        public CommitMessageMetadata Parse(string commitSummary, string commitMessageBody)
+        {
+            return Parse(commitSummary + "\n" + commitMessageBody);
+        }
+
         public CommitMessageMetadata Parse(string commitMessage)
         {
             var match = _regex.Match(commitMessage);

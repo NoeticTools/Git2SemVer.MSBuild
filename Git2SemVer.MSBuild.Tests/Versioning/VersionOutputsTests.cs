@@ -72,6 +72,17 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                                             },
                                             "Summary": "null commit",
                                             "MessageBody": "",
+                                            "Metadata": {
+                                              "ChangeDescription": "",
+                                              "ApiChangeFlags": {
+                                                "BreakingChange": false,
+                                                "FunctionalityChange": false,
+                                                "Fix": false
+                                              },
+                                              "FooterKeyValues": [],
+                                              "ChangeType": 0,
+                                              "Body": ""
+                                            },
                                             "Parents": [],
                                             "ReleasedVersion": null
                                           },

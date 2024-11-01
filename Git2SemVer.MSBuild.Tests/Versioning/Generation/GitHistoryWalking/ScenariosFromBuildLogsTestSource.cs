@@ -185,6 +185,9 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
                                 *               {US}.|0050||{STX}REDACTED{ETX}|{STX}{ETX}||
                                 """);
 
+    /// <summary>
+    ///     Tests release tags on head.
+    /// </summary>
     public LoggedScenario Scenario04 { get; } =
             new("0.3.5", "0002", $"""
                                 *               {US}.|0002|0001|{STX}REDACTED{ETX}|{STX}{ETX}| (HEAD -> REDACTED_BRANCH, tag: v0.3.4, tag: v0.3.3, origin/REDACTED_BRANCH, origin/REDACTED_BRANCH)|
@@ -192,6 +195,9 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
                                 *               {US}.|0003|0004|{STX}REDACTED{ETX}|{STX}{ETX}||
                                 """);
 
+    /// <summary>
+    ///     Tests release tags on head.
+    /// </summary>
     public LoggedScenario Scenario05 { get; } =
         new("0.3.5", "0002", $"""
                              *               {US}.|0002|0001|{STX}REDACTED{ETX}|{STX}{ETX}| (HEAD -> REDACTED_BRANCH, tag: v0.3.3, tag: v0.3.4, origin/REDACTED_BRANCH, origin/REDACTED_BRANCH)|

@@ -28,12 +28,18 @@ public class CommitMessageMetadata
         Body = body;
         FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
 
-        HasBreakingChange = breakingChangeFlagged ||
-                            FooterKeyValues.Contains("BREAKING-CHANGE") || 
-                            FooterKeyValues.Contains("BREAKING CHANGE");
+        var apiChanges = new ApiChanges
+        {
+            FunctionalityChange = ChangeType == CommitChangeTypeId.Feature,
+            Fix = ChangeType == CommitChangeTypeId.Fix,
+            BreakingChange = breakingChangeFlagged ||
+                             FooterKeyValues.Contains("BREAKING-CHANGE") ||
+                             FooterKeyValues.Contains("BREAKING CHANGE")
+        };
+        ApiChangeFlags = apiChanges;
     }
 
-    public bool HasBreakingChange { get; }
+    public ApiChanges ApiChangeFlags { get; }
 
     public ILookup<string, string> FooterKeyValues { get; }
 

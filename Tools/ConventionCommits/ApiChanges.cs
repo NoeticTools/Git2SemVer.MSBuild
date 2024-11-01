@@ -1,6 +1,6 @@
-﻿namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
+﻿namespace NoeticTools.Common.ConventionCommits;
 
-internal struct ApiChanges
+public struct ApiChanges
 {
     /// <summary>
     ///     A breaking change has been made since last release.
@@ -42,17 +42,17 @@ internal struct ApiChanges
     ///         A bug fix is defined as an internal change that fixes incorrect behavior."
     ///     </para>
     /// </remarks>
-    public bool Patch { get; set; }
+    public bool Fix { get; set; }
 
     public override string ToString()
     {
-        return $"{(BreakingChange ? "B" : "-")}{(FunctionalityChange ? "F" : "-")}{(Patch ? "P" : "-")}";
+        return $"{(BreakingChange ? "B" : "-")}{(FunctionalityChange ? "F" : "-")}{(Fix ? "P" : "-")}";
     }
 
     public void Aggregate(ApiChanges changes)
     {
         BreakingChange |= changes.BreakingChange;
         FunctionalityChange |= changes.FunctionalityChange;
-        Patch |= changes.Patch;
+        Fix |= changes.Fix;
     }
 }

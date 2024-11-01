@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
+using NoeticTools.Common.ConventionCommits;
 using Semver;
 #pragma warning disable SYSLIB1045
 
@@ -16,7 +17,7 @@ public class Commit : ICommit
     private readonly string _refs;
     private readonly Regex _tagVersionRegex = new(@$"tag: {TagVersionPrefix}(?<version>\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
 
-    public Commit(string sha, string[] parents, string summary, string messageBody, string refs)
+    public Commit(string sha, string[] parents, string summary, string messageBody, string refs, CommitMessageMetadata metadata)
     {
         CommitId = new CommitId(sha);
 
@@ -33,6 +34,7 @@ public class Commit : ICommit
 
         Summary = summary;
         MessageBody = messageBody;
+        Metadata = metadata;
         ReleasedVersion = GetReleaseTag();
 
         //ChangeType = // conventional commit
@@ -46,8 +48,10 @@ public class Commit : ICommit
 
     public string MessageBody { get; }
 
+    public CommitMessageMetadata Metadata { get; }
+
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "", "");
+    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata());
 
     public CommitId[] Parents { get; }
 

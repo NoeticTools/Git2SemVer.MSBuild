@@ -1,4 +1,5 @@
-﻿using NoeticTools.Common.Tools.Git;
+﻿using NoeticTools.Common.ConventionCommits;
+using NoeticTools.Common.Tools.Git;
 using Semver;
 
 
@@ -69,7 +70,7 @@ internal sealed class VersionHistoryPath : IVersionHistoryPath
         {
             bumps.BreakingChange |= segmentBumps.BreakingChange;
             bumps.FunctionalityChange |= segmentBumps.FunctionalityChange;
-            bumps.Patch |= segmentBumps.Patch;
+            bumps.Fix |= segmentBumps.Fix;
         }
 
         return bumps;
