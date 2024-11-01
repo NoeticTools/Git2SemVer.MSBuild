@@ -41,20 +41,27 @@ namespace NoeticTools.Common.ConventionCommits
             var changeType = match.GetGroupValue("ChangeType");
             var changeDescription = match.GetGroupValue("desc");
             var body = match.GetGroupValue("body");
+            var keyValuePairs = GetFooterKeyValuePairs(match);
+            return new CommitMessageMetadata(changeType, changeDescription, body, keyValuePairs);
+        }
 
+        private static List<(string key, string value)> GetFooterKeyValuePairs(Match match)
+        {
             var keyValuePairs = new List<(string key, string value)>();
             var footerGroup = match.Groups["footer"];
-            if (footerGroup.Success)
+            if (!footerGroup.Success)
             {
-                foreach (Capture capture in footerGroup.Captures)
-                {
-                    var line = capture.Value.Trim();
-                    var elements = line.Split(':');
-                    keyValuePairs.Add((key: elements[0], value: elements[1].Trim()));
-                }
+                return keyValuePairs;
             }
 
-            return new CommitMessageMetadata(changeType, changeDescription, body, keyValuePairs);
+            foreach (Capture capture in footerGroup.Captures)
+            {
+                var line = capture.Value;
+                var elements = line.Split(':');
+                keyValuePairs.Add((key: elements[0], value: elements[1].Trim()));
+            }
+
+            return keyValuePairs;
         }
     }
 }

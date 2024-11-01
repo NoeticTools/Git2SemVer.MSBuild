@@ -26,7 +26,7 @@ public class CommitMessageMetadata
         ChangeType = ToChangeTypeId(changeType.ToLower());
         Body = body;
         FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
-        HasBreakingChange = false;
+        HasBreakingChange = FooterKeyValues.Contains("BREAKING-CHANGE") || FooterKeyValues.Contains("BREAKING CHANGE");
     }
 
     public bool HasBreakingChange { get; }

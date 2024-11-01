@@ -99,7 +99,8 @@ internal class ConventionalCommitsParserTests
 
                  Body - paragraph2
                  """,
-                 "")]
+                 "",
+                 false)]
     [TestCase(
                  """
                  feat: Added a real nice feature
@@ -108,7 +109,8 @@ internal class ConventionalCommitsParserTests
                  """,
                  "Added a real nice feature",
                  "Body - paragraph1",
-                 "")]
+                 "",
+                 false)]
     [TestCase(
                  """
                  feat: Added a real nice feature
@@ -119,7 +121,8 @@ internal class ConventionalCommitsParserTests
                  """,
                  "Added a real nice feature",
                  "Body - paragraph1",
-                 "BREAKING CHANGE|Oops")]
+                 "BREAKING CHANGE|Oops",
+                 true)]
     [TestCase(
                  """
                  feat: Added a real nice feature
@@ -131,7 +134,8 @@ internal class ConventionalCommitsParserTests
                  """,
                  "Added a real nice feature",
                  "Body - paragraph1",
-                 "BREAKING CHANGE|Oops very sorry")]
+                 "BREAKING CHANGE|Oops very sorry",
+                 true)]
     [TestCase(
                  """
                  feat: Added a real nice feature
@@ -146,17 +150,19 @@ internal class ConventionalCommitsParserTests
                  """
                  BREAKING CHANGE|Oops very sorry
                  ref|1234
-                 """)]
+                 """,
+                 true)]
 
     public void MultiLineWithoutFooterTest(string commitMessage,
                                            string expectedChangeDescription,
                                            string expectedBody,
-                                           string expectedFooter)
+                                           string expectedFooter,
+                                           bool hasBreakingChange)
     {
         var result = _target.Parse(commitMessage);
 
         Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
-        Assert.That(result.HasBreakingChange, Is.False);
+        Assert.That(result.HasBreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
 
