@@ -18,12 +18,12 @@ public class CommitMessageMetadata
         {"test", CommitChangeTypeId.Testing},
     };
 
-    public CommitMessageMetadata(string changeType, string changeDescription)
+    public CommitMessageMetadata(string changeType, string changeDescription, string body, string footer)
     {
         ChangeDescription = changeDescription;
         ChangeType = ToChangeTypeId(changeType.ToLower());
-        Body = "";
-        Footer = "";
+        Body = body;
+        Footer = footer;
         HasBreakingChange = false;
     }
 
@@ -31,7 +31,7 @@ public class CommitMessageMetadata
 
     public string Footer { get; }
 
-    public CommitMessageMetadata() : this("", "")
+    public CommitMessageMetadata() : this("", "", "", "")
     {
     }
 
