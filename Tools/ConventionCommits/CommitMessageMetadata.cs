@@ -1,4 +1,6 @@
-﻿namespace NoeticTools.Common.ConventionCommits;
+﻿using System.Collections.Generic;
+
+namespace NoeticTools.Common.ConventionCommits;
 
 public class CommitMessageMetadata
 {
@@ -18,20 +20,20 @@ public class CommitMessageMetadata
         {"test", CommitChangeTypeId.Testing},
     };
 
-    public CommitMessageMetadata(string changeType, string changeDescription, string body, string footer)
+    public CommitMessageMetadata(string changeType, string changeDescription, string body, List<(string key, string value)> footerKeyValues)
     {
         ChangeDescription = changeDescription;
         ChangeType = ToChangeTypeId(changeType.ToLower());
         Body = body;
-        Footer = footer;
+        FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
         HasBreakingChange = false;
     }
 
     public bool HasBreakingChange { get; }
 
-    public string Footer { get; }
+    public ILookup<string, string> FooterKeyValues { get; }
 
-    public CommitMessageMetadata() : this("", "", "", "")
+    public CommitMessageMetadata() : this("", "", "", [])
     {
     }
 

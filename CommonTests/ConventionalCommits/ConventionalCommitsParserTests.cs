@@ -1,4 +1,5 @@
 ﻿using NoeticTools.Common.ConventionCommits;
+using System.Collections.Generic;
 
 
 #pragma warning disable NUnit2045
@@ -77,7 +78,7 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.HasBreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
-        Assert.That(result.Footer, Is.Empty);
+        Assert.That(result.FooterKeyValues, Is.Empty);
     }
 
     [TestCase(
@@ -113,12 +114,12 @@ internal class ConventionalCommitsParserTests
                  feat: Added a real nice feature
 
                  Body - paragraph1
-                 
+
                  BREAKING CHANGE: Oops
                  """,
                  "Added a real nice feature",
                  "Body - paragraph1",
-                 "BREAKING CHANGE: Oops")]
+                 "BREAKING CHANGE|Oops")]
     [TestCase(
                  """
                  feat: Added a real nice feature
@@ -126,11 +127,11 @@ internal class ConventionalCommitsParserTests
                  Body - paragraph1
 
                  BREAKING CHANGE: Oops very sorry
-                 
+
                  """,
                  "Added a real nice feature",
                  "Body - paragraph1",
-                 "BREAKING CHANGE: Oops very sorry")]
+                 "BREAKING CHANGE|Oops very sorry")]
     [TestCase(
                  """
                  feat: Added a real nice feature
@@ -143,9 +144,10 @@ internal class ConventionalCommitsParserTests
                  "Added a real nice feature",
                  "Body - paragraph1",
                  """
-                 BREAKING CHANGE: Oops very sorry
-                 ref: 1234
+                 BREAKING CHANGE|Oops very sorry
+                 ref|1234
                  """)]
+
     public void MultiLineWithoutFooterTest(string commitMessage,
                                            string expectedChangeDescription,
                                            string expectedBody,
@@ -157,7 +159,19 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.HasBreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
-        Assert.That(result.Footer.Trim(), Is.EqualTo(expectedFooter));
+
+        var expectedFooterLines = expectedFooter.Split('\n');
+        var keyValuePairs = new List<(string key, string value)>();
+        foreach (var line in expectedFooterLines)
+        {
+            if (line.Length == 0)
+            {
+                continue;
+            }
+            var elements = line.Split('|');
+            keyValuePairs.Add((key: elements[0], value: elements[1].Trim()));
+        }
+        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
     }
 
     [SetUp]
@@ -206,6 +220,6 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.HasBreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.Empty);
-        Assert.That(result.Footer, Is.Empty);
+        Assert.That(result.FooterKeyValues, Is.Empty);
     }
 }

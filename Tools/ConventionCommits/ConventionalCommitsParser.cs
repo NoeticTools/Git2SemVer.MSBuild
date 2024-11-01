@@ -16,8 +16,13 @@ namespace NoeticTools.Common.ConventionCommits
                                                     ( (\n|\r\n) 
                                                       ( 
                                                         (\n|\r\n) 
-                                                        (?<footer>( (BREAKING(\s|-)CHANGE | \w(\w|-) ):\s+ (\w|\#)(\w|\s)*(\n|\r\n)?)* ) 
-                                                      )* 
+                                                        (?<footer> 
+                                                          (BREAKING(\s|-)CHANGE | \w(\w|-)* )
+                                                          :\s+ 
+                                                          (\w|\#)(\w|\s)*?
+                                                          (\n|\r\n)?
+                                                        )*
+                                                      )? 
                                                     )?
                                                     (\n|\r\n)?
                                                   \Z
@@ -27,6 +32,7 @@ namespace NoeticTools.Common.ConventionCommits
         public CommitMessageMetadata Parse(string commitMessage)
         {
             var match = _regex.Match(commitMessage);
+
             if (!match.Success)
             {
                 return new CommitMessageMetadata();
@@ -35,8 +41,20 @@ namespace NoeticTools.Common.ConventionCommits
             var changeType = match.GetGroupValue("ChangeType");
             var changeDescription = match.GetGroupValue("desc");
             var body = match.GetGroupValue("body");
-            var footer = match.GetGroupValue("footer");
-            return new CommitMessageMetadata(changeType, changeDescription, body, footer);
+
+            var keyValuePairs = new List<(string key, string value)>();
+            var footerGroup = match.Groups["footer"];
+            if (footerGroup.Success)
+            {
+                foreach (Capture capture in footerGroup.Captures)
+                {
+                    var line = capture.Value.Trim();
+                    var elements = line.Split(':');
+                    keyValuePairs.Add((key: elements[0], value: elements[1].Trim()));
+                }
+            }
+
+            return new CommitMessageMetadata(changeType, changeDescription, body, keyValuePairs);
         }
     }
 }
