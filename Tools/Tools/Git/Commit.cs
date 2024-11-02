@@ -37,21 +37,28 @@ public class Commit : ICommit
         ReleasedVersion = GetReleaseTag();
     }
 
+    [JsonPropertyOrder(11)]
     public CommitId CommitId { get; }
 
+    [JsonPropertyOrder(22)]
     public string MessageBody { get; }
 
+    [JsonPropertyOrder(90)]
     public CommitMessageMetadata Metadata { get; }
 
     [JsonIgnore]
     public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata());
 
+    [JsonPropertyOrder(31)]
     public CommitId[] Parents { get; }
 
+    [JsonPropertyOrder(25)]
     public string Refs { get; }
 
+    [JsonPropertyOrder(12)]
     public SemVersion? ReleasedVersion { get; }
 
+    [JsonPropertyOrder(21)]
     public string Summary { get; }
 
     private SemVersion? GetReleaseTag()

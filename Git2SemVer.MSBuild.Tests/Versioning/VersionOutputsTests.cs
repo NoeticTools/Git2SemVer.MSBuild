@@ -70,8 +70,11 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                                               "ObfuscatedSha": "0001",
                                               "ShortSha": "0000000"
                                             },
+                                            "ReleasedVersion": null,
                                             "Summary": "null commit",
                                             "MessageBody": "",
+                                            "Refs": "",
+                                            "Parents": [],
                                             "Metadata": {
                                               "ChangeDescription": "",
                                               "ApiChangeFlags": {
@@ -82,9 +85,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                                               "FooterKeyValues": [],
                                               "ChangeType": 0,
                                               "Body": ""
-                                            },
-                                            "Parents": [],
-                                            "ReleasedVersion": null
+                                            }
                                           },
                                           "LastReleaseCommit": null,
                                           "LastReleaseVersion": null
