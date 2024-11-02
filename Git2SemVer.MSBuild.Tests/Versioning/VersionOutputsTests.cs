@@ -52,6 +52,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
 
             const string expected = """
                                     {
+                                      "Rev": 1,
                                       "Git2SemVerVersionInfo": {
                                         "AssemblyVersion": "10.11.12",
                                         "BuildContext": "CONTEXT",
@@ -97,8 +98,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning
                                         "PackageVersion": null,
                                         "PrereleaseLabel": "",
                                         "Version": null
-                                      },
-                                      "Version": "1.0.0"
+                                      }
                                     }
                                     """;
             Assert.That(result, Is.EqualTo(expected));

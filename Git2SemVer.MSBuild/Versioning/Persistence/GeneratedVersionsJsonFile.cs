@@ -1,5 +1,6 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.Unicode;
 using NoeticTools.Git2Semver.Common;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
@@ -11,12 +12,14 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
 {
     private sealed class VersioningInfo
     {
-        public VersionOutputs? Git2SemVerVersionInfo { get; set; }
-
         /// <summary>
         ///     This version info's schema version.
         /// </summary>
-        public string Version { get; set; } = "1.0.0";
+        [JsonPropertyOrder(1)]
+        public int Rev { get; set; } = 1;
+
+        [JsonPropertyOrder(2)]
+        public VersionOutputs? Git2SemVerVersionInfo { get; set; }
     }
 
     public static string GetContent(VersionOutputs outputs)
