@@ -25,7 +25,7 @@ public class GitTool : IGitTool
            \|$)?
         """;
 
-    private const char RecordSeparator = ControlCharacterConstants.RS;
+    private const char RecordSeparator = CharacterConstants.RS;
     private readonly ConventionalCommitsParser _conventionalCommitParser;
     private readonly string _gitLogFormat;
 
@@ -93,7 +93,7 @@ public class GitTool : IGitTool
 
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
-        var commit = line.Contains($"{ControlCharacterConstants.US}.|")
+        var commit = line.Contains($"{CharacterConstants.US}.|")
             ? new Commit(sha, parents, summary, body, refs, commitMetadata)
             : null;
         if (commit != null)

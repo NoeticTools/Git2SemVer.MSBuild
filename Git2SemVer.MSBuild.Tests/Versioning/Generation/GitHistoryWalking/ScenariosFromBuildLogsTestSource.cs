@@ -8,10 +8,10 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.GitHistoryW
 
 internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
 {
-    private const char ETX = ControlCharacterConstants.ETX;
+    private const char ETX = CharacterConstants.ETX;
 
-    private const char STX = ControlCharacterConstants.STX;
-    private const char US = ControlCharacterConstants.US;
+    private const char STX = CharacterConstants.STX;
+    private const char US = CharacterConstants.US;
 
     public LoggedScenario Scenario01 { get; } =
         new("0.3.2", "0001", $"""
@@ -198,6 +198,36 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
                               *               {US}.|0003|0004|{STX}REDACTED{ETX}|{STX}{ETX}||
                               """);
 
+    /// <summary>
+    ///     Tests feature conventional commit.
+    /// </summary>
+    public LoggedScenario Scenario06 { get; } =
+        new("1.3.0", "0002", $"""
+                              *               {US}.|0002|0001|{STX}feat: add great feature{ETX}|{STX}{ETX}| (HEAD -> REDACTED_BRANCH, origin/REDACTED_BRANCH)|
+                              *               {US}.|0001|0003|{STX}REDACTED{ETX}|{STX}{ETX}| (tag: v1.2.3)|
+                              *               {US}.|0003|0004|{STX}REDACTED{ETX}|{STX}{ETX}||
+                              """);
+
+    /// <summary>
+    ///     Tests breaking change (!) conventional commit.
+    /// </summary>
+    public LoggedScenario Scenario07 { get; } =
+        new("2.0.0", "0002", $"""
+                              *               {US}.|0002|0001|{STX}feat!: add great feature{ETX}|{STX}{ETX}| (HEAD -> REDACTED_BRANCH, origin/REDACTED_BRANCH)|
+                              *               {US}.|0001|0003|{STX}REDACTED{ETX}|{STX}{ETX}| (tag: v1.2.3)|
+                              *               {US}.|0003|0004|{STX}REDACTED{ETX}|{STX}{ETX}||
+                              """);
+
+    /// <summary>
+    ///     Tests breaking change (footer) conventional commit.
+    /// </summary>
+    public LoggedScenario Scenario08 { get; } =
+        new("2.0.0", "0002", $"""
+                              *               {US}.|0002|0001|{STX}feat: add great feature{ETX}|{STX}BREAKING CHANGE: sorry{ETX}| (HEAD -> REDACTED_BRANCH, origin/REDACTED_BRANCH)|
+                              *               {US}.|0001|0003|{STX}REDACTED{ETX}|{STX}{ETX}| (tag: v1.2.3)|
+                              *               {US}.|0003|0004|{STX}REDACTED{ETX}|{STX}{ETX}||
+                              """);
+
     public IEnumerator GetEnumerator()
     {
         yield return new object[] { "Scenario 01", Scenario01 };
@@ -205,5 +235,8 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
         yield return new object[] { "Scenario 03", Scenario03 };
         yield return new object[] { "Scenario 04", Scenario04 };
         yield return new object[] { "Scenario 05", Scenario05 };
+        yield return new object[] { "Scenario 06 - feature", Scenario06 };
+        yield return new object[] { "Scenario 07 - !", Scenario07 };
+        yield return new object[] { "Scenario 08 - breaking change", Scenario08 };
     }
 }

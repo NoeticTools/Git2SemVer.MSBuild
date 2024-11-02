@@ -2,7 +2,7 @@
 
 namespace NoeticTools.Common;
 
-public static class ControlCharacterConstants
+public static class CharacterConstants
 {
     public const char ETX = '\u0003';
     public const char RS = '\u001e';

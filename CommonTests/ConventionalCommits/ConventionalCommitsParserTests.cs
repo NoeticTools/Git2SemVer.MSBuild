@@ -72,7 +72,14 @@ internal class ConventionalCommitsParserTests
                  "Body - paragraph1",
                  "",
                  false)]
-    public void BodyMultiLineWithoutFooterTest(string messageBody,
+    [TestCase(
+                 """
+                 BREAKING CHANGE: Oops very sorry
+                 """,
+                 "",
+                 "BREAKING CHANGE|Oops very sorry",
+                 true)]
+    public void BodyMultiLineBodyAndFooterTest(string messageBody,
                                                string expectedBody,
                                                string expectedFooter,
                                                bool hasBreakingChange)

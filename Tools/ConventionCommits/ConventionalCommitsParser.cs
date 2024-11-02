@@ -6,21 +6,35 @@ namespace NoeticTools.Common.ConventionCommits;
 public sealed class ConventionalCommitsParser
 {
     private readonly Regex _bodyRegex = new("""
-                                            \A
-                                              ( (?<body>.*?) )?
-                                              ( (\n|\r\n) 
+                                            (
+                                              \A
+                                              (?<footer> 
+                                                (BREAKING(\s|-)CHANGE | \w(\w|-)* )
+                                                :\s+ 
+                                                (\w|\#)(\w|\s)*
+                                                (\n|\r\n)?
+                                              )*
+                                              \Z
+                                            )
+                                            |
+                                            ( 
+                                              \A
+                                              (?<body>.*?)
                                                 ( 
                                                   (\n|\r\n) 
-                                                  (?<footer> 
-                                                    (BREAKING(\s|-)CHANGE | \w(\w|-)* )
-                                                    :\s+ 
-                                                    (\w|\#)(\w|\s)*?
-                                                    (\n|\r\n)?
-                                                  )*
-                                                )? 
-                                              )?
-                                              (\n|\r\n)?
-                                            \Z
+                                                  ( 
+                                                    (\n|\r\n) 
+                                                    (?<footer> 
+                                                      (BREAKING(\s|-)CHANGE | \w(\w|-)* )
+                                                      :\s+ 
+                                                      (\w|\#)(\w|\s)*?
+                                                      (\n|\r\n)?
+                                                    )*
+                                                  )?
+                                                )?
+                                                (\n|\r\n)?
+                                              \Z 
+                                            )
                                             """,
                                             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
 
@@ -46,15 +60,15 @@ public sealed class ConventionalCommitsParser
 
         var bodyMatch = _bodyRegex.Match(commitMessageBody);
         var body = bodyMatch.GetGroupValue("body");
-        var keyValuePairs = GetFooterKeyValuePairs(bodyMatch);
+        var footerGroup = bodyMatch.Groups["footer"];
+        var keyValuePairs = GetFooterKeyValuePairs(footerGroup);
 
         return new CommitMessageMetadata(changeType, breakingChangeFlagged, changeDescription, body, keyValuePairs);
     }
 
-    private static List<(string key, string value)> GetFooterKeyValuePairs(Match match)
+    private static List<(string key, string value)> GetFooterKeyValuePairs(Group footerGroup)
     {
         var keyValuePairs = new List<(string key, string value)>();
-        var footerGroup = match.Groups["footer"];
         if (!footerGroup.Success)
         {
             return keyValuePairs;
