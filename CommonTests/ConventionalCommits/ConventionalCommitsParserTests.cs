@@ -133,8 +133,8 @@ internal class ConventionalCommitsParserTests
                  """,
                  "Body - paragraph1",
                  "",
-                 true)]
-    public void MultiLineWithoutFooterTest(string messageBody,
+                 false)]
+    public void BodyMultiLineWithoutFooterTest(string messageBody,
                                            string expectedBody,
                                            string expectedFooter,
                                            bool hasBreakingChange)

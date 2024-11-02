@@ -27,9 +27,9 @@ internal interface IConfiguration
     int BuildNumber { get; set; }
 
     /// <summary>
-    ///     This configuration's schema version.
+    ///     This configuration's schema revision count. To facilitate future migration.
     /// </summary>
-    int Version { get; set; }
+    int Rev { get; set; }
 
     Git2SemVerBuildLogEntry AddLogEntry(string buildNumber, bool hasLocalChanges, string branch, string lastCommitId, string path);
 
@@ -39,9 +39,6 @@ internal interface IConfiguration
     /// <remarks>
     ///     <para>
     ///         Saves the user's Git2SemVer configuration file.
-    ///     </para>
-    ///     <para>
-    ///         See <a cref="Git2SemVerConfiguration.FilePath">FilePath</a> for details of the file's path.
     ///     </para>
     /// </remarks>
     void Save();

@@ -1,6 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Text.Unicode;
 using NoeticTools.Git2SemVer.MSBuild.Tools.CI;
@@ -11,7 +12,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Framework.Config;
 /// <summary>
 ///     User's local Git2SemVer configuration.
 /// </summary>
-internal class Git2SemVerConfiguration : IConfiguration
+internal sealed class Git2SemVerConfiguration : IConfiguration
 {
     [JsonIgnore]
     private static int _instanceHash;
@@ -52,7 +53,7 @@ internal class Git2SemVerConfiguration : IConfiguration
     ///     This configuration's schema version.
     /// </summary>
     [JsonPropertyOrder(1)]
-    public int Version { get; set; } = 1;
+    public int Rev { get; set; } = 1;
 
     public Git2SemVerBuildLogEntry AddLogEntry(string buildNumber, bool hasLocalChanges, string branch, string lastCommitId, string path)
     {
@@ -90,7 +91,7 @@ internal class Git2SemVerConfiguration : IConfiguration
         if (File.Exists(filePath))
         {
             var json = File.ReadAllText(filePath);
-            _instance = JsonSerializer.Deserialize<Git2SemVerConfiguration>(json);
+            _instance = Load(json);
         }
         else
         {
@@ -99,6 +100,18 @@ internal class Git2SemVerConfiguration : IConfiguration
 
         _instanceHash = _instance!.GetCurrentHashCode();
         return _instance!;
+    }
+
+    internal static Git2SemVerConfiguration Load(string json)
+    {
+        var options = new JsonSerializerOptions
+        {
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver
+            {
+                Modifiers = { Git2SemVerConfigurationMigration.Version0JsonModifier }
+            }
+        };
+        return JsonSerializer.Deserialize<Git2SemVerConfiguration>(json, options)!;
     }
 
     /// <summary>
@@ -119,7 +132,7 @@ internal class Git2SemVerConfiguration : IConfiguration
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
         };
 
         var json = JsonSerializer.Serialize(this, options);
@@ -129,7 +142,7 @@ internal class Git2SemVerConfiguration : IConfiguration
 
     private int GetCurrentHashCode()
     {
-        return HashCode.Combine(BuildLog, BuildLogSizeLimit, BuildNumber, Version);
+        return HashCode.Combine(BuildLog, BuildLogSizeLimit, BuildNumber, Rev);
     }
 
     private static string GetFilePath()

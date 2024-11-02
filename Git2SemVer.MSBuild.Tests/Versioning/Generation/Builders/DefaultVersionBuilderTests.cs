@@ -30,7 +30,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.Builders
         private Mock<ICommit> _headCommit;
         private Mock<IGitOutputs> _gitOutputs;
         private Mock<IVersionOutputs> _outputs;
-        private SemVersion _version;
+        private SemVersion _version = null!;
 
         [SetUp]
         public void SetUp()
