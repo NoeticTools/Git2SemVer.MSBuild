@@ -6,20 +6,19 @@ namespace NoeticTools.Common.ConventionCommits;
 public sealed class ConventionalCommitsParser
 {
     private readonly Regex _bodyRegex = new("""
+                                            \A
                                             (
-                                              \A
-                                              (?<footer> 
-                                                (BREAKING(\s|-)CHANGE | \w(\w|-)* )
-                                                :\s+ 
-                                                (\w|\#)(\w|\s)*
-                                                (\n|\r\n)?
-                                              )*
-                                              \Z
-                                            )
-                                            |
-                                            ( 
-                                              \A
-                                              (?<body>.*?)
+                                              (
+                                                (?<footer> 
+                                                  (BREAKING(\s|-)CHANGE | \w(\w|-)* )
+                                                  :\s+ 
+                                                  (\w|\#)(\w|\s)*?
+                                                  (\n|\r\n)?
+                                                )*
+                                              )
+                                              |
+                                              ( 
+                                                (?<body>.*?)
                                                 ( 
                                                   (\n|\r\n) 
                                                   ( 
@@ -33,8 +32,9 @@ public sealed class ConventionalCommitsParser
                                                   )?
                                                 )?
                                                 (\n|\r\n)?
-                                              \Z 
+                                              )
                                             )
+                                            \Z 
                                             """,
                                             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
 
