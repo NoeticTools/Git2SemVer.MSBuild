@@ -13,7 +13,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
     {
         if (sha.Length == 0)
         {
-            throw new Git2SemVerGitLogParsingException("Commit SHA not found.");
+            throw new Git2SemVerGitLogParsingException("Empty commit SHA.");
         }
         Id = sha;
         ShortSha = ToShortSha(sha);

@@ -34,7 +34,7 @@ internal sealed class VersionHistorySegment
         Id = _nextId++;
     }
 
-    public ApiChanges Bumps => GetVersionBumps();
+    public ApiChanges Bumps => GetApiChanges();
 
     public IReadOnlyList<Commit> Commits => _commits.ToList();
 
@@ -53,8 +53,6 @@ internal sealed class VersionHistorySegment
     public Commit LastCommit => _commits[0];
 
     public SemVersion? TaggedReleasedVersion => _commits.Count != 0 ? FirstCommit.ReleasedVersion : null;
-
-    public bool IsLeaf => TaggedReleasedVersion != null || From.Count == 0;
 
     public IReadOnlyList<VersionHistorySegment> To => _younger.ToList();
 
@@ -122,20 +120,18 @@ internal sealed class VersionHistorySegment
             $"Segment {Id,-3} {LastCommit.CommitId.ObfuscatedSha} -> {FirstCommit.CommitId.ObfuscatedSha}  {commitsCount,5}   {Bumps.ToString() ?? "???"}   {toSegments,-16}  {fromSegments,-16}  {release}";
     }
 
-    private ApiChanges GetVersionBumps()
+    private ApiChanges GetApiChanges()
     {
         if (_bumps != null)
         {
-            return _bumps.Value;
+            return _bumps;
         }
 
         var bumps = new ApiChanges();
-
         foreach (var commit in _commits)
         {
             bumps.Aggregate(commit.Metadata.ApiChangeFlags);
         }
-
         _bumps = bumps;
         return bumps;
     }

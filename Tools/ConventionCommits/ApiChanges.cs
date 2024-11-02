@@ -1,6 +1,10 @@
-﻿namespace NoeticTools.Common.ConventionCommits;
+﻿using System;
+using System.Data.Common;
 
-public struct ApiChanges
+
+namespace NoeticTools.Common.ConventionCommits;
+
+public sealed class ApiChanges
 {
     /// <summary>
     ///     A breaking change has been made since last release.

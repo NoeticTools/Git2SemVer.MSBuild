@@ -36,10 +36,6 @@ public class Commit : ICommit
         MessageBody = messageBody;
         Metadata = metadata;
         ReleasedVersion = GetReleaseTag();
-
-        //ChangeType = // conventional commit
-        //ChangeDescription = // conventional commit
-        //HasBreakingChange = // conventional commit
     }
 
     public CommitId CommitId { get; }

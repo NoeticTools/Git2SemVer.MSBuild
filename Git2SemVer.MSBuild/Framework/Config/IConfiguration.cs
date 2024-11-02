@@ -27,15 +27,9 @@ internal interface IConfiguration
     int BuildNumber { get; set; }
 
     /// <summary>
-    ///     <see href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional commit</see> regular expression pattern
-    ///     to detect fix (patch), feature (minor), or breaking changes (major).
-    /// </summary>
-    string ConventionalCommitsPattern { get; set; }
-
-    /// <summary>
     ///     This configuration's schema version.
     /// </summary>
-    string Version { get; set; }
+    int Version { get; set; }
 
     Git2SemVerBuildLogEntry AddLogEntry(string buildNumber, bool hasLocalChanges, string branch, string lastCommitId, string path);
 

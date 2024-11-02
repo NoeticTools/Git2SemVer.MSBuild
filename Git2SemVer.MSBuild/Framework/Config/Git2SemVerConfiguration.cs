@@ -14,11 +14,12 @@ namespace NoeticTools.Git2SemVer.MSBuild.Framework.Config;
 internal class Git2SemVerConfiguration : IConfiguration
 {
     [JsonIgnore]
-    private static Git2SemVerConfiguration? _instance;
+    private static int _instanceHash;
 
     [JsonIgnore]
-    private static string _filePath = "";
+    private static Git2SemVerConfiguration? _instance;
 
+    [JsonPropertyOrder(100)]
     public List<Git2SemVerBuildLogEntry> BuildLog { get; set; } = [];
 
     /// <summary>
@@ -30,6 +31,7 @@ internal class Git2SemVerConfiguration : IConfiguration
     ///         Default is 0 (disabled).
     ///     </para>
     /// </remarks>
+    [JsonPropertyOrder(95)]
     public int BuildLogSizeLimit { get; set; }
 
     /// <summary>
@@ -43,45 +45,14 @@ internal class Git2SemVerConfiguration : IConfiguration
     ///         Used by <a cref="UncontrolledHost">UncontrolledHost.BuildNumber</a>/
     ///     </para>
     /// </remarks>
+    [JsonPropertyOrder(10)]
     public int BuildNumber { get; set; } = 1;
-
-    /// <summary>
-    ///     <see href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional commit</see> regular expression pattern
-    ///     to detect fix (patch), feature (minor), or breaking changes (major).
-    /// </summary>
-    public string ConventionalCommitsPattern { get; set; } =
-        @"^((?<fix>fix)|(?<feature>feat(ure)?)|(?<breakingChange>BREAKING CHANGE))(?<break>!)?:";
-
-    /// <summary>
-    ///     Path the configuration file.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Default file path is:
-    ///     </para>
-    ///     <code>
-    ///         &lt;SpecialFolder.LocalApplicationData&gt;/Git2SemVer/Configuration.json
-    ///     </code>
-    /// </remarks>
-    [JsonIgnore]
-    public static string FilePath
-    {
-        get
-        {
-            if (string.IsNullOrWhiteSpace(_filePath))
-            {
-                _filePath = GetFilePath();
-            }
-
-            return _filePath;
-        }
-        set => _filePath = value;
-    }
 
     /// <summary>
     ///     This configuration's schema version.
     /// </summary>
-    public string Version { get; set; } = "1.0.0";
+    [JsonPropertyOrder(1)]
+    public int Version { get; set; } = 1;
 
     public Git2SemVerBuildLogEntry AddLogEntry(string buildNumber, bool hasLocalChanges, string branch, string lastCommitId, string path)
     {
@@ -107,9 +78,6 @@ internal class Git2SemVerConfiguration : IConfiguration
     ///         Loads the user's Git2SemVer configuration file.
     ///         If the file does not exist it is created.
     ///     </para>
-    ///     <para>
-    ///         See <a cref="FilePath">FilePath</a> for details of the file's path.
-    ///     </para>
     /// </remarks>
     public static Git2SemVerConfiguration Load()
     {
@@ -118,7 +86,7 @@ internal class Git2SemVerConfiguration : IConfiguration
             return _instance;
         }
 
-        var filePath = FilePath;
+        var filePath = GetFilePath();
         if (File.Exists(filePath))
         {
             var json = File.ReadAllText(filePath);
@@ -129,6 +97,7 @@ internal class Git2SemVerConfiguration : IConfiguration
             _instance = new Git2SemVerConfiguration();
         }
 
+        _instanceHash = _instance!.GetCurrentHashCode();
         return _instance!;
     }
 
@@ -139,12 +108,14 @@ internal class Git2SemVerConfiguration : IConfiguration
     ///     <para>
     ///         Saves the user's Git2SemVer configuration file.
     ///     </para>
-    ///     <para>
-    ///         See <a cref="FilePath">FilePath</a> for details of the file's path.
-    ///     </para>
     /// </remarks>
     public void Save()
     {
+        if (_instanceHash == _instance!.GetCurrentHashCode())
+        {
+            return;
+        }
+
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
@@ -153,7 +124,12 @@ internal class Git2SemVerConfiguration : IConfiguration
 
         var json = JsonSerializer.Serialize(this, options);
         json = Regex.Unescape(json);
-        File.WriteAllText(FilePath, json);
+        File.WriteAllText(GetFilePath(), json);
+    }
+
+    private int GetCurrentHashCode()
+    {
+        return HashCode.Combine(BuildLog, BuildLogSizeLimit, BuildNumber, Version);
     }
 
     private static string GetFilePath()

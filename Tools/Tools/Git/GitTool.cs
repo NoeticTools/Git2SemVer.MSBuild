@@ -92,7 +92,7 @@ public class GitTool : IGitTool
 
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
-        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs, new CommitMessageMetadata()): null;
+        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs, commitMetadata) : null;
         if (commit != null)
         {
             commits.Add(commit);
