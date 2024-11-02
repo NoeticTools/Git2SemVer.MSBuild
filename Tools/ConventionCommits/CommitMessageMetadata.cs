@@ -55,7 +55,7 @@ public class CommitMessageMetadata
         {
             return changeTypeId;
         }
-        return CommitChangeTypeId.None;
+        return CommitChangeTypeId.Unknown;
     }
 
     public string Body { get; }

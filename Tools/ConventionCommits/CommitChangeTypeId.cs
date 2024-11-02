@@ -2,7 +2,7 @@
 
 public enum CommitChangeTypeId
 {
-    None = 0,
+    Unknown = 0,
     Feature,
     Fix,
     Build,

@@ -18,37 +18,33 @@ internal class ConventionalCommitsParserTests
     [TestCase("fix:  ")]
     [TestCase("fix!:  ")]
     [TestCase("fix(a scope):  ")]
-    public void MalformedSingleLineConventionalCommitInfoTest(string commitMessage)
+    public void MalformedSubjectLineConventionalCommitInfoTest(string commitSubject)
     {
-        var result = _target.Parse(commitMessage);
+        var result = _target.Parse(commitSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
+        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Unknown));
     }
 
     [TestCase("")]
-    [TestCase("\n\n\n")]
+    [TestCase(" ")]
+    [TestCase("feat")]
+    [TestCase("feat This is a commit without conventional commit info")]
     [TestCase("This is a commit without conventional commit info")]
-    [TestCase("Two lines\n")]
-    [TestCase("Three lines\n\n")]
-    public void MessageWithoutConventionalCommitInfoTest(string commitMessage)
+    public void SubjectLineWithoutConventionalCommitInfoTest(string commitSubject)
     {
-        var result = _target.Parse(commitMessage);
+        var result = _target.Parse(commitSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
+        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Unknown));
     }
 
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
 
                  Body - paragraph2
 
                  Body - paragraph2
                  """,
-                 CommitChangeTypeId.Feature,
-                 "Added a real nice feature",
                  """
                  Body - paragraph1
 
@@ -58,40 +54,31 @@ internal class ConventionalCommitsParserTests
                  """)]
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
                  """,
-                 CommitChangeTypeId.Feature,
-                 "Added a real nice feature",
                  """
                  Body - paragraph1
                  """)]
-    public void MultiLineWithFooterTest(string commitMessage,
-                                        CommitChangeTypeId expectedChangeTypeId,
-                                        string expectedChangeDescription,
+    public void BodyWithFooterTest(string messageBody,
                                         string expectedBody)
     {
-        var result = _target.Parse(commitMessage);
+        var result = _target.Parse("feat: Added a real nice feature", messageBody);
 
-        Assert.That(result.ChangeType, Is.EqualTo(expectedChangeTypeId));
+        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.False);
-        Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
+        Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
         Assert.That(result.FooterKeyValues, Is.Empty);
     }
 
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
 
                  Body - paragraph2
 
                  Body - paragraph2
                  """,
-                 "Added a real nice feature",
                  """
                  Body - paragraph1
 
@@ -103,49 +90,37 @@ internal class ConventionalCommitsParserTests
                  false)]
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
                  """,
-                 "Added a real nice feature",
                  "Body - paragraph1",
                  "",
                  false)]
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
 
                  BREAKING CHANGE: Oops
                  """,
-                 "Added a real nice feature",
                  "Body - paragraph1",
                  "BREAKING CHANGE|Oops",
                  true)]
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
 
                  BREAKING CHANGE: Oops very sorry
 
                  """,
-                 "Added a real nice feature",
                  "Body - paragraph1",
                  "BREAKING CHANGE|Oops very sorry",
                  true)]
     [TestCase(
                  """
-                 feat: Added a real nice feature
-
                  Body - paragraph1
 
                  BREAKING CHANGE: Oops very sorry
                  ref: 1234
                  """,
-                 "Added a real nice feature",
                  "Body - paragraph1",
                  """
                  BREAKING CHANGE|Oops very sorry
@@ -154,25 +129,21 @@ internal class ConventionalCommitsParserTests
                  true)]
     [TestCase(
                  """
-                 feat!: Added a real nice feature
-
                  Body - paragraph1
                  """,
-                 "Added a real nice feature",
                  "Body - paragraph1",
                  "",
                  true)]
-    public void MultiLineWithoutFooterTest(string commitMessage,
-                                           string expectedChangeDescription,
+    public void MultiLineWithoutFooterTest(string messageBody,
                                            string expectedBody,
                                            string expectedFooter,
                                            bool hasBreakingChange)
     {
-        var result = _target.Parse(commitMessage);
+        var result = _target.Parse("feat: Added a real nice feature", messageBody);
 
         Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
-        Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
+        Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
 
         var expectedFooterLines = expectedFooter.Split('\n');
@@ -195,44 +166,26 @@ internal class ConventionalCommitsParserTests
         _target = new ConventionalCommitsParser();
     }
 
-    [TestCase("feat: Added a real nice feature",
-                 CommitChangeTypeId.Feature,
-                 "Added a real nice feature")]
-    [TestCase("fix: Fixed nasty bug",
-                 CommitChangeTypeId.Fix,
-                 "Fixed nasty bug")]
-    [TestCase("build: Build work",
-                 CommitChangeTypeId.Build,
-                 "Build work")]
-    [TestCase("chore: Did something",
-                 CommitChangeTypeId.Chore,
-                 "Did something")]
-    [TestCase("ci: Did something",
-                 CommitChangeTypeId.ContinuousIntegration,
-                 "Did something")]
-    [TestCase("docs: Did something",
-                 CommitChangeTypeId.Documentation,
-                 "Did something")]
-    [TestCase("style: Did something",
-                 CommitChangeTypeId.Style,
-                 "Did something")]
-    [TestCase("refactor: Did something",
-                 CommitChangeTypeId.Refactoring,
-                 "Did something")]
-    [TestCase("perf: Did something\n",
-                 CommitChangeTypeId.Performance,
-                 "Did something")]
-    [TestCase("test: Did something\n\n",
-                 CommitChangeTypeId.Testing,
-                 "Did something")]
-    public void SingleLineConventionalCommitInfoTest(string commitMessage,
+    [TestCase("feat: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", false)]
+    [TestCase("feat!: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", true)]
+    [TestCase("fix: Fixed nasty bug", CommitChangeTypeId.Fix, "Fixed nasty bug", false)]
+    [TestCase("build: Build work", CommitChangeTypeId.Build, "Build work", false)]
+    [TestCase("chore: Did something", CommitChangeTypeId.Chore, "Did something", false)]
+    [TestCase("ci: Did something", CommitChangeTypeId.ContinuousIntegration, "Did something", false)]
+    [TestCase("docs: Did something", CommitChangeTypeId.Documentation, "Did something", false)]
+    [TestCase("style: Did something", CommitChangeTypeId.Style, "Did something", false)]
+    [TestCase("refactor: Did something", CommitChangeTypeId.Refactoring, "Did something", false)]
+    [TestCase("perf: Did something ", CommitChangeTypeId.Performance, "Did something ", false)]
+    [TestCase("test: Did something", CommitChangeTypeId.Testing, "Did something", false)]
+    public void SubjectWithConventionalCommitInfoTest(string messageSubject,
                                                      CommitChangeTypeId expectedChangeTypeId,
-                                                     string expectedChangeDescription)
+                                                     string expectedChangeDescription,
+                                                     bool hasBreakingChange)
     {
-        var result = _target.Parse(commitMessage);
+        var result = _target.Parse(messageSubject, "");
 
         Assert.That(result.ChangeType, Is.EqualTo(expectedChangeTypeId));
-        Assert.That(result.ApiChangeFlags.BreakingChange, Is.False);
+        Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.Empty);
         Assert.That(result.FooterKeyValues, Is.Empty);

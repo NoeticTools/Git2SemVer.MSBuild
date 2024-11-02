@@ -8,11 +8,17 @@ namespace NoeticTools.Common.ConventionCommits
 {
     public sealed class ConventionalCommitsParser
     {
-        private readonly Regex _regex = new Regex("""
+        private readonly Regex _summaryRegex = new Regex("""
                                                   \A
                                                     (?<ChangeType>(fix|feat|build|chore|ci|docs|style|refactor|perf|test))
                                                       (\((?<scope>[\w\-\.]+)\))?(?<breakFlag>!)?: \s+(?<desc>\w+[^(\n|\r\n)]*)
-                                                    ( (\n|\r\n){2} (?<body>.*?) )?
+                                                  \Z
+                                                  """,
+                                                  RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
+
+        private readonly Regex _bodyRegex = new Regex("""
+                                                  \A
+                                                    ( (?<body>.*?) )?
                                                     ( (\n|\r\n) 
                                                       ( 
                                                         (\n|\r\n) 
@@ -31,23 +37,19 @@ namespace NoeticTools.Common.ConventionCommits
 
         public CommitMessageMetadata Parse(string commitSummary, string commitMessageBody)
         {
-            return Parse(commitSummary + "\n" + commitMessageBody);
-        }
-
-        public CommitMessageMetadata Parse(string commitMessage)
-        {
-            var match = _regex.Match(commitMessage);
-
-            if (!match.Success)
+            var summaryMatch = _summaryRegex.Match(commitSummary);
+            if (!summaryMatch.Success)
             {
                 return new CommitMessageMetadata();
             }
+            var changeType = summaryMatch.GetGroupValue("ChangeType");
+            var breakingChangeFlagged = summaryMatch.GetGroupValue("breakFlag").Length > 0;
+            var changeDescription = summaryMatch.GetGroupValue("desc");
 
-            var changeType = match.GetGroupValue("ChangeType");
-            var breakingChangeFlagged = match.GetGroupValue("breakFlag").Length > 0;
-            var changeDescription = match.GetGroupValue("desc");
-            var body = match.GetGroupValue("body");
-            var keyValuePairs = GetFooterKeyValuePairs(match);
+            var bodyMatch = _bodyRegex.Match(commitMessageBody);
+            var body = bodyMatch.GetGroupValue("body");
+            var keyValuePairs = GetFooterKeyValuePairs(bodyMatch);
+
             return new CommitMessageMetadata(changeType, breakingChangeFlagged, changeDescription, body, keyValuePairs);
         }
 
