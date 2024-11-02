@@ -34,7 +34,7 @@ internal abstract class GitHistoryWalkingTestsBase
     protected void SetupBase()
     {
         VersionHistorySegment.Reset();
-        ShaObfuscator.Clear();
+        CommitObfuscator.Clear();
 
         Logger = new NUnitTaskLogger(false) { Level = LoggingLevel.Trace };
         Repository = new Mock<ICommitsRepository>();

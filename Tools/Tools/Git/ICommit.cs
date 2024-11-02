@@ -16,4 +16,6 @@ public interface ICommit
     SemVersion? ReleasedVersion { get; }
 
     string MessageBody { get; }
+
+    string Refs { get; }
 }

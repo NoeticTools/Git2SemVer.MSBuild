@@ -92,28 +92,15 @@ public class GitTool : IGitTool
 
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
-        var commit = line.Contains($"{ControlCharacterConstants.US}.|") ? new Commit(sha, parents, summary, body, refs, commitMetadata) : null;
+        var commit = line.Contains($"{ControlCharacterConstants.US}.|") 
+            ? new Commit(sha, parents, summary, body, refs, commitMetadata) 
+            : null;
         if (commit != null)
         {
             commits.Add(commit);
         }
 
-        obfuscatedGitLog.Add(GetObfuscatedLogLine(graph, commit, refs));
-    }
-
-    private string GetObfuscatedLogLine(string graph, Commit? commit, string refs)
-    {
-        if (commit == null)
-        {
-            return $"{graph,-12}";
-        }
-
-        var redactedRefs = new Regex(@"HEAD -> \S+?(?=[,\)])").Replace(refs, "HEAD -> REDACTED_BRANCH");
-        var redactedRefs2 = new Regex(@"origin\/\S+?(?=[,\)])").Replace(redactedRefs, "origin/REDACTED_BRANCH");
-        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => x.ObfuscatedSha)) : string.Empty;
-        var sha = commit.CommitId.ObfuscatedSha;
-        //var summary = commit.Metadata.ChangeType == CommitChangeTypeId.Unknown ? "REDACTED" : commit.Metadata.;
-        return $"{graph,-15} \u001f.|{sha}|{parentShas}|\u0002REDACTED\u0003|\u0002REDACTED\u0003|{redactedRefs2}|\u001e";
+        obfuscatedGitLog.Add(CommitObfuscator.GetObfuscatedLogLine(graph, commit));
     }
 
     public (int returnCode, string stdOutput) Run(string arguments)
