@@ -115,6 +115,7 @@ internal sealed class AddCommand : ISetupCommand
         {
             _logger.LogTrace("`{0}` already existed. Overwriting files in directory.", sharedDirectory.Name);
         }
+
         sharedDirectory.Create();
 
         _embeddedResources.WriteResourceFile(Git2SemverConstants.SharedVersionJsonPropertiesFilename, sharedDirectory);

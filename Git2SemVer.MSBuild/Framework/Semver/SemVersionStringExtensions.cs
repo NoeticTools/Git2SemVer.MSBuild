@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using Semver;
-#pragma warning disable SYSLIB1045
 
+
+#pragma warning disable SYSLIB1045
 
 namespace NoeticTools.Git2SemVer.MSBuild.Framework.Semver;
 

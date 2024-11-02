@@ -1,7 +1,8 @@
 ﻿using NoeticTools.Common.Tools.Git;
 using NoeticTools.Testing.Common;
-#pragma warning disable NUnit2045
 
+
+#pragma warning disable NUnit2045
 
 namespace NoeticTools.Git2SemVer.IntegrationTests;
 

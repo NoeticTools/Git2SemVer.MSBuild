@@ -33,5 +33,4 @@ internal sealed class Services
 
         return Path.Combine(folderPath, "Git2SemVer.Tool.log");
     }
-
 }

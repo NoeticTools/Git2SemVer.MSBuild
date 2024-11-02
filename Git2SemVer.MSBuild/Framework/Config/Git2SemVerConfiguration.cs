@@ -1,7 +1,6 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
 using System.Text.RegularExpressions;
 using System.Text.Unicode;
 using NoeticTools.Git2SemVer.MSBuild.Tools.CI;
@@ -102,11 +101,6 @@ internal sealed class Git2SemVerConfiguration : IConfiguration
         return _instance!;
     }
 
-    internal static Git2SemVerConfiguration Load(string json)
-    {
-        return JsonSerializer.Deserialize<Git2SemVerConfiguration>(json)!;
-    }
-
     /// <summary>
     ///     Save configuration to file.
     /// </summary>
@@ -125,7 +119,7 @@ internal sealed class Git2SemVerConfiguration : IConfiguration
         var options = new JsonSerializerOptions
         {
             WriteIndented = true,
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
         };
 
         var json = JsonSerializer.Serialize(this, options);
@@ -147,5 +141,10 @@ internal sealed class Git2SemVerConfiguration : IConfiguration
         }
 
         return Path.Combine(folderPath, "Configuration.json");
+    }
+
+    internal static Git2SemVerConfiguration Load(string json)
+    {
+        return JsonSerializer.Deserialize<Git2SemVerConfiguration>(json)!;
     }
 }

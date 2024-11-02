@@ -19,7 +19,7 @@ internal sealed class AddPreconditionValidator : IAddPreconditionValidator
     private readonly IProjectDocumentReader _projectDocumentReader;
 
     public AddPreconditionValidator(IProjectDocumentReader projectDocumentReader,
-                                      IConsoleIO console, ILogger logger)
+                                    IConsoleIO console, ILogger logger)
     {
         _projectDocumentReader = projectDocumentReader;
         _console = console;

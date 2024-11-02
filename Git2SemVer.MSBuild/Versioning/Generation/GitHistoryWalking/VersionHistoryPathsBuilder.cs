@@ -6,8 +6,8 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.GitHistoryWalking
 #pragma warning disable CS1591
 internal sealed class VersionHistoryPathsBuilder
 {
-    private readonly IReadOnlyList<VersionHistorySegment> _segments;
     private readonly ILogger _logger;
+    private readonly IReadOnlyList<VersionHistorySegment> _segments;
 
     public VersionHistoryPathsBuilder(IReadOnlyList<VersionHistorySegment> segments, ILogger logger)
     {
@@ -17,7 +17,7 @@ internal sealed class VersionHistoryPathsBuilder
 
     public HistoryPaths Build()
     {
-        _logger.LogDebug($"Building git paths to last releases from segments.");
+        _logger.LogDebug("Building git paths to last releases from segments.");
 
         var paths = FindPaths();
         return new HistoryPaths(paths, _segments);

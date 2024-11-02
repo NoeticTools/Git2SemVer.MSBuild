@@ -36,7 +36,8 @@ public interface IVersionOutputs
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         A build host (<see cref="IBuildHost">IBuildHost</see>) may include BuildContext in the <see cref="IBuildHost.BuildId"/> if a unique build number is not available.
+    ///         A build host (<see cref="IBuildHost">IBuildHost</see>) may include BuildContext in the
+    ///         <see cref="IBuildHost.BuildId" /> if a unique build number is not available.
     ///     </para>
     /// </remarks>
     string BuildContext { get; set; }

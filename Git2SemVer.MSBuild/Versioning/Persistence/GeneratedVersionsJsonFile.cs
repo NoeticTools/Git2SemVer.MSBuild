@@ -10,18 +10,6 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 
 internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
 {
-    private sealed class VersioningInfo
-    {
-        /// <summary>
-        ///     This version info's schema version.
-        /// </summary>
-        [JsonPropertyOrder(1)]
-        public int Rev { get; set; } = 1;
-
-        [JsonPropertyOrder(2)]
-        public VersionOutputs? Git2SemVerVersionInfo { get; set; }
-    }
-
     public static string GetContent(VersionOutputs outputs)
     {
         var options = new JsonSerializerOptions
@@ -31,20 +19,9 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
             IncludeFields = false
         };
 
-        var versionInfo = new VersioningInfo() { Git2SemVerVersionInfo = outputs };
+        var versionInfo = new VersioningInfo { Git2SemVerVersionInfo = outputs };
         var json = JsonSerializer.Serialize(versionInfo, options);
         return json;
-    }
-
-    private string LoadJson(string directory)
-    {
-        var propertiesFilePath = GetFilePath(directory);
-        if (!File.Exists(propertiesFilePath))
-        {
-            return "";
-        }
-
-        return File.ReadAllText(propertiesFilePath);
     }
 
     public VersionOutputs Load(string directory)
@@ -79,5 +56,28 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
     private static string GetFilePath(string directory)
     {
         return Path.Combine(directory, Git2SemverConstants.SharedVersionJsonPropertiesFilename);
+    }
+
+    private string LoadJson(string directory)
+    {
+        var propertiesFilePath = GetFilePath(directory);
+        if (!File.Exists(propertiesFilePath))
+        {
+            return "";
+        }
+
+        return File.ReadAllText(propertiesFilePath);
+    }
+
+    private sealed class VersioningInfo
+    {
+        [JsonPropertyOrder(2)]
+        public VersionOutputs? Git2SemVerVersionInfo { get; set; }
+
+        /// <summary>
+        ///     This version info's schema version.
+        /// </summary>
+        [JsonPropertyOrder(1)]
+        public int Rev { get; set; } = 1;
     }
 }

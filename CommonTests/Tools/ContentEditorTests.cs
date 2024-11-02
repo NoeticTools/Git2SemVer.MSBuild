@@ -43,9 +43,9 @@ public class ContentEditorTests
                  
                    <Import Project="$(Git2SemVerSolutionDirectory)Directory.Build.props" />
                    <Import Project="$(Git2SemVerSolutionDirectory)Git2SemVer.MSBuild/Build/NoeticTools.Git2SemVer.MSBuild.props" />
-                 
+
                  </Project>
-                 
+
                  """)]
     [TestCase("<Git2SemVerSolutionDirectory>$(MSBuildThisFileDirectory)../../</Git2SemVerSolutionDirectory>",
                  """

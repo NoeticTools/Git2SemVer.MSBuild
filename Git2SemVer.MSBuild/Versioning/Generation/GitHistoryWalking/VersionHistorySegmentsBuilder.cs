@@ -64,22 +64,6 @@ internal sealed class VersionHistorySegmentsBuilder
         }
     }
 
-    private void OnBranchFromExistingSegment(Commit commit)
-    {
-        var intersectingSegment = _commitsCache[commit.CommitId];
-        var branchedFromSegment = intersectingSegment.BranchedFrom(_segment, commit);
-        if (branchedFromSegment == null)
-        {
-            return;
-        }
-
-        _segments.Add(branchedFromSegment.Id, branchedFromSegment);
-        foreach (var segmentCommit in branchedFromSegment.Commits)
-        {
-            _commitsCache[segmentCommit.CommitId] = branchedFromSegment;
-        }
-    }
-
     private SegmentWalkResult NextCommit(Commit commit)
     {
         if (_commitsCache.ContainsKey(commit.CommitId))
@@ -97,6 +81,7 @@ internal sealed class VersionHistorySegmentsBuilder
             {
                 _logger.LogTrace("Commit {0} has release tag '{1}'.", commit.CommitId.ObfuscatedSha, commit.ReleasedVersion.ToString());
             }
+
             return SegmentWalkResult.FoundStart;
         }
 
@@ -116,25 +101,6 @@ internal sealed class VersionHistorySegmentsBuilder
         return SegmentWalkResult.Continue;
     }
 
-    private void OnMergeCommit(Commit commit)
-    {
-        var mergedBranchCommit = commit.Parents[0];
-        var continuingBranchCommit = commit.Parents[1];
-        using (_logger.EnterLogScope())
-        {
-            _logger.LogDebug($"Commit {commit.CommitId.ObfuscatedSha} is a merge commit.");
-        }
-
-        _logger.LogTrace($"Continuing branch:");
-        NextCommitBeforeMerge(continuingBranchCommit);
-
-        _logger.LogDebug($"Commit {commit.CommitId.ObfuscatedSha} is a merge commit from branch commit {mergedBranchCommit.ObfuscatedSha}:");
-        using (_logger.EnterLogScope())
-        {
-            NextCommitBeforeMerge(mergedBranchCommit);
-        }
-    }
-
     private void NextCommitBeforeMerge(CommitId parent)
     {
         var parentCommit = _commits.Get(parent);
@@ -147,6 +113,41 @@ internal sealed class VersionHistorySegmentsBuilder
         {
             var newSegmentVisitor = new VersionHistorySegmentsBuilder(_segment.CreateMergedSegment(), this);
             newSegmentVisitor.BuildSegmentsTo(parentCommit);
+        }
+    }
+
+    private void OnBranchFromExistingSegment(Commit commit)
+    {
+        var intersectingSegment = _commitsCache[commit.CommitId];
+        var branchedFromSegment = intersectingSegment.BranchedFrom(_segment, commit);
+        if (branchedFromSegment == null)
+        {
+            return;
+        }
+
+        _segments.Add(branchedFromSegment.Id, branchedFromSegment);
+        foreach (var segmentCommit in branchedFromSegment.Commits)
+        {
+            _commitsCache[segmentCommit.CommitId] = branchedFromSegment;
+        }
+    }
+
+    private void OnMergeCommit(Commit commit)
+    {
+        var mergedBranchCommit = commit.Parents[0];
+        var continuingBranchCommit = commit.Parents[1];
+        using (_logger.EnterLogScope())
+        {
+            _logger.LogDebug($"Commit {commit.CommitId.ObfuscatedSha} is a merge commit.");
+        }
+
+        _logger.LogTrace("Continuing branch:");
+        NextCommitBeforeMerge(continuingBranchCommit);
+
+        _logger.LogDebug($"Commit {commit.CommitId.ObfuscatedSha} is a merge commit from branch commit {mergedBranchCommit.ObfuscatedSha}:");
+        using (_logger.EnterLogScope())
+        {
+            NextCommitBeforeMerge(mergedBranchCommit);
         }
     }
 

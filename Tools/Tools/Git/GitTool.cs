@@ -3,9 +3,9 @@ using Injectio.Attributes;
 using NoeticTools.Common.ConventionCommits;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
-using Semver;
-#pragma warning disable SYSLIB1045
 
+
+#pragma warning disable SYSLIB1045
 
 namespace NoeticTools.Common.Tools.Git;
 
@@ -24,12 +24,13 @@ public class GitTool : IGitTool
             (\s\((?<refs>.*?)\))?
            \|$)?
         """;
-        
+
+    private const char RecordSeparator = ControlCharacterConstants.RS;
+    private readonly ConventionalCommitsParser _conventionalCommitParser;
+    private readonly string _gitLogFormat;
+
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
-    private readonly string _gitLogFormat;
-    private readonly ConventionalCommitsParser _conventionalCommitParser;
-    private const char RecordSeparator = ControlCharacterConstants.RS;
 
     public GitTool(ILogger logger)
     {
@@ -92,8 +93,8 @@ public class GitTool : IGitTool
 
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
-        var commit = line.Contains($"{ControlCharacterConstants.US}.|") 
-            ? new Commit(sha, parents, summary, body, refs, commitMetadata) 
+        var commit = line.Contains($"{ControlCharacterConstants.US}.|")
+            ? new Commit(sha, parents, summary, body, refs, commitMetadata)
             : null;
         if (commit != null)
         {
@@ -101,6 +102,19 @@ public class GitTool : IGitTool
         }
 
         obfuscatedGitLog.Add(CommitObfuscator.GetObfuscatedLogLine(graph, commit));
+    }
+
+    public static string ParseStatusResponseBranchName(string stdOutput)
+    {
+        var regex = new Regex(@"^## (?<branchName>[a-zA-Z0-9!$*\._\/-]+?)(\.\.\..*)?\s*?$", RegexOptions.Multiline);
+        var match = regex.Match(stdOutput);
+
+        if (!match.Success)
+        {
+            throw new Git2SemVerGitOperationException($"Unable to read branch name from Git status response '{stdOutput}'.\n");
+        }
+
+        return match.Groups["branchName"].Value;
     }
 
     public (int returnCode, string stdOutput) Run(string arguments)
@@ -131,17 +145,10 @@ public class GitTool : IGitTool
         return ParseStatusResponseBranchName(result.stdOutput);
     }
 
-    public static string ParseStatusResponseBranchName(string stdOutput)
+    private bool GetHasLocalChanges()
     {
-        var regex = new Regex(@"^## (?<branchName>[a-zA-Z0-9!$*\._\/-]+?)(\.\.\..*)?\s*?$", RegexOptions.Multiline);
-        var match = regex.Match(stdOutput);
-        
-        if (!match.Success)
-        {
-            throw new Git2SemVerGitOperationException($"Unable to read branch name from Git status response '{stdOutput}'.\n");
-        }
-
-        return match.Groups["branchName"].Value;
+        var result = Run("status -u -s --porcelain");
+        return result.stdOutput.Length > 0;
     }
 
     private string GetVersion()
@@ -154,11 +161,5 @@ public class GitTool : IGitTool
         }
 
         return result.stdOutput;
-    }
-
-    private bool GetHasLocalChanges()
-    {
-        var result = Run("status -u -s --porcelain");
-        return result.stdOutput.Length > 0;
     }
 }

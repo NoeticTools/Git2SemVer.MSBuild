@@ -8,11 +8,11 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tools.CI;
 internal abstract class BuildHostBase : ToolBase
 {
     private readonly ILogger _logger;
+    private string _buildContext = "UNKNOWN";
     private string _buildIdFormat = "";
+    private string _buildNumber = "UNKNOWN";
     private Func<IReadOnlyList<string>> _buildNumberFunc;
     private Func<IReadOnlyList<string>> _defaultBuildNumberFunc;
-    private string _buildNumber = "UNKNOWN";
-    private string _buildContext = "UNKNOWN";
 
     protected BuildHostBase(ILogger logger)
     {
@@ -30,6 +30,7 @@ internal abstract class BuildHostBase : ToolBase
             {
                 return;
             }
+
             _buildContext = value;
             _logger.LogDebug("Build context set to {0}.", _buildContext);
         }
@@ -46,6 +47,7 @@ internal abstract class BuildHostBase : ToolBase
             {
                 return;
             }
+
             _buildIdFormat = value;
             _logger.LogDebug("Build ID format set to {0}.", _buildIdFormat);
             SetBuildIdFunc();
@@ -61,9 +63,22 @@ internal abstract class BuildHostBase : ToolBase
             {
                 return;
             }
+
             _buildNumber = value;
             _logger.LogDebug("Build number set to {0}.", _buildNumber);
         }
+    }
+
+    private IReadOnlyList<string> CustomBuildIdFormat()
+    {
+        if (string.IsNullOrWhiteSpace(BuildIdFormat))
+        {
+            throw new Git2SemVerConfigurationException("Host `BuildIdFormat` is required to generate a custom build ID.");
+        }
+
+        var buildId = BuildIdFormat.Replace("BUILD_NUMBER", BuildNumber)
+                                   .Replace("BUILD_CONTEXT", BuildContext);
+        return buildId.Split('.');
     }
 
     private void SetBuildIdFunc()
@@ -79,17 +94,5 @@ internal abstract class BuildHostBase : ToolBase
             _defaultBuildNumberFunc = value;
             SetBuildIdFunc();
         }
-    }
-
-    private IReadOnlyList<string> CustomBuildIdFormat()
-    {
-        if (string.IsNullOrWhiteSpace(BuildIdFormat))
-        {
-            throw new Git2SemVerConfigurationException("Host `BuildIdFormat` is required to generate a custom build ID.");
-        }
-
-        var buildId = BuildIdFormat.Replace("BUILD_NUMBER", BuildNumber)
-                                   .Replace("BUILD_CONTEXT", BuildContext);
-        return buildId.Split('.');
     }
 }

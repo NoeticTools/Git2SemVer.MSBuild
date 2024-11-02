@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 
-namespace NoeticTools.Common
+namespace NoeticTools.Common;
+
+public static class RegexMatchExtensions
 {
-    public static class RegexMatchExtensions
+    public static string GetGroupValue(this Match match, string groupName)
     {
-        public static string GetGroupValue(this Match match, string groupName)
+        if (!match.Success)
         {
-            if (!match.Success)
-            {
-                return "";
-            }
-            var group = match.Groups[groupName];
-            return group.Success ? group.Value : "";
+            return "";
         }
+
+        var group = match.Groups[groupName];
+        return group.Success ? group.Value : "";
     }
 }

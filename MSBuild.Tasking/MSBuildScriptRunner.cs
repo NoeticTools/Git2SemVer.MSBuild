@@ -28,6 +28,8 @@ public sealed class MSBuildScriptRunner
         _logger = logger;
     }
 
+    public static IReadOnlyList<string> ReferencedAssemblies { get; private set; }
+
     public async Task RunScript(object globalContext,
                                 string scriptPath,
                                 IReadOnlyList<Type> metadataReferences,
@@ -106,6 +108,4 @@ public sealed class MSBuildScriptRunner
         scriptOptions = scriptOptions.AddImports(namespaces);
         return scriptOptions;
     }
-
-    public static IReadOnlyList<string> ReferencedAssemblies { get; private set; }
 }

@@ -1,11 +1,11 @@
-﻿using NoeticTools.Common.Tools.Git;
+﻿using System.Text.Json.Serialization;
+using NoeticTools.Common.Tools.Git;
 using Semver;
-using System.Text.Json.Serialization;
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning;
 
-[JsonDerivedType(typeof(GitOutputs), typeDiscriminator: "GitOutputs")]
+[JsonDerivedType(typeof(GitOutputs), "GitOutputs")]
 public interface IGitOutputs
 {
     /// <summary>

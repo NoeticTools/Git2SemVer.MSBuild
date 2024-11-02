@@ -9,8 +9,6 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.GitHistoryW
 
 internal abstract class GitHistoryWalkingTestsBase
 {
-    protected Mock<ICommitsRepository> Repository = null!;
-    protected NUnitTaskLogger Logger = null!;
     private GitTool _gitTool = null!;
 
     private List<Commit> GetCommits(string gitLog)
@@ -20,8 +18,12 @@ internal abstract class GitHistoryWalkingTestsBase
         {
             _gitTool.ParseLogLine(logLine.Trim(), new List<string>(), commits);
         }
+
         return commits;
     }
+
+    protected Mock<ICommitsRepository> Repository = null!;
+    protected NUnitTaskLogger Logger = null!;
 
     protected Dictionary<string, Commit> SetupGitRepository(LoggedScenario scenario)
     {

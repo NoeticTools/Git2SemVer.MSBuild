@@ -9,7 +9,6 @@ using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 using NoeticTools.MSBuild.Tasking.Logging;
-using ILogger = NoeticTools.Common.Logging.ILogger;
 
 
 // ReSharper disable InconsistentNaming
@@ -215,10 +214,10 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     /// </summary>
     public override bool Execute()
     {
-        var logger = new CompositeLogger() { Level = LoggingLevel.Trace };
-        logger.Add(new MSBuildTaskLogger(Log) {Level = LoggingLevel.Trace});
+        var logger = new CompositeLogger { Level = LoggingLevel.Trace };
+        logger.Add(new MSBuildTaskLogger(Log) { Level = LoggingLevel.Trace });
         var logFilePath = Path.Combine(Input_Env_IntermediateOutputDirectory, "Git2SemVer.MSBuild.log");
-        logger.Add(new FileLogger(logFilePath) {Level = LoggingLevel.Trace});
+        logger.Add(new FileLogger(logFilePath) { Level = LoggingLevel.Trace });
 
         try
         {
@@ -239,8 +238,8 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
 
             var defaultBuilderFactory = new DefaultVersionBuilderFactory(logger);
             var scriptBuilder = new ScriptVersionBuilder(logger);
-            var versionGenerator = new VersionGenerator(inputs, host, 
-                                                        new GeneratedVersionsJsonFile(), 
+            var versionGenerator = new VersionGenerator(inputs, host,
+                                                        new GeneratedVersionsJsonFile(),
                                                         new GeneratedVersionsPropsFile(),
                                                         gitTool, gitPathsFinder, defaultBuilderFactory,
                                                         scriptBuilder, logger);

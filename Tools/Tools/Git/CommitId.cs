@@ -15,6 +15,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
         {
             throw new Git2SemVerGitLogParsingException("Empty commit SHA.");
         }
+
         Id = sha;
         ShortSha = ToShortSha(sha);
         ObfuscatedSha = CommitObfuscator.GetObfuscatedSha(Id);

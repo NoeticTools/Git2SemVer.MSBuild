@@ -1,23 +1,19 @@
-﻿using System.Collections.Generic;
-
-namespace NoeticTools.Common.ConventionCommits;
+﻿namespace NoeticTools.Common.ConventionCommits;
 
 public class CommitMessageMetadata
 {
-    public string ChangeDescription { get; }
-
     private readonly Dictionary<string, CommitChangeTypeId> _changeTypeIdLookup = new()
     {
-        {"feat", CommitChangeTypeId.Feature},
-        {"fix", CommitChangeTypeId.Fix},
-        {"build", CommitChangeTypeId.Build},
-        {"chore", CommitChangeTypeId.Chore},
-        {"ci", CommitChangeTypeId.ContinuousIntegration},
-        {"docs", CommitChangeTypeId.Documentation},
-        {"style", CommitChangeTypeId.Style},
-        {"refactor", CommitChangeTypeId.Refactoring},
-        {"perf", CommitChangeTypeId.Performance},
-        {"test", CommitChangeTypeId.Testing},
+        { "feat", CommitChangeTypeId.Feature },
+        { "fix", CommitChangeTypeId.Fix },
+        { "build", CommitChangeTypeId.Build },
+        { "chore", CommitChangeTypeId.Chore },
+        { "ci", CommitChangeTypeId.ContinuousIntegration },
+        { "docs", CommitChangeTypeId.Documentation },
+        { "style", CommitChangeTypeId.Style },
+        { "refactor", CommitChangeTypeId.Refactoring },
+        { "perf", CommitChangeTypeId.Performance },
+        { "test", CommitChangeTypeId.Testing }
     };
 
     public CommitMessageMetadata(string changeType, bool breakingChangeFlagged, string changeDescription, string body,
@@ -39,15 +35,19 @@ public class CommitMessageMetadata
         ApiChangeFlags = apiChanges;
     }
 
-    public ApiChanges ApiChangeFlags { get; }
-
-    public ILookup<string, string> FooterKeyValues { get; }
-
     public CommitMessageMetadata() : this("", false, "", "", [])
     {
     }
 
+    public ApiChanges ApiChangeFlags { get; }
+
+    public string Body { get; }
+
+    public string ChangeDescription { get; }
+
     public CommitChangeTypeId ChangeType { get; }
+
+    public ILookup<string, string> FooterKeyValues { get; }
 
     private CommitChangeTypeId ToChangeTypeId(string value)
     {
@@ -55,8 +55,7 @@ public class CommitMessageMetadata
         {
             return changeTypeId;
         }
+
         return CommitChangeTypeId.Unknown;
     }
-
-    public string Body { get; }
 }

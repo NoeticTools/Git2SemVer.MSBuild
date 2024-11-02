@@ -2,7 +2,6 @@
 using NoeticTools.Common.Logging;
 using NoeticTools.Git2SemVer.MSBuild.IntegrationTests.Framework;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 using Task = System.Threading.Tasks.Task;
 

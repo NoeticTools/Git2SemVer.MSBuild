@@ -1,57 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoeticTools.Git2SemVer.MSBuild.Framework.Config;
+﻿using NoeticTools.Git2SemVer.MSBuild.Framework.Config;
+
+
 #pragma warning disable NUnit2045
 
+namespace NoeticTools.Git2SemVer.MSBuild.Tests.Framework.Configuration;
 
-namespace NoeticTools.Git2SemVer.MSBuild.Tests.Framework.Configuration
+[TestFixture]
+internal class Git2SemVerConfigurationTests
 {
-    [TestFixture]
-    internal class Git2SemVerConfigurationTests
+    [Test]
+    public void V0CanLoadTest()
     {
-        [Test]
-        public void V0CanLoadTest()
-        {
-            var json = """
-                       {
-                         "Version": "1.0.0",
-                         "BuildNumber": 1639,
-                         "BuildLogSizeLimit": 0,
-                         "BuildLog": []
-                       }
-                       """;
+        var json = """
+                   {
+                     "Version": "1.0.0",
+                     "BuildNumber": 1639,
+                     "BuildLogSizeLimit": 0,
+                     "BuildLog": []
+                   }
+                   """;
 
-            var result = Git2SemVerConfiguration.Load(json);
+        var result = Git2SemVerConfiguration.Load(json);
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Rev, Is.EqualTo(1));
-            Assert.That(result.BuildNumber, Is.EqualTo(1639));
-            Assert.That(result.BuildLogSizeLimit, Is.EqualTo(0));
-            Assert.That(result.BuildLog, Is.Empty);
-        }
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.Rev, Is.EqualTo(1));
+        Assert.That(result.BuildNumber, Is.EqualTo(1639));
+        Assert.That(result.BuildLogSizeLimit, Is.EqualTo(0));
+        Assert.That(result.BuildLog, Is.Empty);
+    }
 
-        [Test]
-        public void V1CanLoadTest()
-        {
-            var json = """
-                       {
-                         "Rev": 1,
-                         "BuildNumber": 1639,
-                         "BuildLogSizeLimit": 0,
-                         "BuildLog": []
-                       }
-                       """;
+    [Test]
+    public void V1CanLoadTest()
+    {
+        var json = """
+                   {
+                     "Rev": 1,
+                     "BuildNumber": 1639,
+                     "BuildLogSizeLimit": 0,
+                     "BuildLog": []
+                   }
+                   """;
 
-            var result = Git2SemVerConfiguration.Load(json);
+        var result = Git2SemVerConfiguration.Load(json);
 
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.Rev, Is.EqualTo(1));
-            Assert.That(result.BuildNumber, Is.EqualTo(1639));
-            Assert.That(result.BuildLogSizeLimit, Is.EqualTo(0));
-            Assert.That(result.BuildLog, Is.Empty);
-        }
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.Rev, Is.EqualTo(1));
+        Assert.That(result.BuildNumber, Is.EqualTo(1639));
+        Assert.That(result.BuildLogSizeLimit, Is.EqualTo(0));
+        Assert.That(result.BuildLog, Is.Empty);
     }
 }

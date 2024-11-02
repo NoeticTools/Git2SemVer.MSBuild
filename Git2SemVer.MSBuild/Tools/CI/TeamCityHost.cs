@@ -7,24 +7,18 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tools.CI;
 
 internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
 {
+    private const string BuildNumberEnvVarName = "BUILD_NUMBER";
+    private const string TeamCityVersionEnvVarName = "TEAMCITY_VERSION";
     private readonly ILogger _logger;
     private readonly string _teamCityVersion;
-    private const string TeamCityVersionEnvVarName = "TEAMCITY_VERSION";
-    private const string BuildNumberEnvVarName = "BUILD_NUMBER";
 
     public TeamCityHost(ILogger logger) : base(logger)
     {
         _logger = logger;
         _teamCityVersion = Environment.GetEnvironmentVariable(TeamCityVersionEnvVarName) ?? "";
-        BuildNumber = (_teamCityVersion.Length > 0) ? GetBuildNumber(logger) : "";
+        BuildNumber = _teamCityVersion.Length > 0 ? GetBuildNumber(logger) : "";
         BuildContext = "0";
         DefaultBuildNumberFunc = () => [BuildNumber];
-    }
-
-    private static string GetBuildNumber(ILogger logger)
-    {
-        var buildNumberVariable = Environment.GetEnvironmentVariable(BuildNumberEnvVarName);
-        return int.TryParse(buildNumberVariable!, out var buildNumber) ? buildNumber.ToString() : "";
     }
 
     public HostTypeIds HostTypeId => HostTypeIds.TeamCity;
@@ -68,5 +62,11 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
         _logger.LogInfo($"Setting TeamCity Build label to '{label}'.");
         using var writer = new TeamCityServiceMessages().CreateWriter(_logger.LogInfo);
         writer.WriteBuildNumber(label);
+    }
+
+    private static string GetBuildNumber(ILogger logger)
+    {
+        var buildNumberVariable = Environment.GetEnvironmentVariable(BuildNumberEnvVarName);
+        return int.TryParse(buildNumberVariable!, out var buildNumber) ? buildNumber.ToString() : "";
     }
 }

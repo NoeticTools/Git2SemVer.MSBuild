@@ -14,8 +14,8 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 /// </summary>
 internal sealed class DefaultVersionBuilder : IVersionBuilder
 {
-    private readonly IHistoryPaths _paths;
     private readonly ILogger _logger;
+    private readonly IHistoryPaths _paths;
 
     public DefaultVersionBuilder(IHistoryPaths paths, ILogger logger)
     {
@@ -86,7 +86,7 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
         var prereleaseLabel = string.IsNullOrWhiteSpace(inputs.VersionSuffix)
             ? GetPrereleaseLabelFromBranchName(inputs, outputs)
             : inputs.VersionSuffix;
-        if (!string.IsNullOrWhiteSpace(prereleaseLabel) && 
+        if (!string.IsNullOrWhiteSpace(prereleaseLabel) &&
             !string.IsNullOrWhiteSpace(initialDevSuffix))
         {
             initialDevSuffix = "-" + initialDevSuffix;

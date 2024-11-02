@@ -1,6 +1,5 @@
 ﻿using NoeticTools.Git2Semver.Common;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
-using System.Text.Json;
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;

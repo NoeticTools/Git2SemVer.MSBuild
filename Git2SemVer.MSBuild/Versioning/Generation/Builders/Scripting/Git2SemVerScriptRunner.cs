@@ -4,7 +4,6 @@ using NoeticTools.Common.Tools.DotnetCli;
 using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Tools.CI;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using NoeticTools.MSBuild.Tasking;
 using NuGet.Versioning;
 using Semver;
@@ -14,10 +13,10 @@ namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scriptin
 
 public sealed class Git2SemVerScriptRunner
 {
-    private readonly MSBuildScriptRunner _innerScriptRunner;
     private readonly IBuildHost _host;
-    private readonly ILogger _logger;
+    private readonly MSBuildScriptRunner _innerScriptRunner;
     private readonly IVersionGeneratorInputs _inputs;
+    private readonly ILogger _logger;
     private readonly IVersionOutputs _outputs;
 
     public Git2SemVerScriptRunner(MSBuildScriptRunner innerScriptRunner,
@@ -33,7 +32,7 @@ public sealed class Git2SemVerScriptRunner
         _logger = logger;
     }
 
-    internal static IReadOnlyList<Type> MetadataReferences { get; } = new []
+    internal static IReadOnlyList<Type> MetadataReferences { get; } = new[]
     {
         typeof(DotNetTool),
         typeof(UncontrolledHost),
@@ -44,7 +43,6 @@ public sealed class Git2SemVerScriptRunner
         typeof(VersioningContext),
         typeof(ILogger)
     };
-
 
     internal async Task RunScript()
     {

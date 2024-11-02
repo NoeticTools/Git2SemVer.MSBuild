@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Injectio.Attributes;
 using NoeticTools.Common.ConventionCommits;
-using NoeticTools.Common.Exceptions;
 
 
 #pragma warning disable SYSLIB1045
@@ -13,23 +11,10 @@ public static class CommitObfuscator
 {
     private static readonly Dictionary<string, string> ObfuscatedCommitShaLookup = new();
 
-    public static string GetObfuscatedSha(string sha)
-    {
-        if (ObfuscatedCommitShaLookup.TryGetValue(sha, out var value))
-        {
-            return value;
-        }
-
-        var newValue = sha.Length > 6 ? (ObfuscatedCommitShaLookup.Count + 1).ToString("D").PadLeft(4, '0') : sha;
-        ObfuscatedCommitShaLookup.Add(sha, newValue);
-        return newValue;
-    }
-
     public static void Clear()
     {
         ObfuscatedCommitShaLookup.Clear();
     }
-
 
     public static string GetObfuscatedLogLine(string graph, Commit? commit)
     {
@@ -45,5 +30,17 @@ public static class CommitObfuscator
         var summary = commit.Metadata.ChangeType == CommitChangeTypeId.Unknown ? "REDACTED" : commit.Summary;
         var footer = string.Join("\n", commit.Metadata.FooterKeyValues.SelectMany((kv, key) => kv.Select(value => kv.Key + ": " + value)));
         return $"{graph,-15} \u001f.|{sha}|{parentShas}|\u0002{summary}\u0003|\u0002{footer}\u0003|{redactedRefs2}|\u001e";
+    }
+
+    public static string GetObfuscatedSha(string sha)
+    {
+        if (ObfuscatedCommitShaLookup.TryGetValue(sha, out var value))
+        {
+            return value;
+        }
+
+        var newValue = sha.Length > 6 ? (ObfuscatedCommitShaLookup.Count + 1).ToString("D").PadLeft(4, '0') : sha;
+        ObfuscatedCommitShaLookup.Add(sha, newValue);
+        return newValue;
     }
 }

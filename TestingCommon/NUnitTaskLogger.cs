@@ -12,7 +12,6 @@ public class NUnitTaskLogger : ILogger
     private readonly string _infoPrefix = "INFO: ";
     private readonly string _tracePrefix = "TRACE: ";
     private readonly string _warnPrefix = "WARN: ";
-    public string LogPrefix { get; private set; } = "";
 
     public NUnitTaskLogger(bool showMessageLevelPrefix = true)
     {
@@ -32,6 +31,12 @@ public class NUnitTaskLogger : ILogger
 
     public LoggingLevel Level { get; set; } = LoggingLevel.Info;
 
+    public string LogPrefix { get; private set; } = "";
+
+    public void Dispose()
+    {
+    }
+
     public IDisposable EnterLogScope()
     {
         LogPrefix += LogScopeIndent;
@@ -48,7 +53,7 @@ public class NUnitTaskLogger : ILogger
                 { LoggingLevel.Debug, LogDebug },
                 { LoggingLevel.Info, LogInfo },
                 { LoggingLevel.Warning, LogWarning },
-                { LoggingLevel.Error, LogError },
+                { LoggingLevel.Error, LogError }
             };
 
             lookup[level](message);
@@ -136,9 +141,5 @@ public class NUnitTaskLogger : ILogger
     public void LogWarning(Exception exception)
     {
         LogWarning($"Exception - {exception.Message}");
-    }
-
-    public void Dispose()
-    {
     }
 }

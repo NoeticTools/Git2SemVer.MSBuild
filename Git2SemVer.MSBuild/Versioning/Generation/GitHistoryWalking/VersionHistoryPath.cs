@@ -44,7 +44,7 @@ internal sealed class VersionHistoryPath : IVersionHistoryPath
         var commitsCount = $"({CommitsSinceLastRelease})";
         var segmentIdsString = string.Join("-", _segments.Select(x => x.Id));
         return
-            $"Path {Id,-3} {segmentIdsString,-20} {commitsCount,5}   {_bumps.ToString()}   {LastReleasedVersion?.ToString() ?? " none"} -> {GetNextReleaseVersion()}";
+            $"Path {Id,-3} {segmentIdsString,-20} {commitsCount,5}   {_bumps}   {LastReleasedVersion?.ToString() ?? " none"} -> {GetNextReleaseVersion()}";
     }
 
     public IReadOnlyList<VersionHistoryPath> With(IReadOnlyList<VersionHistorySegment> toSegments)

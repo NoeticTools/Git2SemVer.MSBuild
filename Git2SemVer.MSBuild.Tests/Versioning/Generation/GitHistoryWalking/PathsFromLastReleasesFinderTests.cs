@@ -5,19 +5,18 @@ using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 
 //#pragma warning disable NUnit2045
 
-
 namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.GitHistoryWalking;
 
 [TestFixture]
 internal class PathsFromLastReleasesFinderTests : GitHistoryWalkingTestsBase
 {
-    private PathsFromLastReleasesFinder _target;
     private Mock<IGitTool> _gitTool;
+    private PathsFromLastReleasesFinder _target;
 
     [SetUp]
     public void Setup()
     {
-        base.SetupBase();
+        SetupBase();
 
         _gitTool = new Mock<IGitTool>();
 
@@ -32,7 +31,6 @@ internal class PathsFromLastReleasesFinderTests : GitHistoryWalkingTestsBase
         Logger.Dispose();
     }
 
-
     [TestCaseSource(typeof(ScenariosFromBuildLogsTestSource))]
     public void BasicScenariosTest(string name, LoggedScenario scenario)
     {
@@ -44,4 +42,3 @@ internal class PathsFromLastReleasesFinderTests : GitHistoryWalkingTestsBase
         Assert.That(bestPath.Version.ToString(), Is.EqualTo(scenario.ExpectedVersion));
     }
 }
-
