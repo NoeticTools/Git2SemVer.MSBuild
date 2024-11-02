@@ -112,7 +112,7 @@ public class GitTool : IGitTool
         var redactedRefs2 = new Regex(@"origin\/\S+?(?=[,\)])").Replace(redactedRefs, "origin/REDACTED_BRANCH");
         var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => x.ObfuscatedSha)) : string.Empty;
         var sha = commit.CommitId.ObfuscatedSha;
-        return $"{graph,-15} .|{sha}|{parentShas}|REDACTED|{redactedRefs2}|";
+        return $"{graph,-15} \u001f.|{sha}|{parentShas}|\u0002REDACTED\u0003|\u0002REDACTED\u0003|{redactedRefs2}|\u001e";
     }
 
     public (int returnCode, string stdOutput) Run(string arguments)

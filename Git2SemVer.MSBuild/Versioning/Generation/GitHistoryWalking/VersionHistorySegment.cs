@@ -56,16 +56,19 @@ internal sealed class VersionHistorySegment
 
     public IReadOnlyList<VersionHistorySegment> To => _younger.ToList();
 
-    public void Append(Commit commit)
+    /// <summary>
+    /// Append prior (younger) commit to the segment.
+    /// </summary>
+    public void Append(Commit youngerCommit)
     {
-        if (_commits.Count > 0 && FirstCommit.Parents.All(x => x.Id != commit.CommitId.Id))
+        if (_commits.Count > 0 && FirstCommit.Parents.All(x => x.Id != youngerCommit.CommitId.Id))
         {
-            throw new InvalidOperationException($"Cannot append {commit.CommitId.ObfuscatedSha} as it is not connected to segment's first (oldest) commit.");
+            throw new InvalidOperationException($"Cannot append {youngerCommit.CommitId.ObfuscatedSha} as it is not connected to segment's first (oldest) commit.");
         }
 
         _bumps = null;
-        _commits.Add(commit);
-        _logger.LogTrace("Commit {0} added to segment {1}.", commit.CommitId.ObfuscatedSha, Id);
+        _commits.Add(youngerCommit);
+        _logger.LogTrace("Commit {0} added to segment {1}.", youngerCommit.CommitId.ObfuscatedSha, Id);
     }
 
     public VersionHistorySegment? BranchedFrom(VersionHistorySegment branchSegment, Commit commit)
