@@ -104,14 +104,7 @@ internal sealed class Git2SemVerConfiguration : IConfiguration
 
     internal static Git2SemVerConfiguration Load(string json)
     {
-        var options = new JsonSerializerOptions
-        {
-            TypeInfoResolver = new DefaultJsonTypeInfoResolver
-            {
-                Modifiers = { Git2SemVerConfigurationMigration.Version0JsonModifier }
-            }
-        };
-        return JsonSerializer.Deserialize<Git2SemVerConfiguration>(json, options)!;
+        return JsonSerializer.Deserialize<Git2SemVerConfiguration>(json)!;
     }
 
     /// <summary>

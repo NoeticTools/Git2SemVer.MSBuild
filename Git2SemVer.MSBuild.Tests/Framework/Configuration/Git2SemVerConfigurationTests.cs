@@ -13,7 +13,6 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Framework.Configuration
     internal class Git2SemVerConfigurationTests
     {
         [Test]
-        [Ignore("WIP")]
         public void V0CanLoadTest()
         {
             var json = """
@@ -33,6 +32,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Framework.Configuration
             Assert.That(result.BuildLogSizeLimit, Is.EqualTo(0));
             Assert.That(result.BuildLog, Is.Empty);
         }
+
         [Test]
         public void V1CanLoadTest()
         {
