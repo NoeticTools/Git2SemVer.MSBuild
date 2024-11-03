@@ -26,9 +26,18 @@ internal class CommitObfuscatorTests
     [Test]
     public void FirstShaIs0001Test()
     {
-        var result = CommitObfuscator.GetObfuscatedSha("ksjdgoore598jgkflkvm");
+        var result = CommitObfuscator.GetObfuscatedSha("1234567");
 
         Assert.That(result, Is.EqualTo("0001"));
+    }
+
+    [TestCase("0099")]
+    [TestCase("123456")]
+    public void ShortShaIsReturnedSameTest(string sha)
+    {
+        var result = CommitObfuscator.GetObfuscatedSha(sha);
+
+        Assert.That(result, Is.EqualTo(sha));
     }
 
     [Test]
