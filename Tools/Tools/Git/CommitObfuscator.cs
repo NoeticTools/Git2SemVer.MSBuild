@@ -29,6 +29,7 @@ public static class CommitObfuscator
         {
             redactedRefs2 = $" ({redactedRefs2})";
         }
+
         var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => x.ObfuscatedSha)) : string.Empty;
         var sha = commit.CommitId.ObfuscatedSha;
         var summary = commit.Metadata.ChangeType == CommitChangeTypeId.Unknown ? "REDACTED" : commit.Summary;

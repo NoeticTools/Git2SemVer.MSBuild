@@ -7,6 +7,14 @@ namespace NoeticTools.CommonTests.Tools.Git;
 internal class CommitObfuscatorTests
 {
     [Test]
+    public void FirstShaIs0001Test()
+    {
+        var result = CommitObfuscator.GetObfuscatedSha("1234567");
+
+        Assert.That(result, Is.EqualTo("0001"));
+    }
+
+    [Test]
     public void NoConventionalCommitInfoLogLineTest()
     {
         const string expected = "*               \u001f.|0001|0002 0003|\u0002REDACTED\u0003|\u0002\u0003||";
@@ -15,29 +23,6 @@ internal class CommitObfuscatorTests
         var result = CommitObfuscator.GetObfuscatedLogLine("* ", commit);
 
         Assert.That(result, Is.EqualTo(expected));
-    }
-
-    [SetUp]
-    public void SetUp()
-    {
-        CommitObfuscator.Clear();
-    }
-
-    [Test]
-    public void FirstShaIs0001Test()
-    {
-        var result = CommitObfuscator.GetObfuscatedSha("1234567");
-
-        Assert.That(result, Is.EqualTo("0001"));
-    }
-
-    [TestCase("0099")]
-    [TestCase("123456")]
-    public void ShortShaIsReturnedSameTest(string sha)
-    {
-        var result = CommitObfuscator.GetObfuscatedSha(sha);
-
-        Assert.That(result, Is.EqualTo(sha));
     }
 
     [Test]
@@ -59,11 +44,26 @@ internal class CommitObfuscatorTests
         Assert.That(result21, Is.Not.EqualTo(result31));
     }
 
+    [SetUp]
+    public void SetUp()
+    {
+        CommitObfuscator.Clear();
+    }
+
+    [TestCase("0099")]
+    [TestCase("123456")]
+    public void ShortShaIsReturnedSameTest(string sha)
+    {
+        var result = CommitObfuscator.GetObfuscatedSha(sha);
+
+        Assert.That(result, Is.EqualTo(sha));
+    }
+
     [Test]
     public void WithConventionalCommitSummaryLogLineTest()
     {
         const string summary = "feat!: Big red feature";
-        var expected = $"|\\              \u001f.|0001|0002 0003|\u0002{summary}\u0003|\u0002\u0003||";
+        const string expected = $"|\\              \u001f.|0001|0002 0003|\u0002{summary}\u0003|\u0002\u0003||";
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",

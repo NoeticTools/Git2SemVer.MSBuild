@@ -40,6 +40,9 @@ public class Commit : ICommit
     [JsonPropertyOrder(11)]
     public CommitId CommitId { get; }
 
+    [JsonIgnore]
+    public bool HasReleaseTag => ReleasedVersion != null;
+
     [JsonPropertyOrder(22)]
     public string MessageBody { get; }
 
@@ -54,9 +57,6 @@ public class Commit : ICommit
 
     [JsonPropertyOrder(25)]
     public string Refs { get; }
-
-    [JsonIgnore]
-    public bool HasReleaseTag => ReleasedVersion != null;
 
     [JsonPropertyOrder(12)]
     public SemVersion? ReleasedVersion { get; }

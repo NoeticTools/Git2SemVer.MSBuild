@@ -242,13 +242,14 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
     ///     Tests that two fix bumps in segment only bumps patch once.
     /// </summary>
     public LoggedScenario Scenario10 { get; } =
-        new("0.19.1", "0002", $"""
+        new("0.19.1", "0002", """
                               *               .|0002|0003|fix: Fix commit version when tag and conventional commit bump on same commit.|| (HEAD -> REDACTED_BRANCH, origin/main)|
                               *               .|0003|0004|fix: git2semver.msbuild unable to load|||
                               *               .|0004|0005|feat: version bump|| (tag: v0.19.0)|
                               *               .|0005|0006|REDACTED|| (tag: v0.18.2)|
                               *               .|0006|0007|REDACTED|||
                               """);
+
     public IEnumerator GetEnumerator()
     {
         yield return new object[] { "Scenario 01", Scenario01 };

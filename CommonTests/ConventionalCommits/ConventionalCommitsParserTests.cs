@@ -88,53 +88,6 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
     }
 
-    private static List<(string key, string value)> GetExpectedKeyValuePairs(string expectedFooter)
-    {
-        var expectedFooterLines = expectedFooter.Split('\n');
-        var keyValuePairs = new List<(string key, string value)>();
-        foreach (var line in expectedFooterLines)
-        {
-            if (line.Length == 0)
-            {
-                continue;
-            }
-
-            var elements = line.Split('|');
-            keyValuePairs.Add((key: elements[0], value: elements[1].Trim()));
-        }
-
-        return keyValuePairs;
-    }
-
-    [TestCase(
-                 "BREAKING CHANGE: Oops very sorry",
-                 "BREAKING CHANGE|Oops very sorry",
-                 true)]
-    [TestCase(
-                 """
-                 BREAKING CHANGE: Oops very sorry
-                 refs: 12345
-                 """,
-                 """
-                 BREAKING CHANGE|Oops very sorry
-                 refs|12345
-                 """,
-                 true)]
-    public void FooterWithoutBodyTest(string messageBody,
-                                               string expectedFooter,
-                                               bool hasBreakingChange)
-    {
-        var result = _target.Parse("feat: Added a real nice feature", messageBody);
-
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
-        Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
-        Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
-        Assert.That(result.Body, Is.EqualTo(""));
-        var keyValuePairs = GetExpectedKeyValuePairs(expectedFooter);
-
-        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
-    }
-
     [TestCase(
                  """
                  Body - paragraph1
@@ -167,6 +120,35 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
         Assert.That(result.FooterKeyValues, Is.Empty);
+    }
+
+    [TestCase(
+                 "BREAKING CHANGE: Oops very sorry",
+                 "BREAKING CHANGE|Oops very sorry",
+                 true)]
+    [TestCase(
+                 """
+                 BREAKING CHANGE: Oops very sorry
+                 refs: 12345
+                 """,
+                 """
+                 BREAKING CHANGE|Oops very sorry
+                 refs|12345
+                 """,
+                 true)]
+    public void FooterWithoutBodyTest(string messageBody,
+                                      string expectedFooter,
+                                      bool hasBreakingChange)
+    {
+        var result = _target.Parse("feat: Added a real nice feature", messageBody);
+
+        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
+        Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
+        Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
+        Assert.That(result.Body, Is.EqualTo(""));
+        var keyValuePairs = GetExpectedKeyValuePairs(expectedFooter);
+
+        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
     }
 
     [TestCase("feat:")]
@@ -225,5 +207,23 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.Empty);
         Assert.That(result.FooterKeyValues, Is.Empty);
+    }
+
+    private static List<(string key, string value)> GetExpectedKeyValuePairs(string expectedFooter)
+    {
+        var expectedFooterLines = expectedFooter.Split('\n');
+        var keyValuePairs = new List<(string key, string value)>();
+        foreach (var line in expectedFooterLines)
+        {
+            if (line.Length == 0)
+            {
+                continue;
+            }
+
+            var elements = line.Split('|');
+            keyValuePairs.Add((key: elements[0], value: elements[1].Trim()));
+        }
+
+        return keyValuePairs;
     }
 }
