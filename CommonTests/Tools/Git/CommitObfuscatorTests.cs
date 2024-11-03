@@ -24,6 +24,33 @@ internal class CommitObfuscatorTests
     }
 
     [Test]
+    public void FirstShaIs0001Test()
+    {
+        var result = CommitObfuscator.GetObfuscatedSha("ksjdgoore598jgkflkvm");
+
+        Assert.That(result, Is.EqualTo("0001"));
+    }
+
+    [Test]
+    public void ReturnsPriorObfuscatedShaTest()
+    {
+        const string sha1 = "fa340bd213c0001";
+        const string sha2 = "fa340bd213c0002";
+        const string sha3 = "fa340bd213c0003";
+
+        var result11 = CommitObfuscator.GetObfuscatedSha(sha1);
+        var result12 = CommitObfuscator.GetObfuscatedSha(sha1);
+        var result21 = CommitObfuscator.GetObfuscatedSha(sha2);
+        var result31 = CommitObfuscator.GetObfuscatedSha(sha3);
+        var result22 = CommitObfuscator.GetObfuscatedSha(sha2);
+
+        Assert.That(result11, Is.EqualTo(result12));
+        Assert.That(result21, Is.EqualTo(result22));
+        Assert.That(result11, Is.Not.EqualTo(result21));
+        Assert.That(result21, Is.Not.EqualTo(result31));
+    }
+
+    [Test]
     public void WithConventionalCommitSummaryLogLineTest()
     {
         const string summary = "feat!: Big red feature";
@@ -64,9 +91,7 @@ internal class CommitObfuscatorTests
     public void WithRefsLogLineTest()
     {
         const string summary = "fix: Fixed";
-        var footerKeyValues = new List<(string key, string value)>
-        {
-        };
+        var footerKeyValues = new List<(string key, string value)>();
         var expected =
             $"|\\              \u001f.|0001|0002 0003|\u0002{summary}\u0003|\u0002\u0003| (HEAD -> REDACTED_BRANCH, origin/main)|";
         var commit = new Commit("commitSha",
