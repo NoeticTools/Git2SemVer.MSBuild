@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using Spectre.Console.Cli;
-
-
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable ClassNeverInstantiated.Global
+
 
 namespace NoeticTools.Git2SemVer.Tool.CommandLine;
 

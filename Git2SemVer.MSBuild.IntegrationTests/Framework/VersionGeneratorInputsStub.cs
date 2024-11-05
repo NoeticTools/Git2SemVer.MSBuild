@@ -1,6 +1,9 @@
 ﻿using Microsoft.Build.Framework;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using ILogger = NoeticTools.Common.Logging.ILogger;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.IntegrationTests.Framework;

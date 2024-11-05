@@ -16,7 +16,7 @@ internal abstract class GitHistoryWalkingTestsBase
         var commits = new List<Commit>();
         foreach (var logLine in gitLog.Split('\n'))
         {
-            _gitTool.ParseLogLine(logLine.Trim(), new List<string>(), commits);
+            _gitTool.ParseLogLine(logLine.Trim(), [], commits);
         }
 
         return commits;

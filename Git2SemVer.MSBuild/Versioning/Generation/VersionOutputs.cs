@@ -28,7 +28,7 @@ internal sealed class VersionOutputs : IVersionOutputs
 
     public Version? FileVersion { get; set; }
 
-    public IGitOutputs Git { get; set; }
+    public IGitOutputs Git { get; }
 
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion? InformationalVersion { get; set; }

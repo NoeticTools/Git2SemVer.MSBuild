@@ -2,13 +2,17 @@
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 
 
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
 namespace NoeticTools.Git2SemVer.MSBuild.IntegrationTests.Framework;
 
 internal class BuildHostStub : IBuildHost
 {
+    private readonly ILogger _logger;
+
     public BuildHostStub(ILogger logger)
     {
-        Logger = logger;
+        _logger = logger;
     }
 
     public string BuildContext { get; set; } = "";
@@ -21,10 +25,6 @@ internal class BuildHostStub : IBuildHost
 
     public HostTypeIds HostTypeId { get; set; } = HostTypeIds.Unknown;
 
-    public bool IsControlled { get; set; } = false;
-
-    public ILogger Logger { get; }
-
     public string Name { get; set; } = "Test Host";
 
     public string BumpBuildNumber()
@@ -34,16 +34,16 @@ internal class BuildHostStub : IBuildHost
 
     public void ReportBuildStatistic(string key, int value)
     {
-        Logger.LogTrace($"Build statistic {key} = {value}");
+        _logger.LogTrace($"Build statistic {key} = {value}");
     }
 
     public void ReportBuildStatistic(string key, double value)
     {
-        Logger.LogTrace($"Build statistic {key} = {value:G13}");
+        _logger.LogTrace($"Build statistic {key} = {value:G13}");
     }
 
     public void SetBuildLabel(string label)
     {
-        Logger.LogInfo($"SetBuildLabel: {label}");
+        _logger.LogInfo($"SetBuildLabel: {label}");
     }
 }

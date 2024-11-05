@@ -77,8 +77,8 @@ public sealed class MSBuildScriptRunner
 
     internal static ScriptOptions GetScriptOptions(IReadOnlyList<Type> metadataReferences)
     {
-        var types = new List<Type>(new[]
-        {
+        var types = new List<Type>(
+        [
             typeof(MSBuildScriptRunner),
             typeof(MSBuildGlobalProperties),
             typeof(string),
@@ -95,7 +95,7 @@ public sealed class MSBuildScriptRunner
             typeof(Stopwatch),
             typeof(ICollection),
             typeof(ICollection<>)
-        });
+        ]);
         types.AddRange(metadataReferences);
 
         types = types.Distinct().ToList();

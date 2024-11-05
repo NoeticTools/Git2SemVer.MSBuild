@@ -36,7 +36,7 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     [MaxTime(10000)]
     public void ControlledPrereleaseBuildScenario01()
     {
-        var context = GetContext("12345", "1", true);
+        var context = GetContext("12345", "1");
         var runner = new ScriptVersionBuilder(Logger);
 
         runner.Build(context.Host, context.Inputs, context.Outputs);
@@ -48,7 +48,7 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     [MaxTime(10000)]
     public void UncontrolledPrereleaseBuildScenario01()
     {
-        var context = GetContext("12345", "MACHINE-NAME", false);
+        var context = GetContext("12345", "MACHINE-NAME");
         var runner = new ScriptVersionBuilder(Logger);
 
         runner.Build(context.Host, context.Inputs, context.Outputs);
@@ -60,7 +60,7 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     [MaxTime(10000)]
     public void UncontrolledPrereleaseInitialDevBuildScenario01()
     {
-        var context = GetContext("12345", "MACHINE-NAME", false);
+        var context = GetContext("12345", "MACHINE-NAME");
         var runner = new ScriptVersionBuilder(Logger);
 
         runner.Build(context.Host, context.Inputs, context.Outputs);
@@ -69,13 +69,11 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
     }
 
     private VersioningContext GetContext(string hostBuildNumber,
-                                         string hostBuildContext,
-                                         bool isAControlledBuild)
+                                         string hostBuildContext)
     {
         var taskInputs = GetTaskInputs();
         var buildHost = new BuildHostStub(Logger)
         {
-            IsControlled = isAControlledBuild,
             BuildNumber = hostBuildNumber,
             BuildContext = hostBuildContext
         };
@@ -94,6 +92,7 @@ public class ScriptExecutionIntegrationTests : ScriptingTestsBase
         return inputs;
     }
 
+    // ReSharper disable once UnusedMember.Local
     private static async Task DumpLoggedErrors(ILogger logger)
     {
         if (!string.IsNullOrWhiteSpace(logger.Errors))

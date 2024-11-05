@@ -20,13 +20,6 @@ public class SemVersionJsonConverter : JsonConverter<SemVersion?>
 
     public override void Write(Utf8JsonWriter writer, SemVersion? value, JsonSerializerOptions options)
     {
-        if (value == null)
-        {
-            writer.WriteStringValue("");
-        }
-        else
-        {
-            writer.WriteStringValue(value.ToString());
-        }
+        writer.WriteStringValue(value == null ? "" : value.ToString());
     }
 }

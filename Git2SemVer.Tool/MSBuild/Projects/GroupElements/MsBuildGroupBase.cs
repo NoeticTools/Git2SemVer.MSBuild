@@ -52,7 +52,7 @@ public abstract class MsBuildGroupBase<T>
         return element == null ? Add(name, "") : Add(name, element);
     }
 
-    protected IReadOnlyList<XElement> GetItemGroups()
+    private IReadOnlyList<XElement> GetItemGroups()
     {
         var groups = _xmlDocument.XPathSelectElements($"//{_groupElementName}")
                                  .Where(x => !x.Attributes("Condition").Any())

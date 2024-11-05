@@ -30,7 +30,7 @@ public abstract class ScriptingTestsBase
 
     protected ILogger Logger { get; private set; } = null!;
 
-    protected static void WaitUntil(Func<bool> predicate)
+    private static void WaitUntil(Func<bool> predicate)
     {
         var stopwatch = Stopwatch.StartNew();
         while (!predicate() && stopwatch.Elapsed < TimeSpan.FromSeconds(30))

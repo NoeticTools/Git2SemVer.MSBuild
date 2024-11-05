@@ -68,6 +68,7 @@ public static class SemVersionStringExtensions
     /// <summary>
     ///     Replace all Semantic Version non-compliant version characters with dash ("-") characters.
     /// </summary>
+    // ReSharper disable once MemberCanBePrivate.Global
     public static string ToNormalisedSemVerString(this string versionString)
     {
         var regex = new Regex(@"[^a-zA-Z0-9-\.]");

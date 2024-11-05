@@ -7,14 +7,12 @@ public sealed class GitTestRepository
 {
     public GitTestRepository(string description,
                              Commit[] commits,
-                             string headBranchName,
                              string headCommitId,
                              int expectedPathCount,
                              string expectedVersion)
     {
         Description = description;
         Commits = commits;
-        HeadBranchName = headBranchName;
         HeadCommitId = headCommitId;
         ExpectedPathCount = expectedPathCount;
         ExpectedVersion = expectedVersion;
@@ -27,8 +25,6 @@ public sealed class GitTestRepository
     public int ExpectedPathCount { get; }
 
     public string ExpectedVersion { get; }
-
-    public string HeadBranchName { get; }
 
     public string HeadCommitId { get; }
 }

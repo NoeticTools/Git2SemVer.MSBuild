@@ -9,12 +9,12 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
 
 public abstract class SolutionTestsBase : ScriptingTestsBase
 {
-    protected string SolutionDirectory = "";
+    private string _currentDirectory = "";
+    private string _git2SemVerToolPath = "";
+    private string _solutionDirectory = "";
     protected string TestSolutionDirectory = "";
     protected string TestSolutionPath = "";
     protected string BuildConfiguration = "";
-    protected string CurrentDirectory = "";
-    protected string Git2SemVerToolPath = "";
 
     protected abstract string SolutionFolderName { get; }
 
@@ -23,12 +23,13 @@ public abstract class SolutionTestsBase : ScriptingTestsBase
     protected override void OneTimeSetUpBase()
     {
         base.OneTimeSetUpBase();
-        CurrentDirectory = Directory.GetCurrentDirectory();
-        SolutionDirectory = DotNetProcessHelpers.GetSolutionDirectory();
-        TestSolutionDirectory = Path.Combine(SolutionDirectory, "TestSolutions", SolutionFolderName);
-        BuildConfiguration = new DirectoryInfo(CurrentDirectory).Parent!.Name;
+        _currentDirectory = Directory.GetCurrentDirectory();
+        _solutionDirectory = DotNetProcessHelpers.GetSolutionDirectory();
+        TestSolutionDirectory = Path.Combine(_solutionDirectory, "TestSolutions", SolutionFolderName);
+        BuildConfiguration = new DirectoryInfo(_currentDirectory).Parent!.Name;
         TestSolutionPath = Path.Combine(TestSolutionDirectory, SolutionName);
-        Git2SemVerToolPath = Path.Combine(SolutionDirectory, "Git2SemVer.Tool/bin", BuildConfiguration, "net8.0", "NoeticTools.Git2SemVer.Tool.dll");
+        _git2SemVerToolPath =
+            Path.Combine(_solutionDirectory, "Git2SemVer.Tool/bin", BuildConfiguration, "net8.0", "NoeticTools.Git2SemVer.Tool.dll");
     }
 
     protected static void DeleteAllNuGetPackages(string packageOutputDir)
@@ -44,7 +45,7 @@ public abstract class SolutionTestsBase : ScriptingTestsBase
 
     protected void BuildGit2SemVerTool()
     {
-        var projectPath = Path.Combine(SolutionDirectory, "Git2SemVer.Tool/Git2SemVer.Tool.csproj");
+        var projectPath = Path.Combine(_solutionDirectory, "Git2SemVer.Tool/Git2SemVer.Tool.csproj");
         var result = DotNetCli.Build(projectPath, BuildConfiguration, "-p:GeneratePackageOnBuild=false -p:PackageOutputPath=./nupkg.tests");
         Assert.That(result.returnCode, Is.EqualTo(0));
         Assert.That(Logger.HasError, Is.False);
@@ -52,7 +53,7 @@ public abstract class SolutionTestsBase : ScriptingTestsBase
 
     protected void BuildGit2SemVerMSBuild()
     {
-        var projectPath = Path.Combine(SolutionDirectory, "Git2SemVer.MSBuild/Git2SemVer.MSBuild.csproj");
+        var projectPath = Path.Combine(_solutionDirectory, "Git2SemVer.MSBuild/Git2SemVer.MSBuild.csproj");
         var result = DotNetCli.Build(projectPath, BuildConfiguration, "-p:GeneratePackageOnBuild=false -p:PackageOutputPath=./nupkg.tests");
         Assert.That(result.returnCode, Is.EqualTo(0));
         Assert.That(Logger.HasError, Is.False);
@@ -71,6 +72,6 @@ public abstract class SolutionTestsBase : ScriptingTestsBase
         {
             WorkingDirectory = TestSolutionDirectory
         };
-        return process.Run("dotnet", $"{Git2SemVerToolPath} {commandLineArguments}");
+        return process.Run("dotnet", $"{_git2SemVerToolPath} {commandLineArguments}");
     }
 }

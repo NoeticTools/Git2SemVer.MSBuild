@@ -9,11 +9,11 @@ using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 using NoeticTools.MSBuild.Tasking.Logging;
-
-
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
+
 
 namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 

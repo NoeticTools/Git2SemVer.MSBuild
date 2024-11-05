@@ -32,8 +32,8 @@ public sealed class Git2SemVerScriptRunner
         _logger = logger;
     }
 
-    internal static IReadOnlyList<Type> MetadataReferences { get; } = new[]
-    {
+    internal static IReadOnlyList<Type> MetadataReferences { get; } =
+    [
         typeof(DotNetTool),
         typeof(UncontrolledHost),
         typeof(IBuildHost),
@@ -42,7 +42,7 @@ public sealed class Git2SemVerScriptRunner
         typeof(NuGetVersion),
         typeof(VersioningContext),
         typeof(ILogger)
-    };
+    ];
 
     internal async Task RunScript()
     {
@@ -65,12 +65,12 @@ public sealed class Git2SemVerScriptRunner
 
         var stopwatch = Stopwatch.StartNew();
 
-        var inMemoryTypes = new List<Type>(new[]
-        {
+        var inMemoryTypes = new List<Type>(
+        [
             typeof(VersioningContext),
             typeof(ILogger),
             typeof(SemVersion)
-        });
+        ]);
 
         var context = new VersioningContext(_inputs, _outputs, _host, _logger);
         await _innerScriptRunner.RunScript(context, _inputs.BuildScriptPath, MetadataReferences, inMemoryTypes);

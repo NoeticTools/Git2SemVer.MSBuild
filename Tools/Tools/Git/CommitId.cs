@@ -17,7 +17,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
         }
 
         Id = sha;
-        ShortSha = ToShortSha(sha);
+        ShortSha = sha.Length < 7 ? sha : sha.Substring(0, ShortShaLength);
         ObfuscatedSha = CommitObfuscator.GetObfuscatedSha(Id);
     }
 
@@ -60,10 +60,5 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
     public override int GetHashCode()
     {
         return Id.GetHashCode();
-    }
-
-    public static string ToShortSha(string sha)
-    {
-        return sha.Length < 7 ? sha : sha.Substring(0, ShortShaLength);
     }
 }

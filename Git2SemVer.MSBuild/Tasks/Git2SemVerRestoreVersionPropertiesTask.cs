@@ -31,6 +31,7 @@ public class Git2SemVerRestoreVersionPropertiesTask : Git2SemVerTaskBase
     ///     property.
     /// </summary>
     [Required]
+    // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
     public string Input_VersionCacheDirectory { get; set; } = "";
 
     /// <summary>
