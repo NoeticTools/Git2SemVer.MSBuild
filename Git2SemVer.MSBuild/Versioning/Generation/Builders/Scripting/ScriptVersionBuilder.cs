@@ -22,8 +22,9 @@ public sealed class ScriptVersionBuilder : IVersionBuilder
             throw new ArgumentException("Build requires non-null inputs.", nameof(inputs));
         }
 
-        if (inputs.RunScript is null or false)
+        if (inputs.RunScript is false)
         {
+            _logger.LogDebug($"User C# script is disabled. Not run.");
             return;
         }
 

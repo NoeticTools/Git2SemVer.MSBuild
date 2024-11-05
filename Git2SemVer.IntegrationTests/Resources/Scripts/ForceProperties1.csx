@@ -22,6 +22,9 @@ context.Outputs.AssemblyVersion = new Version(1, 2, 3);
 context.Outputs.FileVersion = new Version(4, 5, 6);
 context.Outputs.PackageVersion = new SemVersion(4, 6, 7);
 
+context.Logger.LogInfo($"Forced informational version to: {context.Outputs.InformationalVersion}");
+context.Logger.LogInfo($"Forced assembly version to:      {context.Outputs.AssemblyVersion}");
+
 /*
  * Expected outcome:
  *

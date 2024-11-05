@@ -1,4 +1,5 @@
 ﻿using Microsoft.Build.Framework;
+using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
 using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
@@ -9,6 +10,9 @@ using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 using NoeticTools.MSBuild.Tasking.Logging;
+using ILogger = NoeticTools.Common.Logging.ILogger;
+
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -25,7 +29,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 ///         This class exposed properties for inputs from the MSBuild environment and outputs to the environment.
 ///     </para>
 /// </remarks>
-public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
+public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGeneratorInputs
 {
     /// <summary>
     ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "beta".
@@ -164,7 +168,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     Not used if the <see cref="Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
     /// </para>
     /// </remarks>
-    public string SharedDirectory { get; set; } = "";
+    public string SolutionSharedDirectory { get; set; } = "";
 
     /// <summary>
     ///     When using solution versioning the path to the shared generated version properties file.
@@ -177,7 +181,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     Not used if the <see cref="Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
     /// </para>
     /// </remarks>
-    public string SharedVersioningPropsFile { get; set; } = "";
+    public string SolutionSharedVersioningPropsFile { get; set; } = "";
 
     /// <summary>
     ///     The working directory.
@@ -268,8 +272,17 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
 
             logger.LogDebug("Executing Git2SemVer.MSBuild task to generate version.");
 
+            try
+            {
+                VersioningMode = (VersioningMode)Enum.Parse(typeof(VersioningMode), Mode);
+            }
+            catch (Exception exception)
+            {
+                throw new Git2SemVerConfigurationException($"Invalid Git2SemVer_Mode value '{Mode}'.", exception);
+            }
+
             var config = Git2SemVerConfiguration.Load();
-            var inputs = GetGeneratorInputs();
+            var inputs = this;
             var host = new BuildHostFactory(config, logger).Create(inputs.HostType,
                                                                    inputs.BuildNumber,
                                                                    inputs.BuildContext,
@@ -304,22 +317,22 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
         }
     }
 
-    private VersionGeneratorInputs GetGeneratorInputs()
+    public VersioningMode VersioningMode { get; private set; }
+
+    public bool Validate(ILogger logger)
     {
-        return new VersionGeneratorInputs(Mode,
-                                          Version, VersionSuffix,
-                                          BuildNumber, BuildContext,
-                                          BuildIdFormat,
-                                          UpdateHostBuildLabel,
-                                          HostType,
-                                          RunScript,
-                                          BuildScriptPath,
-                                          ScriptArgs,
-                                          BranchMaturityPattern,
-                                          WorkingDirectory,
-                                          IntermediateOutputDirectory,
-                                          SharedDirectory,
-                                          SharedVersioningPropsFile,
-                                          BuildEngine9);
+        if (string.IsNullOrWhiteSpace(BuildScriptPath))
+        {
+            logger.LogError($"The script file path (property {nameof(BuildScriptPath)}) is required.");
+            return false;
+        }
+
+        if (RunScript is true && !File.Exists(BuildScriptPath))
+        {
+            logger.LogError($"The required build script file '{BuildScriptPath}' was not found.");
+            return false;
+        }
+
+        return true;
     }
 }

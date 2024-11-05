@@ -29,8 +29,8 @@
                                    BuildScriptPath="$(Git2SemVer_ScriptPath)"
                                    BranchMaturityPattern="$(Git2SemVer_BranchMaturityPattern)"
                                    WorkingDirectory="$(MSBuildProjectDirectory)"
-                                   SharedDirectory="$(Git2SemVer_ShareDirectory)"
-                                   SharedVersioningPropsFile="$(Git2SemVer_SharedVersioningJsonFile)"
+                                   SolutionSharedDirectory="$(Git2SemVer_ShareDirectory)"
+                                   SolutionSharedVersioningPropsFile="$(Git2SemVer_SharedVersioningJsonFile)"
                                    IntermediateOutputDirectory="$(Git2SemVer_IntermediateOutputPath)"
                                    Mode="$(Git2SemVer_Mode)">
 

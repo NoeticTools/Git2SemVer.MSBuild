@@ -47,7 +47,7 @@ internal class VersionGenerator
     {
         try
         {
-            if (_inputs.Mode != VersioningMode.SolutionClientProject)
+            if (_inputs.VersioningMode != VersioningMode.SolutionClientProject)
             {
                 var output = GenerateVersion();
                 if (_inputs.UpdateHostBuildLabel && output.BuildSystemVersion != null)
@@ -103,7 +103,7 @@ internal class VersionGenerator
     private void SaveGeneratedVersions(VersionOutputs outputs)
     {
         WriteOutputsToFile(_inputs.IntermediateOutputDirectory, outputs);
-        if (_inputs.Mode != VersioningMode.StandAloneProject)
+        if (_inputs.VersioningMode != VersioningMode.StandAloneProject)
         {
             WriteOutputsToFile(_inputs.SolutionSharedDirectory, outputs);
         }

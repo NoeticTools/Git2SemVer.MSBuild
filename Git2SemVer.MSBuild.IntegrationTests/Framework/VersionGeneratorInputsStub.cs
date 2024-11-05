@@ -24,7 +24,7 @@ public class VersionGeneratorInputsStub : IVersionGeneratorInputs
 
     public string IntermediateOutputDirectory { get; } = "";
 
-    public VersioningMode Mode { get; set; }
+    public VersioningMode VersioningMode { get; set; }
 
     public bool? RunScript { get; set; }
 
@@ -41,6 +41,8 @@ public class VersionGeneratorInputsStub : IVersionGeneratorInputs
     public string VersionSuffix { get; set; } = "";
 
     public string WorkingDirectory { get; set; } = "";
+
+    public string BuildIdFormat { get; } = "";
 
     public bool Validate(ILogger logger)
     {

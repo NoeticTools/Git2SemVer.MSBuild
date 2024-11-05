@@ -52,10 +52,19 @@ public sealed class Git2SemVerScriptRunner
             return;
         }
 
-        if (_inputs.RunScript == null && !File.Exists(_inputs.BuildScriptPath))
+        if (!File.Exists(_inputs.BuildScriptPath))
         {
-            _logger.LogDebug($"Script not found. BuildScriptPath is '{_inputs.BuildScriptPath}'.");
-            return;
+            if (_inputs.RunScript == null)
+            {
+                _logger.LogDebug($"RunScript is null and script '{_inputs.BuildScriptPath}' not found. Ignoring.");
+                return;
+            }
+
+            if (_inputs.RunScript == true)
+            {
+                _logger.LogError($"RunScript is true and C# script '{_inputs.BuildScriptPath}' not found.");
+                return;
+            }
         }
 
         if (!_inputs.Validate(_logger))
