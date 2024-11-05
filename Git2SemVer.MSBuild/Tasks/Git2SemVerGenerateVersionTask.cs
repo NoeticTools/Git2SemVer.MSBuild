@@ -13,6 +13,7 @@ using NoeticTools.MSBuild.Tasking.Logging;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.Tasks;

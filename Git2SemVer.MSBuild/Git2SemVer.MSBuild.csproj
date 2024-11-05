@@ -108,6 +108,7 @@
 
     <Message Text="Git2SemVer: Loading versioning information." Importance="normal" />
 
+    <!-- ReSharper disable once UnknownTask -->
     <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.Git2SemVerVersionInfo">
       <Output TaskParameter="Result" ItemName="Git2SemVerVersionInfo" />
     </JsonPeek>
