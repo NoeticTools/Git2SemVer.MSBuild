@@ -14,13 +14,6 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 /// </summary>
 public class Git2SemVerRestoreVersionPropertiesTask : Git2SemVerTaskBase
 {
-    private readonly MSBuildTaskLogger _logger;
-
-    public Git2SemVerRestoreVersionPropertiesTask()
-    {
-        _logger = new MSBuildTaskLogger(Log);
-    }
-
     /// <summary>
     ///     Path to the projects intermediate files directory (ob/).
     ///     Defaults to the MSBuild
@@ -39,17 +32,24 @@ public class Git2SemVerRestoreVersionPropertiesTask : Git2SemVerTaskBase
     /// </summary>
     public override bool Execute()
     {
+        var logger = new MSBuildTaskLogger(Log);
         try
         {
-            _logger.LogDebug("Restoring version properties.");
+            logger.LogDebug("Restoring version properties.");
             var cache = new GeneratedVersionsJsonFile().Load(Input_VersionCacheDirectory);
             SetOutputs(cache);
             return !Log.HasLoggedErrors;
         }
+#pragma warning disable CA1031
         catch (Exception exception)
+#pragma warning restore CA1031
         {
             Log.LogErrorFromException(exception);
             return false;
+        }
+        finally
+        {
+            logger.Dispose();
         }
     }
 }

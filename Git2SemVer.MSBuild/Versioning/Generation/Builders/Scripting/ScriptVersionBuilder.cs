@@ -1,4 +1,5 @@
-﻿using NoeticTools.Common.Logging;
+﻿using JetBrains.Annotations;
+using NoeticTools.Common.Logging;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.MSBuild.Tasking;
 
@@ -14,9 +15,9 @@ public sealed class ScriptVersionBuilder : IVersionBuilder
         _logger = logger;
     }
 
-    public void Build(IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
+    public void Build(IBuildHost host, [NotNull] IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
-        if (inputs.RunScript == false)
+        if (inputs.RunScript is null or false)
         {
             return;
         }

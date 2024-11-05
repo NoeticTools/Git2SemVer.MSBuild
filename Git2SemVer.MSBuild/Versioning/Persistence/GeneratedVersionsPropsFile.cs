@@ -40,7 +40,7 @@ internal sealed class GeneratedVersionsPropsFile : IGeneratedOutputsPropFile
         if (File.Exists(filePath))
         {
             var priorContent = File.ReadAllText(filePath);
-            if (content.Equals(priorContent, StringComparison.InvariantCulture))
+            if (content.Equals(priorContent, StringComparison.Ordinal))
             {
                 return;
             }

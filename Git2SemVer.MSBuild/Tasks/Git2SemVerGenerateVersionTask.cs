@@ -308,7 +308,6 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
         catch (Exception exception)
         {
             logger.LogError(exception);
-            //Log.LogErrorFromException(exception);
             return false;
         }
         finally
