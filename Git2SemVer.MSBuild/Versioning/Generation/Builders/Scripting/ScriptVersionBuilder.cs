@@ -15,7 +15,7 @@ public sealed class ScriptVersionBuilder : IVersionBuilder
         _logger = logger;
     }
 
-    public void Build(IBuildHost host, [NotNull] IVersionGeneratorInputs inputs, IVersionOutputs outputs)
+    public void Build(IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
         if (inputs.RunScript is null or false)
         {

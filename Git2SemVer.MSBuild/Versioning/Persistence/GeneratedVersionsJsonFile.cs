@@ -57,7 +57,7 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
         return Path.Combine(directory, Git2SemverConstants.SharedVersionJsonPropertiesFilename);
     }
 
-    private string LoadJson(string directory)
+    private static string LoadJson(string directory)
     {
         var propertiesFilePath = GetFilePath(directory);
         if (!File.Exists(propertiesFilePath))

@@ -26,7 +26,7 @@ internal abstract class BuildHostBase : ToolBase
         get => _buildContext;
         set
         {
-            if (_buildContext.Equals(value))
+            if (_buildContext.Equals(value, StringComparison.Ordinal))
             {
                 return;
             }
@@ -59,7 +59,7 @@ internal abstract class BuildHostBase : ToolBase
         get => _buildNumber;
         set
         {
-            if (_buildNumber.Equals(value))
+            if (_buildNumber.Equals(value, StringComparison.Ordinal))
             {
                 return;
             }
@@ -69,7 +69,7 @@ internal abstract class BuildHostBase : ToolBase
         }
     }
 
-    private IReadOnlyList<string> CustomBuildIdFormat()
+    private string[] CustomBuildIdFormat()
     {
         if (string.IsNullOrWhiteSpace(BuildIdFormat))
         {
