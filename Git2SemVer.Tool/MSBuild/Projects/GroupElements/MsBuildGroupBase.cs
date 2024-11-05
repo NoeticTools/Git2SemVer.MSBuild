@@ -2,12 +2,12 @@
 using System.Xml.XPath;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Projects.Elements;
+#pragma warning disable CA1826
 
 
 namespace NoeticTools.Git2SemVer.Tool.MSBuild.Projects.GroupElements;
 
 public abstract class MsBuildGroupBase<T>
-    where T : KeyValuePairElement
 {
     private readonly Dictionary<string, T> _cache = [];
     private readonly string _groupElementName;

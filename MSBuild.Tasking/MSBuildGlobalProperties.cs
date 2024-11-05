@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

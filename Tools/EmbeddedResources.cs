@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Common;
 
-public sealed class EmbeddedResources<T> : IEmbeddedResources<T>
+public sealed class EmbeddedResources<T> : IEmbeddedResources
 {
     private readonly Assembly _assembly = typeof(T).Assembly;
 

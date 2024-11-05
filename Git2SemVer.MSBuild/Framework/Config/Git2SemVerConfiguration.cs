@@ -97,8 +97,8 @@ internal sealed class Git2SemVerConfiguration : IConfiguration
             _instance = new Git2SemVerConfiguration();
         }
 
-        _instanceHash = _instance!.GetCurrentHashCode();
-        return _instance!;
+        _instanceHash = _instance.GetCurrentHashCode();
+        return _instance;
     }
 
     /// <summary>

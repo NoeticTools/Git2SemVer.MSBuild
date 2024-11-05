@@ -47,7 +47,7 @@ public sealed class MSBuildScriptRunner
             {
                 using (var loader = new InteractiveAssemblyLoader())
                 {
-                    var globalsType = globalContext!.GetType();
+                    var globalsType = globalContext.GetType();
                     foreach (var inMemoryType in inMemoryTypes)
                     {
                         loader.RegisterDependency(inMemoryType.Assembly);

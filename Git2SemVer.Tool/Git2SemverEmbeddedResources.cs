@@ -5,7 +5,7 @@ using NoeticTools.Common;
 namespace NoeticTools.Git2SemVer.Tool;
 
 [RegisterSingleton]
-internal sealed class Git2SemverEmbeddedResources : IEmbeddedResources<Git2SemverEmbeddedResources>
+internal sealed class Git2SemverEmbeddedResources : IEmbeddedResources
 {
     private readonly EmbeddedResources<Git2SemverEmbeddedResources> _inner = new();
 

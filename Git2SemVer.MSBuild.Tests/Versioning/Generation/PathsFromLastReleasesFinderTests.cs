@@ -56,7 +56,7 @@ internal class PathsFromLastReleasesFinderTests
 
         var historyPaths = target.FindPathsToHead();
 
-        Assert.That(historyPaths!.Paths.Count, Is.EqualTo(scenario.ExpectedPathCount));
+        Assert.That(historyPaths.Paths.Count, Is.EqualTo(scenario.ExpectedPathCount));
         Assert.That(historyPaths.BestPath.Version.ToString(), Is.EqualTo(scenario.ExpectedVersion));
     }
 

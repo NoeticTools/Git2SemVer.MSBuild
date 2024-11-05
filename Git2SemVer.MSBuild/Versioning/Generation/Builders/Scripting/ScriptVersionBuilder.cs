@@ -26,6 +26,6 @@ public sealed class ScriptVersionBuilder : IVersionBuilder
                                                       inputs,
                                                       outputs,
                                                       _logger);
-        var task = scriptRunner!.RunScript();
+        var task = scriptRunner.RunScript();
     }
 }

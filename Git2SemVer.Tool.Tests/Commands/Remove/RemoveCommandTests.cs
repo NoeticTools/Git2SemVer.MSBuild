@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NoeticTools.Common.Tools;
 using NoeticTools.Common.Tools.DotnetCli;
-using NoeticTools.Git2SemVer.Tool.Commands.Add;
 using NoeticTools.Git2SemVer.Tool.Commands.Remove;
 using NoeticTools.Git2SemVer.Tool.Framework;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;

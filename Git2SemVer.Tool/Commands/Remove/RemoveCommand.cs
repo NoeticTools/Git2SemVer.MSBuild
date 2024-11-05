@@ -4,7 +4,6 @@ using NoeticTools.Common;
 using NoeticTools.Common.Logging;
 using NoeticTools.Common.Tools;
 using NoeticTools.Common.Tools.DotnetCli;
-using NoeticTools.Git2SemVer.Tool.Commands.Add;
 using NoeticTools.Git2SemVer.Tool.Framework;
 using NoeticTools.Git2SemVer.Tool.MSBuild;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
@@ -65,7 +64,7 @@ internal sealed class RemoveCommand : IRemoveCommand
 
         // todo - Get name of versioning project
         const string leaderProjectName = SolutionVersioningConstants.DefaultVersioningProjectName;
-        var solutionDirectory = solution!.Directory!;
+        var solutionDirectory = solution.Directory!;
 
         var changeMade = false;
         _console.WriteInfoLine("Running:");

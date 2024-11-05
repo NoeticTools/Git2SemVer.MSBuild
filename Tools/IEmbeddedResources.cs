@@ -1,6 +1,6 @@
 ﻿namespace NoeticTools.Common;
 
-public interface IEmbeddedResources<T>
+public interface IEmbeddedResources
 {
     string GetResourceFileContent(string filename);
     void WriteResourceFile(string resourceFilename, string destinationPath);

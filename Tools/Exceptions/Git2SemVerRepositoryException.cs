@@ -6,6 +6,7 @@ public class Git2SemVerRepositoryException : Git2SemverExceptionBase
     {
     }
 
+    // ReSharper disable once UnusedMember.Global
     public Git2SemVerRepositoryException(string message, Exception innerException) : base(message, innerException)
     {
     }

@@ -16,7 +16,7 @@ internal sealed class AddCommand : ISetupCommand
 {
     private readonly IConsoleIO _console;
     private readonly IDotNetTool _dotNetCli;
-    private readonly IEmbeddedResources<Git2SemverEmbeddedResources> _embeddedResources;
+    private readonly IEmbeddedResources _embeddedResources;
     private readonly ILogger _logger;
     private readonly IAddPreconditionValidator _preconditionsValidator;
     private readonly IProjectDocumentReader _projectDocumentReader;
@@ -26,7 +26,7 @@ internal sealed class AddCommand : ISetupCommand
     public AddCommand(ISolutionFinder solutionFinder,
                       IUserOptionsPrompt userOptionsPrompt,
                       IDotNetTool dotNetCli,
-                      IEmbeddedResources<Git2SemverEmbeddedResources> embeddedResources,
+                      IEmbeddedResources embeddedResources,
                       IProjectDocumentReader projectDocumentReader,
                       IAddPreconditionValidator preconditionsValidator,
                       IConsoleIO console,

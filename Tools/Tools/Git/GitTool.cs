@@ -86,7 +86,7 @@ public class GitTool : IGitTool
 
         var graph = match.GetGroupValue("graph");
         var sha = match.GetGroupValue("sha");
-        var refs = match.GetGroupValue("refs")!;
+        var refs = match.GetGroupValue("refs");
         var parents = match.GetGroupValue("parents").Split(' ');
         var summary = match.GetGroupValue("summary");
         var body = match.GetGroupValue("body");
