@@ -16,7 +16,7 @@ internal class GitToolTests
                                  D Git2SemVer.MSBuild/Versioning/Generation/Builders/IVersioningContext.cs
                                 ?? CommonTests/Tools/Git/
                                 ?? Git2SemVer.MSBuild/Versioning/Generation/ApiChanges.cs
-                                ?? Git2SemVer.MSBuild/Versioning/Generation/VersioningModeEnum.cs
+                                ?? Git2SemVer.MSBuild/Versioning/Generation/VersioningMode.cs
                                 """;
 
         var result = GitTool.ParseStatusResponseBranchName(response);

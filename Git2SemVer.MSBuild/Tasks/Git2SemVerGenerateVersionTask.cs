@@ -148,7 +148,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         this property is set to <c>StandAloneProject</c>.
     ///     </para>
     ///     <para>
-    ///         See also: <seealso cref="VersioningModeEnum" />
+    ///         See also: <seealso cref="VersioningMode" />
     ///     </para>
     /// </remarks>
     public string Input_Env_Mode { get; set; } = "";

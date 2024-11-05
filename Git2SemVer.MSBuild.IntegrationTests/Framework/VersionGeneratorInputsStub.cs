@@ -24,7 +24,7 @@ public class VersionGeneratorInputsStub : IVersionGeneratorInputs
 
     public string IntermediateOutputDirectory { get; } = "";
 
-    public VersioningModeEnum Mode { get; set; }
+    public VersioningMode Mode { get; set; }
 
     public bool? RunScript { get; set; }
 

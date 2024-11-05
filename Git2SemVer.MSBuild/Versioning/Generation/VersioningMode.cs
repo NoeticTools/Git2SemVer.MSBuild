@@ -3,7 +3,7 @@
 /// <summary>
 ///     Version Mode labels used in MSBuild project files.
 /// </summary>
-public enum VersioningModeEnum
+public enum VersioningMode
 {
     StandAloneProject,
     SolutionClientProject,

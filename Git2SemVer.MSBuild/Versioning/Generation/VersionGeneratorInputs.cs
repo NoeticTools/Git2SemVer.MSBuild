@@ -43,7 +43,7 @@ internal class VersionGeneratorInputs : IVersionGeneratorInputs
         BranchMaturityPattern = branchMaturityPattern;
         try
         {
-            Mode = (VersioningModeEnum)Enum.Parse(typeof(VersioningModeEnum), mode);
+            Mode = (VersioningMode)Enum.Parse(typeof(VersioningMode), mode);
         }
         catch (Exception exception)
         {
@@ -70,7 +70,7 @@ internal class VersionGeneratorInputs : IVersionGeneratorInputs
 
     public string IntermediateOutputDirectory { get; }
 
-    public VersioningModeEnum Mode { get; set; }
+    public VersioningMode Mode { get; set; }
 
     public bool? RunScript { get; }
 
