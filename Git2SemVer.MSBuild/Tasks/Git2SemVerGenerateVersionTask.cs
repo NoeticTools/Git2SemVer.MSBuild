@@ -239,36 +239,6 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     public bool Input_UpdateHostBuildLabel { get; set; }
 
     /// <summary>
-    ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#version">Version</see>
-    ///     property.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         MSBuild task input.
-    ///     </para>
-    ///     <para>
-    ///         Not used by Git2SemVer but include for optional use in C# script.
-    ///     </para>
-    /// </remarks>
-    public string Input_Version { get; set; } = "";
-
-    /// <summary>
-    ///     Optional MSBuild
-    ///     <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#versionsuffix">VersionSuffix</see>
-    ///     property value.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         MSBuild task input.
-    ///     </para>
-    ///     <para>
-    ///         If set to <c>release</c> (case-insensitive) forces the version to be a release.
-    ///         Otherwise, if set, forces a prerelease with this as the prerelease label.
-    ///     </para>
-    /// </remarks>
-    public string Input_VersionSuffix { get; set; } = "";
-
-    /// <summary>
     ///     Called by MSBuild to execute the task.
     /// </summary>
     public override bool Execute()
@@ -323,7 +293,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     private VersionGeneratorInputs GetGeneratorInputs()
     {
         return new VersionGeneratorInputs(Input_Env_Mode,
-                                          Input_Version, Input_VersionSuffix,
+                                          Version, VersionSuffix,
                                           Input_BuildNumber, Input_BuildContext,
                                           Input_BuildIDFormat,
                                           Input_UpdateHostBuildLabel,

@@ -22,7 +22,7 @@
     <Git2SemVerGenerateVersionTask Input_BuildNumber="$(Git2SemVer_BuildNumber)"
                                    Input_BuildContext="$(Git2SemVer_BuildContext)"
                                    Input_BuildIDFormat="$(Git2SemVer_BuildIDFormat)"
-                                   Input_Version="$(Version)"
+                                   Version="$(Version)"
                                    Input_UpdateHostBuildLabel="$(Git2SemVer_UpdateHostBuildLabel)"
                                    Input_ScriptArgs="$(Git2SemVer_ScriptArgs)"
                                    Input_HostType="$(Git2SemVer_HostType)"
@@ -36,12 +36,12 @@
 
       <Output TaskParameter="Output_AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
       <Output TaskParameter="Output_CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />
-      <Output TaskParameter="Output_FileVersion" PropertyName="Git2SemVer_FileVersion" />
-      <Output TaskParameter="Output_InformationalVersion" PropertyName="Git2SemVer_InformationalVersion" />
-      <Output TaskParameter="Output_PackageVersion" PropertyName="Git2SemVer_PackageVersion" />
-      <Output TaskParameter="Output_Version" PropertyName="Git2SemVer_Version" />
-      <Output TaskParameter="Output_VersionPrefix" PropertyName="Git2SemVer_VersionPrefix" />
-      <Output TaskParameter="Output_VersionSuffix" PropertyName="Git2SemVer_VersionSuffix" />
+      <Output TaskParameter="FileVersion" PropertyName="Git2SemVer_FileVersion" />
+      <Output TaskParameter="InformationalVersion" PropertyName="Git2SemVer_InformationalVersion" />
+      <Output TaskParameter="PackageVersion" PropertyName="Git2SemVer_PackageVersion" />
+      <Output TaskParameter="Version" PropertyName="Git2SemVer_Version" />
+      <Output TaskParameter="VersionPrefix" PropertyName="Git2SemVer_VersionPrefix" />
+      <Output TaskParameter="VersionSuffix" PropertyName="Git2SemVer_VersionSuffix" />
       <Output TaskParameter="Output1" PropertyName="Git2SemVer_Output1" />
       <Output TaskParameter="Output2" PropertyName="Git2SemVer_Output2" />
 
@@ -76,12 +76,12 @@
 
       <Output TaskParameter="Output_AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
       <Output TaskParameter="Output_CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />
-      <Output TaskParameter="Output_FileVersion" PropertyName="Git2SemVer_FileVersion" />
-      <Output TaskParameter="Output_InformationalVersion" PropertyName="Git2SemVer_InformationalVersion" />
-      <Output TaskParameter="Output_PackageVersion" PropertyName="Git2SemVer_PackageVersion" />
-      <Output TaskParameter="Output_Version" PropertyName="Git2SemVer_Version" />
-      <Output TaskParameter="Output_VersionPrefix" PropertyName="Git2SemVer_VersionPrefix" />
-      <Output TaskParameter="Output_VersionSuffix" PropertyName="Git2SemVer_VersionSuffix" />
+      <Output TaskParameter="FileVersion" PropertyName="Git2SemVer_FileVersion" />
+      <Output TaskParameter="InformationalVersion" PropertyName="Git2SemVer_InformationalVersion" />
+      <Output TaskParameter="PackageVersion" PropertyName="Git2SemVer_PackageVersion" />
+      <Output TaskParameter="Version" PropertyName="Git2SemVer_Version" />
+      <Output TaskParameter="VersionPrefix" PropertyName="Git2SemVer_VersionPrefix" />
+      <Output TaskParameter="VersionSuffix" PropertyName="Git2SemVer_VersionSuffix" />
       <Output TaskParameter="Output1" PropertyName="Git2SemVer_Output1" />
       <Output TaskParameter="Output2" PropertyName="Git2SemVer_Output2" />
 

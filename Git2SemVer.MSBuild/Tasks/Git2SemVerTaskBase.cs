@@ -2,6 +2,8 @@
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using Task = Microsoft.Build.Utilities.Task;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 
 // ReSharper disable InconsistentNaming
@@ -16,54 +18,165 @@ public abstract class Git2SemVerTaskBase : Task
     [Output]
     public int Output_CommitsSinceLastRelease { get; set; }
 
+    /// <summary>
+    ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#fileversion">FileVersion</see> property.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_FileVersion { get; set; } = "";
+    public string FileVersion { get; set; } = "";
 
+    /// <summary>
+    ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#informationalversion">InformationalVersion</see> property.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_InformationalVersion { get; set; } = "";
+    public string InformationalVersion { get; set; } = "";
 
+    /// <summary>
+    ///     True if the current build is a release build (build maturity).
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///         Made available to MSBuild for use by third party MSBuild tasks.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public bool Output_IsRelease { get; set; }
+    public bool IsRelease { get; set; }
 
+    /// <summary>
+    ///     The found last release commit ID.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///         Made available to MSBuild for use by third party MSBuild tasks.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_LastReleaseCommitId { get; set; } = "";
+    public string LastReleaseCommitId { get; set; } = "";
 
+    /// <summary>
+    ///     The found last released version.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///         Made available to MSBuild for use by third party MSBuild tasks.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_LastReleaseVersion { get; set; } = "";
+    public string LastReleaseVersion { get; set; } = "";
 
+    /// <summary>
+    ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#packageversion">PackageVersion</see> property.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_PackageVersion { get; set; } = "";
+    public string PackageVersion { get; set; } = "";
 
+    /// <summary>
+    ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#version">Version</see> property.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input and output.
+    ///     </para>
+    ///     <para>
+    ///         Not used by Git2SemVer but include for optional use in C# script.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_Version { get; set; } = "";
+    public string Version { get; set; } = "";
 
+    /// <summary>
+    ///     Optional MSBuild
+    ///     <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#versionprefix">VersionPrefix</see>
+    ///     property value.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_VersionPrefix { get; set; } = "";
+    public string VersionPrefix { get; set; } = "";
 
+    /// <summary>
+    ///     Optional MSBuild
+    ///     <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#versionsuffix">VersionSuffix</see>
+    ///     property value.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input and output.
+    ///     </para>
+    ///     <para>
+    ///         If set to <c>release</c> (case-insensitive) forces the version to be a release.
+    ///         Otherwise, if set, forces a prerelease with this as the prerelease label.
+    ///     </para>
+    /// </remarks>
+    /// 
     [Output]
-    public string Output_VersionSuffix { get; set; } = "";
+    public string VersionSuffix { get; set; } = "";
 
+    /// <summary>
+    ///     Output that may be set by user's C# script.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    ///     <para>
+    ///         Not used or set by Git2SemVer.
+    ///         Made available to give C# script code an opportunity to output values to MSBuild.
+    ///     </para>
+    /// </remarks>
     [Output]
     public string Output1 { get; set; } = "";
 
+    /// <summary>
+    ///     Output that may be set by user's C# script.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    ///     <para>
+    ///         Not used or set by Git2SemVer.
+    ///         Made available to give C# script code an opportunity to output values to MSBuild.
+    ///     </para>
+    /// </remarks>
     [Output]
     public string Output2 { get; set; } = "";
 
     protected void SetOutputs(IVersionOutputs outputs)
     {
-        Output_Version = outputs.Version?.ToString() ?? "";
-        Output_VersionSuffix = outputs.Version?.Prerelease ?? "";
-        Output_VersionPrefix = outputs.Version?.WithoutPrerelease().WithoutMetadata().ToString() ?? "";
+        Version = outputs.Version?.ToString() ?? "";
+        VersionSuffix = outputs.Version?.Prerelease ?? "";
+        VersionPrefix = outputs.Version?.WithoutPrerelease().WithoutMetadata().ToString() ?? "";
         Output_AssemblyVersion = outputs.AssemblyVersion?.ToString() ?? "";
-        Output_FileVersion = outputs.FileVersion?.ToString() ?? "";
-        Output_InformationalVersion = outputs.InformationalVersion?.ToString() ?? "";
-        Output_PackageVersion = outputs.PackageVersion?.ToString() ?? "";
+        FileVersion = outputs.FileVersion?.ToString() ?? "";
+        InformationalVersion = outputs.InformationalVersion?.ToString() ?? "";
+        PackageVersion = outputs.PackageVersion?.ToString() ?? "";
         Output1 = outputs.Output1;
         Output2 = outputs.Output2;
         Output_CommitsSinceLastRelease = outputs.Git.CommitsSinceLastRelease;
-        Output_IsRelease = outputs.Version?.IsRelease ?? false;
+        IsRelease = outputs.Version?.IsRelease ?? false;
 
-        Output_LastReleaseCommitId = outputs.Git.LastReleaseCommit?.CommitId.Id ?? "";
-        Output_LastReleaseVersion = outputs.Git.LastReleaseVersion?.ToString() ?? "";
+        LastReleaseCommitId = outputs.Git.LastReleaseCommit?.CommitId.Id ?? "";
+        LastReleaseVersion = outputs.Git.LastReleaseVersion?.ToString() ?? "";
     }
 }
