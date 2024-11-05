@@ -96,7 +96,7 @@ internal class VersionGenerator
 
     private void RunBuilders(VersionOutputs outputs, HistoryPaths historyPaths)
     {
-        _defaultVersionBuilderFactory.Create(historyPaths, _host, _inputs, outputs).Build(_host, _inputs, outputs);
+        _defaultVersionBuilderFactory.Create(historyPaths).Build(_host, _inputs, outputs);
         _scriptBuilder.Build(_host, _inputs, outputs);
     }
 

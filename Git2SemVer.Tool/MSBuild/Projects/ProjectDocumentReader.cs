@@ -1,6 +1,5 @@
 ﻿using System.Xml.Linq;
 using Injectio.Attributes;
-using NoeticTools.Common.Logging;
 
 
 namespace NoeticTools.Git2SemVer.Tool.MSBuild.Projects;

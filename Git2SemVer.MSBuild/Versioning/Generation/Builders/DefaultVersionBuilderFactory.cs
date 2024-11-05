@@ -14,7 +14,7 @@ internal sealed class DefaultVersionBuilderFactory : IDefaultVersionBuilderFacto
         _logger = logger;
     }
 
-    public IVersionBuilder Create(HistoryPaths historyPaths, IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
+    public IVersionBuilder Create(HistoryPaths historyPaths)
     {
         return new DefaultVersionBuilder(historyPaths, _logger);
     }

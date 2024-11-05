@@ -22,7 +22,7 @@ public static class SemVersionStringExtensions
     /// </remarks>
     public static bool IsAlphanumericOrHyphens(this string identifier)
     {
-        var regex = new Regex(@"^[a-zA-Z0-9-]*$");
+        var regex = new Regex("^[a-zA-Z0-9-]*$");
         return regex.IsMatch(identifier);
     }
 
@@ -61,7 +61,7 @@ public static class SemVersionStringExtensions
     /// </summary>
     public static string ToNormalisedSemVerIdentifier(this string identifier)
     {
-        var regex = new Regex(@"[^a-zA-Z0-9-]");
+        var regex = new Regex("[^a-zA-Z0-9-]");
         return regex.Replace(identifier, "-");
     }
 

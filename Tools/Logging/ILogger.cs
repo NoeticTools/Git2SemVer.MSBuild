@@ -66,6 +66,7 @@ public interface ILogger : IDisposable
     /// <summary>
     ///     Log an error.
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     void LogError(string message, params object[] messageArgs);
 
     /// <summary>
@@ -83,6 +84,7 @@ public interface ILogger : IDisposable
     ///     Log a message with [high
     ///     importance](https://learn.microsoft.com/en-us/dotnet/api/microsoft.build.framework.messageimportance?view=msbuild-17-netcore).
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     void LogInfo(string message, params object[] messageArgs);
 
     /// <summary>
@@ -105,6 +107,7 @@ public interface ILogger : IDisposable
     /// <summary>
     ///     Log a warning message.
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     void LogWarning(string format, params object[] args);
 
     /// <summary>

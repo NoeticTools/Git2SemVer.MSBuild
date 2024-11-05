@@ -16,7 +16,7 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
     {
         _logger = logger;
         _teamCityVersion = Environment.GetEnvironmentVariable(TeamCityVersionEnvVarName) ?? "";
-        BuildNumber = _teamCityVersion.Length > 0 ? GetBuildNumber(logger) : "";
+        BuildNumber = _teamCityVersion.Length > 0 ? GetBuildNumber() : "";
         BuildContext = "0";
         DefaultBuildNumberFunc = () => [BuildNumber];
     }
@@ -64,7 +64,7 @@ internal class TeamCityHost : BuildHostBase, IDetectableBuildHost
         writer.WriteBuildNumber(label);
     }
 
-    private static string GetBuildNumber(ILogger logger)
+    private static string GetBuildNumber()
     {
         var buildNumberVariable = Environment.GetEnvironmentVariable(BuildNumberEnvVarName);
         return int.TryParse(buildNumberVariable!, out var buildNumber) ? buildNumber.ToString() : "";
