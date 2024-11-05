@@ -23,6 +23,7 @@ public sealed class VersioningContext : IVersioningContext
 
     public IVersionGeneratorInputs Inputs { get; }
 
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public static IVersioningContext? Instance { get; private set; }
 
     public ILogger Logger { get; }

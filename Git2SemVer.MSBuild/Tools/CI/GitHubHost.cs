@@ -26,16 +26,16 @@ internal class GitHubHost : BuildHostBase, IBuildHost
 
     public void ReportBuildStatistic(string key, int value)
     {
-        // Not supported
+        _logger.LogTrace("GitHub host does not support build statistics.");
     }
 
     public void ReportBuildStatistic(string key, double value)
     {
-        // Not supported
+        _logger.LogTrace("GitHub host does not support build statistics.");
     }
 
     public void SetBuildLabel(string label)
     {
-        // Not supported
+        _logger.LogTrace("GitHub host does not support setting a build label.");
     }
 }

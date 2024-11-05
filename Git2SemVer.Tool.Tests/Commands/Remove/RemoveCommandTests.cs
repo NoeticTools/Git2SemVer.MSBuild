@@ -19,20 +19,17 @@ internal class RemoveCommandTests
     private NUnitTaskLogger _logger;
     private Mock<ISolutionFinder> _solutionFinder;
     private RemoveCommand _target;
-    private Mock<IUserOptionsPrompt> _userOptionsPrompt;
 
     [SetUp]
     public void SetUp()
     {
         _logger = new NUnitTaskLogger();
         _solutionFinder = new Mock<ISolutionFinder>();
-        _userOptionsPrompt = new Mock<IUserOptionsPrompt>();
         _dotNetTool = new Mock<IDotNetTool>();
         _consoleIO = new Mock<IConsoleIO>();
         _contentEditor = new Mock<IContentEditor>();
 
         _target = new RemoveCommand(_solutionFinder.Object,
-                                    _userOptionsPrompt.Object,
                                     _dotNetTool.Object,
                                     _consoleIO.Object,
                                     _contentEditor.Object,
@@ -43,5 +40,11 @@ internal class RemoveCommandTests
     public void TearDown()
     {
         _logger.Dispose();
+    }
+
+    [Test]
+    public void CanConstructTest()
+    {
+        Assert.That(_target, Is.Not.Null);
     }
 }

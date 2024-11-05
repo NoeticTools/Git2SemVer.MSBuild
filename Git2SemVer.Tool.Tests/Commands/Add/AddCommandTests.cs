@@ -53,7 +53,8 @@ internal class AddCommandTests
     }
 
     [Test]
-    public void Test()
+    public void CanConstructTest()
     {
+        Assert.That(_target, Is.Not.Null);
     }
 }

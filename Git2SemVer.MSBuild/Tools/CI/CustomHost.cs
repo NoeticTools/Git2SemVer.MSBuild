@@ -28,21 +28,22 @@ internal class CustomHost : BuildHostBase, IDetectableBuildHost
 
     public bool MatchesHostSignature()
     {
+        // Not detectable
         return false;
     }
 
     public void ReportBuildStatistic(string key, int value)
     {
-        // Not supported
+        _logger.LogTrace("Custom host does not support build statistics.");
     }
 
     public void ReportBuildStatistic(string key, double value)
     {
-        // Not supported
+        _logger.LogTrace("Custom host does not support build statistics.");
     }
 
     public void SetBuildLabel(string label)
     {
-        // Not supported
+        _logger.LogTrace("Custom host does not setting a build label.");
     }
 }

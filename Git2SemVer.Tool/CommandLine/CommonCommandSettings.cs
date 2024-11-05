@@ -16,5 +16,6 @@ public class CommonCommandSettings : CommandSettings
     [CommandOption("-u|--unattended")]
     [DefaultValue(false)]
     [Description("Unattened execution. Accepts all defaults.")]
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public bool Unattended { get; set; }
 }

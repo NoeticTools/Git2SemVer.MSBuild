@@ -21,13 +21,11 @@ internal sealed class RemoveCommand : IRemoveCommand
     private readonly ISolutionFinder _solutionFinder;
 
     public RemoveCommand(ISolutionFinder solutionFinder,
-                         IUserOptionsPrompt userOptionsPrompt,
                          IDotNetTool dotNetCli,
                          IConsoleIO console,
                          IContentEditor contentEditor,
                          ILogger logger)
     {
-        UserOptionsPrompt = userOptionsPrompt;
         _solutionFinder = solutionFinder;
         _dotNetCli = dotNetCli;
         _console = console;
@@ -35,8 +33,6 @@ internal sealed class RemoveCommand : IRemoveCommand
     }
 
     public bool HasError => _console.HasError;
-
-    public IUserOptionsPrompt UserOptionsPrompt { get; }
 
     public void Execute(string inputSolutionFile, bool unattended)
     {
