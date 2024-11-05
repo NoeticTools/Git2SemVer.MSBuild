@@ -86,19 +86,20 @@ internal sealed class VersionHistorySegmentsBuilder
         }
 
         var parents = commit.Parents.ToList();
-        if (!parents.Any())
+        if (parents.Count == 0)
         {
             _logger.LogTrace("Commit {0} is the first (initial) commit in the repository (defaults to 0.1.0).", commit.CommitId.ObfuscatedSha);
             return SegmentWalkResult.FoundStart;
         }
 
-        if (parents.Count == 2)
+        if (parents.Count != 2)
         {
-            OnMergeCommit(commit);
-            return SegmentWalkResult.FoundStart;
+            return SegmentWalkResult.Continue;
         }
 
-        return SegmentWalkResult.Continue;
+        OnMergeCommit(commit);
+        return SegmentWalkResult.FoundStart;
+
     }
 
     private void NextCommitBeforeMerge(CommitId parent)

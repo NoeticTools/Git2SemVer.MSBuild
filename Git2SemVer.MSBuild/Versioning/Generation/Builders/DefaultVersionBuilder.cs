@@ -78,7 +78,7 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
         }
 
         if (VersioningConstants.ReleaseGroupName.Equals(inputs.VersionSuffix,
-                                                        StringComparison.CurrentCultureIgnoreCase))
+                                                        StringComparison.Ordinal))
         {
             return initialDevSuffix;
         }
@@ -116,7 +116,7 @@ internal sealed class DefaultVersionBuilder : IVersionBuilder
             var group = match.Groups[groupName];
             if (group.Success)
             {
-                return "release".Equals(groupName, StringComparison.InvariantCultureIgnoreCase) ? "" : groupName.ToNormalisedSemVerIdentifier();
+                return "release".Equals(groupName, StringComparison.Ordinal) ? "" : groupName.ToNormalisedSemVerIdentifier();
             }
         }
 

@@ -17,6 +17,11 @@ public sealed class ScriptVersionBuilder : IVersionBuilder
 
     public void Build(IBuildHost host, IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
+        if (inputs == null)
+        {
+            throw new ArgumentException("Build requires non-null inputs.", nameof(inputs));
+        }
+
         if (inputs.RunScript is null or false)
         {
             return;

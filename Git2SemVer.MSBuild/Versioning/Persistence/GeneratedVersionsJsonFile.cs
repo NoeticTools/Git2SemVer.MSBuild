@@ -44,7 +44,7 @@ internal sealed class GeneratedVersionsJsonFile : IGeneratedOutputsJsonFile
 
         var json = GetContent(outputs);
         var existingJson = LoadJson(directory);
-        if (json.Equals(existingJson, StringComparison.InvariantCulture))
+        if (json.Equals(existingJson, StringComparison.Ordinal))
         {
             return;
         }

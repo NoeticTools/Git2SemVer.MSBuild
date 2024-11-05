@@ -307,7 +307,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
             SetOutputs(versionGenerator.Run());
             return !Log.HasLoggedErrors;
         }
+#pragma warning disable CA1031
         catch (Exception exception)
+#pragma warning restore CA1031
         {
             logger.LogError(exception);
             return false;
