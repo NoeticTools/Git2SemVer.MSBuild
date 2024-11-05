@@ -12,11 +12,31 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 
 public abstract class Git2SemVerTaskBase : Task
 {
+    /// <summary>
+    ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#assemblyversion">AssemblyVersion</see> property.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public string Output_AssemblyVersion { get; set; } = "";
+    public string AssemblyVersion { get; set; } = "";
 
+    /// <summary>
+    ///     The commits count (commit height) from the last release.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task output.
+    ///         Made available to MSBuild for use by third party MSBuild tasks.
+    ///     </para>
+    ///     <para>
+    ///         Git2SemVer does not use this value in versions generated.
+    ///     </para>
+    /// </remarks>
     [Output]
-    public int Output_CommitsSinceLastRelease { get; set; }
+    public int CommitsSinceLastRelease { get; set; }
 
     /// <summary>
     ///     MSBuild's <see href="https://gist.github.com/jonlabelle/34993ee032c26420a0943b1c9d106cdc#fileversion">FileVersion</see> property.
@@ -167,13 +187,13 @@ public abstract class Git2SemVerTaskBase : Task
         Version = outputs.Version?.ToString() ?? "";
         VersionSuffix = outputs.Version?.Prerelease ?? "";
         VersionPrefix = outputs.Version?.WithoutPrerelease().WithoutMetadata().ToString() ?? "";
-        Output_AssemblyVersion = outputs.AssemblyVersion?.ToString() ?? "";
+        AssemblyVersion = outputs.AssemblyVersion?.ToString() ?? "";
         FileVersion = outputs.FileVersion?.ToString() ?? "";
         InformationalVersion = outputs.InformationalVersion?.ToString() ?? "";
         PackageVersion = outputs.PackageVersion?.ToString() ?? "";
         Output1 = outputs.Output1;
         Output2 = outputs.Output2;
-        Output_CommitsSinceLastRelease = outputs.Git.CommitsSinceLastRelease;
+        CommitsSinceLastRelease = outputs.Git.CommitsSinceLastRelease;
         IsRelease = outputs.Version?.IsRelease ?? false;
 
         LastReleaseCommitId = outputs.Git.LastReleaseCommit?.CommitId.Id ?? "";

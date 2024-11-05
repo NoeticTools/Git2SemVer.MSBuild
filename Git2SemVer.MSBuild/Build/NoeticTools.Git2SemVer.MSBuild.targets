@@ -19,23 +19,23 @@
 
     <!-- Generate version information -->
 
-    <Git2SemVerGenerateVersionTask Input_BuildNumber="$(Git2SemVer_BuildNumber)"
-                                   Input_BuildContext="$(Git2SemVer_BuildContext)"
-                                   Input_BuildIDFormat="$(Git2SemVer_BuildIDFormat)"
+    <Git2SemVerGenerateVersionTask BuildNumber="$(Git2SemVer_BuildNumber)"
+                                   BuildContext="$(Git2SemVer_BuildContext)"
+                                   BuildIdFormat="$(Git2SemVer_BuildIDFormat)"
                                    Version="$(Version)"
-                                   Input_UpdateHostBuildLabel="$(Git2SemVer_UpdateHostBuildLabel)"
-                                   Input_ScriptArgs="$(Git2SemVer_ScriptArgs)"
-                                   Input_HostType="$(Git2SemVer_HostType)"
-                                   Input_BuildScriptPath="$(Git2SemVer_ScriptPath)"
-                                   Input_BranchMaturityPattern="$(Git2SemVer_BranchMaturityPattern)"
-                                   Input_Env_WorkingDirectory="$(MSBuildProjectDirectory)"
-                                   Input_Env_SharedDirectory="$(Git2SemVer_ShareDirectory)"
-                                   Input_Env_SharedVersioningPropsFile="$(Git2SemVer_SharedVersioningJsonFile)"
-                                   Input_Env_IntermediateOutputDirectory="$(Git2SemVer_IntermediateOutputPath)"
-                                   Input_Env_Mode="$(Git2SemVer_Mode)">
+                                   UpdateHostBuildLabel="$(Git2SemVer_UpdateHostBuildLabel)"
+                                   ScriptArgs="$(Git2SemVer_ScriptArgs)"
+                                   HostType="$(Git2SemVer_HostType)"
+                                   BuildScriptPath="$(Git2SemVer_ScriptPath)"
+                                   BranchMaturityPattern="$(Git2SemVer_BranchMaturityPattern)"
+                                   WorkingDirectory="$(MSBuildProjectDirectory)"
+                                   SharedDirectory="$(Git2SemVer_ShareDirectory)"
+                                   SharedVersioningPropsFile="$(Git2SemVer_SharedVersioningJsonFile)"
+                                   IntermediateOutputDirectory="$(Git2SemVer_IntermediateOutputPath)"
+                                   Mode="$(Git2SemVer_Mode)">
 
-      <Output TaskParameter="Output_AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
-      <Output TaskParameter="Output_CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />
+      <Output TaskParameter="AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
+      <Output TaskParameter="CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />
       <Output TaskParameter="FileVersion" PropertyName="Git2SemVer_FileVersion" />
       <Output TaskParameter="InformationalVersion" PropertyName="Git2SemVer_InformationalVersion" />
       <Output TaskParameter="PackageVersion" PropertyName="Git2SemVer_PackageVersion" />
@@ -74,8 +74,8 @@
 
     <Git2SemVerRestoreVersionPropertiesTask Input_VersionCacheDirectory="$(Git2SemVer_VersionCacheDirectory)">
 
-      <Output TaskParameter="Output_AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
-      <Output TaskParameter="Output_CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />
+      <Output TaskParameter="AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
+      <Output TaskParameter="CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />
       <Output TaskParameter="FileVersion" PropertyName="Git2SemVer_FileVersion" />
       <Output TaskParameter="InformationalVersion" PropertyName="Git2SemVer_InformationalVersion" />
       <Output TaskParameter="PackageVersion" PropertyName="Git2SemVer_PackageVersion" />

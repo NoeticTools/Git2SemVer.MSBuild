@@ -108,7 +108,7 @@ The MSBuild input poperties are:
     <td>
         <div class="descriptionCol">
             <p>
-                If set overrides the build host's BuildIDFormat property to overrides how the host formats build ID
+                If set overrides the build host's BuildIdFormat property to overrides how the host formats build ID
             </p><p>
                 A a dot delimited string of identifiers. Identifiers <code>BUILD_NUMBER</code> and <code>BUILD_CONTEXT</code> are replaced with the values of the host's build number and build contxt.
             </p><p>

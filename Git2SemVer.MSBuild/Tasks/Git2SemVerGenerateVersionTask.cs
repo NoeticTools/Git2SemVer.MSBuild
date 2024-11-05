@@ -35,7 +35,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         MSBuild task input.
     ///     </para>
     /// </remarks>
-    public string Input_BranchMaturityPattern { get; set; } = "";
+    public string BranchMaturityPattern { get; set; } = "";
 
     /// <summary>
     ///     The optional MSBuild <c>Git2SemVer_BuildContext</c> property value.
@@ -48,7 +48,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         If set, used to override the <see cref="IBuildHost.BuildContext" /> property.
     ///     </para>
     /// </remarks>
-    public string Input_BuildContext { get; set; } = "";
+    public string BuildContext { get; set; } = "";
 
     /// <summary>
     ///     Optional build ID format.
@@ -63,7 +63,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         Intended to be used with <c>Custom</c> build host type but can be used with any host.
     ///     </para>
     /// </remarks>
-    public string Input_BuildIDFormat { get; set; } = "";
+    public string BuildIdFormat { get; set; } = "";
 
     /// <summary>
     ///     Optional input MSBuild <c>Git2SemVer_BuildContext</c> property value.
@@ -101,7 +101,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///        dotnet build -p:BuildNumber=${{ env.BUILD_NUMBER }}
     /// </code>
     /// </remarks>
-    public string Input_BuildNumber { get; set; } = "";
+    public string BuildNumber { get; set; } = "";
 
     /// <summary>
     ///     Required path the C# script file to run.
@@ -112,7 +112,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     </para>
     /// </remarks>
     [Required]
-    public string Input_BuildScriptPath { get; set; } = "";
+    public string BuildScriptPath { get; set; } = "";
 
     /// <summary>
     ///     Path to directory to write versioning report to.
@@ -129,7 +129,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     </para>
     /// </remarks>
     [Required]
-    public string Input_Env_IntermediateOutputDirectory { get; set; } = "";
+    public string IntermediateOutputDirectory { get; set; } = "";
 
     /// <summary>
     ///     This project's versioning mode. For internal use only.
@@ -151,7 +151,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         See also: <seealso cref="VersioningMode" />
     ///     </para>
     /// </remarks>
-    public string Input_Env_Mode { get; set; } = "";
+    public string Mode { get; set; } = "";
 
     /// <summary>
     ///     When using solution versioning the shared directory that holds generated version properties.
@@ -161,10 +161,10 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         MSBuild task input.
     ///     </para>
     /// <para>
-    ///     Not used if the <see cref="Input_Env_Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
+    ///     Not used if the <see cref="Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
     /// </para>
     /// </remarks>
-    public string Input_Env_SharedDirectory { get; set; } = "";
+    public string SharedDirectory { get; set; } = "";
 
     /// <summary>
     ///     When using solution versioning the path to the shared generated version properties file.
@@ -174,10 +174,10 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         MSBuild task input.
     ///     </para>
     /// <para>
-    ///     Not used if the <see cref="Input_Env_Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
+    ///     Not used if the <see cref="Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
     /// </para>
     /// </remarks>
-    public string Input_Env_SharedVersioningPropsFile { get; set; } = "";
+    public string SharedVersioningPropsFile { get; set; } = "";
 
     /// <summary>
     ///     The working directory.
@@ -191,7 +191,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     </para>
     /// </remarks>
     [Required]
-    public string Input_Env_WorkingDirectory { get; set; } = "";
+    public string WorkingDirectory { get; set; } = "";
 
     /// <summary>
     ///     Optional input MSBuild <c>Git2SemVer_HostType</c> property.
@@ -205,7 +205,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         See <see cref="IBuildHost.HostTypeId" />.
     ///     </para>
     /// </remarks>
-    public string Input_HostType { get; set; } = "";
+    public string HostType { get; set; } = "";
 
     /// <summary>
     ///     Optional MSBuild <c>Git2SemVer_RunScript</c> property.
@@ -221,12 +221,22 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///         The default is <c>null</c>.
     ///     </para>
     /// </remarks>
-    public bool? Input_RunScript { get; set; }
+    public bool? RunScript { get; set; }
 
     /// <summary>
     ///     The optional MSBuild <c>Git2SemVer_ScriptArg</c> property.
     /// </summary>
-    public string Input_ScriptArgs { get; set; } = "";
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    ///     <para>
+    ///         Arguments that are passed on to the user's optional C# script.
+    ///         Not used by Git2SemVer.
+    ///         Default is empty string.
+    ///     </para>
+    /// </remarks>
+    public string ScriptArgs { get; set; } = "";
 
     /// <summary>
     ///     The optional MSBuild <c>Git2SemVer_UpdateHostBuildLabel</c> property.
@@ -235,8 +245,12 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     <para>
     ///         MSBuild task input.
     ///     </para>
+    ///     <para>
+    ///         If set to true, Git2SemVer.MSBuild will update the host's build label.
+    ///         Default is false.
+    ///     </para>
     /// </remarks>
-    public bool Input_UpdateHostBuildLabel { get; set; }
+    public bool UpdateHostBuildLabel { get; set; }
 
     /// <summary>
     ///     Called by MSBuild to execute the task.
@@ -248,7 +262,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
         {
 #pragma warning disable CA2000
             logger.Add(new MSBuildTaskLogger(Log) { Level = LoggingLevel.Trace });
-            var logFilePath = Path.Combine(Input_Env_IntermediateOutputDirectory, "Git2SemVer.MSBuild.log");
+            var logFilePath = Path.Combine(IntermediateOutputDirectory, "Git2SemVer.MSBuild.log");
             logger.Add(new FileLogger(logFilePath) { Level = LoggingLevel.Trace });
 #pragma warning restore CA2000
 
@@ -292,20 +306,20 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
 
     private VersionGeneratorInputs GetGeneratorInputs()
     {
-        return new VersionGeneratorInputs(Input_Env_Mode,
+        return new VersionGeneratorInputs(Mode,
                                           Version, VersionSuffix,
-                                          Input_BuildNumber, Input_BuildContext,
-                                          Input_BuildIDFormat,
-                                          Input_UpdateHostBuildLabel,
-                                          Input_HostType,
-                                          Input_RunScript,
-                                          Input_BuildScriptPath,
-                                          Input_ScriptArgs,
-                                          Input_BranchMaturityPattern,
-                                          Input_Env_WorkingDirectory,
-                                          Input_Env_IntermediateOutputDirectory,
-                                          Input_Env_SharedDirectory,
-                                          Input_Env_SharedVersioningPropsFile,
+                                          BuildNumber, BuildContext,
+                                          BuildIdFormat,
+                                          UpdateHostBuildLabel,
+                                          HostType,
+                                          RunScript,
+                                          BuildScriptPath,
+                                          ScriptArgs,
+                                          BranchMaturityPattern,
+                                          WorkingDirectory,
+                                          IntermediateOutputDirectory,
+                                          SharedDirectory,
+                                          SharedVersioningPropsFile,
                                           BuildEngine9);
     }
 }
