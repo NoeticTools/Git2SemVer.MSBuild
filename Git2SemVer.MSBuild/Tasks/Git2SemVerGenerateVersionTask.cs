@@ -275,7 +275,6 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
                                           Input_Env_IntermediateOutputDirectory,
                                           Input_Env_SharedDirectory,
                                           Input_Env_SharedVersioningPropsFile,
-                                          BuildEngine,
                                           BuildEngine9);
     }
 }

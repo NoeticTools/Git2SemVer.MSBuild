@@ -2,6 +2,7 @@
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.MSBuild.Framework.Semver;
 using Semver;
+// ReSharper disable UnusedMemberInSuper.Global
 
 
 namespace NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
@@ -123,11 +124,13 @@ public interface IVersionOutputs
     /// <summary>
     ///     Optional script output to MSBuild property <c>Git2SemVer_Output1</c>
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     string Output1 { get; set; }
 
     /// <summary>
     ///     Optional script output to MSBuild property <c>Git2SemVer_Output2</c>
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     string Output2 { get; set; }
 
     /// <summary>

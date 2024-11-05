@@ -22,8 +22,7 @@ internal sealed class RemoveCommand : IRemoveCommand
     public RemoveCommand(ISolutionFinder solutionFinder,
                          IDotNetTool dotNetCli,
                          IConsoleIO console,
-                         IContentEditor contentEditor,
-                         ILogger logger)
+                         IContentEditor contentEditor)
     {
         _solutionFinder = solutionFinder;
         _dotNetCli = dotNetCli;

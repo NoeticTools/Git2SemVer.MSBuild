@@ -31,8 +31,7 @@ internal class RemoveCommandTests
         _target = new RemoveCommand(_solutionFinder.Object,
                                     _dotNetTool.Object,
                                     _consoleIO.Object,
-                                    _contentEditor.Object,
-                                    _logger);
+                                    _contentEditor.Object);
     }
 
     [TearDown]

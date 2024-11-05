@@ -26,6 +26,7 @@ public sealed class ScriptVersionBuilder : IVersionBuilder
                                                       inputs,
                                                       outputs,
                                                       _logger);
+        // ReSharper disable once UnusedVariable
         var task = scriptRunner.RunScript();
     }
 }

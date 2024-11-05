@@ -14,8 +14,6 @@ public class VersionGeneratorInputsStub : IVersionGeneratorInputs
 
     public string BuildContext { get; set; } = string.Empty;
 
-    public IBuildEngine BuildEngine { get; set; } = new BuildEngineStub();
-
     public IBuildEngine9 BuildEngine9 { get; set; } = new BuildEngine9Stub(new Dictionary<string, string>());
 
     public string BuildNumber { get; set; } = "";

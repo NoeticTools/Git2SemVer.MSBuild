@@ -29,7 +29,7 @@ internal sealed class VersionHistorySegment
         Id = _nextId++;
     }
 
-    public ApiChanges Bumps => GetApiChanges();
+    public ApiChanges ApiChangeFlags => GetApiChanges();
 
     public IReadOnlyList<Commit> Commits => _commits.ToList();
 
@@ -116,7 +116,7 @@ internal sealed class VersionHistorySegment
         var release = TaggedReleasedVersion != null ? TaggedReleasedVersion.ToString() : "";
 
         return
-            $"Segment {Id,-3} {LastCommit.CommitId.ObfuscatedSha} -> {FirstCommit.CommitId.ObfuscatedSha}  {commitsCount,5}   {Bumps}   {toSegments,-16}  {fromSegments,-16}  {release}";
+            $"Segment {Id,-3} {LastCommit.CommitId.ObfuscatedSha} -> {FirstCommit.CommitId.ObfuscatedSha}  {commitsCount,5}   {ApiChangeFlags}   {toSegments,-16}  {fromSegments,-16}  {release}";
     }
 
     private ApiChanges GetApiChanges()

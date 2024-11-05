@@ -23,10 +23,8 @@ internal class VersionGeneratorInputs : IVersionGeneratorInputs
                                   string intermediateOutputPath,
                                   string solutionSharedDirectory,
                                   string solutionSharedVersioningPropsFile,
-                                  IBuildEngine buildEngine,
                                   IBuildEngine9 buildEngine9)
     {
-        BuildEngine = buildEngine;
         BuildEngine9 = buildEngine9;
         BuildContext = buildContext;
         BuildIdFormat = inputBuildIdFormat;
@@ -58,9 +56,6 @@ internal class VersionGeneratorInputs : IVersionGeneratorInputs
 
     /// <inheritdoc />
     public string BuildContext { get; }
-
-    /// <inheritdoc />
-    public IBuildEngine BuildEngine { get; }
 
     /// <inheritdoc />
     public IBuildEngine9 BuildEngine9 { get; }

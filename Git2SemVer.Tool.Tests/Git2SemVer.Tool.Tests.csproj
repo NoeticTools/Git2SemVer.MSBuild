@@ -45,4 +45,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BuildPropsFile\" />
+  </ItemGroup>
+
 </Project>
