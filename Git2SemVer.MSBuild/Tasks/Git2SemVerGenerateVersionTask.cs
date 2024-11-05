@@ -10,7 +10,6 @@ using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 using NoeticTools.MSBuild.Tasking.Logging;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-// ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -31,12 +30,20 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     /// <summary>
     ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "beta".
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    /// </remarks>
     public string Input_BranchMaturityPattern { get; set; } = "";
 
     /// <summary>
     ///     The optional MSBuild <c>Git2SemVer_BuildContext</c> property value.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         If set, used to override the <see cref="IBuildHost.BuildContext" /> property.
     ///     </para>
@@ -47,9 +54,14 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     Optional build ID format.
     /// </summary>
     /// <remarks>
-    ///     If set, overrides the host object's <see cref="IBuildHost.BuildIdFormat">BuildIdFormat</see> property to set it
-    ///     formats the value of <see cref="IBuildHost.BuildId">BuildId</see>.
-    ///     Intended to be used with <c>Custom</c> build host type but can be used with any host.
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    ///     <para>
+    ///         If set, overrides the host object's <see cref="IBuildHost.BuildIdFormat">BuildIdFormat</see> property to set it
+    ///         formats the value of <see cref="IBuildHost.BuildId">BuildId</see>.
+    ///         Intended to be used with <c>Custom</c> build host type but can be used with any host.
+    ///     </para>
     /// </remarks>
     public string Input_BuildIDFormat { get; set; } = "";
 
@@ -57,6 +69,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     Optional input MSBuild <c>Git2SemVer_BuildContext</c> property value.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         If set, used to override the <see cref="IBuildHost.BuildNumber" /> property.
     ///     </para>
@@ -91,6 +106,11 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     /// <summary>
     ///     Required path the C# script file to run.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    /// </remarks>
     [Required]
     public string Input_BuildScriptPath { get; set; } = "";
 
@@ -103,6 +123,11 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     </see>
     ///     property.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    /// </remarks>
     [Required]
     public string Input_Env_IntermediateOutputDirectory { get; set; } = "";
 
@@ -110,6 +135,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     This project's versioning mode. For internal use only.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         If Git2SemVer was installed using the dotnet tool then solution versioning
     ///         is being used and this property is set to either <c>SolutionClientProject</c> or
@@ -129,7 +157,12 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     When using solution versioning the shared directory that holds generated version properties.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    /// <para>
     ///     Not used if the <see cref="Input_Env_Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
+    /// </para>
     /// </remarks>
     public string Input_Env_SharedDirectory { get; set; } = "";
 
@@ -137,7 +170,12 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     When using solution versioning the path to the shared generated version properties file.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    /// <para>
     ///     Not used if the <see cref="Input_Env_Mode" /> is <c>"StandAloneProject"</c>. Otherwise, required.
+    /// </para>
     /// </remarks>
     public string Input_Env_SharedVersioningPropsFile { get; set; } = "";
 
@@ -145,6 +183,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     The working directory.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         Default is the project's directory.
     ///     </para>
@@ -158,6 +199,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     /// </summary>
     /// <remarks>
     ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    ///     <para>
     ///         See <see cref="IBuildHost.HostTypeId" />.
     ///     </para>
     /// </remarks>
@@ -167,6 +211,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     Optional MSBuild <c>Git2SemVer_RunScript</c> property.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         If set to <c>false</c> prevents the script from being executed.
     ///         If set to <c>true</c> ensure the script is executed and fail the build if the script is not present.
@@ -184,6 +231,11 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     /// <summary>
     ///     The optional MSBuild <c>Git2SemVer_UpdateHostBuildLabel</c> property.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    /// </remarks>
     public bool Input_UpdateHostBuildLabel { get; set; }
 
     /// <summary>
@@ -191,6 +243,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     property.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         Not used by Git2SemVer but include for optional use in C# script.
     ///     </para>
@@ -203,6 +258,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase
     ///     property value.
     /// </summary>
     /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
     ///     <para>
     ///         If set to <c>release</c> (case-insensitive) forces the version to be a release.
     ///         Otherwise, if set, forces a prerelease with this as the prerelease label.

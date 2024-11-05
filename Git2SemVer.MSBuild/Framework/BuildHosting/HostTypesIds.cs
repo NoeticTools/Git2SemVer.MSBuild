@@ -18,17 +18,17 @@ public enum HostTypeIds
     /// <summary>
     ///     An uncontrolled host such as a developer's box.
     /// </summary>
-    Uncontrolled = 1,
+    Uncontrolled = 2,
 
     /// <summary>
     ///     A TeamCity build host (agent).
     /// </summary>
-    TeamCity = 2,
+    TeamCity = 3,
 
     /// <summary>
     ///     GitHub build host.
     /// </summary>
-    GitHub = 3
+    GitHub = 4
 
-    //Jenkins = 4,
+    //Jenkins = 5,
 }
