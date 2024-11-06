@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Framework;
+﻿using JetBrains.Annotations;
+using Microsoft.Build.Framework;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using Task = Microsoft.Build.Utilities.Task;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -184,6 +185,11 @@ public abstract class Git2SemVerTaskBase : Task
 
     protected void SetOutputs(IVersionOutputs outputs)
     {
+        if (outputs == null)
+        {
+            throw new ArgumentNullException(nameof(outputs), "Outputs object is required.");
+        }
+
         Version = outputs.Version?.ToString() ?? "";
         VersionSuffix = outputs.Version?.Prerelease ?? "";
         VersionPrefix = outputs.Version?.WithoutPrerelease().WithoutMetadata().ToString() ?? "";

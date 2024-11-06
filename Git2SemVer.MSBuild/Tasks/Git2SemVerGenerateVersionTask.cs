@@ -319,20 +319,25 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
 
     public VersioningMode VersioningMode { get; private set; }
 
-    public bool Validate(ILogger logger)
+    public bool ValidateScriptInputs(ILogger logger)
     {
+        if (logger == null)
+        {
+            throw new ArgumentNullException(nameof(logger), "Logger is required.");
+        }
+
         if (string.IsNullOrWhiteSpace(BuildScriptPath))
         {
             logger.LogError($"The script file path (property {nameof(BuildScriptPath)}) is required.");
             return false;
         }
 
-        if (RunScript is true && !File.Exists(BuildScriptPath))
+        if (RunScript is not true || File.Exists(BuildScriptPath))
         {
-            logger.LogError($"The required build script file '{BuildScriptPath}' was not found.");
-            return false;
+            return true;
         }
 
-        return true;
+        logger.LogError($"The required build script file '{BuildScriptPath}' was not found.");
+        return false;
     }
 }

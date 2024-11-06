@@ -67,7 +67,7 @@ public sealed class Git2SemVerScriptRunner
             }
         }
 
-        if (!_inputs.Validate(_logger))
+        if (!_inputs.ValidateScriptInputs(_logger))
         {
             return;
         }

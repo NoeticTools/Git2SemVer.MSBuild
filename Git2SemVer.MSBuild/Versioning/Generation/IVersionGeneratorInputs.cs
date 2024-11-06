@@ -181,5 +181,5 @@ public interface IVersionGeneratorInputs : IMSBuildTask
 
     string BuildIdFormat { get; }
 
-    bool Validate(ILogger logger);
+    bool ValidateScriptInputs(ILogger logger);
 }

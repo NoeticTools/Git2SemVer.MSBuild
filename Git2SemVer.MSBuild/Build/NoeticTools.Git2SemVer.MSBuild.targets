@@ -72,7 +72,7 @@
           Outputs="$(Git2SemVer_RestoredPropertiesStamp)"
           Condition="'$(Git2SemVer_Disable)' == 'false'">
 
-    <Git2SemVerRestoreVersionPropertiesTask Input_VersionCacheDirectory="$(Git2SemVer_VersionCacheDirectory)">
+    <Git2SemVerRestoreVersionPropertiesTask VersionCacheDirectory="$(Git2SemVer_VersionCacheDirectory)">
 
       <Output TaskParameter="AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
       <Output TaskParameter="CommitsSinceLastRelease" PropertyName="Git2SemVer_CommitsSinceLastRelease" />

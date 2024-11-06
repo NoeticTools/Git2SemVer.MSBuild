@@ -44,7 +44,7 @@ public class VersionGeneratorInputsStub : IVersionGeneratorInputs
 
     public string BuildIdFormat { get; } = "";
 
-    public bool Validate(ILogger logger)
+    public bool ValidateScriptInputs(ILogger logger)
     {
         return true;
     }

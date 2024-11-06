@@ -16,16 +16,23 @@ public class Git2SemVerRestoreVersionPropertiesTask : Git2SemVerTaskBase
 {
     /// <summary>
     ///     Path to the projects intermediate files directory (ob/).
-    ///     Defaults to the MSBuild
-    ///     <see
-    ///         href="https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022#list-of-common-properties-and-parameters">
-    ///         BaseIntermediateOutputPath
-    ///     </see>
-    ///     property.
     /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         MSBuild task input.
+    ///     </para>
+    ///     <para>
+    ///         Defaults to the MSBuild
+    ///         <see
+    ///             href="https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2022#list-of-common-properties-and-parameters">
+    ///             BaseIntermediateOutputPath
+    ///         </see>
+    ///         property.
+    ///     </para>
+    /// </remarks>
     [Required]
     // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-    public string Input_VersionCacheDirectory { get; set; } = "";
+    public string VersionCacheDirectory { get; set; } = "";
 
     /// <summary>
     ///     Called by MSBuild to execute the task.
@@ -36,7 +43,7 @@ public class Git2SemVerRestoreVersionPropertiesTask : Git2SemVerTaskBase
         try
         {
             logger.LogDebug("Restoring version properties.");
-            var cache = new GeneratedVersionsJsonFile().Load(Input_VersionCacheDirectory);
+            var cache = new GeneratedVersionsJsonFile().Load(VersionCacheDirectory);
             SetOutputs(cache);
             return !Log.HasLoggedErrors;
         }
