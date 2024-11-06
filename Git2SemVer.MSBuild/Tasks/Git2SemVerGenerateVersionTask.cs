@@ -1,14 +1,8 @@
 ﻿using Microsoft.Build.Framework;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
-using NoeticTools.Common.Tools.Git;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
-using NoeticTools.Git2SemVer.MSBuild.Framework.Config;
-using NoeticTools.Git2SemVer.MSBuild.Tools.CI;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Persistence;
 using NoeticTools.MSBuild.Tasking.Logging;
 using ILogger = NoeticTools.Common.Logging.ILogger;
 
@@ -262,14 +256,14 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public override bool Execute()
     {
         var logger = new CompositeLogger { Level = LoggingLevel.Trace };
-        try
-        {
 #pragma warning disable CA2000
-            logger.Add(new MSBuildTaskLogger(Log) { Level = LoggingLevel.Trace });
-            var logFilePath = Path.Combine(IntermediateOutputDirectory, "Git2SemVer.MSBuild.log");
-            logger.Add(new FileLogger(logFilePath) { Level = LoggingLevel.Trace });
+        logger.Add(new MSBuildTaskLogger(Log) { Level = LoggingLevel.Trace });
+        var logFilePath = Path.Combine(IntermediateOutputDirectory, "Git2SemVer.MSBuild.log");
+        logger.Add(new FileLogger(logFilePath) { Level = LoggingLevel.Trace });
 #pragma warning restore CA2000
 
+        try
+        {
             logger.LogDebug("Executing Git2SemVer.MSBuild task to generate version.");
 
             try
@@ -281,27 +275,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
                 throw new Git2SemVerConfigurationException($"Invalid Git2SemVer_Mode value '{Mode}'.", exception);
             }
 
-            var config = Git2SemVerConfiguration.Load();
-            var inputs = this;
-            var host = new BuildHostFactory(config, logger).Create(inputs.HostType,
-                                                                   inputs.BuildNumber,
-                                                                   inputs.BuildContext,
-                                                                   inputs.BuildIdFormat);
-            var gitTool = new GitTool(logger)
-            {
-                WorkingDirectory = inputs.WorkingDirectory
-            };
-            var commitsRepo = new CommitsRepository(gitTool);
-            var gitPathsFinder = new PathsFromLastReleasesFinder(commitsRepo, gitTool, logger);
-
-            var defaultBuilderFactory = new DefaultVersionBuilderFactory(logger);
-            var scriptBuilder = new ScriptVersionBuilder(logger);
-            var versionGenerator = new VersionGenerator(inputs, host,
-                                                        new GeneratedVersionsJsonFile(),
-                                                        new GeneratedVersionsPropsFile(),
-                                                        gitTool, gitPathsFinder, defaultBuilderFactory,
-                                                        scriptBuilder, logger);
-            SetOutputs(versionGenerator.Run());
+            SetOutputs(new GenerateVersionTask(logger).GenerateVersions(this));
             return !Log.HasLoggedErrors;
         }
 #pragma warning disable CA1031

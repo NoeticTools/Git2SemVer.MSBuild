@@ -23,7 +23,8 @@ internal class VersionGenerator
     private readonly ILogger _logger;
     private readonly IVersionBuilder _scriptBuilder;
 
-    public VersionGenerator(IVersionGeneratorInputs inputs, IBuildHost host,
+    public VersionGenerator(IVersionGeneratorInputs inputs, 
+                            IBuildHost host,
                             IGeneratedOutputsJsonFile generatedOutputsJsonFile,
                             IGeneratedOutputsPropFile generatedOutputsPropFile,
                             IGitTool gitTool,
