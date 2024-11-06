@@ -26,7 +26,7 @@ internal class VersionOutputsTests
             BuildSystemVersion = new SemVersion(5, 6, 7).WithPrerelease("TEST")
         };
 
-        var result = GeneratedVersionsJsonFile.GetContent(target);
+        var result = GeneratedVersionsJsonFile.ToJson(target);
 
         Assert.That(result, Is.Not.Null);
 

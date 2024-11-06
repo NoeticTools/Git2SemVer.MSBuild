@@ -48,33 +48,39 @@ internal class VersionGenerator
     {
         try
         {
-            if (_inputs.VersioningMode != VersioningMode.SolutionClientProject)
-            {
-                var output = GenerateVersion();
-                if (_inputs.UpdateHostBuildLabel && output.BuildSystemVersion != null)
-                {
-                    _host.SetBuildLabel(output.BuildSystemVersion.ToString());
-                }
-
-                return output;
-            }
-
-            var localCache = _generatedOutputsJsonFile.Load(_inputs.IntermediateOutputDirectory);
-            if (localCache.BuildNumber == _host.BuildNumber)
-            {
-                return GenerateVersion();
-            }
-
-            // Copy solution shared file to local outputs file
-            var generatedOutputs = _generatedOutputsJsonFile.Load(_inputs.SolutionSharedDirectory);
-            WriteOutputsToFile(_inputs.IntermediateOutputDirectory, generatedOutputs);
-            return generatedOutputs;
+            return _inputs.VersioningMode == VersioningMode.SolutionClientProject ? 
+                PerformSolutionClientVersioning() : PerformProjectVersioning();
         }
         catch (Exception exception)
         {
             _logger.LogError(exception);
             throw;
         }
+    }
+
+    private IVersionOutputs PerformProjectVersioning()
+    {
+        var output = GenerateVersion();
+        if (_inputs.UpdateHostBuildLabel && output.BuildSystemVersion != null)
+        {
+            _host.SetBuildLabel(output.BuildSystemVersion.ToString());
+        }
+
+        return output;
+    }
+
+    private IVersionOutputs PerformSolutionClientVersioning()
+    {
+        var localCache = _generatedOutputsJsonFile.Load(_inputs.IntermediateOutputDirectory);
+        if (localCache.BuildNumber == _host.BuildNumber)
+        {
+            return GenerateVersion();
+        }
+
+        // Copy solution shared file to local outputs file
+        var generatedOutputs = _generatedOutputsJsonFile.Load(_inputs.SolutionSharedDirectory);
+        WriteOutputsToFile(_inputs.IntermediateOutputDirectory, generatedOutputs);
+        return generatedOutputs;
     }
 
     private IVersionOutputs GenerateVersion()

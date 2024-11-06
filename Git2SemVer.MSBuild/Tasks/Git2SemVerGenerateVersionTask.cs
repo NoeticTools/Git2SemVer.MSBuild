@@ -2,6 +2,7 @@
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
 using NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting;
+using NoeticTools.Git2SemVer.MSBuild.Versioning;
 using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation;
 using NoeticTools.MSBuild.Tasking.Logging;
 using ILogger = NoeticTools.Common.Logging.ILogger;
@@ -275,7 +276,8 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
                 throw new Git2SemVerConfigurationException($"Invalid Git2SemVer_Mode value '{Mode}'.", exception);
             }
 
-            SetOutputs(new GenerateVersionTask(logger).GenerateVersions(this));
+            var versionGenerator = new VersionGeneratorFactory(logger).Create(this);
+            SetOutputs(versionGenerator.Run());
             return !Log.HasLoggedErrors;
         }
 #pragma warning disable CA1031
