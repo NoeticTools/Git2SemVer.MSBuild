@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NoeticTools.Git2SemVer.MSBuild" Version="1.1.0" />
+    <PackageReference Include="NoeticTools.Git2SemVer.MSBuild" Version="1.2.0" />
   </ItemGroup>
 
 </Project>
