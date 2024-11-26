@@ -18,8 +18,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
 
     private static GitTestRepository BuildScenario01()
     {
-        var obfuscator = new CommitObfuscator();
-
         return new("""
             Scenario 01:
               - Head is master branch (1)
@@ -45,26 +43,26 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
               | first commit
             """,
         [
-            new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.002.0000", ["1.001.0000"], "", "", "tag: A tag", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.003.0000", ["1.002.0000"], "", "", "tag: A6.7.8", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.005.0000", ["1.004.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.006.0000", ["1.005.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.007.0000", ["1.006.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.008.0000", ["1.007.0000", "3.005.0000"], "Merge", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.009.0000", ["1.008.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("1.010.0000", ["1.009.0000"], "Head commit", "", "", new CommitMessageMetadata(), obfuscator),
+            new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata()),
+        new Commit("1.002.0000", ["1.001.0000"], "", "", "tag: A tag", new CommitMessageMetadata()),
+        new Commit("1.003.0000", ["1.002.0000"], "", "", "tag: A6.7.8", new CommitMessageMetadata()),
+        new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", "", "", new CommitMessageMetadata()),
+        new Commit("1.005.0000", ["1.004.0000"], "", "", "", new CommitMessageMetadata()),
+        new Commit("1.006.0000", ["1.005.0000"], "", "", "", new CommitMessageMetadata()),
+        new Commit("1.007.0000", ["1.006.0000"], "", "", "", new CommitMessageMetadata()),
+        new Commit("1.008.0000", ["1.007.0000", "3.005.0000"], "Merge", "", "", new CommitMessageMetadata()),
+        new Commit("1.009.0000", ["1.008.0000"], "", "", "", new CommitMessageMetadata()),
+        new Commit("1.010.0000", ["1.009.0000"], "Head commit", "", "", new CommitMessageMetadata()),
 
-        new Commit("2.001.0000", ["1.001.0000"], "Branch commit", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("2.002.0000", ["2.001.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("2.003.0000", ["2.002.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
+        new Commit("2.001.0000", ["1.001.0000"], "Branch commit", "", "", new CommitMessageMetadata()),
+        new Commit("2.002.0000", ["2.001.0000"], "", "", "", new CommitMessageMetadata()),
+        new Commit("2.003.0000", ["2.002.0000"], "", "", "", new CommitMessageMetadata()),
 
-        new Commit("3.001.0000", ["1.007.0000"], "Branch commit", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("3.002.0000", ["3.001.0000"], "", "", "tag: v1.2.3", new CommitMessageMetadata(), obfuscator),
-        new Commit("3.003.0000", ["3.002.0000"], "", "", "tag: v1.2.4", new CommitMessageMetadata(), obfuscator),
-        new Commit("3.004.0000", ["3.003.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-        new Commit("3.005.0000", ["3.004.0000"], "", "", "", new CommitMessageMetadata(), obfuscator)
+        new Commit("3.001.0000", ["1.007.0000"], "Branch commit", "", "", new CommitMessageMetadata()),
+        new Commit("3.002.0000", ["3.001.0000"], "", "", "tag: v1.2.3", new CommitMessageMetadata()),
+        new Commit("3.003.0000", ["3.002.0000"], "", "", "tag: v1.2.4", new CommitMessageMetadata()),
+        new Commit("3.004.0000", ["3.003.0000"], "", "", "", new CommitMessageMetadata()),
+        new Commit("3.005.0000", ["3.004.0000"], "", "", "", new CommitMessageMetadata())
         ],
         "1.010.0000",
         3,
@@ -73,8 +71,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
 
     private static GitTestRepository BuildScenario02()
     {
-        var obfuscator = new CommitObfuscator();
-
         return new("""
                    Scenario 02:
                      - Release on merge commit with release on branch being merged
@@ -94,16 +90,15 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                    1.001  | first commit
                    """,
                    [
-                       new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.007.0000", ["1.001.0000"], "", "", "Branched from", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.008.0000", ["1.007.0000", "2.005.0000"], "Merge commit", "", "tag: v1.2.2", new CommitMessageMetadata(),
-                                  obfuscator),
-                       new Commit("1.009.0000", ["1.008.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.010.0000", ["1.009.0000"], "Head commit", "", "", new CommitMessageMetadata(), obfuscator),
+                       new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata()),
+                       new Commit("1.007.0000", ["1.001.0000"], "", "", "Branched from", new CommitMessageMetadata()),
+                       new Commit("1.008.0000", ["1.007.0000", "2.005.0000"], "Merge commit", "", "tag: v1.2.2", new CommitMessageMetadata()),
+                       new Commit("1.009.0000", ["1.008.0000"], "", "", "", new CommitMessageMetadata()),
+                       new Commit("1.010.0000", ["1.009.0000"], "Head commit", "", "", new CommitMessageMetadata()),
 
-                       new Commit("2.001.0000", ["1.007.0000"], "Branch commit", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("2.003.0000", ["2.001.0000"], "", "", "tag: v1.2.4", new CommitMessageMetadata(), obfuscator),
-                       new Commit("2.005.0000", ["2.003.0000"], "", "", "", new CommitMessageMetadata(), obfuscator)
+                       new Commit("2.001.0000", ["1.007.0000"], "Branch commit", "", "", new CommitMessageMetadata()),
+                       new Commit("2.003.0000", ["2.001.0000"], "", "", "tag: v1.2.4", new CommitMessageMetadata()),
+                       new Commit("2.005.0000", ["2.003.0000"], "", "", "", new CommitMessageMetadata())
                    ],
                    "1.010.0000",
                    1,
@@ -112,8 +107,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
 
     private static GitTestRepository BuildScenario03()
     {
-        var obfuscator = new CommitObfuscator();
-
         return new("""
                    Scenario 03:
                      - Single branch, takes first release
@@ -130,12 +123,12 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                    1.001  | first commit
                    """,
                    [
-                       new Commit("1.001", [], "First commit in repo", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.002", ["1.001"], "", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.003", ["1.002"], "", "", "tag: v2.2.2", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.004", ["1.003"], "", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.005", ["1.004"], "", "", "tag: V1.5.9", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.006", ["1.005"], "", "", "Head commit", new CommitMessageMetadata(), obfuscator)
+                       new Commit("1.001", [], "First commit in repo", "", "", new CommitMessageMetadata()),
+                       new Commit("1.002", ["1.001"], "", "", "", new CommitMessageMetadata()),
+                       new Commit("1.003", ["1.002"], "", "", "tag: v2.2.2", new CommitMessageMetadata()),
+                       new Commit("1.004", ["1.003"], "", "", "", new CommitMessageMetadata()),
+                       new Commit("1.005", ["1.004"], "", "", "tag: V1.5.9", new CommitMessageMetadata()),
+                       new Commit("1.006", ["1.005"], "", "", "Head commit", new CommitMessageMetadata())
                    ],
                    "1.006",
                    1,
@@ -144,8 +137,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
 
     private static GitTestRepository BuildScenario04()
     {
-        var obfuscator = new CommitObfuscator();
-
         return new("""
                    Scenario 04:
                      - Single commit repository
@@ -154,7 +145,7 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                    1.001  | head
                    """,
                    [
-                       new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata(), obfuscator)
+                       new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata())
                    ],
                    "1.001.0000",
                    1,
@@ -163,8 +154,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
 
     private static GitTestRepository BuildScenario06()
     {
-        var obfuscator = new CommitObfuscator();
-
         return new("""
                    Scenario 06:
                      - Multiple parallel branches
@@ -182,20 +171,20 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                    1.001  | first commit
                    """,
                    [
-                       new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.003.0000", ["1.002.0000"], "", "", "tag: v5.7.0", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.005.0000", ["1.004.0000", "3.003.0000"], "Merge", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("1.006.0000", ["1.005.0000"], "Head commit", "", "", new CommitMessageMetadata(), obfuscator),
+                       new Commit("1.001.0000", [], "First commit in repo", "", "", new CommitMessageMetadata()),
+                       new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", "", new CommitMessageMetadata()),
+                       new Commit("1.003.0000", ["1.002.0000"], "", "", "tag: v5.7.0", new CommitMessageMetadata()),
+                       new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", "", "", new CommitMessageMetadata()),
+                       new Commit("1.005.0000", ["1.004.0000", "3.003.0000"], "Merge", "", "", new CommitMessageMetadata()),
+                       new Commit("1.006.0000", ["1.005.0000"], "Head commit", "", "", new CommitMessageMetadata()),
 
-                       new Commit("2.001.0000", ["1.002.0000"], "Branch", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("2.002.0000", ["2.001.0000"], "", "", "tag: v5.7.1", new CommitMessageMetadata(), obfuscator),
-                       new Commit("2.003.0000", ["2.002.0000"], "", "", "", new CommitMessageMetadata(), obfuscator),
+                       new Commit("2.001.0000", ["1.002.0000"], "Branch", "", "", new CommitMessageMetadata()),
+                       new Commit("2.002.0000", ["2.001.0000"], "", "", "tag: v5.7.1", new CommitMessageMetadata()),
+                       new Commit("2.003.0000", ["2.002.0000"], "", "", "", new CommitMessageMetadata()),
 
-                       new Commit("3.001.0000", ["1.002.0000"], "Branch", "", "", new CommitMessageMetadata(), obfuscator),
-                       new Commit("3.002.0000", ["3.001.0000"], "", "", "tag: v5.6.99", new CommitMessageMetadata(), obfuscator),
-                       new Commit("3.003.0000", ["3.002.0000"], "", "", "", new CommitMessageMetadata(), obfuscator)
+                       new Commit("3.001.0000", ["1.002.0000"], "Branch", "", "", new CommitMessageMetadata()),
+                       new Commit("3.002.0000", ["3.001.0000"], "", "", "tag: v5.6.99", new CommitMessageMetadata()),
+                       new Commit("3.003.0000", ["3.002.0000"], "", "", "", new CommitMessageMetadata())
                    ],
                    "1.006.0000",
                    3,

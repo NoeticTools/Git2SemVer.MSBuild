@@ -17,7 +17,7 @@ internal sealed class PathsFromLastReleasesFinder(ICommitsRepository commitsRepo
         //CommitObfuscator.Clear();
 
         logger.LogDebug($"Current branch: {gitTool.BranchName}");
-        var segments = new VersionHistorySegmentsBuilder(commitsRepo, logger).BuildTo(commitsRepo.Head);
+        var segments = new VersionHistorySegmentsBuilder(commitsRepo, logger).BuildTo(gitTool.Head);
         return new VersionHistoryPathsBuilder(segments, logger).Build();
     }
 }

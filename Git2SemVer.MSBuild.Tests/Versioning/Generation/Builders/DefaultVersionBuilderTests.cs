@@ -55,7 +55,7 @@ internal class DefaultVersionBuilderTests
         _host.Setup(x => x.BuildContext).Returns("BUILD_CONTEXT");
         _host.Setup(x => x.BuildId).Returns(["77"]);
         _inputs.Setup(x => x.WorkingDirectory).Returns("WorkingDirectory");
-        _headCommit.Setup(x => x.CommitId).Returns(new CommitId("001", _obfuscator));
+        _headCommit.Setup(x => x.CommitId).Returns(new CommitId("001"));
         _gitOutputs.Setup(x => x.HeadCommit).Returns(_headCommit.Object);
         _outputs.Setup(x => x.Git).Returns(_gitOutputs.Object);
     }

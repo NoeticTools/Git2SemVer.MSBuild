@@ -14,11 +14,9 @@ internal class PathsFromLastReleasesFinderTests
     [TestCaseSource(typeof(ScenariosFromBuildLogsTestSource))]
     public void BasicScenariosTest(string name, LoggedScenario scenario)
     {
-        var gitTool = new Mock<IGitTool>();
         using var context = new GitHistoryWalkingTestsContext();
 
-        var target = new PathsFromLastReleasesFinder(context.Repository.Object, gitTool.Object, context.Logger);
-        gitTool.Setup(x => x.BranchName).Returns("BranchName");
+        var target = new PathsFromLastReleasesFinder(context.Repository.Object, context.GitTool.Object, context.Logger);
 
         var commits = context.SetupGitRepository(scenario);
 

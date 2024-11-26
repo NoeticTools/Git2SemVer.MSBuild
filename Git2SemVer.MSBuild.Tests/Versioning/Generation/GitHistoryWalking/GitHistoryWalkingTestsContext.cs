@@ -8,21 +8,25 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation.GitHistoryW
 
 internal class GitHistoryWalkingTestsContext : IDisposable
 {
-    private readonly GitTool _gitTool;
+    private readonly GitTool _realGitTool;
 
     public GitHistoryWalkingTestsContext()
     {
         Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
         Repository = new Mock<ICommitsRepository>();
-        _gitTool = new GitTool(Logger);
+        _realGitTool = new GitTool(Logger);
+        GitTool = new Mock<IGitTool>();
+        GitTool.Setup(x => x.BranchName).Returns("BranchName");
     }
+
+    public Mock<IGitTool> GitTool { get; }
 
     private List<Commit> GetCommits(string gitLog)
     {
         var commits = new List<Commit>();
         foreach (var logLine in gitLog.Split('\n'))
         {
-            _gitTool.ParseLogLine(logLine.Trim(), [], commits);
+            _realGitTool.ParseGitLogLine(logLine.Trim(), commits);
         }
 
         return commits;
@@ -36,7 +40,7 @@ internal class GitHistoryWalkingTestsContext : IDisposable
     {
         var commits = GetCommits(scenario.ActualGitLog).ToDictionary(k => k.CommitId.Id, v => v);
         Repository.Setup(x => x.Get(It.IsAny<CommitId>())).Returns<CommitId>(id => commits[id.Id]);
-        Repository.Setup(x => x.Head).Returns(commits[scenario.HeadCommitId]);
+        GitTool.Setup(x => x.Head).Returns(commits[scenario.HeadCommitId]);
         return commits;
     }
 

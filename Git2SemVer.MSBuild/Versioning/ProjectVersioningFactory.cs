@@ -32,11 +32,11 @@ internal sealed class ProjectVersioningFactory
                                                                 inputs.BuildNumber,
                                                                 inputs.BuildContext,
                                                                 inputs.BuildIdFormat);
-        var gitTool = new GitTool(_logger)
+        var commitsRepo = new CommitsRepository();
+        var gitTool = new GitTool(commitsRepo, _logger)
         {
             WorkingDirectory = inputs.WorkingDirectory
         };
-        var commitsRepo = new CommitsRepository(gitTool);
         var gitPathsFinder = new PathsFromLastReleasesFinder(commitsRepo, gitTool, _logger);
 
         var defaultBuilderFactory = new DefaultVersionBuilderFactory(_logger);

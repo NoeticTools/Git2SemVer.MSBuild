@@ -14,11 +14,9 @@ internal class VersionHistorySegmentsBuilderTests
     [TestCaseSource(typeof(ScenariosFromBuildLogsTestSource))]
     public void BasicScenariosTest(string name, LoggedScenario scenario)
     {
-        var gitTool = new Mock<IGitTool>();
         using var context = new GitHistoryWalkingTestsContext();
 
         var target = new VersionHistorySegmentsBuilder(context.Repository.Object, context.Logger);
-        gitTool.Setup(x => x.BranchName).Returns("BranchName");
 
         var commits = context.SetupGitRepository(scenario);
 
@@ -46,8 +44,8 @@ internal class VersionHistorySegmentsBuilderTests
             var segment = segments[0];
             Assert.That(segment.Id, Is.EqualTo(1));
             Assert.That(segment.Commits, Has.Count.EqualTo(1));
-            Assert.That(segment.OldestCommit.CommitId.ObfuscatedSha, Is.EqualTo("0001"));
-            Assert.That(segment.YoungestCommit.CommitId.ObfuscatedSha, Is.EqualTo("0001"));
+            Assert.That(segment.OldestCommit.CommitId.Id, Is.EqualTo("0001"));
+            Assert.That(segment.YoungestCommit.CommitId.Id, Is.EqualTo("0001"));
             //Assert.That(segment.ChildCommits, Has.Count.EqualTo(0));
             Assert.That(segment.ParentCommits, Has.Count.EqualTo(2));
             Assert.That(segment.TaggedReleasedVersion, Is.Null);

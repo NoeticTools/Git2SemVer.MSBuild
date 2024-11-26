@@ -82,7 +82,7 @@ internal sealed class VersionHistorySegmentsBuilder
         {
             using (_logger.EnterLogScope())
             {
-                _logger.LogTrace("Commit {0} has release tag '{1}'.", commit.CommitId.ObfuscatedSha, commit.ReleasedVersion.ToString());
+                _logger.LogTrace("Commit {0} has release tag '{1}'.", commit.CommitId.Id, commit.ReleasedVersion.ToString());
             }
 
             return SegmentWalkResult.FoundStart;
@@ -91,7 +91,7 @@ internal sealed class VersionHistorySegmentsBuilder
         var parents = commit.Parents.ToList();
         if (parents.Count == 0)
         {
-            _logger.LogTrace("Commit {0} is the first (initial) commit in the repository (defaults to 0.1.0).", commit.CommitId.ObfuscatedSha);
+            _logger.LogTrace("Commit {0} is the first (initial) commit in the repository (defaults to 0.1.0).", commit.CommitId.ShortSha);
             return SegmentWalkResult.FoundStart;
         }
 
@@ -142,13 +142,13 @@ internal sealed class VersionHistorySegmentsBuilder
         var continuingBranchCommit = mergeCommit.Parents[1];
         using (_logger.EnterLogScope())
         {
-            _logger.LogDebug($"Commit {mergeCommit.CommitId.ObfuscatedSha} is a merge commit.");
+            _logger.LogDebug($"Commit {mergeCommit.CommitId.ShortSha} is a merge commit.");
         }
 
         _logger.LogTrace("Continuing branch:");
         NextCommitBeforeMerge(continuingBranchCommit, mergeCommit);
 
-        _logger.LogDebug($"Commit {mergeCommit.CommitId.ObfuscatedSha} is a merge commit from branch commit {mergedBranchCommit.ObfuscatedSha}:");
+        _logger.LogDebug($"Commit {mergeCommit.CommitId.ShortSha} is a merge commit from branch commit {mergedBranchCommit.ShortSha}:");
         using (_logger.EnterLogScope())
         {
             NextCommitBeforeMerge(mergedBranchCommit, mergeCommit);

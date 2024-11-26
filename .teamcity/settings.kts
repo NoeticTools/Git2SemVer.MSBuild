@@ -36,6 +36,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2024.03"
 
 project {
+    description = "MSBuild task to version projects"
 
     buildType(DeployLocalTeamCityPackage)
     buildType(BuildAndTest)

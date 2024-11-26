@@ -48,7 +48,6 @@ internal class VersionOutputsTests
                                         "$type": "Commit",
                                         "CommitId": {
                                           "Id": "00000000",
-                                          "ObfuscatedSha": "0001",
                                           "ShortSha": "0000000"
                                         },
                                         "ReleasedVersion": null,

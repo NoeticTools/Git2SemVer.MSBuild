@@ -14,9 +14,9 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tests.Versioning.Generation;
 internal class PathsFromLastReleasesFinderTests
 {
     private Dictionary<string, Commit> _commitsLookup;
-    private Mock<ICommitsRepository> _commitsRepo;
     private Mock<IGitTool> _gitTool;
     private NUnitLogger _logger;
+    private Mock<ICommitsRepository> _repository;
 
     [SetUp]
     public void SetUp()
@@ -26,18 +26,14 @@ internal class PathsFromLastReleasesFinderTests
             Level = LoggingLevel.Debug
         };
         _commitsLookup = new Dictionary<string, Commit>();
-        _commitsRepo = new Mock<ICommitsRepository>();
-        _commitsRepo.Setup(x => x.Get(It.IsAny<CommitId>()))
-                    .Returns((CommitId commitId) => _commitsLookup[commitId.Id]);
+        _repository = new Mock<ICommitsRepository>();
         _gitTool = new Mock<IGitTool>();
+        _gitTool.Setup(x => x.Get(It.IsAny<CommitId>()))
+                .Returns((CommitId commitId) => _commitsLookup[commitId.Id]);
         _gitTool.Setup(x => x.BranchName)
                 .Returns("master");
-        _gitTool.Setup(x => x.GetCommits(0, It.IsAny<int>()))
-                .Returns((int skip, int take) =>
-                             _commitsLookup.Values
-                                           .Skip(skip)
-                                           .Take(take)
-                                           .ToReadOnlyList());
+        _gitTool.Setup(x => x.GetNextSetOfCommits())
+                .Returns(_commitsLookup.Values.ToReadOnlyList());
     }
 
     [TearDown]
@@ -51,7 +47,7 @@ internal class PathsFromLastReleasesFinderTests
     {
         _logger.LogInfo(scenario.Description + "\n");
         LoadRepository(scenario.Commits, scenario.HeadCommitId);
-        var target = new PathsFromLastReleasesFinder(_commitsRepo.Object,
+        var target = new PathsFromLastReleasesFinder(_repository.Object,
                                                      _gitTool.Object,
                                                      _logger);
 
@@ -68,6 +64,7 @@ internal class PathsFromLastReleasesFinderTests
             _commitsLookup.Add(commit.CommitId.Id, commit);
         }
 
-        _commitsRepo.Setup(x => x.Head).Returns(_commitsLookup[headCommitId]);
+        _repository.Setup(x => x.Get(It.IsAny<CommitId>())).Returns<CommitId>((commitId) => _commitsLookup[commitId.Id]);
+        _gitTool.Setup(x => x.Head).Returns(_commitsLookup[headCommitId]);
     }
 }
