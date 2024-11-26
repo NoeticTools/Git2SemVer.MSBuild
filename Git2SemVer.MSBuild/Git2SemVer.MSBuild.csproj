@@ -11,7 +11,7 @@
     <PackageIcon>Git2SemVer_icon_32x32.png</PackageIcon>
     <ApplicationIcon>Git2SemVer_icon_64x64.ico</ApplicationIcon>
     <PackageReadmeFile>NuGet_description.md</PackageReadmeFile>
-    <PackageTags>versioning semver git noetictools msbuild</PackageTags>
+    <PackageTags>Versioning Semver Git MSBuild GitFlow GitFlowVersion GitHubFlow</PackageTags>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <TargetsForTfmSpecificBuildOutput>
       $(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage
