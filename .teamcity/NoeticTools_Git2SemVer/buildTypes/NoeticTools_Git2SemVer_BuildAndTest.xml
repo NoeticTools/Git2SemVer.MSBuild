@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="ab0bb8e4-f0f3-411d-82e5-b5fb2e943266" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Build and test</name>
+  <description />
+  <settings>
+    <options>
+      <option name="artifactRules" value="+:Git2SemVer.MSBuild/nupkg/NoeticTools.*.nupkg&#xA;+:SolutionVersioningProject/obj/Git2SemVer.MSBuild.log&#xA;+:SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.json" />
+      <option name="cleanBuild" value="true" />
+      <option name="executionTimeoutMin" value="3" />
+    </options>
+    <disabled-settings>
+      <setting-ref ref="Clear_NuGet_caches" />
+    </disabled-settings>
+    <parameters>
+      <param name="BuildConfiguration" value="Release" />
+    </parameters>
+    <build-runners>
+      <runner id="Clear_NuGet_caches" name="Clear NuGet caches" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="dotnet nuget locals all --clear" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="Restore" name="Restore" type="dotnet">
+        <parameters>
+          <param name="command" value="restore" />
+          <param name="dotNetCoverage.dotCover.home.path" value="%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%" />
+          <param name="nuget.packageSources"><![CDATA[https://api.nuget.org/v3/index.json
+http://10.1.10.78:8111/guestAuth/app/nuget/feed/_Root/TeamCity/v3/index.json]]></param>
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="dotnet" name="Build" type="dotnet">
+        <parameters>
+          <param name="args" value="-p:Git2SemVer_BuildNumber=%build.number% --verbosity normal" />
+          <param name="command" value="build" />
+          <param name="configuration" value="%BuildConfiguration%" />
+          <param name="dotNetCoverage.dotCover.home.path" value="%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="dotnet_1" name="Test" type="dotnet">
+        <parameters>
+          <param name="command" value="test" />
+          <param name="configuration" value="%BuildConfiguration%" />
+          <param name="dotNetCoverage.dotCover.filters"><![CDATA[+:NoeticTools.*
+-:NoeticTools.*Tests]]></param>
+          <param name="dotNetCoverage.dotCover.home.path" value="%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%" />
+          <param name="skipBuild" value="true" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="NoeticTools_Git2SemVer_HttpsGithubComNoetictoolsGit2semverMsbuildRefsHeadsMain" />
+    </vcs-settings>
+    <requirements>
+      <exists id="RQ_1" name="DotNetCLI_Path" />
+    </requirements>
+    <build-triggers>
+      <build-trigger id="TRIGGER_3" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="perfmon" type="perfmon">
+        <parameters>
+          <param name="teamcity.perfmon.feature.enabled" value="true" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_4" type="BuildFailureOnMetric">
+        <parameters>
+          <param name="anchorBuild" value="lastSuccessful" />
+          <param name="metricKey" value="buildTestCount" />
+          <param name="metricThreshold" value="20" />
+          <param name="metricUnits" value="metricUnitsPercents" />
+          <param name="moreOrLess" value="less" />
+          <param name="withBuildAnchor" value="true" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_5" type="BuildFailureOnMetric">
+        <parameters>
+          <param name="anchorBuild" value="lastSuccessful" />
+          <param name="metricKey" value="VisibleArtifactsSize" />
+          <param name="metricThreshold" value="25" />
+          <param name="metricUnits" value="metricUnitsPercents" />
+          <param name="moreOrLess" value="less" />
+          <param name="withBuildAnchor" value="true" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+
