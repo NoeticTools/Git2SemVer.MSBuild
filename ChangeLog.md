@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * Fixed parsing Git version response when using Apple Git [#35](https://github.com/NoeticTools/Git2SemVer.MSBuild/issues/35).
+* Fixed parsing Git logs when running on macOS [#35](https://github.com/NoeticTools/Git2SemVer.MSBuild/issues/35) and related to [NoeticTools/Git2SemVer.MSBuild/issues#35](https://github.com/NoeticTools/Git2SemVer.Core/issues/6)
 
 
 ## 2.0.0 - _December 1, 2024_
