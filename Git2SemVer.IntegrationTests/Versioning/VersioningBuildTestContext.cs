@@ -26,10 +26,10 @@ internal sealed class VersioningBuildTestContext : IDisposable
         }
 
         _activeContexts++;
-        TestContext.Out.WriteLine($"{_activeContexts} active contexts"); //>>>
+        //TestContext.Out.WriteLine($"{_activeContexts} active contexts"); //>>>
 
         _contextId = _contextIdCount++;
-        TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
+        //TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
         _testDirectoryResource = new TestDirectoryResource(groupName);
 
         Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
