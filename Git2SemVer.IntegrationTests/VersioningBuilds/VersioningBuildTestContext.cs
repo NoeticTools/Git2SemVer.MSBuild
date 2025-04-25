@@ -89,7 +89,12 @@ internal sealed class VersioningBuildTestContext : IDisposable
 
     public void DotNetCliBuildTestSolution(params string[] arguments)
     {
+        TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 01");
+        TestContext.Out.Flush();
+
         var result = DotNetCli.Build(TestSolutionPath, BuildConfiguration, arguments);
+        TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 02");
+        TestContext.Out.Flush();
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
     }

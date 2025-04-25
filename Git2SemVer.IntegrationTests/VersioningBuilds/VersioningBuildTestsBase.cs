@@ -29,12 +29,20 @@ internal abstract class VersioningBuildTestsBase
     [CancelAfter(60000)]
     public void BuildOnlyTest()
     {
+        TestContext.Out.WriteLine("==101=="); //>>>
+        TestContext.Out.Flush();
         using var context = CreateTestContext();
 
+        TestContext.Out.WriteLine("==102=="); //>>>
         var scriptPath = context.DeployScript("ForceProperties3.csx");
+        TestContext.Out.WriteLine("==103=="); //>>>
+        TestContext.Out.Flush();
         context.DotNetCliBuildTestSolution($"-p:Git2SemVer_ScriptPath={scriptPath}");
 
+        TestContext.Out.WriteLine("==104=="); //>>>
+        TestContext.Out.Flush();
         var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
+        TestContext.Out.WriteLine("==105=="); //>>>
         Assert.That(output, Does.Contain("""
                                          Assembly version:       200.201.202.0
                                          File version:           200.201.212
