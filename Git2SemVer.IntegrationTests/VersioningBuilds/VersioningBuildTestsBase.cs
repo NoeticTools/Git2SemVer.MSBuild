@@ -47,15 +47,21 @@ internal abstract class VersioningBuildTestsBase
     [CancelAfter(60000)]
     public void PackWithForcingProperties1ScriptTest()
     {
+        TestContext.Out.WriteLine("==01=="); //>>>
         using var context = CreateTestContext();
 
+        TestContext.Out.WriteLine("==02=="); //>>>
         var scriptPath = context.DeployScript("ForceProperties1.csx");
 
+        TestContext.Out.WriteLine("==03=="); //>>>
         var result = context.DotNetCli.Pack(context.TestSolutionPath, context.BuildConfiguration,
                                             $"-p:Git2SemVer_ScriptPath={scriptPath} -fileLogger");
+        TestContext.Out.WriteLine("==04=="); //>>>
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
 
+        TestContext.Out.WriteLine("==05=="); //>>>
         var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
+        TestContext.Out.WriteLine("==06=="); //>>>
         Assert.That(output, Contains.Substring("""
                                                Assembly version:       1.2.3.0
                                                File version:           4.5.6
