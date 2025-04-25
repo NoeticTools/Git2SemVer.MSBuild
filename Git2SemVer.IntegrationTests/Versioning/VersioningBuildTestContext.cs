@@ -89,21 +89,21 @@ internal sealed class VersioningBuildTestContext : IDisposable
     public void Dispose()
     {
         _activeContexts--;
-        TestContext.Out.WriteLine($"Context {_contextId} - Releasing resources");
-        TestContext.Out.Flush();
+        //TestContext.Out.WriteLine($"Context {_contextId} - Releasing resources");
+        //TestContext.Out.Flush();
         //System.Threading.Thread.Sleep(100);//>>>
         _testDirectoryResource.Dispose();
-        TestContext.Out.WriteLine($"Context {_contextId} - Resources released");
+        //TestContext.Out.WriteLine($"Context {_contextId} - Resources released");
     }
 
     public void DotNetCliBuildTestSolution(params string[] arguments)
     {
-        TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 01");
-        TestContext.Out.Flush();
+        //TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 01");
+        //TestContext.Out.Flush();
 
         var result = DotNetCli.Build(TestSolutionPath, BuildConfiguration, arguments);
-        TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 02");
-        TestContext.Out.Flush();
+        //TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 02");
+        //TestContext.Out.Flush();
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
     }
