@@ -7,9 +7,9 @@ internal abstract class VersioningBuildTestsBase
 {
     [Test]
     [CancelAfter(60000)]
-    public void CrossBuildAndThenPackWithoutRebuildTest()
+    public void BuildAndThenPackWithoutRebuildTest()
     {
-        TestContext.Out.WriteLine("==201=="); //>>>
+        TestContext.Out.WriteLine($"==201== ({this.GetType().Name})"); //>>>
         using var context = CreateTestContext();
 
         var scriptPath = context.DeployScript("ForceProperties3.csx");
@@ -24,13 +24,14 @@ internal abstract class VersioningBuildTestsBase
                                          Informational version:  2.2.2-beta
                                          Product version:        2.2.2-beta
                                          """));
+        TestContext.Out.WriteLine($"==202==  ({this.GetType().Name})"); //>>>
     }
 
     [Test]
     [CancelAfter(60000)]
-    public void CrossBuildOnlyTest()
+    public void BuildOnlyTest()
     {
-        TestContext.Out.WriteLine("==101=="); //>>>
+        TestContext.Out.WriteLine($"==101== ({this.GetType().Name})"); //>>>
         TestContext.Out.Flush();
         using var context = CreateTestContext();
 
@@ -50,27 +51,23 @@ internal abstract class VersioningBuildTestsBase
                                          Informational version:  2.2.2-beta
                                          Product version:        2.2.2-beta
                                          """));
+        TestContext.Out.WriteLine($"==106== ({this.GetType().Name})"); //>>>
     }
 
     [Test]
     [CancelAfter(60000)]
-    public void CrossPackWithForcingProperties1ScriptTest()
+    public void PackWithForcingProperties1ScriptTest()
     {
-        TestContext.Out.WriteLine("==01=="); //>>>
+        TestContext.Out.WriteLine($"==01== ({this.GetType().Name})"); //>>>
         using var context = CreateTestContext();
 
-        TestContext.Out.WriteLine("==02=="); //>>>
         var scriptPath = context.DeployScript("ForceProperties1.csx");
 
-        TestContext.Out.WriteLine("==03=="); //>>>
         var result = context.DotNetCli.Pack(context.TestSolutionPath, context.BuildConfiguration,
                                             $"-p:Git2SemVer_ScriptPath={scriptPath} -fileLogger");
-        TestContext.Out.WriteLine("==04=="); //>>>
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
 
-        TestContext.Out.WriteLine("==05=="); //>>>
         var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
-        TestContext.Out.WriteLine("==06=="); //>>>
         Assert.That(output, Contains.Substring("""
                                                Assembly version:       1.2.3.0
                                                File version:           4.5.6
@@ -78,6 +75,7 @@ internal abstract class VersioningBuildTestsBase
                                                Product version:        11.12.13-a-prerelease+metadata
                                                """));
         VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.5.6.7.nupkg");
+        TestContext.Out.WriteLine("==02=="); //>>>
     }
 
     protected abstract VersioningBuildTestContext CreateTestContext();
