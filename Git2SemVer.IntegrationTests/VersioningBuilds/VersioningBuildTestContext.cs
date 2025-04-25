@@ -15,6 +15,8 @@ internal sealed class VersioningBuildTestContext : IDisposable
     private const int ConcurrentContextsLimit = 100;
     private static int _activeContexts;
     private readonly TestDirectoryResource _testDirectoryResource;
+    private static int _contextIdCount;
+    private readonly int _contextId;
 
     public VersioningBuildTestContext(string groupName, string solutionFolderName, string solutionFileName, string projectName)
     {
@@ -23,8 +25,8 @@ internal sealed class VersioningBuildTestContext : IDisposable
             Assert.Fail($"Exceeded number of active contexts limit of {ConcurrentContextsLimit}.");
         }
 
-        _activeContexts++;
-        TestContext.Out.WriteLine($"Context {_activeContexts} - Creating resources"); //>>>
+        _contextId = _contextIdCount++;
+        TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
         _testDirectoryResource = new TestDirectoryResource(groupName);
 
         Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
@@ -84,10 +86,11 @@ internal sealed class VersioningBuildTestContext : IDisposable
     public void Dispose()
     {
         _activeContexts--;
-        TestContext.Out.WriteLine($"Context {_activeContexts} - Releasing resources");
-        System.Threading.Thread.Sleep(100);//>>>
+        TestContext.Out.WriteLine($"Context {_contextId} - Releasing resources");
+        TestContext.Out.Flush();
+        //System.Threading.Thread.Sleep(100);//>>>
         _testDirectoryResource.Dispose();
-        TestContext.Out.WriteLine($"Context {_activeContexts} - Resources released");
+        TestContext.Out.WriteLine($"Context {_contextId} - Resources released");
     }
 
     public void DotNetCliBuildTestSolution(params string[] arguments)
