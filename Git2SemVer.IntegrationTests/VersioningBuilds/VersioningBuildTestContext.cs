@@ -83,8 +83,10 @@ internal sealed class VersioningBuildTestContext : IDisposable
     public void Dispose()
     {
         _activeContexts--;
-        //System.Threading.Thread.Sleep(100);//>>>
+        TestContext.Out.WriteLine($"Context {_activeContexts} - Releasing resources");
+        System.Threading.Thread.Sleep(100);//>>>
         _testDirectoryResource.Dispose();
+        TestContext.Out.WriteLine($"Context {_activeContexts} - Resources released");
     }
 
     public void DotNetCliBuildTestSolution(params string[] arguments)
