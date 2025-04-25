@@ -8,7 +8,7 @@ using NoeticTools.Git2SemVer.Testing.Core;
 
 #pragma warning disable NUnit2045
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.VersioningBuilds;
+namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
 
 internal sealed class VersioningBuildTestContext : IDisposable
 {

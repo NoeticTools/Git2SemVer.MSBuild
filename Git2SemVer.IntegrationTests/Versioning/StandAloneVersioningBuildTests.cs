@@ -3,11 +3,11 @@
 
 #pragma warning disable NUnit2045
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.VersioningBuilds;
+namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]
-internal class StandAloneVersioningBuildTests : VersioningBuildTestsBase
+internal class StandAloneBuildTests : VersioningBuildTestsBase
 {
     [Test]
     public void BuildAndPackWithForcingProperties2ScriptTest()

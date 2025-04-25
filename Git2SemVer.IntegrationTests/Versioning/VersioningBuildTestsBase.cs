@@ -1,7 +1,7 @@
 ﻿using NoeticTools.Git2SemVer.IntegrationTests.Framework;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.VersioningBuilds;
+namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
 
 internal abstract class VersioningBuildTestsBase
 {
@@ -56,7 +56,7 @@ internal abstract class VersioningBuildTestsBase
 
     [Test]
     [CancelAfter(60000)]
-    public void PackWithForcingProps1ScriptTest()
+    public void PackWithForcingProperties1ScriptTest()
     {
         TestContext.Out.WriteLine($"==01== ({this.GetType().Name}.PackWithForcingProperties1ScriptTest)"); //>>>
         using var context = CreateTestContext();
