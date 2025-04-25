@@ -7,8 +7,9 @@ internal abstract class VersioningBuildTestsBase
 {
     [Test]
     [CancelAfter(60000)]
-    public void BuildAndThenPackWithoutRebuildTest()
+    public void CrossBuildAndThenPackWithoutRebuildTest()
     {
+        TestContext.Out.WriteLine("==201=="); //>>>
         using var context = CreateTestContext();
 
         var scriptPath = context.DeployScript("ForceProperties3.csx");
@@ -27,7 +28,7 @@ internal abstract class VersioningBuildTestsBase
 
     [Test]
     [CancelAfter(60000)]
-    public void BuildOnlyTest()
+    public void CrossBuildOnlyTest()
     {
         TestContext.Out.WriteLine("==101=="); //>>>
         TestContext.Out.Flush();
@@ -53,7 +54,7 @@ internal abstract class VersioningBuildTestsBase
 
     [Test]
     [CancelAfter(60000)]
-    public void PackWithForcingProperties1ScriptTest()
+    public void CrossPackWithForcingProperties1ScriptTest()
     {
         TestContext.Out.WriteLine("==01=="); //>>>
         using var context = CreateTestContext();
