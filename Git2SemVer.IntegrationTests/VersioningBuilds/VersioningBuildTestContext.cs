@@ -25,6 +25,9 @@ internal sealed class VersioningBuildTestContext : IDisposable
             Assert.Fail($"Exceeded number of active contexts limit of {ConcurrentContextsLimit}.");
         }
 
+        _activeContexts++;
+        TestContext.Out.WriteLine($"{_activeContexts} active contexts"); //>>>
+
         _contextId = _contextIdCount++;
         TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
         _testDirectoryResource = new TestDirectoryResource(groupName);
