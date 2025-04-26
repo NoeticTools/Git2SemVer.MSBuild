@@ -143,7 +143,6 @@ object BuildAndTest : BuildType({
             failureMessage = "Service message corruption detected"
             reverse = false
             stopBuildOnFailure = true
-            }
         }
     }
 
