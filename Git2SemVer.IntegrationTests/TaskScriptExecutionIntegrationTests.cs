@@ -31,44 +31,41 @@ internal class ScriptExecutionIntegrationTests : ScriptingTestsBase
         _buildEngine = new BuildEngine9Stub(_globalProperties);
     }
 
-    //[Test]
-    //[MaxTime(10000)]
-    //[Ignore("test")]//>>>
-    //public void ControlledPrereleaseBuildScenario01()
-    //{
-    //    var context = GetContext("12345", "1");
-    //    var runner = new ScriptVersionBuilder(Logger);
+    [Test]
+    [MaxTime(10000)]
+    public void ControlledPrereleaseBuildScenario01()
+    {
+        var context = GetContext("12345", "1");
+        var runner = new ScriptVersionBuilder(Logger);
 
-    //    runner.Build(context.Host, Git, context.Inputs, context.Outputs);
+        runner.Build(context.Host, Git, context.Inputs, context.Outputs);
 
-    //    Assert.That(Logger.HasError, Is.False);
-    //}
+        Assert.That(Logger.HasError, Is.False);
+    }
 
-    //[Test]
-    //[MaxTime(10000)]
-    //[Ignore("test")]//>>>
-    //public void UncontrolledPrereleaseBuildScenario01()
-    //{
-    //    var context = GetContext("12345", "MACHINE-NAME");
-    //    var runner = new ScriptVersionBuilder(Logger);
+    [Test]
+    [MaxTime(10000)]
+    public void UncontrolledPrereleaseBuildScenario01()
+    {
+        var context = GetContext("12345", "MACHINE-NAME");
+        var runner = new ScriptVersionBuilder(Logger);
 
-    //    runner.Build(context.Host, Git, context.Inputs, context.Outputs);
+        runner.Build(context.Host, Git, context.Inputs, context.Outputs);
 
-    //    Assert.That(Logger.HasError, Is.False);
-    //}
+        Assert.That(Logger.HasError, Is.False);
+    }
 
-    //[Test]
-    //[MaxTime(10000)]
-    //[Ignore("test")]//>>>
-    //public void UncontrolledPrereleaseInitialDevBuildScenario01()
-    //{
-    //    var context = GetContext("12345", "MACHINE-NAME");
-    //    var runner = new ScriptVersionBuilder(Logger);
+    [Test]
+    [MaxTime(10000)]
+    public void UncontrolledPrereleaseInitialDevBuildScenario01()
+    {
+        var context = GetContext("12345", "MACHINE-NAME");
+        var runner = new ScriptVersionBuilder(Logger);
 
-    //    runner.Build(context.Host, Git, context.Inputs, context.Outputs);
+        runner.Build(context.Host, Git, context.Inputs, context.Outputs);
 
-    //    Assert.That(Logger.HasError, Is.False);
-    //}
+        Assert.That(Logger.HasError, Is.False);
+    }
 
     private VersioningContext GetContext(string hostBuildNumber,
                                          string hostBuildContext)
