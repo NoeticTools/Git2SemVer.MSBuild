@@ -141,7 +141,7 @@ object BuildAndTest : BuildType({
             }
         failOnText {
             conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "The service message is invalid because it does not end with ] character"
+            pattern = "The service message is invalid because it does not end with"
             failureMessage = "Service message corruption detected"
             reverse = false
             stopBuildOnFailure = true
