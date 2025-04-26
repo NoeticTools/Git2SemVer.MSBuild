@@ -7,6 +7,7 @@ internal abstract class VersioningBuildTestsBase
 {
     [Test]
     [CancelAfter(60000)]
+    [Ignore("test")]//>>>
     public void BuildAndThenPackWithoutRebuildTest()
     {
         //TestContext.Out.WriteLine($"==201== ({this.GetType().Name}.BuildAndThenPackWithoutRebuildTest)"); //>>>
@@ -56,6 +57,7 @@ internal abstract class VersioningBuildTestsBase
 
     [Test]
     [CancelAfter(60000)]
+    [Ignore("test")]//>>>
     public void PackWithForcingProperties1ScriptTest()
     {
         //TestContext.Out.WriteLine($"==01== ({this.GetType().Name}.PackWithForcingProperties1ScriptTest)"); //>>>

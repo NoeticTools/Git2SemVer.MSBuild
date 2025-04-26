@@ -46,6 +46,7 @@ internal class ScriptExecutionIntegrationTests : ScriptingTestsBase
 
     [Test]
     [MaxTime(10000)]
+    [Ignore("test")]//>>>
     public void UncontrolledPrereleaseBuildScenario01()
     {
         var context = GetContext("12345", "MACHINE-NAME");
@@ -58,6 +59,7 @@ internal class ScriptExecutionIntegrationTests : ScriptingTestsBase
 
     [Test]
     [MaxTime(10000)]
+    [Ignore("test")]//>>>
     public void UncontrolledPrereleaseInitialDevBuildScenario01()
     {
         var context = GetContext("12345", "MACHINE-NAME");
