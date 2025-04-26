@@ -137,6 +137,13 @@ object BuildAndTest : BuildType({
             compareTo = build {
                 buildRule = lastSuccessful()
             }
+        failOnText {
+            conditionType = BuildFailureOnText.ConditionType.CONTAINS
+            pattern = "The service message is invalid because it does not end with ] character"
+            failureMessage = "Service message corruption detected"
+            reverse = false
+            stopBuildOnFailure = true
+            }
         }
     }
 
