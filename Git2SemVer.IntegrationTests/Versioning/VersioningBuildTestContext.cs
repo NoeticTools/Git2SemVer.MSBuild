@@ -32,11 +32,13 @@ internal sealed class VersioningBuildTestContext : IDisposable
         //TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
         _testDirectoryResource = new TestDirectoryResource(groupName);
 
-        Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        //Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
 
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
         Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
+        //xxx; // logger is using TestContext.Out.WriteLine - is that underlying problem?
 
         var processCli = new ProcessCli(Logger) { WorkingDirectory = TestDirectory.FullName };
         DotNetCli = new DotNetTool(processCli);
@@ -62,7 +64,7 @@ internal sealed class VersioningBuildTestContext : IDisposable
 
     public DotNetTool DotNetCli { get; }
 
-    public NUnitLogger Logger { get; }
+    public ILogger Logger { get; }
 
     public string PackageOutputDir { get; }
 
