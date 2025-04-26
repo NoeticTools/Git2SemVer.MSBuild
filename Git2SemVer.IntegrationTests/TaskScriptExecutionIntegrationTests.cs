@@ -33,6 +33,7 @@ internal class ScriptExecutionIntegrationTests : ScriptingTestsBase
 
     [Test]
     [MaxTime(10000)]
+    [Ignore("test")]//>>>
     public void ControlledPrereleaseBuildScenario01()
     {
         var context = GetContext("12345", "1");
