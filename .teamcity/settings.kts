@@ -138,6 +138,13 @@ object BuildAndTest : BuildType({
                 buildRule = lastSuccessful()
             }
         }
+        failOnText {
+            conditionType = BuildFailureOnText.ConditionType.CONTAINS
+            pattern = "The service message is invalid because it does not end with ] character"
+            failureMessage = "JVM crash detected"
+            reverse = false
+            stopBuildOnFailure = true
+        }
     }
 
     features {
