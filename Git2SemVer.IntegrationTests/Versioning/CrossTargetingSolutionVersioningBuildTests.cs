@@ -1,7 +1,8 @@
 ﻿namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
 
 [TestFixture]
-[Parallelizable(ParallelScope.All)]
+//[Parallelizable(ParallelScope.All)]
+[NonParallelizable]
 internal class CrossTargetingBuildTests : VersioningBuildTestsBase
 {
     protected override VersioningBuildTestContext CreateTestContext()

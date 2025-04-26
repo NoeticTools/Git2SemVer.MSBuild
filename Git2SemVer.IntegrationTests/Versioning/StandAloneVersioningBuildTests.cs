@@ -6,7 +6,8 @@
 namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
 
 [TestFixture]
-[Parallelizable(ParallelScope.All)]
+//[Parallelizable(ParallelScope.All)]
+[NonParallelizable]
 internal class StandAloneBuildTests : VersioningBuildTestsBase
 {
     [Test]
