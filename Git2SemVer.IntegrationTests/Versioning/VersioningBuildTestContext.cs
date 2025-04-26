@@ -35,12 +35,10 @@ internal sealed class VersioningBuildTestContext : IDisposable
         //Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
         Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
 
-        System.Threading.Thread.SpinWait(10);
-
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
+        Thread.Sleep(10);
         Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
-        //xxx; // logger is using TestContext.Out.WriteLine - is that underlying problem?
 
         var processCli = new ProcessCli(Logger) { WorkingDirectory = TestDirectory.FullName };
         DotNetCli = new DotNetTool(processCli);
