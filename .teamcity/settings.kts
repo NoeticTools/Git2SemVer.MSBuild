@@ -107,8 +107,7 @@ object BuildAndTest : BuildType({
             param("dotNetCoverage.dotCover.filters", """
                 +:NoeticTools.*
                 -:NoeticTools.*Tests
-            """.trimIndent())
-            param("-m:1")
+            args="-m:1"
         }
     }
 
