@@ -140,8 +140,8 @@ object BuildAndTest : BuildType({
         }
         failOnText {
             conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "The service message is invalid because it does not end with ] character"
-            failureMessage = "JVM crash detected"
+            pattern = "The service message is invalid because it does not end with"
+            failureMessage = "Corrupt service messaage detected"
             reverse = false
             stopBuildOnFailure = true
         }
