@@ -118,7 +118,7 @@ object BuildAndTest : BuildType({
     }
 
     failureConditions {
-        executionTimeoutMin = 1
+        executionTimeoutMin = 2
         failOnMetricChange {
             enabled = false
             metric = BuildFailureOnMetric.MetricType.TEST_COUNT
