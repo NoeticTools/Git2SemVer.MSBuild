@@ -107,7 +107,7 @@ object BuildAndTest : BuildType({
             param("dotNetCoverage.dotCover.filters", """
                 +:NoeticTools.*
                 -:NoeticTools.*Tests
-            args = "-m:1"
+            args = "-p:TestTfmsInParallel=false"
         }
     }
 
