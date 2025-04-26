@@ -32,8 +32,8 @@ internal sealed class VersioningBuildTestContext : IDisposable
         //TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
         _testDirectoryResource = new TestDirectoryResource(groupName);
 
-        //Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
-        Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
+        Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        //Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
 
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
