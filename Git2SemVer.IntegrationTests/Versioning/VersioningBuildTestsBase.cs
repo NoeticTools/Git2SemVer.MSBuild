@@ -8,7 +8,7 @@ internal abstract class VersioningBuildTestsBase
     [Test]
     [CancelAfter(60000)]
     //[Ignore("test")]//>>>
-    public void BuildAndThenPackWithoutRebuildTest()
+    public void BuildAndPackTest()
     {
         //TestContext.Out.WriteLine($"==201== ({this.GetType().Name}.BuildAndThenPackWithoutRebuildTest)"); //>>>
         using var context = CreateTestContext();
