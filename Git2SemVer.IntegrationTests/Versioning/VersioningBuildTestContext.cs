@@ -31,11 +31,7 @@ internal sealed class VersioningBuildTestContext : IDisposable
 
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
-        Thread.Sleep(25);
-        Thread.Yield();
-        Thread.Sleep(25);
         Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
-        Thread.Yield();
 
         var processCli = new ProcessCli(Logger) { WorkingDirectory = TestDirectory.FullName };
         DotNetCli = new DotNetTool(processCli);
