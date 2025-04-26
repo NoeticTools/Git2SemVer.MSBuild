@@ -57,7 +57,7 @@ internal abstract class VersioningBuildTestsBase
 
     [Test]
     [CancelAfter(60000)]
-    [Ignore("test")]//>>>
+    //[Ignore("test")]//>>>
     public void PackWithForcingProperties1ScriptTest()
     {
         //TestContext.Out.WriteLine($"==01== ({this.GetType().Name}.PackWithForcingProperties1ScriptTest)"); //>>>
