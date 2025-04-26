@@ -144,6 +144,13 @@ object BuildAndTest : BuildType({
             reverse = false
             stopBuildOnFailure = true
         }
+        failOnText {
+            conditionType = BuildFailureOnText.ConditionType.CONTAINS
+            pattern = "##teamcity"
+            failureMessage = "Service message corruption detected"
+            reverse = false
+            stopBuildOnFailure = true
+        }
     }
 
     features {
