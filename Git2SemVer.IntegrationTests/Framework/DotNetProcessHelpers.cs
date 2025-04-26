@@ -34,9 +34,11 @@ public static class DotNetProcessHelpers
         var outputStringBuilder = new StringBuilder();
         var outputWriter = new StringWriter(outputStringBuilder);
         var returnCode = process.Run("dotnet", appDllPath, outputWriter, TestContext.Error);
+        outputWriter.Flush();
+        TestContext.Error.Flush();
         var output = outputStringBuilder.ToString();
         Assert.That(returnCode, Is.EqualTo(0));
-        TestContext.Out.WriteLine();
+        //TestContext.Out.WriteLine();
         return output;
     }
 }

@@ -41,6 +41,8 @@ internal abstract class VersioningBuildTestsBase
                                          Informational version:  2.2.2-beta
                                          Product version:        2.2.2-beta
                                          """));
+
+
     }
 
     [Test]
