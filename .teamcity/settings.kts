@@ -108,6 +108,7 @@ object BuildAndTest : BuildType({
                 +:NoeticTools.*
                 -:NoeticTools.*Tests
             """.trimIndent())
+            param("-m:1")
         }
     }
 
