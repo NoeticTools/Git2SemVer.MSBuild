@@ -15,8 +15,6 @@ internal sealed class VersioningBuildTestContext : IDisposable
     private const int ConcurrentContextsLimit = 100;
     private static int _activeContexts;
     private readonly TestDirectoryResource _testDirectoryResource;
-    private static int _contextIdCount;
-    private readonly int _contextId;
 
     public VersioningBuildTestContext(string groupName, string solutionFolderName, string solutionFileName, string projectName)
     {
@@ -26,14 +24,10 @@ internal sealed class VersioningBuildTestContext : IDisposable
         }
 
         _activeContexts++;
-        //TestContext.Out.WriteLine($"{_activeContexts} active contexts"); //>>>
 
-        _contextId = _contextIdCount++;
-        //TestContext.Out.WriteLine($"Context {_contextId} - Creating resources"); //>>>
         _testDirectoryResource = new TestDirectoryResource(groupName);
 
         Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
-        //Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
 
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
@@ -94,21 +88,12 @@ internal sealed class VersioningBuildTestContext : IDisposable
     public void Dispose()
     {
         _activeContexts--;
-        //TestContext.Out.WriteLine($"Context {_contextId} - Releasing resources");
-        //TestContext.Out.Flush();
-        //System.Threading.Thread.Sleep(100);//>>>
         _testDirectoryResource.Dispose();
-        //TestContext.Out.WriteLine($"Context {_contextId} - Resources released");
     }
 
     public void DotNetCliBuildTestSolution(params string[] arguments)
     {
-        //TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 01");
-        //TestContext.Out.Flush();
-
         var result = DotNetCli.Build(TestSolutionPath, BuildConfiguration, arguments);
-        //TestContext.Out.WriteLine("DotNetCliBuildTestSolution - 02");
-        //TestContext.Out.Flush();
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
     }
