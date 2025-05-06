@@ -16,7 +16,7 @@ internal abstract class VersioningBuildTestsBase
         context.PackTestSolution();
         VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.1.2.3-alpha.nupkg");
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
+        var output = RunCompiledApp(context);
         Assert.That(output, Does.Contain("""
                                          Assembly version:       200.201.202.0
                                          File version:           200.201.212
@@ -34,7 +34,7 @@ internal abstract class VersioningBuildTestsBase
         var scriptPath = context.DeployScript("ForceProperties3.csx");
         context.DotNetCliBuildTestSolution($"-p:Git2SemVer_ScriptPath={scriptPath}");
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
+        var output = RunCompiledApp(context);
         Assert.That(output, Does.Contain("""
                                          Assembly version:       200.201.202.0
                                          File version:           200.201.212
@@ -55,7 +55,7 @@ internal abstract class VersioningBuildTestsBase
                                             $"-p:Git2SemVer_ScriptPath={scriptPath} -fileLogger");
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
+        var output = RunCompiledApp(context);
         Assert.That(output, Contains.Substring("""
                                                Assembly version:       1.2.3.0
                                                File version:           4.5.6
@@ -66,4 +66,13 @@ internal abstract class VersioningBuildTestsBase
     }
 
     protected abstract VersioningBuildTestContext CreateTestContext();
+
+    protected static string RunCompiledApp(VersioningBuildTestContext context)
+    {
+        Assert.That(File.Exists(context.CompiledAppPath), Is.True, $"File '{context.CompiledAppPath}' does not exist.");
+        var outputFilePath = Path.Combine(context.TestDirectory.FullName, "output.txt");
+        DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, outputFilePath, context.Logger);
+        var output = File.ReadAllText(outputFilePath);
+        return output;
+    }
 }

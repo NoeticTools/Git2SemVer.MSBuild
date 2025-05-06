@@ -19,11 +19,9 @@ internal class StandAloneBuildTests : VersioningBuildTestsBase
 
         var result = context.DotNetCli.Pack(context.TestSolutionPath, context.BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath}");
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
-        Assert.That(File.Exists(context.CompiledAppPath), Is.True, $"File '{context.CompiledAppPath}' does not exist after build and pack.");
 
-        var outputFilePath = Path.Combine(context.TestDirectory.FullName, "output.txt");
-        DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, outputFilePath, context.Logger);
-        var output = File.ReadAllText(outputFilePath);
+        var output = RunCompiledApp(context);
+
         Assert.That(output, Does.Contain("""
                                          Assembly version:       21.22.23.0
                                          File version:           21.22.23.0
@@ -42,7 +40,7 @@ internal class StandAloneBuildTests : VersioningBuildTestsBase
 
         context.DotNetCli.Build(context.TestSolutionPath, context.BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath}");
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
+        var output = RunCompiledApp(context);
         Assert.That(output, Contains.Substring("""
                                                Assembly version:       1.2.3.0
                                                File version:           4.5.6
