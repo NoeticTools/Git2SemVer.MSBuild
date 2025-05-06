@@ -27,20 +27,17 @@ internal sealed class VersioningBuildTestContext : IDisposable
 
         _testDirectoryResource = new TestDirectoryResource(groupName);
 
-        Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
-
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
-        Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
+
+        Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        //Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
 
         var processCli = new ProcessCli(Logger) { WorkingDirectory = TestDirectory.FullName };
         DotNetCli = new DotNetTool(processCli);
 
         var currentDirectory = Directory.GetCurrentDirectory();
         BuildConfiguration = new DirectoryInfo(currentDirectory).Parent!.Name;
-        //_git2SemVerToolPath =
-        //    Path.Combine(_solutionDirectory, "Git2SemVer.Tool/bin", BuildConfiguration, "net8.0", "NoeticTools.Git2SemVer.Tool.dll");
-
 
         var solutionDirectory = Path.Combine(TestDirectory.FullName, solutionFolderName);
         var projectPath = Path.Combine(solutionDirectory, projectName);
