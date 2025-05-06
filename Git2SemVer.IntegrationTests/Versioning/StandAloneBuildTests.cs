@@ -21,13 +21,15 @@ internal class StandAloneBuildTests : VersioningBuildTestsBase
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
         Assert.That(File.Exists(context.CompiledAppPath), Is.True, $"File '{context.CompiledAppPath}' does not exist after build and pack.");
 
-        //var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
-        //Assert.That(output, Does.Contain("""
-        //                                 Assembly version:       21.22.23.0
-        //                                 File version:           21.22.23.0
-        //                                 Informational version:  21.22.23-beta
-        //                                 Product version:        21.22.23-beta
-        //                                 """));
+        var outputFilePath = Path.Combine(context.TestDirectory.FullName, "output.txt");
+        DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, outputFilePath, context.Logger);
+        var output = File.ReadAllText(outputFilePath);
+        Assert.That(output, Does.Contain("""
+                                         Assembly version:       21.22.23.0
+                                         File version:           21.22.23.0
+                                         Informational version:  21.22.23-beta
+                                         Product version:        21.22.23-beta
+                                         """));
         VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.1.0.0.nupkg");
     }
 
@@ -40,13 +42,13 @@ internal class StandAloneBuildTests : VersioningBuildTestsBase
 
         context.DotNetCli.Build(context.TestSolutionPath, context.BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath}");
 
-        //var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
-        //Assert.That(output, Contains.Substring("""
-        //                                       Assembly version:       1.2.3.0
-        //                                       File version:           4.5.6
-        //                                       Informational version:  11.12.13-a-prerelease+metadata
-        //                                       Product version:        11.12.13-a-prerelease+metadata
-        //                                       """));
+        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
+        Assert.That(output, Contains.Substring("""
+                                               Assembly version:       1.2.3.0
+                                               File version:           4.5.6
+                                               Informational version:  11.12.13-a-prerelease+metadata
+                                               Product version:        11.12.13-a-prerelease+metadata
+                                               """));
     }
 
     protected override VersioningBuildTestContext CreateTestContext()

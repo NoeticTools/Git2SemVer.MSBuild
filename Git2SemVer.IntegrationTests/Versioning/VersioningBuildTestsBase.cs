@@ -16,7 +16,7 @@ internal abstract class VersioningBuildTestsBase
         context.PackTestSolution();
         VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.1.2.3-alpha.nupkg");
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
+        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
         Assert.That(output, Does.Contain("""
                                          Assembly version:       200.201.202.0
                                          File version:           200.201.212
@@ -34,7 +34,7 @@ internal abstract class VersioningBuildTestsBase
         var scriptPath = context.DeployScript("ForceProperties3.csx");
         context.DotNetCliBuildTestSolution($"-p:Git2SemVer_ScriptPath={scriptPath}");
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
+        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
         Assert.That(output, Does.Contain("""
                                          Assembly version:       200.201.202.0
                                          File version:           200.201.212
@@ -55,7 +55,7 @@ internal abstract class VersioningBuildTestsBase
                                             $"-p:Git2SemVer_ScriptPath={scriptPath} -fileLogger");
         Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
 
-        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, context.Logger);
+        var output = DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, "", context.Logger);
         Assert.That(output, Contains.Substring("""
                                                Assembly version:       1.2.3.0
                                                File version:           4.5.6
