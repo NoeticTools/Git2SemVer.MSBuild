@@ -30,7 +30,8 @@ internal sealed class VersioningBuildTestContext : IDisposable
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
 
-        Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
+        //Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
         //Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
 
         var processCli = new ProcessCli(Logger) { WorkingDirectory = TestDirectory.FullName };
