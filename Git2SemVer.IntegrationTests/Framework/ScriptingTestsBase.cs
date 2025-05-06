@@ -36,7 +36,8 @@ internal abstract class ScriptingTestsBase
 
     protected void SetUpBase()
     {
-        Logger = new NUnitLogger { Level = LoggingLevel.Trace };
+        //Logger = new NUnitLogger { Level = LoggingLevel.Trace };
+        Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
 
         if (_testDataFolderId > MaximumTestDataFolders)
         {
@@ -69,7 +70,8 @@ internal abstract class ScriptingTestsBase
 
     protected virtual void OneTimeSetUpBase()
     {
-        Logger = new NUnitLogger(); // todo - Logger is set here and in the SetUpBase method
+        //Logger = new NUnitLogger(); // todo - Logger is set here and in the SetUpBase method
+        Logger = new ConsoleLogger() { Level = LoggingLevel.Trace };
         DotNetCli = new DotNetTool(new ProcessCli(Logger));
         Git = new GitTool(Logger);
     }
