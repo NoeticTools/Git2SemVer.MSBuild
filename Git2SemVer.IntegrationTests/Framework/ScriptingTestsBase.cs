@@ -12,7 +12,7 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
 [NonParallelizable]
 internal abstract class ScriptingTestsBase
 {
-    private const int MaximumTestDataFolders = 20;
+    private const int MaximumTestDataFolders = 30;
     private static int _testDataFolderId; // avoid locks on folders not release quickly between tests
     private static readonly object SyncToken = new();
 
