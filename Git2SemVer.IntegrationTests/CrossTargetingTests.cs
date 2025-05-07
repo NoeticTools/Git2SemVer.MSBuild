@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
+﻿namespace NoeticTools.Git2SemVer.IntegrationTests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]

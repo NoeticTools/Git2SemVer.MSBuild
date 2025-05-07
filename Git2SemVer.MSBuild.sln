@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Documentation", "Documentat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EditingTestAssembly", "EditingTestAssembly\EditingTestAssembly.csproj", "{AC111B59-B47C-4F59-9D38-F97D0FF02BA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.IntTests", "Git2SemVer.IntegrationTests\Git2SemVer.IntTests.csproj", "{772E9B23-85D4-4FBC-A832-A89EC2FB4EAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.IntegrationTests", "Git2SemVer.IntegrationTests\Git2SemVer.IntegrationTests.csproj", "{772E9B23-85D4-4FBC-A832-A89EC2FB4EAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97D8-62B8-4C47-9AA3-C6A893117175}"
 	ProjectSection(SolutionItems) = preProject

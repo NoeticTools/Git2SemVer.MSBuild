@@ -1,7 +1,7 @@
 ﻿using NoeticTools.Git2SemVer.IntegrationTests.Framework;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
+namespace NoeticTools.Git2SemVer.IntegrationTests;
 
 internal abstract class VersioningBuildTestsBase
 {

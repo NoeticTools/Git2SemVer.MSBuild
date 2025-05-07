@@ -3,7 +3,7 @@
 
 #pragma warning disable NUnit2045
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
+namespace NoeticTools.Git2SemVer.IntegrationTests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]
@@ -11,7 +11,7 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Versioning;
 internal class StandAloneBuildTests : VersioningBuildTestsBase
 {
     [Test]
-    public void BuildAndPackWithForcingProperties2ScriptTest()
+    public void PackWithForcingProps2ScriptTest()
     {
         using var context = CreateTestContext();
 
@@ -32,7 +32,7 @@ internal class StandAloneBuildTests : VersioningBuildTestsBase
     }
 
     [Test]
-    public void BuildOnlyWithForcingProperties1ScriptTest()
+    public void BuildWithForcingProps1ScriptTest()
     {
         using var context = CreateTestContext();
 
