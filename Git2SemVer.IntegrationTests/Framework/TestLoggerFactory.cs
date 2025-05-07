@@ -43,7 +43,8 @@ internal static class TestLoggerFactory
         logger.LogInfo("Logging started.");
         Wait(() => File.Exists(outputFilePath));
 
-        Console.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{outputFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
+        Console.Out.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{outputFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
+        Console.Out.Flush();
         return logger;
     }
 

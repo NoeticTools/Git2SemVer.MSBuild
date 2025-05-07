@@ -72,7 +72,6 @@ internal abstract class VersioningBuildTestsBase
         Assert.That(File.Exists(context.CompiledAppPath), Is.True, $"File '{context.CompiledAppPath}' does not exist.");
         var outputFilePath = Path.Combine(context.TestDirectory.FullName, "output.txt");
         DotNetProcessHelpers.RunDotnetApp(context.CompiledAppPath, outputFilePath, context.Logger);
-        var output = File.ReadAllText(outputFilePath);
-        return output;
+        return File.ReadAllText(outputFilePath);
     }
 }
