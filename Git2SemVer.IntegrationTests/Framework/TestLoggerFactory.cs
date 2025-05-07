@@ -1,59 +1,63 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IoC;
-using JetBrains.TeamCity.ServiceMessages.Write.Special;
-using JetBrains.TeamCity.ServiceMessages.Write.Special.Impl.Writer;
-using Newtonsoft.Json.Linq;
+﻿using System.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Framework.Tools.CI;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
+namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+
+internal static class TestLoggerFactory
 {
-    internal static class TestLoggerFactory
+    private static int _loggerId = 1;
+
+    /// <summary>
+    /// Create a logger appropriate for the host environment.
+    /// </summary>
+    public static ILogger Create()
     {
-        private static int _loggerId = 1;
+        var teamCityVersion = Environment.GetEnvironmentVariable("TEAMCITY_VERSION");
+        return !string.IsNullOrWhiteSpace(teamCityVersion) ? CreateTeamCityFileStreamLogger() : new NUnitLogger();
+    }
 
-        public static ILogger Create()
+    /// <summary>
+    /// Log to file and stream file to TeamCity's build log. This mitigates risk of collision of standard output and TC service messages. 
+    /// </summary>
+#pragma warning disable CA1859
+    private static ILogger CreateTeamCityFileStreamLogger()
+#pragma warning restore CA1859
+    {
+        var outputFileDir = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR")!, "TestResults");
+        if (!Directory.Exists(outputFileDir))
         {
-            //var variables = Environment.GetEnvironmentVariables();
-            //foreach (DictionaryEntry entry in variables)
-            //{
-            //    Console.WriteLine($"  === {entry.Key} = {entry.Value}");
-            //}
+            Directory.CreateDirectory(outputFileDir);
+            Wait(() => Directory.Exists(outputFileDir));
+        }
 
-            var teamCityVersion = Environment.GetEnvironmentVariable("TEAMCITY_VERSION");
-            if (!string.IsNullOrWhiteSpace(teamCityVersion))
+        var outputFilePath = Path.Combine(outputFileDir, $"test{_loggerId++:D3}.txt");
+        if (!File.Exists(outputFilePath))
+        {
+            File.Delete(outputFilePath);
+            Wait(() => !File.Exists(outputFilePath));
+        }
+
+        var logger = new FileLogger(outputFilePath);
+        logger.LogInfo("Logging started.");
+        Wait(() => File.Exists(outputFilePath));
+
+        Console.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{outputFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
+        return logger;
+    }
+
+    private static void Wait(Func<bool> predicate)
+    {
+        var stopwatch = Stopwatch.StartNew();
+        while (stopwatch.ElapsedMilliseconds < 3000)
+        {
+            if (predicate())
             {
-                Console.WriteLine("===RUNNING ON TEAMCITY===");
-
-                var outputFileDir = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR")!, "TestResults");
-                if (!Directory.Exists(outputFileDir))
-                {
-                    Directory.CreateDirectory(outputFileDir);
-                }
-
-                var outputFilePath = Path.Combine(outputFileDir, $"test{_loggerId++:D3}.txt");
-                var logger = new FileLogger(outputFilePath);
-                logger.LogInfo("Logging started.");
-                Console.WriteLine("== temp dir: " + outputFilePath);
-
-                System.Threading.Thread.Sleep(100);//>>>
-
-                Console.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{outputFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
-                return logger;
+                break;
             }
-            else
-            {
-                Console.WriteLine("===2===");
-                return new NUnitLogger();
-            }
+
+            Thread.Sleep(1);
         }
     }
 }
