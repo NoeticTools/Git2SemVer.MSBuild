@@ -4,7 +4,7 @@ using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+namespace Git2SemVer.IntTests.Framework;
 
 internal class BuildHostStub : IBuildHost
 {

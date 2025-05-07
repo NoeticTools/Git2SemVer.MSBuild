@@ -1,14 +1,12 @@
-﻿using NoeticTools.Git2SemVer.Core;
-using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.IntegrationTests.Framework;
+﻿using Git2SemVer.IntTests.Framework;
+using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
-using Task = System.Threading.Tasks.Task;
 
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-namespace NoeticTools.Git2SemVer.IntegrationTests;
+namespace Git2SemVer.IntTests;
 
 internal class ScriptExecutionIntegrationTests : ScriptingTestsBase
 {

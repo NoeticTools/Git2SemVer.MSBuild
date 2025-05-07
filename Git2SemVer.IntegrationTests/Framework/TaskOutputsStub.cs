@@ -3,7 +3,7 @@ using NoeticTools.Git2SemVer.Framework.Generation;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+namespace Git2SemVer.IntTests.Framework;
 
 internal class TaskOutputsStub : IVersionOutputs
 {

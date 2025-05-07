@@ -1,9 +1,6 @@
-﻿using NoeticTools.Git2SemVer.IntegrationTests.Framework;
+﻿#pragma warning disable NUnit2045
 
-
-#pragma warning disable NUnit2045
-
-namespace NoeticTools.Git2SemVer.IntegrationTests;
+namespace Git2SemVer.IntTests;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]

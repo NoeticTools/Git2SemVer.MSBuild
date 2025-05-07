@@ -2,7 +2,7 @@
 using NoeticTools.Git2SemVer.Core;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+namespace Git2SemVer.IntTests.Framework;
 
 [RegisterSingleton]
 internal sealed class Git2SemverEmbeddedResources : IEmbeddedResources

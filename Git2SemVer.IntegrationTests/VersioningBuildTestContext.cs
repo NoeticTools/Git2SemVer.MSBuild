@@ -1,15 +1,15 @@
 using System.IO.Compression;
+using Git2SemVer.IntTests.Framework;
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools;
 using NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
-using NoeticTools.Git2SemVer.IntegrationTests.Framework;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 
 #pragma warning disable NUnit2045
 
-namespace NoeticTools.Git2SemVer.IntegrationTests;
+namespace Git2SemVer.IntTests;
 
 internal sealed class VersioningBuildTestContext : IDisposable
 {

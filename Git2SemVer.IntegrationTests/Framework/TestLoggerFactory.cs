@@ -3,7 +3,7 @@ using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+namespace Git2SemVer.IntTests.Framework;
 
 internal static class TestLoggerFactory
 {

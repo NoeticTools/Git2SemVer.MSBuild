@@ -2,7 +2,7 @@
 using Microsoft.Build.Framework;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+namespace Git2SemVer.IntTests.Framework;
 
 internal class BuildEngine9Stub : IBuildEngine9
 {

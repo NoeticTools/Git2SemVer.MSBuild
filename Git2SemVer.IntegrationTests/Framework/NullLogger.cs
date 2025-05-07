@@ -1,9 +1,9 @@
 ﻿using NoeticTools.Git2SemVer.Core.Logging;
 
 
-namespace NoeticTools.Git2SemVer.IntegrationTests.Framework;
+namespace Git2SemVer.IntTests.Framework;
 
-internal class NullLogger : Core.Logging.ILogger
+internal class NullLogger : ILogger
 {
     public void Dispose()
     {
