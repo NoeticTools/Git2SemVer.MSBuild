@@ -15,17 +15,20 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
     {
         public static ILogger Create()
         {
-            Console.WriteLine("===0===");
-            //Console.WriteLine("==== " + Environment.GetEnvironmentVariable("TMPDIR"));
             var variables = Environment.GetEnvironmentVariables();
             foreach (DictionaryEntry entry in variables)
             {
                 Console.WriteLine($"  === {entry.Key} = {entry.Value}");
             }
 
-            var teamcityHost = new TeamCityHost(new NullLogger());
-            if (teamcityHost.MatchesHostSignature())
+            //var teamcityHost = new TeamCityHost(new NullLogger());
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_VERION")))
             {
+                Console.WriteLine("===RUNNING ON TEAMCITY===");
+
+                var tempDir = Environment.GetEnvironmentVariable("TMPDIR");
+                Console.WriteLine("== temp dir: " + tempDir);
+                Console.WriteLine("== working directory: " + Directory.GetCurrentDirectory());
 
                 //##teamcity[importData type='streamToBuildLog' filePath='path-to-file' wrapFileContentInBlock='false' charset='UTF-8']
                 return new ConsoleLogger();
