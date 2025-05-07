@@ -43,27 +43,27 @@ internal abstract class VersioningBuildTestsBase
                                          """));
     }
 
-    //[Test]
-    //[CancelAfter(60000)]
-    //public void PackWithForcingProperties1ScriptTest()
-    //{
-    //    using var context = CreateTestContext();
+    [Test]
+    [CancelAfter(60000)]
+    public void PackWithForcingProperties1ScriptTest()
+    {
+        using var context = CreateTestContext();
 
-    //    var scriptPath = context.DeployScript("ForceProperties1.csx");
+        var scriptPath = context.DeployScript("ForceProperties1.csx");
 
-    //    var result = context.DotNetCli.Pack(context.TestSolutionPath, context.BuildConfiguration,
-    //                                        $"-p:Git2SemVer_ScriptPath={scriptPath} -fileLogger");
-    //    Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
+        var result = context.DotNetCli.Pack(context.TestSolutionPath, context.BuildConfiguration,
+                                            $"-p:Git2SemVer_ScriptPath={scriptPath} -fileLogger");
+        Assert.That(result.returnCode, Is.EqualTo(0), result.stdOutput);
 
-    //    var output = RunCompiledApp(context);
-    //    Assert.That(output, Contains.Substring("""
-    //                                           Assembly version:       1.2.3.0
-    //                                           File version:           4.5.6
-    //                                           Informational version:  11.12.13-a-prerelease+metadata
-    //                                           Product version:        11.12.13-a-prerelease+metadata
-    //                                           """));
-    //    VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.5.6.7.nupkg");
-    //}
+        var output = RunCompiledApp(context);
+        Assert.That(output, Contains.Substring("""
+                                               Assembly version:       1.2.3.0
+                                               File version:           4.5.6
+                                               Informational version:  11.12.13-a-prerelease+metadata
+                                               Product version:        11.12.13-a-prerelease+metadata
+                                               """));
+        VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.5.6.7.nupkg");
+    }
 
     protected abstract VersioningBuildTestContext CreateTestContext();
 
