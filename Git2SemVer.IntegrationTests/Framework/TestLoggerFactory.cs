@@ -22,8 +22,13 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
             }
 
             //var teamcityHost = new TeamCityHost(new NullLogger());
-            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEAMCITY_VERION")))
+            var teamCityVersion = Environment.GetEnvironmentVariable("TEAMCITY_VERION");
+            Console.WriteLine("======= TC version: " + teamCityVersion);
+
+            if (!string.IsNullOrWhiteSpace(teamCityVersion))
             {
+                Console.WriteLine("===1===");
+
                 Console.WriteLine("===RUNNING ON TEAMCITY===");
 
                 var tempDir = Environment.GetEnvironmentVariable("TMPDIR");
