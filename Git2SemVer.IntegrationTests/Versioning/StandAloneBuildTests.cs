@@ -31,23 +31,23 @@ internal class StandAloneBuildTests : VersioningBuildTestsBase
         VersioningBuildTestContext.AssertFileExists(context.PackageOutputDir, "NoeticTools.TestApplication.1.0.0.nupkg");
     }
 
-    //[Test]
-    //public void BuildOnlyWithForcingProperties1ScriptTest()
-    //{
-    //    using var context = CreateTestContext();
+    [Test]
+    public void BuildOnlyWithForcingProperties1ScriptTest()
+    {
+        using var context = CreateTestContext();
 
-    //    var scriptPath = context.DeployScript("ForceProperties1.csx");
+        var scriptPath = context.DeployScript("ForceProperties1.csx");
 
-    //    context.DotNetCli.Build(context.TestSolutionPath, context.BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath}");
+        context.DotNetCli.Build(context.TestSolutionPath, context.BuildConfiguration, $"-p:Git2SemVer_ScriptPath={scriptPath}");
 
-    //    var output = RunCompiledApp(context);
-    //    Assert.That(output, Contains.Substring("""
-    //                                           Assembly version:       1.2.3.0
-    //                                           File version:           4.5.6
-    //                                           Informational version:  11.12.13-a-prerelease+metadata
-    //                                           Product version:        11.12.13-a-prerelease+metadata
-    //                                           """));
-    //}
+        var output = RunCompiledApp(context);
+        Assert.That(output, Contains.Substring("""
+                                               Assembly version:       1.2.3.0
+                                               File version:           4.5.6
+                                               Informational version:  11.12.13-a-prerelease+metadata
+                                               Product version:        11.12.13-a-prerelease+metadata
+                                               """));
+    }
 
     protected override VersioningBuildTestContext CreateTestContext()
     {

@@ -3,7 +3,7 @@
 [TestFixture]
 [Parallelizable(ParallelScope.All)]
 //[NonParallelizable]
-internal class CrossTargetingBuildTests : VersioningBuildTestsBase
+internal class CrossTargetingTests : VersioningBuildTestsBase
 {
     protected override VersioningBuildTestContext CreateTestContext()
     {

@@ -45,7 +45,7 @@ internal abstract class VersioningBuildTestsBase
 
     [Test]
     [CancelAfter(60000)]
-    public void PackWithForcingProperties1ScriptTest()
+    public void PackTest()
     {
         using var context = CreateTestContext();
 

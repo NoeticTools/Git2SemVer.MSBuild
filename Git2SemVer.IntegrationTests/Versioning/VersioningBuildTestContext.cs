@@ -19,6 +19,8 @@ internal sealed class VersioningBuildTestContext : IDisposable
 
     public VersioningBuildTestContext(string groupName, string solutionFolderName, string solutionFileName, string projectName)
     {
+        Console.Out.Flush();//>>>
+
         if (_activeContexts > ConcurrentContextsLimit)
         {
             Assert.Fail($"Exceeded number of active contexts limit of {ConcurrentContextsLimit}.");
