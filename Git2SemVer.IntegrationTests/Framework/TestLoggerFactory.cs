@@ -11,9 +11,9 @@ using NoeticTools.Git2SemVer.Testing.Core;
 
 namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
 {
-    internal class TestLoggerFactory
+    internal static class TestLoggerFactory
     {
-        public ILogger Create()
+        public static ILogger Create()
         {
             var teamcityHost = new TeamCityHost(new NullLogger());
             if (teamcityHost.MatchesHostSignature())
@@ -31,6 +31,7 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
             }
             else
             {
+                Console.WriteLine("===2===");
                 return new NUnitLogger();
             }
         }

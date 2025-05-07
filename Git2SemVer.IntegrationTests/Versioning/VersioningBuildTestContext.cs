@@ -3,6 +3,7 @@ using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools;
 using NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
+using NoeticTools.Git2SemVer.IntegrationTests.Framework;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 
@@ -30,7 +31,9 @@ internal sealed class VersioningBuildTestContext : IDisposable
         TestDirectory = _testDirectoryResource.Create();
         TestFolderName = TestDirectory.Name;
 
-        Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        //Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
+        Logger = TestLoggerFactory.Create();
+
         Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
 
         var processCli = new ProcessCli(Logger) { WorkingDirectory = TestDirectory.FullName };
