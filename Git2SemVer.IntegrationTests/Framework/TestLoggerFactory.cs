@@ -35,6 +35,7 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
 
                 var logFilePath = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR")!, "TestResults", $"test{_loggerId++:D3}.txt");
                 var logger = new FileLogger(logFilePath);
+                logger.LogInfo("Logging started.");
                 Console.WriteLine("== temp dir: " + logFilePath);
 
                 Console.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{logFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
