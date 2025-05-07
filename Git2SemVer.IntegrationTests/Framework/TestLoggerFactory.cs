@@ -33,12 +33,20 @@ namespace NoeticTools.Git2SemVer.IntegrationTests.Framework
             {
                 Console.WriteLine("===RUNNING ON TEAMCITY===");
 
-                var logFilePath = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR")!, "TestResults", $"test{_loggerId++:D3}.txt");
-                var logger = new FileLogger(logFilePath);
-                logger.LogInfo("Logging started.");
-                Console.WriteLine("== temp dir: " + logFilePath);
+                var outputFileDir = Path.Combine(Environment.GetEnvironmentVariable("TMPDIR")!, "TestResults");
+                if (!Directory.Exists(outputFileDir))
+                {
+                    Directory.CreateDirectory(outputFileDir);
+                }
 
-                Console.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{logFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
+                var outputFilePath = Path.Combine(outputFileDir, $"test{_loggerId++:D3}.txt");
+                var logger = new FileLogger(outputFilePath);
+                logger.LogInfo("Logging started.");
+                Console.WriteLine("== temp dir: " + outputFilePath);
+
+                System.Threading.Thread.Sleep(100);//>>>
+
+                Console.WriteLine($"##teamcity[importData type='streamToBuildLog' filePath='{outputFilePath}' wrapFileContentInBlock='false' charset='UTF-8']");
                 return logger;
             }
             else
