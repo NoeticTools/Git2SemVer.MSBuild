@@ -13,12 +13,10 @@ public sealed class ChangelogCategorySettings
     {
     }
 
-    public ChangelogCategorySettings(int order, string name, string changeType, bool skipIfNone, bool skipIfRelease = false)
+    public ChangelogCategorySettings(int order, string name, string changeType)
     {
         ChangeType = changeType;
         Name = name;
-        SkipIfNone = skipIfNone;
-        SkipIfRelease = skipIfRelease;
         Order = order;
     }
 
@@ -37,14 +35,4 @@ public sealed class ChangelogCategorySettings
     ///     Lower number appears before higher numbers.
     /// </summary>
     public int Order { get; set; }
-
-    /// <summary>
-    ///     Set to <c>true</c> to skip this category in the changelog if no changes found.
-    /// </summary>
-    public bool SkipIfNone { get; set; }
-
-    /// <summary>
-    ///     If true the category will not be excluded from a release's changelog.
-    /// </summary>
-    public bool SkipIfRelease { get; set; }
 }

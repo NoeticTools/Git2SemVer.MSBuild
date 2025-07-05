@@ -6,7 +6,7 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 internal sealed class ChangelogSection
 {
-    private readonly string _changelogSectionPattern = @"^(?<=.*?\<\!-- Start {0} section -->.*?).*(?=^\<\!-- End {0} section -->.*?)";
+    private readonly string _changelogSectionPattern = @"^(?<=.*?\<\!-- Section start: {0} -->.*?).*(?=^\<\!-- Section end: {0} -->.*?)";
     private readonly ChangelogDocument _document;
     private readonly string _name;
     private readonly Regex _regex;
@@ -27,9 +27,8 @@ internal sealed class ChangelogSection
             if (!sourceMatch.Success)
             {
                 throw new
-                    Git2SemVerInvalidFormatException($"The {_document.Name} changelog is missing missing a start or end {_name} section marker marker like '<!-- Start {_name} section -->'.");
+                    Git2SemVerInvalidFormatException($"The {_document.Name} changelog is missing missing a start or end of a '{_name}' section marker marker like '<!-- Section start: {_name} -->'.");
             }
-
             return sourceMatch.Value;
         }
         set
@@ -38,7 +37,7 @@ internal sealed class ChangelogSection
             if (!destMatch.Success)
             {
                 throw new
-                    Git2SemVerInvalidFormatException($"The {_document.Name} changelog is missing missing a start or end {_name} section marker marker like '<!-- Start {_name} section -->'.");
+                    Git2SemVerInvalidFormatException($"The {_document.Name} changelog is missing missing a start or end of a '{_name}' section marker marker like '<!-- Start start: {_name} -->'.");
             }
 
             var newContent = _regex.Replace(_document.Content, value, 1);

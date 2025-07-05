@@ -57,22 +57,36 @@ public class ChangelogGenerator(ChangelogSettings config)
         var sourceDocument = new ChangelogDocument("generated", createdContent);
         var destinationDocument = new ChangelogDocument("existing", changelogToUpdate);
 
-        foreach (var category in changes)
-        {
-            // todo - what if category not found in file?
-            var sourceContent = sourceDocument[category.Settings.ChangeType + " changes"].Content;
-            destinationDocument[category.Settings.ChangeType + " changes to review"].Content += sourceContent;
-        }
+        CopyFoundChangesToExistingChangelogToReviewSection(changes, sourceDocument, destinationDocument);
 
+        // Copy version section as it may have changed to a release
         destinationDocument["version"].Content = sourceDocument["version"].Content;
 
         return destinationDocument.Content;
     }
 
-    private static string Create(string releaseUrl, 
-                                 ContributingCommits contributing, 
-                                 string scribanTemplate, 
-                                 bool incremental, 
+    private static void CopyFoundChangesToExistingChangelogToReviewSection(IReadOnlyList<CategoryChanges> changes,
+                                                                           ChangelogDocument sourceDocument,
+                                                                           ChangelogDocument destinationDocument)
+    {
+        foreach (var category in changes)
+        {
+            // todo - what if category not found in file?
+            
+
+            var sourceContent = sourceDocument[category.Settings.Name + " changes"].Content;
+            if (sourceContent.Trim().Length > 0)
+            {
+                var destinationSection = destinationDocument[category.Settings.Name + " changes, for manual review"];
+                destinationSection.Content += sourceContent;
+            }
+        }
+    }
+
+    private static string Create(string releaseUrl,
+                                 ContributingCommits contributing,
+                                 string scribanTemplate,
+                                 bool incremental,
                                  SemVersion version,
                                  IReadOnlyList<CategoryChanges> changes)
     {
@@ -80,12 +94,20 @@ public class ChangelogGenerator(ChangelogSettings config)
                                        contributing,
                                        changes,
                                        releaseUrl,
-                                       incremental,
-                                       createNewDocument: true);
+                                       incremental);
         try
         {
             var template = Template.Parse(scribanTemplate);
-            return template.Render(model, member => member.Name);
+            var content = template.Render(model, member => member.Name);
+            if (content.Trim().Length == 0)
+            {
+                throw new Git2SemVerScribanFileParsingException("The Scriban template file rendered no content.");
+            }
+            return content;
+        }
+        catch (Git2SemVerScribanFileParsingException)
+        {
+            throw;
         }
         catch (Exception exception)
         {
@@ -101,14 +123,9 @@ public class ChangelogGenerator(ChangelogSettings config)
         return extracted;
     }
 
-    private static CategoryChanges? GetCategoryChanges(ChangelogCategorySettings categorySettings, List<Commit> remainingCommits, bool isRelease)
+    private static CategoryChanges GetCategoryChanges(ChangelogCategorySettings categorySettings, List<Commit> remainingCommits, bool isRelease)
     {
         var commits = Extract(remainingCommits, categorySettings.ChangeType);
-        if ((categorySettings.SkipIfNone && commits.Count <= 0) || (isRelease && !categorySettings.SkipIfRelease))
-        {
-            return null;
-        }
-
         var categoryChanges = new CategoryChanges(categorySettings);
         categoryChanges.AddRange(GetUniqueChangelogEntries(commits));
         return categoryChanges;

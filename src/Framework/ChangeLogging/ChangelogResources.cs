@@ -4,13 +4,13 @@ public static class ChangelogResources
 {
     public static readonly ChangelogCategorySettings[] DefaultCategories =
     [
-        new(1, "Added", "feat", false),
-        new(2, "Changed", "change", false),
-        new(3, "Depreciated", "deprecate", true),
-        new(4, "Removed", "remove", true),
-        new(5, "Fixed", "fix", false),
-        new(6, "Security", "security", true),
-        new(7, "Other", ".*", true)
+        new(1, "Added", "feat"),
+        new(2, "Changed", "change"),
+        new(3, "Depreciated", "deprecate"),
+        new(4, "Removed", "remove"),
+        new(5, "Fixed", "fix"),
+        new(6, "Security", "security"),
+        new(7, "Other", ".*")
     ];
 
     public static readonly string DefaultMarkdownTemplateFilename = "markdown.template.scriban";

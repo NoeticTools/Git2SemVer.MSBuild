@@ -11,8 +11,7 @@ internal sealed class ChangelogModel(
     ContributingCommits contributing,
     IReadOnlyList<CategoryChanges> categories,
     string releaseUrl,
-    bool incremental,
-    bool createNewDocument)
+    bool incremental)
 {
     /// <summary>
     ///     The git branch that the head commit is on.
@@ -20,8 +19,6 @@ internal sealed class ChangelogModel(
     public string BranchName { get; } = contributing.BranchName;
 
     public IReadOnlyList<CategoryChanges> Categories { get; } = categories;
-
-    public bool CreateNewDocument { get; } = createNewDocument;
 
     public DateTime HeadDateTime { get; } = contributing.Head.When.DateTime;
 
