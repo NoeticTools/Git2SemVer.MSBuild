@@ -17,7 +17,7 @@ using Commit = NoeticTools.Git2SemVer.Core.Tools.Git.Commit;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public class ChangelogGenerator(ChangelogSettings config)
+public class ChangelogGenerator(ChangelogLocalSettings config)
 {
     /// <summary>
     ///     Generate a new changelog document.
@@ -63,18 +63,17 @@ public class ChangelogGenerator(ChangelogSettings config)
         }
 
         var createdContent = Create(releaseUrl, contributing, scribanTemplate, true, version, changes);
-        var sourceDocument = new ChangelogDocument("generated", createdContent);
+        var newChangesDocument = new ChangelogDocument("new_changes", createdContent);
         var destinationDocument = new ChangelogDocument("existing", changelogToUpdate);
 
-        CopyFoundChangesToExistingChangelogToReviewSection(changes, sourceDocument, destinationDocument);
+        CopyChangesToReviewSection(changes, newChangesDocument, destinationDocument);
 
-        // Copy version section as it may have changed to a release
-        destinationDocument["version"].Content = sourceDocument["version"].Content;
+        destinationDocument["version"].Content = newChangesDocument["version"].Content;
 
         return destinationDocument.Content;
     }
 
-    private static void CopyFoundChangesToExistingChangelogToReviewSection(IReadOnlyList<CategoryChanges> changes,
+    private static void CopyChangesToReviewSection(IReadOnlyList<CategoryChanges> changes,
                                                                            ChangelogDocument sourceDocument,
                                                                            ChangelogDocument destinationDocument)
     {

@@ -6,6 +6,8 @@ namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 [JsonDerivedType(typeof(ICommitMessageMetadata))]
 public sealed class CommitMessageMetadata : ICommitMessageMetadata
 {
+    private readonly ConventionalCommitsSettings _convCommitsSettings;
+
     private static readonly Dictionary<string, CommitChangeTypeId> ChangeTypeIdLookup = new()
     {
         { "feat", CommitChangeTypeId.Feature },
@@ -16,9 +18,14 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
         { "security", CommitChangeTypeId.Security }
     };
 
-    public CommitMessageMetadata(string changeType, bool breakingChangeFlagged, string changeDescription, string body,
-                                 List<(string key, string value)> footerKeyValues)
+    public CommitMessageMetadata(string changeType,
+                                 string changeDescription,
+                                 string body,
+                                 bool breakingChangeFlagged,
+                                 List<(string key, string value)> footerKeyValues, 
+                                 ConventionalCommitsSettings convCommitsSettings)
     {
+        _convCommitsSettings = convCommitsSettings;
         ChangeType = ToChangeTypeId(changeType.ToLower());
         ChangeTypeText = changeType;
         ChangeDescription = changeDescription;
@@ -34,7 +41,8 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
         ApiChangeFlags = new ApiChangeFlags(breakingChange, functionalityChange, fix);
     }
 
-    public CommitMessageMetadata() : this("", false, "", "", [])
+    public CommitMessageMetadata(ConventionalCommitsSettings convCommitsSettings) 
+        : this("", "", "", false, [], convCommitsSettings)
     {
     }
 
@@ -56,10 +64,11 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     {
         get
         {
-            var issues = FooterKeyValues["issues"].ToList();
-            issues.AddRange(FooterKeyValues["issue"]);
-            issues.AddRange(FooterKeyValues["ref"]);
-            issues.AddRange(FooterKeyValues["refs"]);
+            var issues = new List<string>();
+            foreach (var issueKey in _convCommitsSettings.IssueKeys)
+            {
+                issues.AddRange(FooterKeyValues[issueKey]);
+            }
             return issues;
         }
     }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools;
 using NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
@@ -70,7 +71,7 @@ internal abstract class ScriptingTestsBase
     {
         Logger = new NUnitLogger();
         DotNetCli = new DotNetTool(new ProcessCli(Logger));
-        Git = new GitTool(new TagParser());
+        Git = new GitTool(new TagParser(), new ConventionalCommitsParser(new ConventionalCommitsSettings()));
     }
 
     protected GitTool Git { get; private set; } = null!;

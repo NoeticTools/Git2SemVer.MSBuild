@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
@@ -17,9 +18,11 @@ public sealed class VersionGeneratorFactory(ILogger logger)
     public IVersionGenerator Create(IVersionGeneratorInputs inputs, 
                                     IMSBuildGlobalProperties msBuildGlobalProperties,
                                     IOutputsJsonIO outputsJsonIO, 
-                                    IBuildHost host)
+                                    IBuildHost host,
+                                    ConventionalCommitsSettings convCommitsSettings)
     {
-        var gitTool = new GitTool(new TagParser(inputs.ReleaseTagFormat))
+        var gitTool = new GitTool(new TagParser(inputs.ReleaseTagFormat),
+                                  new ConventionalCommitsParser(convCommitsSettings))
         {
             RepositoryDirectory = inputs.WorkingDirectory
         };

@@ -103,7 +103,7 @@ public class Commit : ICommit
     ///     A null commit.
     /// </summary>
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata());
+    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata(new ConventionalCommitsSettings()));
 
     [JsonPropertyOrder(31)]
     public CommitId[] Parents { get; }

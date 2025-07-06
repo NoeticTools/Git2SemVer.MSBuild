@@ -13,14 +13,14 @@ public sealed class GitTool : IGitTool
 {
     private const int TakeLimit = 300;
     private readonly ICommitsCache? _cache;
-    private readonly ConventionalCommitsParser _metadataParser;
+    private readonly IConventionalCommitsParser _metadataParser;
     private readonly ITagParser _tagParser;
     private Commit? _head;
     private bool _initialised;
     private Repository? _repository;
     private string _repositoryDirectory = null!;
 
-    public GitTool(ITagParser tagParser)
+    public GitTool(ITagParser tagParser, IConventionalCommitsParser convCommitsParser)
     {
         _tagParser = tagParser;
         _cache = new CommitsCache();
@@ -28,7 +28,7 @@ public sealed class GitTool : IGitTool
         {
             RepositoryDirectory = Environment.CurrentDirectory;
         }
-        _metadataParser = new ConventionalCommitsParser();
+        _metadataParser = convCommitsParser;
     }
 
     public string BranchName => Repository.Head.FriendlyName;

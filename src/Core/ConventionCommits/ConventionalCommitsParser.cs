@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
-public sealed class ConventionalCommitsParser : IConventionalCommitsParser
+public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCommitsSettings) : IConventionalCommitsParser
 {
     private readonly Regex _bodyRegex = new("""
                                             \A
@@ -46,7 +46,7 @@ public sealed class ConventionalCommitsParser : IConventionalCommitsParser
         var summaryMatch = _summaryRegex.Match(commitSummary);
         if (!summaryMatch.Success)
         {
-            return new CommitMessageMetadata();
+            return new CommitMessageMetadata(convCommitsSettings);
         }
 
         var changeType = summaryMatch.GetGroupValue("ChangeType");
@@ -57,15 +57,15 @@ public sealed class ConventionalCommitsParser : IConventionalCommitsParser
         var bodyMatches = _bodyRegex.Matches(commitMessageBody);
         foreach (Match match in bodyMatches)
         {
-            if (match.Success)
+            if (!match.Success)
             {
-                var group = match.Groups["footer"];
-                if (!group.Success)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                //Console.WriteLine($"[{match.Groups["token"].Value} | {match.Groups["description"].Value}]");
+            var group = match.Groups["footer"];
+            if (!group.Success)
+            {
+                continue;
             }
         }
 
@@ -73,7 +73,11 @@ public sealed class ConventionalCommitsParser : IConventionalCommitsParser
 
         var keyValuePairs = GetFooterKeyValuePairs(bodyMatch);
 
-        return new CommitMessageMetadata(changeType, breakingChangeFlagged, changeDescription, body, keyValuePairs);
+        return new CommitMessageMetadata(changeType, 
+                                         changeDescription, 
+                                         body, 
+                                         breakingChangeFlagged, 
+                                         keyValuePairs, convCommitsSettings);
     }
 
     private static List<(string key, string value)> GetFooterKeyValuePairs(Match match)
@@ -87,24 +91,8 @@ public sealed class ConventionalCommitsParser : IConventionalCommitsParser
         {
             var keyword = keywords[captureIndex].Value;
             var value = values[captureIndex].Value.TrimEnd();
-
-            // todo - scope AND !
-
-            //Console.WriteLine($"{keyword} | {value}");
             keyValuePairs.Add((keyword, value));
         }
-        //foreach (Match keywordMatch in keywords)
-        //{
-        //    if (!keywordMatch.Success)
-        //    {
-        //        continue;
-        //    }
-
-        //    var keyword = match.Groups["keyword"].Value;
-        //    var description = match.Groups["description"].Value;
-        //    Console.WriteLine($"{keyword} | {description}");
-        //    keyValuePairs.Add((keyword, description));
-        //}
 
         return keyValuePairs;
     }
