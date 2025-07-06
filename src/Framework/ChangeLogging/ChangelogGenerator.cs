@@ -193,28 +193,26 @@ public class ChangelogGenerator(ChangelogSettings config)
         commits.AddRange(remainingCommits);
     }
 
-
     private static IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(IReadOnlyList<Commit> commits)
     {
-        var changeEntries = new List<ChangeLogEntry>();
+        var changeLogEntries = new ChangeMessageDictionary<ChangeLogEntry>();
         foreach (var commit in commits)
         {
-            // >>> todo - incremental change. reject change if commitId is recorded in LastRun. Add commits to ChangeLogEntry
-
-            var entry = changeEntries.SingleOrDefault(x => x.Equals(commit.MessageMetadata));
-            if (entry == null)
+            var messageMetadata = commit.MessageMetadata;
+            if (!changeLogEntries.TryGet(messageMetadata, out var logEntry))
             {
-                entry = new ChangeLogEntry(commit.MessageMetadata);
-                changeEntries.Add(entry);
+                logEntry = new ChangeLogEntry(messageMetadata);
+                logEntry.AddIssues(messageMetadata.Issues);
+                logEntry.AddCommitId(commit.CommitId.ShortSha);
+                changeLogEntries.Add(logEntry);
+                continue;
             }
             else
             {
-                // todo - incremental update will need to check issues count
-                entry.AddIssues(commit.MessageMetadata.FooterKeyValues["issues"]);
+                logEntry!.AddIssues(messageMetadata.Issues);
             }
             logEntry.AddCommitId(commit.CommitId.ShortSha);
         }
 
-        return changeEntries;
-    }
-}
+        return changeLogEntries.GetAll();
+    }}

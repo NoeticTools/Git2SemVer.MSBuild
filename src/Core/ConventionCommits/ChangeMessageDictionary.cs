@@ -97,6 +97,16 @@ public class ChangeMessageDictionary<T> where T : IObjectWithMessageMetadata
 
     private static (string, string) GetKey(T value)
     {
-        return (value.MessageMetadata.ChangeTypeText, value.MessageMetadata.ChangeDescription);
+        return GetKey(value.MessageMetadata);
+    }
+
+    private static (string, string) GetKey(ICommitMessageMetadata value)
+    {
+        return (value.ChangeTypeText, value.ChangeDescription);
+    }
+
+    public bool TryGet(ICommitMessageMetadata messageMetadata, out T? value)
+    {
+        return TryGet(GetKey(messageMetadata), out value);
     }
 }
