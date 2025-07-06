@@ -123,20 +123,17 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                                              outputs,
                                              contributing,
                                              template,
-                                             incremental: cmdLineSettings.Incremental);
+                                             incremental: cmdLineSettings.Incremental,
+                                             lastRunData);
         }
-
-        //xxx; //lastRunData
-        //var commits = lastRunData. contributing.Commits.
-        //var incrementalContibuting = new ContributingCommits(contributing)
-
 
         var existingChangelog = File.ReadAllText(cmdLineSettings.OutputFilePath);
         var changelog = changelogGenerator.Update(releaseUrl,
                                                   outputs,
                                                   contributing,
                                                   template,
-                                                  existingChangelog);
+                                                  existingChangelog,
+                                                  lastRunData);
         if (string.Equals(existingChangelog, changelog))
         {
             Console.WriteMarkupInfoLine("No updates found.");
