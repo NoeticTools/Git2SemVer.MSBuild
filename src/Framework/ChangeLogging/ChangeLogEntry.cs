@@ -3,26 +3,31 @@
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public sealed class ChangeLogEntry : IEquatable<ICommitMessageMetadata>
+public sealed class ChangeLogEntry : IObjectWithMessageMetadata
 {
-    private readonly HashSet<string> _commitIds = [];
     private readonly List<string> _issues = [];
-    private readonly ICommitMessageMetadata _messageMetadata;
 
     public ChangeLogEntry(ICommitMessageMetadata messageMetadata)
     {
-        _messageMetadata = messageMetadata;
-        AddIssues(messageMetadata.FooterKeyValues["issue"]);
-        AddIssues(messageMetadata.FooterKeyValues["refs"]);
+        MessageMetadata = messageMetadata;
+        AddIssues(messageMetadata.Issues);
     }
 
-    public string Description => _messageMetadata.ChangeDescription;
+    // ReSharper disable once CollectionNeverQueried.Global
+    // ReSharper disable once MemberCanBePrivate.Global
+    public List<string> CommitIds { get; } = [];
 
+    // ReSharper disable once UnusedMember.Global
+    public string Description => MessageMetadata.ChangeDescription;
+
+    // ReSharper disable once UnusedMember.Global
     public IReadOnlyList<string> Issues => _issues;
+
+    public ICommitMessageMetadata MessageMetadata { get; }
 
     public void AddCommitId(string commitSha)
     {
-        _commitIds.Add(commitSha);
+        CommitIds.Add(commitSha);
     }
 
     public void AddIssues(IEnumerable<string> issueIds)
@@ -33,17 +38,6 @@ public sealed class ChangeLogEntry : IEquatable<ICommitMessageMetadata>
         }
     }
 
-    public bool Equals(ICommitMessageMetadata? other)
-    {
-        if (other == null)
-        {
-            return false;
-        }
-
-        return _messageMetadata.ChangeTypeText.Equals(other.ChangeTypeText) &&
-               _messageMetadata.ChangeDescription.Equals(other.ChangeDescription);
-    }
-
     public override bool Equals(object? obj)
     {
         return ReferenceEquals(this, obj) || (obj is ChangeLogEntry other && Equals(other));
@@ -51,12 +45,7 @@ public sealed class ChangeLogEntry : IEquatable<ICommitMessageMetadata>
 
     public override int GetHashCode()
     {
-        return _messageMetadata.GetHashCode();
-    }
-
-    public bool HasCommitId(string commitSha)
-    {
-        return _commitIds.Contains(commitSha);
+        return MessageMetadata.GetHashCode();
     }
 
     private void AddIssue(string issueId)
@@ -69,6 +58,6 @@ public sealed class ChangeLogEntry : IEquatable<ICommitMessageMetadata>
 
     private bool Equals(ChangeLogEntry? other)
     {
-        return other != null && _messageMetadata.Equals(other._messageMetadata);
+        return other != null && MessageMetadata.Equals(other.MessageMetadata);
     }
 }

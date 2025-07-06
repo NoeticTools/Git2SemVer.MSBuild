@@ -38,6 +38,19 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     {
     }
 
+    [JsonIgnore]
+    public IReadOnlyList<string> Issues
+    {
+        get
+        {
+            var issues = FooterKeyValues["issues"].ToList();
+            issues.AddRange(FooterKeyValues["issue"]);
+            issues.AddRange(FooterKeyValues["ref"]);
+            issues.AddRange(FooterKeyValues["refs"]);
+            return issues;
+        }
+    }
+
     public ApiChangeFlags ApiChangeFlags { get; }
 
     public string Body { get; }

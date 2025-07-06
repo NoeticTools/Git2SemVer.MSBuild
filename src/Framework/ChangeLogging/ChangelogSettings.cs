@@ -37,7 +37,7 @@ public sealed class ChangelogSettings : IEquatable<ChangelogSettings>
     /// <summary>
     ///     Configuration file schema revision.
     /// </summary>
-    public string Rev { get; set; } = "1.0.0";
+    public string Rev { get; set; } = "1";
 
     public bool Equals(ChangelogSettings? other)
     {

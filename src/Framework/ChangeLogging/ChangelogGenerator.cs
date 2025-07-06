@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using LibGit2Sharp;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Exceptions;
@@ -6,6 +7,12 @@ using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using Scriban;
 using Semver;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata.Ecma335;
+using System.Text.RegularExpressions;
+using Commit = NoeticTools.Git2SemVer.Core.Tools.Git.Commit;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
@@ -20,18 +27,20 @@ public class ChangelogGenerator(ChangelogSettings config)
     /// <param name="contributing"></param>
     /// <param name="scribanTemplate"></param>
     /// <param name="incremental"></param>
+    /// <param name="lastRunData"></param>
     /// <returns></returns>
     public string Create(string releaseUrl,
                          IVersionOutputs versioning,
                          ContributingCommits contributing,
                          string scribanTemplate,
-                         bool incremental)
+                         bool incremental,
+                         LastRunData lastRunData)
     {
         Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
         Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
 
         var version = versioning.Version!;
-        var changes = GetChanges(version, contributing);
+        var changes = GetChanges(contributing, lastRunData, incremental);
         return Create(releaseUrl, contributing, scribanTemplate, incremental, version, changes);
     }
 
@@ -40,15 +49,15 @@ public class ChangelogGenerator(ChangelogSettings config)
                          ContributingCommits contributing,
                          string scribanTemplate,
                          string changelogToUpdate,
-                         bool forceUpdate = false)
+                         LastRunData lastRunData)
     {
         Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
         Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
         Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(changelogToUpdate));
 
         var version = versioning.Version!;
-        var changes = GetChanges(version, contributing); // todo - trim changes to new changes only
-        if (!forceUpdate && changes.Count == 0)
+        var changes = GetChanges(contributing, lastRunData, true);
+        if (changes.Count == 0)
         {
             return changelogToUpdate;
         }
@@ -123,7 +132,8 @@ public class ChangelogGenerator(ChangelogSettings config)
         return extracted;
     }
 
-    private static CategoryChanges GetCategoryChanges(ChangelogCategorySettings categorySettings, List<Commit> remainingCommits, bool isRelease)
+    private static CategoryChanges GetCategoryChanges(ChangelogCategorySettings categorySettings,
+                                                      List<Commit> remainingCommits)
     {
         var commits = Extract(remainingCommits, categorySettings.ChangeType);
         var categoryChanges = new CategoryChanges(categorySettings);
@@ -131,36 +141,79 @@ public class ChangelogGenerator(ChangelogSettings config)
         return categoryChanges;
     }
 
-    private IReadOnlyList<CategoryChanges> GetChanges(SemVersion version, ContributingCommits contributing)
+    private IReadOnlyList<CategoryChanges> GetChanges(ContributingCommits contributing, LastRunData lastRunData, bool incremental)
     {
         var remainingCommits = new List<Commit>(contributing.Commits.Where(x => x.MessageMetadata.ApiChangeFlags.Any));
+        if (incremental)
+        {
+            TrimHandledChanges(remainingCommits, lastRunData);
+        }
         var orderedCategories = config.Categories.OrderBy(x => x.Order);
-        return orderedCategories.Select(category => GetCategoryChanges(category, remainingCommits, version!.IsRelease)).OfType<CategoryChanges>()
-                                .ToList();
+        return orderedCategories.Select(category => GetCategoryChanges(category, remainingCommits)).ToList();
+    }
+
+    private static void TrimHandledChanges(List<Commit> commits, LastRunData lastRunData)
+    {
+        var remainingCommitsLookup = new ChangeMessageDictionary<Commit>();
+        remainingCommitsLookup.AddRangeUnique(commits);
+
+        foreach (var handledChange in lastRunData.HandledChanges)
+        {
+            if (!remainingCommitsLookup.TryGet((handledChange.ChangeType, handledChange.Description), out var commit))
+            {
+                continue;
+            }
+
+            var commitIssues = commit!.MessageMetadata.Issues;
+            var newIssues = commitIssues.Where(x => !handledChange.Issues.Contains(x)).ToList();
+            if (newIssues.Any())
+            {
+                handledChange.Issues.AddRange(newIssues);
+            }
+            else
+            {
+                remainingCommitsLookup.Remove(commit!);
+            }
+        }
+
+        var remainingCommits = remainingCommitsLookup.GetAll();
+        foreach (var commit in remainingCommits)
+        {
+            var commitMetadata = commit.MessageMetadata;
+
+            lastRunData.HandledChanges.Add(new HandledChange()
+            {
+                ChangeType = commitMetadata.ChangeTypeText,
+                Description = commitMetadata.ChangeDescription,
+                Issues = commitMetadata.Issues.ToList()
+            });
+        }
+
+        commits.Clear();
+        commits.AddRange(remainingCommits);
     }
 
     private static IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(IReadOnlyList<Commit> commits)
     {
-        var changeEntries = new List<ChangeLogEntry>();
+        var changeLogEntries = new ChangeMessageDictionary<ChangeLogEntry>();
         foreach (var commit in commits)
         {
-            // >>> todo - incremental change. reject change if commitId is recorded in LastRun. Add commits to ChangeLogEntry
-
-            var entry = changeEntries.SingleOrDefault(x => x.Equals(commit.MessageMetadata));
-            if (entry == null)
+            var messageMetadata = commit.MessageMetadata;
+            if (!changeLogEntries.TryGet((messageMetadata.ChangeTypeText, messageMetadata.ChangeDescription), out var logEntry))
             {
-                entry = new ChangeLogEntry(commit.MessageMetadata);
-                changeEntries.Add(entry);
+                logEntry = new ChangeLogEntry(messageMetadata);
+                logEntry.AddIssues(messageMetadata.Issues);
+                logEntry.AddCommitId(commit.CommitId.ShortSha);
+                changeLogEntries.Add(logEntry);
+                continue;
             }
             else
             {
-                // todo - incremental update will need to check issues count
-                entry.AddIssues(commit.MessageMetadata.FooterKeyValues["issues"]);
+                logEntry!.AddIssues(messageMetadata.Issues);
             }
-
-            entry.AddCommitId(commit.CommitId.ShortSha);
+            logEntry.AddCommitId(commit.CommitId.ShortSha);
         }
 
-        return changeEntries;
+        return changeLogEntries.GetAll();
     }
 }
