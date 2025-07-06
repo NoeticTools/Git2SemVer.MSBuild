@@ -11,9 +11,6 @@ public interface ICommitMessageMetadata : IChangeMessageMetadata
     [JsonPropertyOrder(2)]
     string Body { get; }
 
-    [JsonPropertyOrder(4)]
-    CommitChangeTypeId ChangeType { get; }
-
     [JsonPropertyOrder(6)]
     ILookup<string, string> FooterKeyValues { get; }
 }

@@ -13,7 +13,7 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
         { "change", CommitChangeTypeId.Change },
         { "deprecate", CommitChangeTypeId.Deprecate },
         { "remove", CommitChangeTypeId.Remove },
-        { "security", CommitChangeTypeId.Security },
+        { "security", CommitChangeTypeId.Security }
     };
 
     public CommitMessageMetadata(string changeType, bool breakingChangeFlagged, string changeDescription, string body,
@@ -38,6 +38,19 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     {
     }
 
+    public ApiChangeFlags ApiChangeFlags { get; }
+
+    public string Body { get; }
+
+    public string ChangeDescription { get; }
+
+    public CommitChangeTypeId ChangeType { get; }
+
+    public string ChangeTypeText { get; }
+
+    [JsonPropertyOrder(16)]
+    public ILookup<string, string> FooterKeyValues { get; }
+
     [JsonIgnore]
     public IReadOnlyList<string> Issues
     {
@@ -50,18 +63,6 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
             return issues;
         }
     }
-
-    public ApiChangeFlags ApiChangeFlags { get; }
-
-    public string Body { get; }
-
-    public string ChangeDescription { get; }
-
-    public CommitChangeTypeId ChangeType { get; }
-
-    public string ChangeTypeText { get; }
-
-    public ILookup<string, string> FooterKeyValues { get; }
 
     private static CommitChangeTypeId ToChangeTypeId(string value)
     {

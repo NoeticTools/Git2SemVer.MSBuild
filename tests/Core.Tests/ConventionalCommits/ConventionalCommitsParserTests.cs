@@ -291,7 +291,7 @@ internal class ConventionalCommitsParserTests
         var match = regex.Match(input);
 
         var body = match.Groups["body"].Value;
-        Console.WriteLine($"|{body}|");
+        System.Console.WriteLine($"|{body}|");
 
         var keywords = match.Groups["token"].Captures;
         var values = match.Groups["value"].Captures;
