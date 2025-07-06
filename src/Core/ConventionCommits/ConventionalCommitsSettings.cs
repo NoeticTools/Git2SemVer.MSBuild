@@ -2,6 +2,9 @@
 
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
+/// <summary>
+/// Conventional Commits settings.
+/// </summary>
 public sealed class ConventionalCommitsSettings
 {
     /// <summary>

@@ -11,7 +11,7 @@ public class GitPerformanceTestRepository : GitTestRepository
     {
         var commits = new List<Commit>
         {
-            new("00.0.01.000", [], "First commit in repo", "", "", new CommitMessageMetadata())
+            new("00.0.01.000", [], "First commit in repo", "", "", CommitMessageMetadata.Null)
         };
 
         var endOfPriorBlockCommitId = "00.0.01.000";
@@ -25,25 +25,25 @@ public class GitPerformanceTestRepository : GitTestRepository
             [
                 // left (main) branch
                 new Commit(branchPrefix + ".1.01.000", [endOfPriorBlockCommitId], $"bottom (oldest) end of block {blockNumber}", "", "",
-                           new CommitMessageMetadata()),
-                new Commit(branchPrefix + ".1.02.000", [branchPrefix + ".1.01.000"], "Branch from", "", "", new CommitMessageMetadata()),
-                new Commit(branchPrefix + ".1.03.000", [branchPrefix + ".1.02.000"], "", "", "", new CommitMessageMetadata()),
+                           CommitMessageMetadata.Null),
+                new Commit(branchPrefix + ".1.02.000", [branchPrefix + ".1.01.000"], "Branch from", "", "", CommitMessageMetadata.Null),
+                new Commit(branchPrefix + ".1.03.000", [branchPrefix + ".1.02.000"], "", "", "", CommitMessageMetadata.Null),
                 new Commit(branchPrefix + ".1.04.000", [branchPrefix + ".1.03.000", branchPrefix + ".2.03.000"], "Merge", "", "",
-                           new CommitMessageMetadata()),
+                           CommitMessageMetadata.Null),
                 new Commit(branchPrefix + ".1.05.000", [branchPrefix + ".1.04.000", branchPrefix + ".3.03.000"], "Merge", "", "",
-                           new CommitMessageMetadata()),
+                           CommitMessageMetadata.Null),
                 new Commit(branchPrefix + ".1.06.000", [branchPrefix + ".1.05.000"], $"top (newest) of block {blockNumber}", "", "",
-                           new CommitMessageMetadata()),
+                           CommitMessageMetadata.Null),
 
                 // branch 2 (middle)
-                new Commit(branchPrefix + ".2.01.000", [branchPrefix + ".1.02.000"], "Branch", "", "", new CommitMessageMetadata()),
-                new Commit(branchPrefix + ".2.02.000", [branchPrefix + ".2.01.000"], "", "", "", new CommitMessageMetadata()),
-                new Commit(branchPrefix + ".2.03.000", [branchPrefix + ".2.02.000"], "", "", "", new CommitMessageMetadata()),
+                new Commit(branchPrefix + ".2.01.000", [branchPrefix + ".1.02.000"], "Branch", "", "", CommitMessageMetadata.Null),
+                new Commit(branchPrefix + ".2.02.000", [branchPrefix + ".2.01.000"], "", "", "", CommitMessageMetadata.Null),
+                new Commit(branchPrefix + ".2.03.000", [branchPrefix + ".2.02.000"], "", "", "", CommitMessageMetadata.Null),
 
                 // branch 3 (right)
-                new Commit(branchPrefix + ".3.01.000", [branchPrefix + ".1.02.000"], "Branch", "", "", new CommitMessageMetadata()),
-                new Commit(branchPrefix + ".3.02.000", [branchPrefix + ".3.01.000"], "", "", "", new CommitMessageMetadata()),
-                new Commit(branchPrefix + ".3.03.000", [branchPrefix + ".3.02.000"], "", "", "", new CommitMessageMetadata())
+                new Commit(branchPrefix + ".3.01.000", [branchPrefix + ".1.02.000"], "Branch", "", "", CommitMessageMetadata.Null),
+                new Commit(branchPrefix + ".3.02.000", [branchPrefix + ".3.01.000"], "", "", "", CommitMessageMetadata.Null),
+                new Commit(branchPrefix + ".3.03.000", [branchPrefix + ".3.02.000"], "", "", "", CommitMessageMetadata.Null)
             ]);
 
             headCommitId = branchPrefix + ".1.06.000";

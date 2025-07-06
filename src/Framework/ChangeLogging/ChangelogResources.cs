@@ -10,7 +10,7 @@ public static class ChangelogResources
         new(4, "Removed", "remove"),
         new(5, "Fixed", "fix"),
         new(6, "Security", "security"),
-        new(7, "Other", ".*")
+        new(7, "Other", "^(?!dev|Dev|refactor).*$")
     ];
 
     public static readonly string DefaultMarkdownTemplateFilename = "markdown.template.scriban";

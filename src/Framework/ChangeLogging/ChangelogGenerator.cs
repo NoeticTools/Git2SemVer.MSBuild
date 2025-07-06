@@ -142,7 +142,7 @@ public class ChangelogGenerator(ChangelogLocalSettings config)
 
     private IReadOnlyList<CategoryChanges> GetChanges(ContributingCommits contributing, LastRunData lastRunData, bool incremental)
     {
-        var remainingCommits = new List<Commit>(contributing.Commits.Where(x => x.MessageMetadata.ApiChangeFlags.Any));
+        var remainingCommits = new List<Commit>(contributing.Commits.Where(x => x.MessageMetadata.ChangeTypeText.Length > 0));
         if (incremental)
         {
             TrimHandledChanges(remainingCommits, lastRunData);

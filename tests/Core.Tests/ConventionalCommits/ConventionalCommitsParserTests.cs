@@ -15,7 +15,7 @@ internal class ConventionalCommitsParserTests
     [SetUp]
     public void SetUp()
     {
-        _target = new ConventionalCommitsParser();
+        _target = new ConventionalCommitsParser(new ConventionalCommitsSettings());
     }
 
     [TestCase(

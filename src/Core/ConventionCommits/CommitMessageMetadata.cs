@@ -46,17 +46,24 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     {
     }
 
+    public static CommitMessageMetadata Null => new CommitMessageMetadata(new ConventionalCommitsSettings());
+
+    [JsonPropertyOrder(11)]
     public ApiChangeFlags ApiChangeFlags { get; }
 
+    [JsonPropertyOrder(12)]
     public string Body { get; }
 
+    [JsonPropertyOrder(13)]
     public string ChangeDescription { get; }
 
+    [JsonPropertyOrder(14)]
     public CommitChangeTypeId ChangeType { get; }
 
+    [JsonPropertyOrder(15)]
     public string ChangeTypeText { get; }
 
-    [JsonPropertyOrder(16)]
+    [JsonPropertyOrder(20)]
     public ILookup<string, string> FooterKeyValues { get; }
 
     [JsonIgnore]

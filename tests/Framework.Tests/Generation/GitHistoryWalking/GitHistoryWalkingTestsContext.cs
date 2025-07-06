@@ -14,7 +14,7 @@ internal class GitHistoryWalkingTestsContext : IDisposable
     public GitHistoryWalkingTestsContext()
     {
         Logger = new NUnitLogger(false) { Level = LoggingLevel.Trace };
-        _logParser = new GitResponseParser(new CommitsCache(), new ConventionalCommitsParser());
+        _logParser = new GitResponseParser(new CommitsCache(), new ConventionalCommitsParser(new ConventionalCommitsSettings()));
         GitTool = new Mock<IGitTool>();
         GitTool.Setup(x => x.BranchName).Returns("BranchName");
     }

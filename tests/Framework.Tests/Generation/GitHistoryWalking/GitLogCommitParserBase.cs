@@ -8,7 +8,10 @@ using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
 namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.GitHistoryWalking;
 
-public abstract class GitLogCommitParserBase
+public abstract class GitLogCommitParserBase(
+    ICommitsCache cache,
+    TagParser tagParser,
+    IConventionalCommitsParser? conventionalCommitParser = null)
 {
     private const string GitLogParsingPattern =
         """
@@ -22,21 +25,10 @@ public abstract class GitLogCommitParserBase
            \|$)?
         """;
 
-    private readonly ICommitsCache _cache;
-    private readonly IConventionalCommitsParser _conventionalCommitParser;
-    private readonly TagParser _tagParser;
+    private readonly IConventionalCommitsParser _conventionalCommitParser = conventionalCommitParser ?? new ConventionalCommitsParser(new ConventionalCommitsSettings());
 
-    protected GitLogCommitParserBase(ICommitsCache cache,
-                                     TagParser tagParser,
-                                     IConventionalCommitsParser? conventionalCommitParser = null)
-    {
-        _cache = cache;
-        _tagParser = tagParser;
-        _conventionalCommitParser = conventionalCommitParser ?? new ConventionalCommitsParser();
-        FormatArgs = "--graph --pretty=\"format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e\"";
-    }
-
-    public string FormatArgs { get; }
+    // todo - document this, needed to capture git graph for tests
+    public string FormatArgs { get; } = "--graph --pretty=\"format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e\"";
 
     protected (Commit? commit, string graph) ParseCommitAndGraph(string line)
     {
@@ -60,7 +52,7 @@ public abstract class GitLogCommitParserBase
         var summary = match.GetGroupValue("summary");
         var body = match.GetGroupValue("body").Replace($"{CharacterConstants.GS}", "\n");
 
-        if (_cache.TryGet(sha, out var commit))
+        if (cache.TryGet(sha, out var commit))
         {
             return (commit, graph);
         }
@@ -77,7 +69,7 @@ public abstract class GitLogCommitParserBase
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
         commit = hasCommitMetadata
-            ? new Commit(sha, parents, summary, body, refs, commitMetadata, _tagParser)
+            ? new Commit(sha, parents, summary, body, refs, commitMetadata, tagParser)
             : null;
 
         return (commit, graph);
