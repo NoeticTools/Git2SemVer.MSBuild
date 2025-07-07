@@ -20,50 +20,46 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 public class ChangelogGenerator(ChangelogLocalSettings config)
 {
     /// <summary>
-    ///     Generate a new changelog document.
+    ///     Generate changelog document.
     /// </summary>
-    /// <param name="releaseUrl"></param>
     /// <param name="versioning"></param>
     /// <param name="contributing"></param>
     /// <param name="scribanTemplate"></param>
+    /// <param name="releaseUrl"></param>
     /// <param name="incremental"></param>
     /// <param name="lastRunData"></param>
+    /// <param name="newChangelog"></param>
+    /// <param name="changelogToUpdate"></param>
     /// <returns></returns>
-    public string Create(string releaseUrl,
-                         IVersionOutputs versioning,
-                         ContributingCommits contributing,
-                         string scribanTemplate,
-                         bool incremental,
-                         LastRunData lastRunData)
+    public string Execute(IVersionOutputs versioning,
+                          ContributingCommits contributing,
+                          string scribanTemplate,
+                          string releaseUrl,
+                          bool incremental,
+                          LastRunData lastRunData,
+                          bool newChangelog,
+                          string changelogToUpdate)
     {
         Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
         Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
+        if (!newChangelog)
+        {
+            Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
+        }
 
-        var version = versioning.Version!;
         var changes = GetChanges(contributing, lastRunData, incremental);
-        return Create(releaseUrl, contributing, scribanTemplate, incremental, version, changes);
-    }
-
-    public string Update(string releaseUrl,
-                         IVersionOutputs versioning,
-                         ContributingCommits contributing,
-                         string scribanTemplate,
-                         string changelogToUpdate,
-                         LastRunData lastRunData)
-    {
-        Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
-        Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
-        Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(changelogToUpdate));
-
-        var version = versioning.Version!;
-        var changes = GetChanges(contributing, lastRunData, true);
-        if (changes.Count == 0)
+        if (!newChangelog && changes.Count == 0)
         {
             return changelogToUpdate;
         }
 
-        var createdContent = Create(releaseUrl, contributing, scribanTemplate, true, version, changes);
-        var newChangesDocument = new ChangelogDocument("new_changes", createdContent);
+        var newChangesContent = Create(releaseUrl, contributing, scribanTemplate, incremental, versioning.Version!, changes);
+        if (newChangelog)
+        {
+            return newChangesContent;
+        }
+
+        var newChangesDocument = new ChangelogDocument("new_changes", newChangesContent);
         var destinationDocument = new ChangelogDocument("existing", changelogToUpdate);
 
         CopyChangesToReviewSection(changes, newChangesDocument, destinationDocument);
@@ -98,13 +94,13 @@ public class ChangelogGenerator(ChangelogLocalSettings config)
                                  SemVersion version,
                                  IReadOnlyList<CategoryChanges> changes)
     {
-        var model = new ChangelogModel(version,
-                                       contributing,
-                                       changes,
-                                       releaseUrl,
-                                       incremental);
         try
         {
+            var model = new ChangelogModel(version,
+                                           contributing,
+                                           changes,
+                                           releaseUrl,
+                                           incremental);
             var template = Template.Parse(scribanTemplate);
             var content = template.Render(model, member => member.Name);
             if (content.Trim().Length == 0)

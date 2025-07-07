@@ -35,7 +35,7 @@ public class ChangelogCommandSettings : CommonCommandSettings
     public string Verbosity { get; set; } = "";
 
     [CommandOption("-c|--console-out")]
-    [DefaultValue(true)]
+    [DefaultValue(false)]
     [Description("Enable writing generated changelog to the console.")]
     public bool WriteToConsole { get; set; }
 

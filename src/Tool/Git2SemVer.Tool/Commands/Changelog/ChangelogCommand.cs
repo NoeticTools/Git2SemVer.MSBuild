@@ -115,27 +115,22 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         var template = GetTemplate(commandSettings);
         var releaseUrl = commandSettings.ArtifactUrl;
         var changelogGenerator = new ChangelogGenerator(config);
-        if (createNewChangelog)
-        {
-            return changelogGenerator.Create(releaseUrl,
-                                             outputs,
-                                             contributing,
-                                             template,
-                                             incremental: commandSettings.Incremental,
-                                             lastRunData);
-        }
 
-        var existingChangelog = File.ReadAllText(commandSettings.OutputFilePath);
-        var changelog = changelogGenerator.Update(releaseUrl,
-                                                  outputs,
+        var existingChangelog = createNewChangelog ? "" : File.ReadAllText(commandSettings.OutputFilePath);
+        var changelog = changelogGenerator.Execute(outputs,
                                                   contributing,
                                                   template,
-                                                  existingChangelog,
-                                                  lastRunData);
+                                                  releaseUrl,
+                                                  true,
+                                                  lastRunData,
+                                                  createNewChangelog,
+                                                  existingChangelog);
+
         if (string.Equals(existingChangelog, changelog))
         {
             Console.WriteMarkupInfoLine("No updates found.");
         }
+
         return changelog;
     }
 
