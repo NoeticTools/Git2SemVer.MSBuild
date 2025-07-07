@@ -2,50 +2,49 @@
 
 using System.Text.RegularExpressions;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using NoeticTools.Git2SemVer.Core.Tools.Git;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public sealed class ChangeCategory(CategorySettings settings)
 {
-    private readonly Regex _changeTypeRegex = new(settings.ChangeTypePattern);
     private readonly List<ChangeLogEntry> _changes = [];
+    private readonly Regex _changeTypeRegex = new(settings.ChangeTypePattern);
 
     public IReadOnlyList<ChangeLogEntry> Changes => _changes;
 
     public CategorySettings Settings { get; } = settings;
 
-    public void AddRange(IReadOnlyList<ChangeLogEntry> changes)
+    private void AddRange(IReadOnlyList<ChangeLogEntry> changes)
     {
         _changes.AddRange(changes);
     }
 
-    public bool Matches(IChangeMessageMetadata messageMetadata)
+    public void ExtractChangeLogsFrom(List<ICommitMessageMetadata> metatdata)
+    {
+        var matchingMetadata = metatdata.Where(Matches).ToList();
+        matchingMetadata.ForEach(x => metatdata.Remove(x));
+        AddRange(GetUniqueChangelogEntries(matchingMetadata));
+    }
+
+    private bool Matches(IChangeMessageMetadata messageMetadata)
     {
         return _changeTypeRegex.IsMatch(messageMetadata.ChangeTypeText);
     }
 
-    public void ExtractFrom(List<Commit> remainingCommits)
+    private static IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ICommitMessageMetadata> metadata)
     {
-        var commits = remainingCommits.Where(x => Matches(x.MessageMetadata)).ToList();
-        commits.ForEach(x => remainingCommits.Remove(x));
-        AddRange(GetUniqueChangelogEntries(commits));
-    }
-
-    private static IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(IReadOnlyList<Commit> commits)
-    {
-        var changeLogEntries = new ChangeMessageDictionary<ChangeLogEntry>();
-        foreach (var commit in commits)
+        var changeLogEntries =
+            new ChangeLookup<ChangeLogEntry>(logEntry => logEntry.MessageMetadata);
+        foreach (var metadataDatum in metadata)
         {
-            var messageMetadata = commit.MessageMetadata;
-            if (!changeLogEntries.TryGet(messageMetadata, out var logEntry))
+            if (!changeLogEntries.TryGet(metadataDatum, out var logEntry))
             {
-                logEntry = new ChangeLogEntry(messageMetadata);
+                logEntry = new ChangeLogEntry(metadataDatum);
                 changeLogEntries.Add(logEntry);
             }
-            logEntry!.TryAddIssues(messageMetadata.Issues);
-            logEntry.AddCommitId(commit.CommitId.ShortSha);
+
+            logEntry!.TryAddIssues(metadataDatum.Issues);
         }
 
         return changeLogEntries.ToList();

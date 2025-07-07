@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
@@ -13,14 +12,14 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 /// </summary>
 public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
 {
-    [JsonPropertyOrder(10)]
-    public ConventionalCommitsSettings ConvCommits { get; set; } = new ConventionalCommitsSettings();
-
     /// <summary>
     ///     Categories to include in the changelog.
     /// </summary>
     [JsonPropertyOrder(20)]
     public CategorySettings[] Categories { get; set; } = [];
+
+    [JsonPropertyOrder(10)]
+    public ConventionalCommitsSettings ConvCommits { get; set; } = new();
 
     /// <summary>
     ///     Configuration file schema revision.
@@ -81,5 +80,4 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     {
         Git2SemVerJsonSerializer.Write(filePath, this);
     }
-
 }

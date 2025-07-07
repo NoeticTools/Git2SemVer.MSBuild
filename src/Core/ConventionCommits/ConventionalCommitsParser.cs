@@ -65,7 +65,6 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
             var group = match.Groups["footer"];
             if (!group.Success)
             {
-                continue;
             }
         }
 
@@ -73,10 +72,10 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
 
         var keyValuePairs = GetFooterKeyValuePairs(bodyMatch);
 
-        return new CommitMessageMetadata(changeType, 
-                                         changeDescription, 
-                                         body, 
-                                         breakingChangeFlagged, 
+        return new CommitMessageMetadata(changeType,
+                                         changeDescription,
+                                         body,
+                                         breakingChangeFlagged,
                                          keyValuePairs, convCommitsSettings);
     }
 

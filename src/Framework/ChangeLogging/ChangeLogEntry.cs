@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public sealed class ChangeLogEntry : IObjectWithMessageMetadata
+public sealed class ChangeLogEntry
 {
     private readonly List<string> _issues = [];
 
@@ -12,10 +12,6 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
         MessageMetadata = messageMetadata;
         TryAddIssues(messageMetadata.Issues);
     }
-
-    // ReSharper disable once CollectionNeverQueried.Global
-    // ReSharper disable once MemberCanBePrivate.Global
-    public List<string> CommitIds { get; } = [];
 
     // ReSharper disable once UnusedMember.Global
     public string Description => MessageMetadata.ChangeDescription;
@@ -26,9 +22,19 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
 
     public ICommitMessageMetadata MessageMetadata { get; }
 
-    public void AddCommitId(string commitSha)
+    public override bool Equals(object? obj)
     {
-        CommitIds.Add(commitSha);
+        return ReferenceEquals(this, obj) || (obj is ChangeLogEntry other && Equals(other));
+    }
+
+    private bool Equals(ChangeLogEntry other)
+    {
+        return GetHashCode() == other.GetHashCode();
+    }
+
+    public override int GetHashCode()
+    {
+        return MessageMetadata.GetHashCode();
     }
 
     public void TryAddIssues(IEnumerable<string> issueIds)
@@ -37,21 +43,6 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
         {
             TryAddIssue(issueId);
         }
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return ReferenceEquals(this, obj) || (obj is ChangeLogEntry other && Equals(other));
-    }
-
-    public bool Equals(ChangeLogEntry other)
-    {
-        return GetHashCode() == other.GetHashCode();
-    }
-
-    public override int GetHashCode()
-    {
-        return MessageMetadata.GetHashCode();
     }
 
     private bool TryAddIssue(string issueId)
@@ -63,6 +54,5 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
 
         _issues.Add(issueId);
         return true;
-
     }
 }

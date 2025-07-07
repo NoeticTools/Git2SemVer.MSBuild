@@ -29,6 +29,7 @@ internal sealed class ChangelogSection
                 throw new
                     Git2SemVerInvalidFormatException($"The {_document.Name} changelog is missing missing a start or end of a '{_name}' section marker marker like '<!-- Section start: {_name} -->'.");
             }
+
             return sourceMatch.Value;
         }
         set

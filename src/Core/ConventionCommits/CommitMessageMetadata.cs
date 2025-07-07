@@ -6,8 +6,6 @@ namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 [JsonDerivedType(typeof(ICommitMessageMetadata))]
 public sealed class CommitMessageMetadata : ICommitMessageMetadata
 {
-    private readonly ConventionalCommitsSettings _convCommitsSettings;
-
     private static readonly Dictionary<string, CommitChangeTypeId> ChangeTypeIdLookup = new()
     {
         { "feat", CommitChangeTypeId.Feature },
@@ -18,11 +16,13 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
         { "security", CommitChangeTypeId.Security }
     };
 
+    private readonly ConventionalCommitsSettings _convCommitsSettings;
+
     public CommitMessageMetadata(string changeType,
                                  string changeDescription,
                                  string body,
                                  bool breakingChangeFlagged,
-                                 List<(string key, string value)> footerKeyValues, 
+                                 List<(string key, string value)> footerKeyValues,
                                  ConventionalCommitsSettings convCommitsSettings)
     {
         _convCommitsSettings = convCommitsSettings;
@@ -41,12 +41,10 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
         ApiChangeFlags = new ApiChangeFlags(breakingChange, functionalityChange, fix);
     }
 
-    public CommitMessageMetadata(ConventionalCommitsSettings convCommitsSettings) 
+    public CommitMessageMetadata(ConventionalCommitsSettings convCommitsSettings)
         : this("", "", "", false, [], convCommitsSettings)
     {
     }
-
-    public static CommitMessageMetadata Null => new CommitMessageMetadata(new ConventionalCommitsSettings());
 
     [JsonPropertyOrder(11)]
     public ApiChangeFlags ApiChangeFlags { get; }
@@ -76,9 +74,12 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
             {
                 issues.AddRange(FooterKeyValues[issueKey]);
             }
+
             return issues;
         }
     }
+
+    public static CommitMessageMetadata Null => new(new ConventionalCommitsSettings());
 
     private static CommitChangeTypeId ToChangeTypeId(string value)
     {

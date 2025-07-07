@@ -1,14 +1,15 @@
 ﻿using System.Text.Json.Serialization;
 
+
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 /// <summary>
-/// Conventional Commits settings.
+///     Conventional Commits settings.
 /// </summary>
 public sealed class ConventionalCommitsSettings
 {
     /// <summary>
-    /// Commit message footer keys will comma-delimited list of issues.
+    ///     Commit message footer keys will comma-delimited list of issues.
     /// </summary>
     [JsonPropertyOrder(20)]
     public string[] IssueKeys { get; set; } =

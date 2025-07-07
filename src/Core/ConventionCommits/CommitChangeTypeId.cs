@@ -9,5 +9,5 @@ public enum CommitChangeTypeId
     Change = 4,
     Deprecate = 5,
     Remove = 6,
-    Security = 7,
+    Security = 7
 }

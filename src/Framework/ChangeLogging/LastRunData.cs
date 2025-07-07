@@ -1,8 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;

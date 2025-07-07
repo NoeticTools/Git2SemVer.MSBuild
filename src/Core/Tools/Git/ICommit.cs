@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 using Semver;
 
@@ -7,7 +6,7 @@ using Semver;
 namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 [JsonDerivedType(typeof(Commit), "Commit")]
-public interface ICommit : IObjectWithMessageMetadata
+public interface ICommit
 {
     /// <summary>
     ///     Commit ID.
