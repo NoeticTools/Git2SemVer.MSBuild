@@ -44,7 +44,7 @@ public class ChangeMessageDictionary<T> where T : IObjectWithMessageMetadata
         return _inner.ContainsKey(key.Item1) && _inner[key.Item1].ContainsKey(key.Item2);
     }
 
-    public IReadOnlyList<T> GetAll()
+    public IReadOnlyList<T> ToList()
     {
         return _inner.SelectMany(x => x.Value.Select(y => y.Value)).ToList();
     }
@@ -64,7 +64,7 @@ public class ChangeMessageDictionary<T> where T : IObjectWithMessageMetadata
         }
     }
 
-    public void AddRangeUnique(IEnumerable<T> items)
+    public void TryAddRange(IEnumerable<T> items)
     {
         foreach (var item in items)
         {

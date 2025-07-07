@@ -6,16 +6,16 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 /// <summary>
 ///     Configuration that defines changelog categories that are included in the changelog.
 /// </summary>
-public sealed class ChangelogCategorySettings
+public sealed class CategorySettings
 {
     [JsonConstructor]
-    public ChangelogCategorySettings()
+    public CategorySettings()
     {
     }
 
-    public ChangelogCategorySettings(int order, string name, string changeType)
+    public CategorySettings(int order, string name, string changeTypePattern)
     {
-        ChangeType = changeType;
+        ChangeTypePattern = changeTypePattern;
         Name = name;
         Order = order;
     }
@@ -23,7 +23,7 @@ public sealed class ChangelogCategorySettings
     /// <summary>
     ///     Regular expression pattern matched against Git summary Conventional Commits change type like "feat" or "fix".
     /// </summary>
-    public string ChangeType { get; set; } = "";
+    public string ChangeTypePattern { get; set; } = "";
 
     /// <summary>
     ///     The category name to show in the changelog. e.g: "Added".

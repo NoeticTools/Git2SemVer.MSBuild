@@ -44,4 +44,6 @@ internal sealed class ChangelogSection
             _document.Content = newContent;
         }
     }
+
+    public bool Exists => _regex.Match(_document.Content).Success;
 }

@@ -10,7 +10,7 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
     public ChangeLogEntry(ICommitMessageMetadata messageMetadata)
     {
         MessageMetadata = messageMetadata;
-        AddIssues(messageMetadata.Issues);
+        TryAddIssues(messageMetadata.Issues);
     }
 
     // ReSharper disable once CollectionNeverQueried.Global
@@ -31,11 +31,11 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
         CommitIds.Add(commitSha);
     }
 
-    public void AddIssues(IEnumerable<string> issueIds)
+    public void TryAddIssues(IEnumerable<string> issueIds)
     {
         foreach (var issueId in issueIds)
         {
-            AddIssue(issueId);
+            TryAddIssue(issueId);
         }
     }
 
@@ -54,11 +54,15 @@ public sealed class ChangeLogEntry : IObjectWithMessageMetadata
         return MessageMetadata.GetHashCode();
     }
 
-    private void AddIssue(string issueId)
+    private bool TryAddIssue(string issueId)
     {
-        if (!_issues.Contains(issueId))
+        if (_issues.Contains(issueId))
         {
-            _issues.Add(issueId);
+            return false;
         }
+
+        _issues.Add(issueId);
+        return true;
+
     }
 }

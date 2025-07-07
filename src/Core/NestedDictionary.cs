@@ -1,12 +1,18 @@
-﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace NoeticTools.Git2SemVer.Core;
 
-public class NestedDictionary<TV> : INestedDictionary<(string, string), TV>
+/// <summary>
+/// A dictionary of dictionaries both using string keys. The value key is of type (string, string).
+/// </summary>
+public class NestedDictionary<T>
 {
-    private readonly Dictionary<string, Dictionary<string, TV>> _inner = new();
+    private readonly Dictionary<string, Dictionary<string, T>> _inner = new();
 
     public int Count => _inner.Select(x => x.Value).Sum(x => x.Count);
 
-    public bool TryGet((string, string) key, out TV? value)
+    public bool TryGet((string, string) key, out T? value)
     {
         if (Contains(key))
         {
@@ -14,22 +20,25 @@ public class NestedDictionary<TV> : INestedDictionary<(string, string), TV>
             return true;
         }
 
-        value = default(TV);
+        value = default(T);
         return false;
     }
 
-    public IReadOnlyList<TV> GetAll()
+    /// <summary>
+    /// Get all values.
+    /// </summary>
+    public IReadOnlyList<T> GetAll()
     {
         return _inner.SelectMany(x => x.Value.Select(y => y.Value)).ToList();
     }
 
-    public void Add((string, string) key, TV value)
+    public void Add((string, string) key, T value)
     {
-        Dictionary<string, TV> entriesOfType;
+        Dictionary<string, T> entriesOfType;
         // ReSharper disable once CanSimplifyDictionaryLookupWithTryGetValue
         if (!_inner.ContainsKey(key.Item1))
         {
-            entriesOfType = new Dictionary<string, TV>();
+            entriesOfType = new Dictionary<string, T>();
             _inner.Add(key.Item1, entriesOfType);
         }
         else
@@ -46,7 +55,7 @@ public class NestedDictionary<TV> : INestedDictionary<(string, string), TV>
         return _inner.ContainsKey(key.Item1) && _inner[key.Item1].ContainsKey(key.Item2);
     }
 
-    public TV this[(string, string) key]
+    public T this[(string, string) key]
     {
         get
         {

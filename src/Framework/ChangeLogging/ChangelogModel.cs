@@ -9,7 +9,7 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 internal sealed class ChangelogModel(
     SemVersion version,
     ContributingCommits contributing,
-    IReadOnlyList<CategoryChanges> categories,
+    IReadOnlyList<ChangeCategory> categories,
     string releaseUrl,
     bool incremental)
 {
@@ -18,7 +18,7 @@ internal sealed class ChangelogModel(
     /// </summary>
     public string BranchName { get; } = contributing.BranchName;
 
-    public IReadOnlyList<CategoryChanges> Categories { get; } = categories;
+    public IReadOnlyList<ChangeCategory> Categories { get; } = categories;
 
     public DateTime HeadDateTime { get; } = contributing.Head.When.DateTime;
 

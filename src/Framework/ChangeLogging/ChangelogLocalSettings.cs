@@ -20,7 +20,7 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     ///     Categories to include in the changelog.
     /// </summary>
     [JsonPropertyOrder(20)]
-    public ChangelogCategorySettings[] Categories { get; set; } = [];
+    public CategorySettings[] Categories { get; set; } = [];
 
     /// <summary>
     ///     Configuration file schema revision.

@@ -117,14 +117,11 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         var changelogGenerator = new ChangelogGenerator(config);
 
         var existingChangelog = createNewChangelog ? "" : File.ReadAllText(commandSettings.OutputFilePath);
-        var changelog = changelogGenerator.Execute(outputs,
+        var changelog = changelogGenerator.Execute(outputs.Version!,
                                                   contributing,
-                                                  template,
-                                                  releaseUrl,
-                                                  true,
                                                   lastRunData,
-                                                  createNewChangelog,
-                                                  existingChangelog);
+                                                  template,
+                                                  existingChangelog, releaseUrl, true, createNewChangelog);
 
         if (string.Equals(existingChangelog, changelog))
         {

@@ -2,7 +2,7 @@
 
 public static class ChangelogResources
 {
-    public static readonly ChangelogCategorySettings[] DefaultCategories =
+    public static readonly CategorySettings[] DefaultCategories =
     [
         new(1, "Added", "feat"),
         new(2, "Changed", "change"),
