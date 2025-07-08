@@ -6,7 +6,7 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public sealed class ChangeCategory(CategorySettings settings)
+public sealed class ChangeCategory(CategorySettings settings, ITextFormatter markdownIssueFormatter)
 {
     private readonly List<ChangeLogEntry> _changes = [];
     private readonly Regex _changeTypeRegex = new(settings.ChangeTypePattern);
@@ -32,7 +32,7 @@ public sealed class ChangeCategory(CategorySettings settings)
         return _changeTypeRegex.IsMatch(messageMetadata.ChangeTypeText);
     }
 
-    private static IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ICommitMessageMetadata> metadata)
+    private IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ICommitMessageMetadata> metadata)
     {
         var changeLogEntries =
             new ChangeLookup<ChangeLogEntry>(logEntry => logEntry.MessageMetadata);
@@ -40,7 +40,7 @@ public sealed class ChangeCategory(CategorySettings settings)
         {
             if (!changeLogEntries.TryGet(metadataDatum, out var logEntry))
             {
-                logEntry = new ChangeLogEntry(metadataDatum);
+                logEntry = new ChangeLogEntry(metadataDatum, markdownIssueFormatter);
                 changeLogEntries.Add(logEntry);
             }
 

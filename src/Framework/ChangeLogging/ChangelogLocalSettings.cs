@@ -12,6 +12,19 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 /// </summary>
 public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
 {
+    // ReSharper disable once GrammarMistakeInComment
+    /// <summary>
+    /// Issue link format with issue ID as argument ({0}).
+    /// </summary>
+    /// <remarks>
+    /// Example:
+    /// <example>
+    /// "https://organisation-name/project-name/issues/{0}"
+    /// </example>
+    /// </remarks>
+    [JsonPropertyOrder(5)]
+    public string IssueLinkFormat { get; set; } = "https://organisation-name/project-name/issues/{0}"; // string.Empty;
+
     /// <summary>
     ///     Categories to include in the changelog.
     /// </summary>

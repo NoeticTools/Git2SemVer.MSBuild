@@ -1,7 +1,6 @@
 ﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Exceptions;
-using NoeticTools.Git2SemVer.Framework.Framework;
 using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using Scriban;
 using Semver;
@@ -47,8 +46,9 @@ public class ChangelogGenerator(ChangelogLocalSettings localSettings)
             messagesWithChanges = GetUnhandledChanges(messagesWithChanges, lastRunData.HandledChanges);
         }
 
+        var issueMarkdownFormatter = new MarkdownLinkFormatterDecorator(new TextFormatter(localSettings.IssueLinkFormat));
         var orderedCategories = localSettings.Categories.OrderBy(x => x.Order);
-        var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges)).ToList();
+        var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter)).ToList();
 
 
 
@@ -74,10 +74,11 @@ public class ChangelogGenerator(ChangelogLocalSettings localSettings)
         return destinationDocument.Content;
     }
 
-    private static ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
-                                                    List<ICommitMessageMetadata> changeMessages)
+    private ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
+                                                 List<ICommitMessageMetadata> changeMessages, 
+                                                 ITextFormatter markdownIssueFormatter)
     {
-        var changeCategory = new ChangeCategory(categorySettings);
+        var changeCategory = new ChangeCategory(categorySettings, markdownIssueFormatter);
         changeCategory.ExtractChangeLogsFrom(changeMessages);
         return changeCategory;
     }

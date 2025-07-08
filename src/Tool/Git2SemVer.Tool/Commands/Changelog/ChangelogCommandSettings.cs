@@ -13,7 +13,7 @@ public class ChangelogCommandSettings : CommonCommandSettings
     [CommandOption("-a|--artifact-url <URL>")]
     [DefaultValue("https://www.nuget.org/packages/user.project/%VERSION%")]
     [Description("Optional url to a version's artifacts. Must contain version placeholder '%VERSION%'.")]
-    public string ArtifactUrl { get; set; } = "";
+    public string ArtifactLinkPattern { get; set; } = "";
 
     [CommandOption("-m|--meta-directory <DIRECTORY>")]
     [DefaultValue(".changelog")]

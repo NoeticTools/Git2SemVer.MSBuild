@@ -1,24 +1,30 @@
 ﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
+// ReSharper disable UnusedMember.Global
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public sealed class ChangeLogEntry
 {
+    private readonly ITextFormatter _markdownIssueFormatter;
     private readonly List<string> _issues = [];
 
-    public ChangeLogEntry(ICommitMessageMetadata messageMetadata)
+    public ChangeLogEntry(ICommitMessageMetadata messageMetadata, ITextFormatter markdownIssueFormatter)
     {
+        _markdownIssueFormatter = markdownIssueFormatter;
         MessageMetadata = messageMetadata;
         TryAddIssues(messageMetadata.Issues);
     }
 
-    // ReSharper disable once UnusedMember.Global
     public string Description => MessageMetadata.ChangeDescription;
 
-    // ReSharper disable once UnusedMember.Global
-
+    // ReSharper disable once MemberCanBePrivate.Global
     public IReadOnlyList<string> Issues => _issues;
+
+    /// <summary>
+    /// Issues as Markdown links when issue url is provided.
+    /// </summary>
+    public IReadOnlyList<string> IssuesMarkdown => Issues.Select(x => _markdownIssueFormatter.Format(x)).ToList();
 
     public ICommitMessageMetadata MessageMetadata { get; }
 

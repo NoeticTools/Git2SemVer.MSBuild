@@ -106,15 +106,15 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
     }
 
     private string Generate(ChangelogCommandSettings commandSettings,
-                            ChangelogLocalSettings config,
+                            ChangelogLocalSettings localSettings,
                             bool createNewChangelog,
                             VersionOutputs outputs,
                             ContributingCommits contributing, 
                             LastRunData lastRunData)
     {
         var template = GetTemplate(commandSettings);
-        var releaseUrl = commandSettings.ArtifactUrl;
-        var changelogGenerator = new ChangelogGenerator(config);
+        var releaseUrl = commandSettings.ArtifactLinkPattern;
+        var changelogGenerator = new ChangelogGenerator(localSettings);
 
         var existingChangelog = createNewChangelog ? "" : File.ReadAllText(commandSettings.OutputFilePath);
         var changelog = changelogGenerator.Execute(outputs.Version!,
