@@ -50,7 +50,8 @@ internal sealed class VersionGenerator(
         var results = gitWalker.CalculateSemanticVersion();
         var outputs = new VersionOutputs(new GitOutputs(gitTool,
                                                         results.PriorReleaseVersion,
-                                                        results.PriorReleaseCommitId),
+                                                        results.PriorReleaseCommitId,
+                                                        results.PriorVersions),
                                          results.Version);
         RunBuilders(outputs);
         return (outputs, results.Contributing);

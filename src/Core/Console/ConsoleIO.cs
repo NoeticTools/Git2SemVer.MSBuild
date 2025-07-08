@@ -124,7 +124,7 @@ public class ConsoleIO(ILogger logger) : IConsoleIO
 
     public void WriteMarkupInfoLine(string message)
     {
-        AnsiConsole.WriteLine(message);
+        WriteMarkupLine(message);
         logger.LogInfo(message);
     }
 

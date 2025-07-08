@@ -8,8 +8,11 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 /// <summary>
-///     Settings to configure how changelog is generated.
+///     Git2SemVer changelog generation settings.
 /// </summary>
+/// <remarks>
+///     Git repository (project) settings. To be located with the git repository.
+/// </remarks>
 public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
 {
     // ReSharper disable once GrammarMistakeInComment
@@ -23,7 +26,7 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     /// </example>
     /// </remarks>
     [JsonPropertyOrder(5)]
-    public string IssueLinkFormat { get; set; } = "https://organisation-name/project-name/issues/{0}"; // string.Empty;
+    public string IssueLinkFormat { get; set; } = "{0}";
 
     /// <summary>
     ///     Categories to include in the changelog.
@@ -39,6 +42,17 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     /// </summary>
     [JsonPropertyOrder(-10)]
     public string Rev { get; set; } = "1";
+
+    /// <summary>
+    ///     If true, some variations to the Semantic Versioning specification are allowed.
+    /// </summary>
+    /// <remarks>
+    /// <p>
+    ///     If true, functionality complies with the specification.
+    /// </p>
+    /// </remarks>
+    [JsonPropertyOrder(5)]
+    public bool AllowVariationsToSemVerStandard { get; set; } = false;
 
     public bool Equals(ChangelogLocalSettings? other)
     {

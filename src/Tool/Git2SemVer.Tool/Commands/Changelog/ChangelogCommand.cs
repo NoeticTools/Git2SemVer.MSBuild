@@ -7,6 +7,7 @@ using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Tool.Commands.Run;
+using Semver;
 
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
@@ -14,10 +15,6 @@ namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 [RegisterSingleton]
 internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console), IChangelogCommand
 {
-    private readonly IConsoleIO _console = console;
-
-    private const string LocalSettingsFilename = "changelog.settings.json";
-
     public void Execute(ChangelogCommandSettings cmdLineSettings)
     {
         try
@@ -42,22 +39,31 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             };
 
             EnsureDataDirectoryExists(cmdLineSettings);
-            var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
-            var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
             using var logger = CreateLogger(cmdLineSettings.Verbosity);
-            var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
             var host = GetBuildHost(logger, inputs);
-            var localSettings = GetLocalSettings(cmdLineSettings);
+            var projectSettings = GetProjectSettings(cmdLineSettings);
             var versionGenerator = new VersionGeneratorFactory(logger).Create(inputs,
                                                                               new NullMSBuildGlobalProperties(),
                                                                               new NullJsonFileIO(),
                                                                               host,
-                                                                              localSettings.ConvCommits);
+                                                                              projectSettings.ConvCommits);
 
             var (outputs, contributing) = versionGenerator.CalculateSemanticVersion();
 
+            var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
+            var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
+            var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
+            if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
+            {
+                if (ReleasedSinceLastRun(lastRunData, outputs))
+                {
+                    Console.WriteMarkupInfoLine($"[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
+                    lastRunData = new LastRunData();
+                    createNewChangelog = true;
+                }
+            }
 
-            var canProceed = CanProceed(cmdLineSettings, outputFileExists, contributing.Head.CommitId.Sha, lastRunData);
+            var canProceed = AskIfToProceed(cmdLineSettings, outputFileExists, contributing.Head.CommitId.Sha, lastRunData);
             if (!canProceed)
             {
                 Console.WriteLine();
@@ -65,7 +71,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                 return;
             }
 
-            var changelog = Generate(cmdLineSettings, localSettings, createNewChangelog, outputs, contributing, lastRunData);
+            var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, outputs, contributing, lastRunData);
 
             if (cmdLineSettings.WriteToConsole)
             {
@@ -91,7 +97,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
             File.WriteAllText(cmdLineSettings.OutputFilePath, changelog);
 
-            localSettings.Save(Path.Combine(cmdLineSettings.DataDirectory, LocalSettingsFilename));
+            projectSettings.Save(Path.Combine(cmdLineSettings.DataDirectory, ChangelogResources.ProjectSettingsFilename));
 
             stopwatch.Stop();
 
@@ -103,6 +109,24 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             Console.WriteErrorLine(exception);
             throw;
         }
+    }
+
+    private static bool ReleasedSinceLastRun(LastRunData lastRunData, VersionOutputs versionOutputs)
+    {
+        var contributingReleases = lastRunData.ContributingReleases;
+        var priorContributingReleases = versionOutputs.Git.ContributingReleases;
+
+        if (contributingReleases.Count == 0)
+        {
+            return false;
+        }
+
+        if (contributingReleases.Count != priorContributingReleases.Length)
+        {
+            return true;
+        }
+
+        return !priorContributingReleases.All(ver => contributingReleases.Contains(ver.ToString()));
     }
 
     private string Generate(ChangelogCommandSettings commandSettings,
@@ -136,17 +160,12 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         lastRunData.Save(LastRunData.GetFilePath(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath));
     }
 
-    private bool CanProceed(ChangelogCommandSettings commandSettings, 
+    private bool AskIfToProceed(ChangelogCommandSettings commandSettings, 
                             bool outputFileExists, 
                             string headSha,
                             LastRunData lastRunData)
     {
-        if (commandSettings.Force)
-        {
-            return true;
-        }
-
-        if (!outputFileExists || !string.Equals(headSha, lastRunData.HeadSha))
+        if (commandSettings.Force || !outputFileExists || !string.Equals(headSha, lastRunData.HeadSha))
         {
             return true;
         }
@@ -181,12 +200,12 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             return new LastRunData();
         }
         EnsureDataDirectoryExists(cmdLineSettings);
-        return LastRunData.Load(LastRunData.GetFilePath(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath));
+        return LastRunData.Load(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
     }
 
-    private static ChangelogLocalSettings GetLocalSettings(ChangelogCommandSettings commandSettings)
+    private static ChangelogLocalSettings GetProjectSettings(ChangelogCommandSettings commandSettings)
     {
-        var filePath = Path.Combine(commandSettings.DataDirectory, LocalSettingsFilename);
+        var filePath = Path.Combine(commandSettings.DataDirectory, ChangelogResources.ProjectSettingsFilename);
 
         if (File.Exists(filePath))
         {

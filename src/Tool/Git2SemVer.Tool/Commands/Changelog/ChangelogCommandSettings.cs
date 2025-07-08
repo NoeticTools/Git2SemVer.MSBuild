@@ -44,8 +44,8 @@ public class ChangelogCommandSettings : CommonCommandSettings
     [Description("Enable incremental changelog updating. Setting this to false will cause the changelog to be overwritten.")]
     public bool Incremental { get; set; }
 
-    [CommandOption("-f|--force")]
+    [CommandOption("-f|--force", IsHidden = true)]
     [DefaultValue(false)]
-    [Description("Force create or update regardless if there a no new commits. Helpful for debugging.")]
+    [Description("Force create or update regardless if there a no new commits. For debugging.")]
     public bool Force { get; set; }
 }
