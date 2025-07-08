@@ -8,7 +8,7 @@ using Semver;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public class ChangelogGenerator(ChangelogLocalSettings localSettings)
+public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
 {
     /// <summary>
     ///     Generate changelog document.
@@ -46,8 +46,8 @@ public class ChangelogGenerator(ChangelogLocalSettings localSettings)
             messagesWithChanges = GetUnhandledChanges(messagesWithChanges, lastRunData.HandledChanges);
         }
 
-        var issueMarkdownFormatter = new MarkdownLinkFormatter(localSettings.IssueLinkFormat);
-        var orderedCategories = localSettings.Categories.OrderBy(x => x.Order);
+        var issueMarkdownFormatter = new MarkdownLinkFormatter(projectSettings.IssueLinkFormat);
+        var orderedCategories = projectSettings.Categories.OrderBy(x => x.Order);
         var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter)).ToList();
 
 

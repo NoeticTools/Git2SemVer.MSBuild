@@ -46,6 +46,11 @@ public sealed class LastRunData
         return Git2SemVerJsonSerializer.Read<LastRunData>(filePath);
     }
 
+    public void Save(string directory, string filePath)
+    {
+        Git2SemVerJsonSerializer.Write(GetFilePath(directory, filePath), this);
+    }
+
     public void Save(string filePath)
     {
         Git2SemVerJsonSerializer.Write(filePath, this);
@@ -58,5 +63,20 @@ public sealed class LastRunData
         SemVersion = outputs.Version!.ToString();
         BranchName = outputs.Git.BranchName;
         ContributingReleases = outputs.Git.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
+    }
+
+    public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)
+    {
+        if (ContributingReleases.Count == 0)
+        {
+            return false; // no data
+        }
+
+        if (ContributingReleases.Count != priorContributingReleases.Length)
+        {
+            return true;
+        }
+
+        return !priorContributingReleases.All(ver => ContributingReleases.Contains(ver.ToString()));
     }
 }
