@@ -3,14 +3,17 @@
 
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
-public interface ICommitMessageMetadata : IChangeMessageMetadata
+public interface ICommitMessageMetadata : IChangeTypeAndDescription
 {
-    [JsonPropertyOrder(1)]
+    [JsonPropertyOrder(11)]
     ApiChangeFlags ApiChangeFlags { get; }
 
-    [JsonPropertyOrder(2)]
+    [JsonPropertyOrder(12)]
     string Body { get; }
 
-    [JsonPropertyOrder(6)]
+    [JsonPropertyOrder(40)]
     ILookup<string, string> FooterKeyValues { get; }
+
+    [JsonIgnore]
+    IReadOnlyList<string> Issues { get; }
 }

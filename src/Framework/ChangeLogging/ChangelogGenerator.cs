@@ -40,7 +40,7 @@ public class ChangelogGenerator(ChangelogLocalSettings localSettings)
             Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
         }
 
-        var messagesWithChanges = contributing.Commits.Select(x => x.MessageMetadata).Where(x => x.ChangeTypeText.Length > 0).ToList();
+        var messagesWithChanges = contributing.Commits.Select(x => x.MessageMetadata).Where(x => x.ChangeType.Length > 0).ToList();
         if (incremental)
         {
             messagesWithChanges = GetUnhandledChanges(messagesWithChanges, lastRunData.HandledChanges);
@@ -106,7 +106,7 @@ public class ChangelogGenerator(ChangelogLocalSettings localSettings)
             {
                 var newHandledChange = new HandledChange
                 {
-                    ChangeTypeText = changeMessage.ChangeTypeText,
+                    ChangeType = changeMessage.ChangeType,
                     ChangeDescription = changeMessage.ChangeDescription,
                     Issues = changeMessage.Issues.ToList()
                 };

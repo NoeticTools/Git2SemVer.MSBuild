@@ -27,9 +27,9 @@ public sealed class ChangeCategory(CategorySettings settings, ITextFormatter mar
         AddRange(GetUniqueChangelogEntries(matchingMetadata));
     }
 
-    private bool Matches(IChangeMessageMetadata messageMetadata)
+    private bool Matches(ICommitMessageMetadata messageMetadata)
     {
-        return _changeTypeRegex.IsMatch(messageMetadata.ChangeTypeText);
+        return _changeTypeRegex.IsMatch(messageMetadata.ChangeType);
     }
 
     private IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ICommitMessageMetadata> metadata)

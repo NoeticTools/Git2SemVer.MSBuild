@@ -10,7 +10,7 @@ public sealed class HandledChange : IChangeTypeAndDescription
     public string ChangeDescription { get; set; } = "";
 
     [JsonPropertyOrder(10)]
-    public string ChangeTypeText { get; set; } = "";
+    public string ChangeType { get; set; } = "";
 
     [JsonPropertyOrder(30)]
     public List<string> Issues { get; set; } = [];

@@ -87,7 +87,7 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse("feat: Added a real nice feature", messageBody);
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
+        Assert.That(result.ChangeType, Is.EqualTo("feat"));
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
@@ -119,7 +119,7 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse("feat: Added a real nice feature", messageBody);
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
+        Assert.That(result.ChangeType, Is.EqualTo("feat"));
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.False);
         Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
@@ -200,7 +200,7 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse("feat: Added a real nice feature", "\n" + messageBody);
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Feature));
+        Assert.That(result.ChangeType, Is.EqualTo("feat"));
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.ChangeDescription, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(""));
@@ -221,7 +221,7 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse(commitSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
+        Assert.That(result.ChangeType, Is.EqualTo(""));
     }
 
     //[TestCase("""
@@ -310,25 +310,25 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse(commitSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
+        Assert.That(result.ChangeType, Is.EqualTo(""));
     }
 
-    [TestCase("feat: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", false)]
-    [TestCase("feat: Added a real nice feature (#24)", CommitChangeTypeId.Feature, "Added a real nice feature (#24)", false)]
-    [TestCase("feat!: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", true)]
-    [TestCase("feat(apples)!: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", true)]
-    [TestCase("fix: Fixed nasty bug", CommitChangeTypeId.Fix, "Fixed nasty bug", false)]
-    [TestCase("build: Build work", CommitChangeTypeId.Custom, "Build work", false)]
-    [TestCase("build(my-scope): Build work", CommitChangeTypeId.Custom, "Build work", false)]
-    [TestCase("custom-type: Build work", CommitChangeTypeId.Custom, "Build work", false)]
+    [TestCase("feat: Added a real nice feature", "feat", "Added a real nice feature", false)]
+    [TestCase("feat: Added a real nice feature (#24)", "feat", "Added a real nice feature (#24)", false)]
+    [TestCase("feat!: Added a real nice feature", "feat", "Added a real nice feature", true)]
+    [TestCase("feat(apples)!: Added a real nice feature", "feat", "Added a real nice feature", true)]
+    [TestCase("Fix: Fixed nasty bug", "fix", "Fixed nasty bug", false)]
+    [TestCase("build: Build work", "build", "Build work", false)]
+    [TestCase("build(my-scope): Build work", "build", "Build work", false)]
+    [TestCase("custom-type: Build work", "custom-type", "Build work", false)]
     public void SubjectWithConventionalCommitInfoTest(string messageSubject,
-                                                      CommitChangeTypeId expectedChangeTypeId,
+                                                      string expectedChangeType,
                                                       string expectedChangeDescription,
                                                       bool hasBreakingChange)
     {
         var result = _target.Parse(messageSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(expectedChangeTypeId));
+        Assert.That(result.ChangeType, Is.EqualTo(expectedChangeType));
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.ChangeDescription, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.Empty);

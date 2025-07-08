@@ -69,12 +69,12 @@ internal sealed class ChangeLookup<T>
 
     private static (string, string) GetKey(IChangeTypeAndDescription value)
     {
-        return (value.ChangeTypeText, value.ChangeDescription);
+        return (value.ChangeType, value.ChangeDescription);
     }
 
     private static (string, string) GetKey(ICommitMessageMetadata value)
     {
-        return (value.ChangeTypeText, value.ChangeDescription);
+        return (value.ChangeType, value.ChangeDescription);
     }
 
     private bool TryGet((string, string) key, out T? value)

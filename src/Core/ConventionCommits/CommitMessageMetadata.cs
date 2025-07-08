@@ -6,16 +6,6 @@ namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 [JsonDerivedType(typeof(ICommitMessageMetadata))]
 public sealed class CommitMessageMetadata : ICommitMessageMetadata
 {
-    private static readonly Dictionary<string, CommitChangeTypeId> ChangeTypeIdLookup = new()
-    {
-        { "feat", CommitChangeTypeId.Feature },
-        { "fix", CommitChangeTypeId.Fix },
-        { "change", CommitChangeTypeId.Change },
-        { "deprecate", CommitChangeTypeId.Deprecate },
-        { "remove", CommitChangeTypeId.Remove },
-        { "security", CommitChangeTypeId.Security }
-    };
-
     private readonly ConventionalCommitsSettings _convCommitsSettings;
 
     public CommitMessageMetadata(string changeType,
@@ -26,14 +16,13 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
                                  ConventionalCommitsSettings convCommitsSettings)
     {
         _convCommitsSettings = convCommitsSettings;
-        ChangeType = ToChangeTypeId(changeType.ToLower());
-        ChangeTypeText = changeType;
+        ChangeType = changeType.ToLower();
         ChangeDescription = changeDescription;
         Body = body;
         FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
 
-        var functionalityChange = ChangeType == CommitChangeTypeId.Feature;
-        var fix = ChangeType == CommitChangeTypeId.Fix;
+        var functionalityChange = string.Equals(ChangeType, "feat", StringComparison.InvariantCultureIgnoreCase);
+        var fix = string.Equals(ChangeType, "fix", StringComparison.InvariantCultureIgnoreCase);
         var breakingChange = breakingChangeFlagged ||
                              FooterKeyValues.Contains("BREAKING-CHANGE") ||
                              FooterKeyValues.Contains("BREAKING CHANGE");
@@ -46,25 +35,16 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     {
     }
 
-    [JsonPropertyOrder(11)]
     public ApiChangeFlags ApiChangeFlags { get; }
 
-    [JsonPropertyOrder(12)]
     public string Body { get; }
 
-    [JsonPropertyOrder(13)]
     public string ChangeDescription { get; }
 
-    [JsonPropertyOrder(14)]
-    public CommitChangeTypeId ChangeType { get; }
+    public string ChangeType { get; }
 
-    [JsonPropertyOrder(15)]
-    public string ChangeTypeText { get; }
-
-    [JsonPropertyOrder(20)]
     public ILookup<string, string> FooterKeyValues { get; }
 
-    [JsonIgnore]
     public IReadOnlyList<string> Issues
     {
         get
@@ -80,15 +60,4 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     }
 
     public static CommitMessageMetadata Null => new(new ConventionalCommitsSettings());
-
-    private static CommitChangeTypeId ToChangeTypeId(string value)
-    {
-        // ReSharper disable once CanSimplifyDictionaryTryGetValueWithGetValueOrDefault
-        if (ChangeTypeIdLookup.TryGetValue(value, out var changeTypeId))
-        {
-            return changeTypeId;
-        }
-
-        return string.IsNullOrWhiteSpace(value) ? CommitChangeTypeId.None : CommitChangeTypeId.Custom;
-    }
 }
