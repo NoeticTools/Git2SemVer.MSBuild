@@ -46,7 +46,7 @@ public class ChangelogGenerator(ChangelogLocalSettings localSettings)
             messagesWithChanges = GetUnhandledChanges(messagesWithChanges, lastRunData.HandledChanges);
         }
 
-        var issueMarkdownFormatter = new MarkdownLinkFormatterDecorator(new TextFormatter(localSettings.IssueLinkFormat));
+        var issueMarkdownFormatter = new MarkdownLinkFormatter(localSettings.IssueLinkFormat);
         var orderedCategories = localSettings.Categories.OrderBy(x => x.Order);
         var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter)).ToList();
 

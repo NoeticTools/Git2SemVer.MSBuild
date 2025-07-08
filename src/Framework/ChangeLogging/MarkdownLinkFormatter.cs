@@ -1,6 +1,6 @@
 ﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-internal sealed class MarkdownLinkFormatterDecorator(ITextFormatter inner) : ITextFormatter
+internal sealed class MarkdownLinkFormatter(string linkFormat) : ITextFormatter
 {
     public string Format(string value)
     {
@@ -9,7 +9,7 @@ internal sealed class MarkdownLinkFormatterDecorator(ITextFormatter inner) : ITe
             return value;
         }
 
-        var link = inner.Format(value);
+        var link = string.Format(linkFormat, value);
         return string.Equals(link, value, StringComparison.InvariantCulture) ? link : $"[{value}]({link})";
     }
 }
