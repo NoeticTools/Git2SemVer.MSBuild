@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Tool.Commands;
-using NoeticTools.Git2SemVer.Tool.Commands.Run;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 using Spectre.Console.Cli;
 
 

@@ -6,7 +6,7 @@ using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Run;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 [RegisterSingleton]
 internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRunCommand

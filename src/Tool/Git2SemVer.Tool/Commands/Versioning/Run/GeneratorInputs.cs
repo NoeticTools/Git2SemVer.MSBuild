@@ -2,7 +2,7 @@
 using NoeticTools.Git2SemVer.Framework.Generation;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Run;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 internal sealed class GeneratorInputs : IVersionGeneratorInputs
 {

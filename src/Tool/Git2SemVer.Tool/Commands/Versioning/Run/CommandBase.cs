@@ -5,7 +5,7 @@ using NoeticTools.Git2SemVer.Framework.Framework.Config;
 using NoeticTools.Git2SemVer.Framework.Tools.CI;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Run;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 internal abstract class CommandBase(IConsoleIO console)
 {

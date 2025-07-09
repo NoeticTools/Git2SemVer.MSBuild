@@ -9,7 +9,7 @@ using NoeticTools.Git2SemVer.Tool.MSBuild.Projects;
 using Spectre.Console;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 
 [RegisterSingleton]
 internal sealed class AddPreconditionValidator : IAddPreconditionValidator

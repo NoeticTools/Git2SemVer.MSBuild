@@ -6,9 +6,9 @@ using Spectre.Console.Cli;
 
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
 
-internal class AddCliCommand : Command<SolutionCommandSettings>
+internal class RemoveCliCommand : Command<SolutionCommandSettings>
 {
     public override int Execute(CommandContext context, SolutionCommandSettings settings)
     {
@@ -17,7 +17,7 @@ internal class AddCliCommand : Command<SolutionCommandSettings>
         var commandFactory = serviceProvider.GetService<ICommandFactory>()!;
 
         console.Unattended = settings.Unattended;
-        var runner = commandFactory.CreateAddCommand();
+        var runner = commandFactory.CreateRemoveCommand();
         runner.Execute(settings.SolutionName, settings.Unattended);
         return (int)(runner.HasError ? ReturnCodes.CommandError : ReturnCodes.Succeeded);
     }

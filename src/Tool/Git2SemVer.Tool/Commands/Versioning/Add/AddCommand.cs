@@ -8,7 +8,7 @@ using NoeticTools.Git2SemVer.Tool.MSBuild.Projects;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 
 [RegisterSingleton]
 internal sealed class AddCommand : ISetupCommand

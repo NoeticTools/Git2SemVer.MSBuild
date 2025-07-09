@@ -7,6 +7,28 @@ namespace NoeticTools.Git2SemVer.Tool.Integration.Tests;
 
 internal abstract class VersioningBuildTestsBase : SolutionTestsBase
 {
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
+    {
+        OneTimeSetUpBase();
+
+        //BuildGit2SemVerMSBuild();
+        //BuildGit2SemVerTool();
+
+        var testProjectBinDirectory = Path.Combine(TestSolutionDirectory, "TestApplication/bin/", BuildConfiguration);
+        CompiledAppPath = Path.Combine(testProjectBinDirectory, "net8.0", "NoeticTools.TestApplication.dll");
+        PackageOutputDir = testProjectBinDirectory;
+    }
+
+    [SetUp]
+    public void SetUp()
+    {
+        SetUpBase();
+        if (Directory.Exists(PackageOutputDir))
+        {
+            Directory.Delete(PackageOutputDir, true);
+        }
+    }
     //[Test]
     //[CancelAfter(60000)]
     //public void BuildAndThenPackWithoutRebuildTest()
@@ -41,19 +63,6 @@ internal abstract class VersioningBuildTestsBase : SolutionTestsBase
                                          """));
     }
 
-    [OneTimeSetUp]
-    public void OneTimeSetUp()
-    {
-        OneTimeSetUpBase();
-
-        //BuildGit2SemVerMSBuild();
-        //BuildGit2SemVerTool();
-
-        var testProjectBinDirectory = Path.Combine(TestSolutionDirectory, "TestApplication/bin/", BuildConfiguration);
-        CompiledAppPath = Path.Combine(testProjectBinDirectory, "net8.0", "NoeticTools.TestApplication.dll");
-        PackageOutputDir = testProjectBinDirectory;
-    }
-
     [Test]
     [CancelAfter(60000)]
     public void PackWithForcingProperties1ScriptTest()
@@ -71,16 +80,6 @@ internal abstract class VersioningBuildTestsBase : SolutionTestsBase
                                                Product version:        11.12.13-a-prerelease+metadata
                                                """));
         AssertFileExists(PackageOutputDir, "NoeticTools.TestApplication.5.6.7.nupkg");
-    }
-
-    [SetUp]
-    public void SetUp()
-    {
-        SetUpBase();
-        if (Directory.Exists(PackageOutputDir))
-        {
-            Directory.Delete(PackageOutputDir, true);
-        }
     }
 
     private void BuildTestSolution(string scriptName)

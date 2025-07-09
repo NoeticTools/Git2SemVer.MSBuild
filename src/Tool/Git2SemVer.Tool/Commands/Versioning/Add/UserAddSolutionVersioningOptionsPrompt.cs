@@ -4,7 +4,7 @@ using NoeticTools.Git2SemVer.Tool.MSBuild;
 using Spectre.Console;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Add;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 
 [RegisterSingleton]
 internal sealed class UserAddSolutionVersioningOptionsPrompt : IUserOptionsPrompt
@@ -26,7 +26,7 @@ internal sealed class UserAddSolutionVersioningOptionsPrompt : IUserOptionsPromp
                                                      .Validate(folderName => ValidateFolderDoesNotExist(folderName, solution.Directory!)),
                                                  SolutionVersioningConstants.DefaultVersioningProjectName);
 
-        var versionTagPrefix = _console.Ask<string>("Release git tag prefix?", "v");
+        var versionTagPrefix = _console.Ask("Release git tag prefix?", "v");
 
         _console.WriteLine();
         var options = new UserOptions(leadingProjectName, versionTagPrefix);

@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Run;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 public class RunCommandSettings : CommonCommandSettings
 {

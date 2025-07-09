@@ -2,7 +2,7 @@
 using NoeticTools.Git2SemVer.Framework.Persistence;
 
 
-namespace NoeticTools.Git2SemVer.Tool.Commands.Run;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 internal class ReadOnlyOutputJsonIO : IOutputsJsonIO
 {

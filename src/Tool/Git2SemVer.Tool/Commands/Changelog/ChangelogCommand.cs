@@ -5,7 +5,7 @@ using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using NoeticTools.Git2SemVer.Framework.Persistence;
-using NoeticTools.Git2SemVer.Tool.Commands.Run;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
