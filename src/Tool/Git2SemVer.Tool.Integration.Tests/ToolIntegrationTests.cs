@@ -30,7 +30,94 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [TearDown]
     public void TearDown()
     {
+        Console.WriteLine("-- Test Tear Down --");
         ExecuteGit2SemVerTool("remove -u");
+    }
+
+    [TestCase("ver setup")]
+    [TestCase("versioning solution-setup")]
+    [TestCase("ver solution-setup")]
+    public void AddCommandTest(string commandPrefix)
+    {
+        var result = ExecuteGit2SemVerTool(commandPrefix + " add -u");
+
+        Console.WriteLine(result.stdOutput);
+        Assert.That(Logger.HasError, Is.False);
+        Assert.That(result.returnCode, Is.Zero);
+    }
+
+    [Test]
+    public void ChangelogCommandTest()
+    {
+        var dataFolderPath = Path.Combine(TestSolutionDirectory, ".changelog");
+        var changelogFilePath = Path.Combine(TestSolutionDirectory, "CHANGELOG.md");
+        if (File.Exists(changelogFilePath))
+        {
+            File.Delete(changelogFilePath);
+        }
+
+        if (Directory.Exists(dataFolderPath))
+        {
+            Directory.Delete(dataFolderPath, true);
+        }
+
+        try
+        {
+            var result = ExecuteGit2SemVerTool("changelog -u");
+
+            Console.WriteLine(result.stdOutput);
+            Assert.That(Logger.HasError, Is.False);
+            Assert.That(result.returnCode, Is.Zero);
+            Assert.That(File.Exists(changelogFilePath));
+            Assert.That(Directory.Exists(dataFolderPath));
+        }
+        finally
+        {
+            File.Delete(changelogFilePath);
+            Directory.Delete(dataFolderPath, true);
+        }
+    }
+
+    [Test]
+    public void DepreciatedAddCommandTest()
+    {
+        var result = ExecuteGit2SemVerTool("add -u");
+
+        Console.WriteLine(result.stdOutput);
+        Assert.That(Logger.HasError, Is.False);
+        Assert.That(result.returnCode, Is.Zero);
+    }
+
+    [Test]
+    public void DepreciatedRemoveCommandTest()
+    {
+        var result = ExecuteGit2SemVerTool("remove -u");
+
+        Console.WriteLine(result.stdOutput);
+        Assert.That(Logger.HasError, Is.False);
+        Assert.That(result.returnCode, Is.Zero);
+    }
+
+    [Test]
+    public void DepreciatedToolHelpAddCommand()
+    {
+        var result = ExecuteGit2SemVerTool("add --help");
+        TestContext.Out.WriteLine(result.stdOutput);
+
+        Assert.That(Logger.HasError, Is.False);
+        Assert.That(result.returnCode, Is.Zero);
+        Assert.That(result.stdOutput, Does.Contain("-h, --help"));
+        Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
+    }
+
+    [Test]
+    public void RemoveCommandTest()
+    {
+        var result = ExecuteGit2SemVerTool("versioning solution-setup remove -u");
+
+        Console.WriteLine(result.stdOutput);
+        Assert.That(Logger.HasError, Is.False);
+        Assert.That(result.returnCode, Is.Zero);
     }
 
     /// <summary>
@@ -41,59 +128,23 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [TestCase("trace")]
     public void RunCommandTest(string verbosity)
     {
-        var result = ExecuteGit2SemVerTool($"run -u --verbosity {verbosity}");
+        var result = ExecuteGit2SemVerTool($"ver run -u --verbosity {verbosity}");
 
         Console.WriteLine(result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
-        Assert.That(result.returnCode, Is.EqualTo(0));
-    }
-
-    [Test]
-    public void AddCommandTest()
-    {
-        var result = ExecuteGit2SemVerTool("add -u");
-
-        Console.WriteLine(result.stdOutput);
-        Assert.That(Logger.HasError, Is.False);
-        Assert.That(result.returnCode, Is.EqualTo(0));
-    }
-
-    [Test]
-    public void RemoveCommandTest()
-    {
-        var result = ExecuteGit2SemVerTool("remove -u");
-
-        Console.WriteLine(result.stdOutput);
-        Assert.That(Logger.HasError, Is.False);
-        Assert.That(result.returnCode, Is.EqualTo(0));
+        Assert.That(result.returnCode, Is.Zero);
     }
 
     [Test]
     public void ToolHelpAddCommand()
     {
-        var result = ExecuteGit2SemVerTool("add --help");
-        TestContext.Out.WriteLine(result.stdOutput);
-
-        Assert.That(Logger.HasError, Is.False);
-        Assert.That(result.returnCode, Is.EqualTo(0));
-        Assert.That(result.stdOutput, Does.Contain("-h, --help"));
-        Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
-    }
-
-    [Test]
-    public void ToolHelpRunCommand()
-    {
-        var result = ExecuteGit2SemVerTool("run --help");
+        var result = ExecuteGit2SemVerTool("versioning setup add --help");
         TestContext.Out.WriteLine(result.stdOutput);
 
         Assert.That(Logger.HasError, Is.False);
         Assert.That(result.returnCode, Is.Zero);
         Assert.That(result.stdOutput, Does.Contain("-h, --help"));
         Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
-        Assert.That(result.stdOutput, Does.Contain("-v, --verbosity"));
-        Assert.That(result.stdOutput, Does.Contain("--host-type"));
-        Assert.That(result.stdOutput, Does.Contain("--output"));
-        Assert.That(result.stdOutput, Does.Contain("--enable-json-write"));
     }
 
     [Test]
@@ -106,6 +157,22 @@ internal class ToolIntegrationTests : SolutionTestsBase
         Assert.That(result.returnCode, Is.Zero);
         Assert.That(result.stdOutput, Does.Contain("-h, --help"));
         Assert.That(result.stdOutput, Does.Not.Contain("-u, --unattended"));
+    }
+
+    [Test]
+    public void ToolHelpRunCommand()
+    {
+        var result = ExecuteGit2SemVerTool("ver run --help");
+        TestContext.Out.WriteLine(result.stdOutput);
+
+        Assert.That(Logger.HasError, Is.False);
+        Assert.That(result.returnCode, Is.Zero);
+        Assert.That(result.stdOutput, Does.Contain("-h, --help"));
+        Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
+        Assert.That(result.stdOutput, Does.Contain("-v, --verbosity"));
+        Assert.That(result.stdOutput, Does.Contain("--host-type"));
+        Assert.That(result.stdOutput, Does.Contain("--output"));
+        Assert.That(result.stdOutput, Does.Contain("--enable-json-write"));
     }
 
     [Test]
