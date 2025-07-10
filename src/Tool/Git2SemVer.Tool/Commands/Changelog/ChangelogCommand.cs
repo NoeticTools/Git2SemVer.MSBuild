@@ -3,7 +3,6 @@ using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
-using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
@@ -29,31 +28,17 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
             var stopwatch = Stopwatch.StartNew();
 
-            var inputs = new GeneratorInputs
-            {
-                VersioningMode = VersioningMode.StandAloneProject,
-                IntermediateOutputDirectory = cmdLineSettings.DataDirectory,
-                HostType = cmdLineSettings.HostType ?? ""
-            };
-
             EnsureDataDirectoryExists(cmdLineSettings);
-            using var logger = CreateLogger(cmdLineSettings.Verbosity);
-            var host = GetBuildHost(logger, inputs);
             var projectSettings = GetProjectSettings(cmdLineSettings);
-            var versionGenerator = new VersionGeneratorFactory(logger).Create(inputs,
-                                                                              new NullMSBuildGlobalProperties(),
-                                                                              new NullJsonFileIO(),
-                                                                              host,
-                                                                              projectSettings.ConvCommits);
-
-            var (outputs, contributing) = versionGenerator.CalculateSemanticVersion();
+            
+            var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
             var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
             var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
             var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
             if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
             {
-                if (lastRunData.ContributingReleasesChanged(outputs.Git.ContributingReleases))
+                if (lastRunData.ContributingReleasesChanged(changeLogInputs.ContribReleases))
                 {
                     Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
                     lastRunData = new LastRunData();
@@ -61,7 +46,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                 }
             }
 
-            var canProceed = AskIfToProceed(cmdLineSettings, outputFileExists, contributing.Head.CommitId.Sha, lastRunData);
+            var canProceed = AskIfToProceed(cmdLineSettings, outputFileExists, changeLogInputs.HeadCommitSha, lastRunData);
             if (!canProceed)
             {
                 Console.WriteLine();
@@ -69,7 +54,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                 return;
             }
 
-            var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, outputs, contributing, lastRunData);
+            var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
 
             if (cmdLineSettings.WriteToConsole)
             {
@@ -86,7 +71,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                 return;
             }
 
-            lastRunData.Update(outputs);
+            lastRunData.Update(changeLogInputs);
             lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
 
             Console.WriteLine();
@@ -108,6 +93,26 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             Console.WriteErrorLine(exception);
             throw;
         }
+    }
+
+    private ChangelogInputs RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ChangelogLocalSettings projectSettings)
+    {
+        var inputs = new VersionGeneratorInputs
+        {
+            VersioningMode = VersioningMode.StandAloneProject,
+            IntermediateOutputDirectory = cmdLineSettings.DataDirectory,
+            HostType = cmdLineSettings.HostType ?? ""
+        };
+
+        using var logger = CreateLogger(cmdLineSettings.Verbosity);
+        var host = GetBuildHost(logger, inputs);
+        var versionGenerator = new VersionGeneratorFactory(logger).Create(inputs,
+                                                                          new NullMSBuildGlobalProperties(),
+                                                                          new NullJsonFileIO(),
+                                                                          host,
+                                                                          projectSettings.ConvCommits);
+        var (outputs, contributing) = versionGenerator.CalculateSemanticVersion();
+        return new ChangelogInputs(outputs, contributing);
     }
 
     private bool AskIfToProceed(ChangelogCommandSettings commandSettings,
@@ -146,8 +151,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
     private string Generate(ChangelogCommandSettings commandSettings,
                             ChangelogLocalSettings projectSettings,
                             bool createNewChangelog,
-                            VersionOutputs outputs,
-                            ContributingCommits contributing,
+                            ChangelogInputs inputs,
                             LastRunData lastRunData)
     {
         var template = GetTemplate(commandSettings.DataDirectory);
@@ -155,8 +159,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         var changelogGenerator = new ChangelogGenerator(projectSettings);
 
         var existingChangelog = createNewChangelog ? "" : File.ReadAllText(commandSettings.OutputFilePath);
-        var changelog = changelogGenerator.Execute(outputs.Version!,
-                                                   contributing,
+        var changelog = changelogGenerator.Execute(inputs,
                                                    lastRunData,
                                                    template,
                                                    existingChangelog, releaseUrl, true, createNewChangelog);

@@ -18,7 +18,7 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
             Console.WriteMarkupInfoLine($"Running Git2SemVer version generator{(settings.Unattended ? " (unattended)" : "")}.");
             Console.WriteLine();
 
-            var inputs = new GeneratorInputs
+            var inputs = new VersionGeneratorInputs
             {
                 VersioningMode = VersioningMode.StandAloneProject,
                 IntermediateOutputDirectory = settings.OutputDirectory

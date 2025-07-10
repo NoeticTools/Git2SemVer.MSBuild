@@ -13,8 +13,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
     /// <summary>
     ///     Generate changelog document.
     /// </summary>
-    /// <param name="version"></param>
-    /// <param name="contributing"></param>
+    /// <param name="inputs"></param>
     /// <param name="lastRunData"></param>
     /// <param name="scribanTemplate"></param>
     /// <param name="changelogToUpdate"></param>
@@ -24,8 +23,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
-    public string Execute(SemVersion version,
-                          ContributingCommits contributing,
+    public string Execute(ChangelogInputs inputs,
                           LastRunData lastRunData,
                           string scribanTemplate,
                           string changelogToUpdate,
@@ -40,7 +38,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
             Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
         }
 
-        var messagesWithChanges = contributing.Commits.Select(x => x.MessageMetadata).Where(x => x.ChangeType.Length > 0).ToList();
+        var messagesWithChanges = inputs.Commits.Select(x => x.MessageMetadata).Where(x => x.ChangeType.Length > 0).ToList();
         if (incremental)
         {
             messagesWithChanges = GetUnhandledChanges(messagesWithChanges, lastRunData.HandledChanges);
@@ -57,7 +55,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
             return changelogToUpdate;
         }
 
-        var newChangesContent = CreateNewContent(version, contributing, scribanTemplate, releaseUrl, incremental, changeCategories);
+        var newChangesContent = CreateNewContent(inputs, scribanTemplate, releaseUrl, incremental, changeCategories);
 
         if (createNewChangelog)
         {
@@ -137,14 +135,13 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
         }
     }
 
-    private static string CreateNewContent(SemVersion version, ContributingCommits contributing, string scribanTemplate, string releaseUrl,
+    private static string CreateNewContent(ChangelogInputs inputs, string scribanTemplate, string releaseUrl,
                                            bool incremental, IReadOnlyList<ChangeCategory> changeCategories)
     {
         var newChangesContent = "";
         try
         {
-            var model = new ChangelogModel(version,
-                                           contributing,
+            var model = new ChangelogScribanModel(inputs,
                                            changeCategories,
                                            releaseUrl,
                                            incremental);

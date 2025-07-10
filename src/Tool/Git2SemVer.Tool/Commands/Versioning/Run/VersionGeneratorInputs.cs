@@ -1,10 +1,12 @@
-﻿using NoeticTools.Git2SemVer.Core.Logging;
+﻿using System.Diagnostics.CodeAnalysis;
+using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Generation;
 
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
-internal sealed class GeneratorInputs : IVersionGeneratorInputs
+[ExcludeFromCodeCoverage(Justification = "Self evident")]
+internal sealed class VersionGeneratorInputs : IVersionGeneratorInputs
 {
     public string BranchMaturityPattern { get; set; } = "";
 

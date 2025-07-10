@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Framework.Framework;
-using NoeticTools.Git2SemVer.Framework.Generation;
 using Semver;
 
 
@@ -56,13 +55,13 @@ public sealed class LastRunData
         Git2SemVerJsonSerializer.Write(filePath, this);
     }
 
-    public void Update(VersionOutputs outputs)
+    public void Update(ChangelogInputs outputs)
     {
-        HeadSha = outputs.Git.HeadCommit.CommitId.Sha;
+        HeadSha = outputs.HeadCommitSha;
         CommitWhen = DateTimeOffset.Now;
         SemVersion = outputs.Version!.ToString();
-        BranchName = outputs.Git.BranchName;
-        ContributingReleases = outputs.Git.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
+        BranchName = outputs.BranchName;
+        ContributingReleases = outputs.ContribReleases.Select(x => x.ToString()).ToReadOnlyList();
     }
 
     public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)

@@ -42,7 +42,7 @@ internal abstract class CommandBase(IConsoleIO console)
         }
     }
 
-    protected static IBuildHost GetBuildHost(CompositeLogger logger, GeneratorInputs inputs)
+    protected static IBuildHost GetBuildHost(CompositeLogger logger, VersionGeneratorInputs inputs)
     {
         var config = Git2SemVerConfiguration.Load();
 
