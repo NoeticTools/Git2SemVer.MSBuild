@@ -76,21 +76,37 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
                                          changeDescription,
                                          body,
                                          breakingChangeFlagged,
-                                         keyValuePairs, convCommitsSettings);
+                                         keyValuePairs, 
+                                         convCommitsSettings);
     }
 
-    private static List<(string key, string value)> GetFooterKeyValuePairs(Match match)
+    private static Dictionary<string, List<string>> GetFooterKeyValuePairs(Match match)
     {
-        var keyValuePairs = new List<(string key, string value)>();
+        var keyValuePairs = new Dictionary<string, List<string>>();
 
-        var keywords = match.Groups["token"].Captures;
-        var values = match.Groups["value"].Captures;
+        var tokensGroup = match.Groups["token"];
+        var valuesGroup = match.Groups["value"];
+        if (!tokensGroup.Success || !valuesGroup.Success)
+        {
+            return keyValuePairs;
+        }
+
+        var keywords = tokensGroup.Captures;
+        var values = valuesGroup.Captures;
 
         for (var captureIndex = 0; captureIndex < keywords.Count; captureIndex++)
         {
             var keyword = keywords[captureIndex].Value;
+            if (string.IsNullOrEmpty(keyword))
+            {
+                continue;
+            }
             var value = values[captureIndex].Value.TrimEnd();
-            keyValuePairs.Add((keyword, value));
+            if (!keyValuePairs.ContainsKey(keyword))
+            {
+                keyValuePairs.Add(keyword, []);
+            }
+            keyValuePairs[keyword].Add(value);
         }
 
         return keyValuePairs;

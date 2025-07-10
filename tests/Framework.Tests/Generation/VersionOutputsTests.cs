@@ -109,8 +109,7 @@ internal class VersionOutputsTests
                                       "HeadCommit": {
                                         "$type": "Commit",
                                         "CommitId": {
-                                          "Sha": "00000000",
-                                          "ShortSha": "0000000"
+                                          "Sha": "00000000"
                                         },
                                         "TagMetadata": {
                                           "ReleaseType": 1,
@@ -122,7 +121,6 @@ internal class VersionOutputsTests
                                           }
                                         },
                                         "Summary": "null commit",
-                                        "MessageBody": "",
                                         "Parents": [],
                                         "MessageMetadata": {
                                           "ApiChangeFlags": {
@@ -133,7 +131,7 @@ internal class VersionOutputsTests
                                           "Body": "",
                                           "ChangeDescription": "",
                                           "ChangeType": "",
-                                          "FooterKeyValues": []
+                                          "FooterKeyValues": {}
                                         }
                                       },
                                       "LastReleaseCommit": null,

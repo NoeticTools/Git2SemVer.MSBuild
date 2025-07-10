@@ -20,19 +20,19 @@ public sealed class ChangeCategory(CategorySettings settings, ITextFormatter mar
         _changes.AddRange(changes);
     }
 
-    public void ExtractChangeLogsFrom(List<ICommitMessageMetadata> metatdata)
+    public void ExtractChangeLogsFrom(List<ConventionalCommit> metatdata)
     {
         var matchingMetadata = metatdata.Where(Matches).ToList();
         matchingMetadata.ForEach(x => metatdata.Remove(x));
         AddRange(GetUniqueChangelogEntries(matchingMetadata));
     }
 
-    private bool Matches(ICommitMessageMetadata messageMetadata)
+    private bool Matches(IChangeTypeAndDescription messageMetadata)
     {
         return _changeTypeRegex.IsMatch(messageMetadata.ChangeType);
     }
 
-    private IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ICommitMessageMetadata> metadata)
+    private IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ConventionalCommit> metadata)
     {
         var changeLogEntries =
             new ChangeLookup<ChangeLogEntry>(logEntry => logEntry.MessageMetadata);

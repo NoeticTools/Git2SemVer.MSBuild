@@ -1,4 +1,5 @@
 ﻿using NoeticTools.Git2SemVer.Core.Logging;
+using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
 using Spectre.Console.Cli;

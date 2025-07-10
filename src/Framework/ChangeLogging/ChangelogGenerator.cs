@@ -38,10 +38,10 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
             Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
         }
 
-        var messagesWithChanges = inputs.Commits.Select(x => x.MessageMetadata).Where(x => x.ChangeType.Length > 0).ToList();
+        var messagesWithChanges = new List<ConventionalCommit>(inputs.Commits);
         if (incremental)
         {
-            messagesWithChanges = GetUnhandledChanges(messagesWithChanges, lastRunData.HandledChanges);
+            messagesWithChanges = GetUnhandledChanges(inputs.Commits, lastRunData.HandledChanges);
         }
 
         var issueMarkdownFormatter = new MarkdownLinkFormatter(projectSettings.IssueLinkFormat);
@@ -73,7 +73,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
     }
 
     private ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
-                                                 List<ICommitMessageMetadata> changeMessages, 
+                                                 List<ConventionalCommit> changeMessages, 
                                                  ITextFormatter markdownIssueFormatter)
     {
         var changeCategory = new ChangeCategory(categorySettings, markdownIssueFormatter);
@@ -86,10 +86,10 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
     /// </summary>
     /// <param name="changeMessages"></param>
     /// <param name="handledChanges"></param>
-    private static List<ICommitMessageMetadata> GetUnhandledChanges(IReadOnlyList<ICommitMessageMetadata> changeMessages,
+    private static List<ConventionalCommit> GetUnhandledChanges(IReadOnlyList<ConventionalCommit> changeMessages,
                                                                     List<HandledChange> handledChanges)
     {
-        var unhandledMessages = new List<ICommitMessageMetadata>(changeMessages);
+        var unhandledMessages = new List<ConventionalCommit>(changeMessages);
         var handledChangesLookup = new ChangeLookup<HandledChange>(handledChanges, v => v);
         foreach (var changeMessage in unhandledMessages.ToArray())
         {

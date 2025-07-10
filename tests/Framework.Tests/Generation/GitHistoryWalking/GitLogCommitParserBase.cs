@@ -69,7 +69,7 @@ public abstract class GitLogCommitParserBase(
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
         commit = hasCommitMetadata
-            ? new Commit(sha, parents, summary, body, refs, commitMetadata, tagParser)
+            ? new Commit(sha, parents, summary, refs, commitMetadata, tagParser)
             : null;
 
         return (commit, graph);

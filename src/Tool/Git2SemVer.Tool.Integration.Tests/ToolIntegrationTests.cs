@@ -49,7 +49,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [Test]
     public void ChangelogCommandTest()
     {
-        var dataFolderPath = Path.Combine(TestSolutionDirectory, ".changelog");
+        var dataFolderPath = Path.Combine(TestSolutionDirectory, ".git2semver/changelog");
         var changelogFilePath = Path.Combine(TestSolutionDirectory, "CHANGELOG.md");
         if (File.Exists(changelogFilePath))
         {
@@ -74,7 +74,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
         finally
         {
             File.Delete(changelogFilePath);
-            Directory.Delete(dataFolderPath, true);
+            Directory.Delete(Path.Combine(TestSolutionDirectory, ".git2semver"), true);
         }
     }
 

@@ -14,11 +14,6 @@ public interface ICommit
     CommitId CommitId { get; }
 
     /// <summary>
-    ///     Commit message body or description.
-    /// </summary>
-    string MessageBody { get; }
-
-    /// <summary>
     ///     The commit's parent commits.
     /// </summary>
     CommitId[] Parents { get; }

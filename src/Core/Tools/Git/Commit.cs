@@ -20,13 +20,13 @@ public class Commit : ICommit
     /// <summary>
     ///     Git commit.
     /// </summary>
-    public Commit(string sha, string[] parents, 
-                  string summary, string messageBody,
-                  ICommitMessageMetadata messageMetadata, 
-                  ITagParser tagParser, 
-                  IReadOnlyList<IGitTag>? tags, 
+    public Commit(string sha, string[] parents,
+                  string summary,
+                  ICommitMessageMetadata messageMetadata,
+                  ITagParser tagParser,
+                  IReadOnlyList<IGitTag>? tags,
                   DateTimeOffset when)
-        : this(sha, parents, summary, messageBody, messageMetadata, tagParser, when)
+        : this(sha, parents, summary, messageMetadata, tagParser, when)
     {
         if (tags != null)
         {
@@ -41,10 +41,10 @@ public class Commit : ICommit
     /// <summary>
     ///     Construct commit from git log information.
     /// </summary>
-    public Commit(string sha, string[] parents, string summary, string messageBody, string refs,
-                   ICommitMessageMetadata messageMetadata,
-                   ITagParser? tagParser = null)
-        : this(sha, parents, summary, messageBody, messageMetadata, tagParser ?? new TagParser(),
+    public Commit(string sha, string[] parents, string summary, string refs,
+                  ICommitMessageMetadata messageMetadata,
+                  ITagParser? tagParser = null)
+        : this(sha, parents, summary, messageMetadata, tagParser ?? new TagParser(),
                new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(10)))
     {
         var metadata = GetReleaseMetadata(refs);
@@ -52,7 +52,7 @@ public class Commit : ICommit
         TagMetadata = metadata;
     }
 
-    private Commit(string sha, string[] parents, string summary, string messageBody,
+    private Commit(string sha, string[] parents, string summary,
                    ICommitMessageMetadata messageMetadata,
                    ITagParser tagParser, DateTimeOffset when)
     {
@@ -69,7 +69,6 @@ public class Commit : ICommit
         }
 
         Summary = summary;
-        MessageBody = messageBody;
         MessageMetadata = messageMetadata;
         When = when;
         _tagFromRefsRegex = new Regex(@"tag: (?<name>[^,]+)", RegexOptions.IgnoreCase);
@@ -90,9 +89,6 @@ public class Commit : ICommit
     [JsonIgnore]
     public bool IsRootCommit => TagMetadata.IsRootCommit;
 
-    [JsonPropertyOrder(22)]
-    public string MessageBody { get; }
-
     /// <summary>
     ///     Commit message metadata.
     /// </summary>
@@ -103,7 +99,7 @@ public class Commit : ICommit
     ///     A null commit.
     /// </summary>
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata(new ConventionalCommitsSettings()));
+    public static Commit Null => new("00000000", [], "null commit", "", new CommitMessageMetadata(new ConventionalCommitsSettings()));
 
     [JsonPropertyOrder(31)]
     public CommitId[] Parents { get; }

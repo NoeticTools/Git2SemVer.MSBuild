@@ -103,7 +103,6 @@ public sealed class GitTool : IGitTool
 
             commit = new Commit(rawCommit.Sha,
                                 parents, rawCommit.MessageShort,
-                                rawCommit.Message,
                                 metadata, _tagParser,
                                 tags,
                                 rawCommit.Author.When);

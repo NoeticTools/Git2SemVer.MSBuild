@@ -9,7 +9,7 @@ public sealed class ChangeLogEntry
     private readonly ITextFormatter _markdownIssueFormatter;
     private readonly List<string> _issues = [];
 
-    public ChangeLogEntry(ICommitMessageMetadata messageMetadata, ITextFormatter markdownIssueFormatter)
+    public ChangeLogEntry(ConventionalCommit messageMetadata, ITextFormatter markdownIssueFormatter)
     {
         _markdownIssueFormatter = markdownIssueFormatter;
         MessageMetadata = messageMetadata;
@@ -26,7 +26,7 @@ public sealed class ChangeLogEntry
     /// </summary>
     public IReadOnlyList<string> IssuesMarkdown => Issues.Select(x => _markdownIssueFormatter.Format(x)).ToList();
 
-    public ICommitMessageMetadata MessageMetadata { get; }
+    public ConventionalCommit MessageMetadata { get; }
 
     public override bool Equals(object? obj)
     {

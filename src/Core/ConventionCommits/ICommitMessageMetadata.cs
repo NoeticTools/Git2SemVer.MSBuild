@@ -12,7 +12,7 @@ public interface ICommitMessageMetadata : IChangeTypeAndDescription
     string Body { get; }
 
     [JsonPropertyOrder(40)]
-    ILookup<string, string> FooterKeyValues { get; }
+    Dictionary<string, List<string>> FooterKeyValues { get; }
 
     [JsonIgnore]
     IReadOnlyList<string> Issues { get; }

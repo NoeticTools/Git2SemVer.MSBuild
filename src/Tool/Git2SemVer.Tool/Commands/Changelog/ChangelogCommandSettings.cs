@@ -16,7 +16,7 @@ public class ChangelogCommandSettings : CommonCommandSettings
     public string ArtifactLinkPattern { get; set; } = "";
 
     [CommandOption("-m|--meta-directory <DIRECTORY>")]
-    [DefaultValue(".changelog")]
+    [DefaultValue(".git2semver/changelog")]
     [Description("Directory in which to place the generators metadata file.")]
     public string DataDirectory { get; set; } = "";
 

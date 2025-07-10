@@ -29,6 +29,11 @@ internal sealed class ChangeLookup<T>
         return _inner.SelectMany(x => x.Value.Select(y => y.Value)).ToList();
     }
 
+    public bool TryGet(IChangeTypeAndDescription messageMetadata, out T? value)
+    {
+        return TryGet(GetKey(messageMetadata), out value);
+    }
+
     public bool TryGet(ICommitMessageMetadata messageMetadata, out T? value)
     {
         return TryGet(GetKey(messageMetadata), out value);

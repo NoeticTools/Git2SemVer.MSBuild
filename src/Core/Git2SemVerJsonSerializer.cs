@@ -13,9 +13,11 @@ public static class Git2SemVerJsonSerializer
     private static readonly JsonSerializerOptions SerialiseOptions = new()
     {
         WriteIndented = true,
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+        IgnoreReadOnlyFields = true,
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+        
     };
-    
+
     public static T Read<T>(string filePath) where T : new()
     {
         FileMutex.WaitOne(TimeSpan.FromSeconds(10));
@@ -40,7 +42,6 @@ public static class Git2SemVerJsonSerializer
     public static void Write(string filePath, object target)
     {
         var json = JsonSerializer.Serialize(target, SerialiseOptions);
-        json = Regex.Unescape(json);
 
         FileMutex.WaitOne(TimeSpan.FromSeconds(10));
         try

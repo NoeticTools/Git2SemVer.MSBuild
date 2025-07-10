@@ -93,7 +93,7 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.Body, Is.EqualTo(expectedBody));
         var keyValuePairs = GetExpectedKeyValuePairs(expectedTopicValues);
 
-        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
+        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs));
     }
 
     [TestCase(
@@ -206,7 +206,7 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.Body, Is.EqualTo(""));
         var keyValuePairs = GetExpectedKeyValuePairs(expectedTopicValues);
 
-        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
+        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs));
     }
 
     [TestCase("feat:")]
@@ -335,9 +335,9 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.FooterKeyValues, Is.Empty);
     }
 
-    private static List<(string key, string value)> GetExpectedKeyValuePairs(string[] expectedTopicValues)
+    private static Dictionary<string, List<string>> GetExpectedKeyValuePairs(string[] expectedTopicValues)
     {
-        var keyValuePairs = new List<(string key, string value)>();
+        var keyValuePairs = new Dictionary<string, List<string>>();
         foreach (var line in expectedTopicValues)
         {
             if (line.Length == 0)
@@ -346,7 +346,15 @@ internal class ConventionalCommitsParserTests
             }
 
             var elements = line.Split('|');
-            keyValuePairs.Add((key: elements[0], value: elements[1]));
+            var key = elements[0];
+            var value = elements[1];
+#pragma warning disable CA1854
+            if (!keyValuePairs.ContainsKey(key))
+#pragma warning restore CA1854
+            {
+                keyValuePairs.Add(key, []);
+            }
+            keyValuePairs[key].Add(value);
         }
 
         return keyValuePairs;

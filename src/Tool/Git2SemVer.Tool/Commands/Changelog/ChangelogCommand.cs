@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Xml.Linq;
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Generation;
@@ -32,6 +33,8 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             var projectSettings = GetProjectSettings(cmdLineSettings);
             
             var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
+
+            changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
 
             var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
             var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;

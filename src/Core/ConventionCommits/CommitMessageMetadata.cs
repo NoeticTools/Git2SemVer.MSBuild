@@ -12,20 +12,20 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
                                  string changeDescription,
                                  string body,
                                  bool breakingChangeFlagged,
-                                 List<(string key, string value)> footerKeyValues,
+                                 Dictionary<string, List<string>> footerKeyValues,
                                  ConventionalCommitsSettings convCommitsSettings)
     {
         _convCommitsSettings = convCommitsSettings;
         ChangeType = changeType.ToLower();
         ChangeDescription = changeDescription;
         Body = body;
-        FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
+        FooterKeyValues = footerKeyValues;
 
         var functionalityChange = string.Equals(ChangeType, "feat", StringComparison.InvariantCultureIgnoreCase);
         var fix = string.Equals(ChangeType, "fix", StringComparison.InvariantCultureIgnoreCase);
         var breakingChange = breakingChangeFlagged ||
-                             FooterKeyValues.Contains("BREAKING-CHANGE") ||
-                             FooterKeyValues.Contains("BREAKING CHANGE");
+                             FooterKeyValues.ContainsKey("BREAKING-CHANGE") ||
+                             FooterKeyValues.ContainsKey("BREAKING CHANGE");
 
         ApiChangeFlags = new ApiChangeFlags(breakingChange, functionalityChange, fix);
     }
@@ -43,7 +43,7 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
 
     public string ChangeType { get; }
 
-    public ILookup<string, string> FooterKeyValues { get; }
+    public Dictionary<string, List<string>> FooterKeyValues { get; }
 
     public IReadOnlyList<string> Issues
     {
@@ -52,6 +52,11 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
             var issues = new List<string>();
             foreach (var issueKey in _convCommitsSettings.IssueKeys)
             {
+                // ReSharper disable once CanSimplifyDictionaryLookupWithTryGetValue
+                if (!FooterKeyValues.ContainsKey(issueKey))
+                {
+                    continue;
+                }
                 issues.AddRange(FooterKeyValues[issueKey]);
             }
 

@@ -23,7 +23,7 @@ internal class CommitTests
     {
         var messageMetadata = new CommitMessageMetadata("", "", "", false, [], new ConventionalCommitsSettings());
 
-        var target = new Commit("SHA00002", ["SHA00001"], "summary", "body", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
+        var target = new Commit("SHA00002", ["SHA00001"], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
         Assert.That(target.TagMetadata.ReleaseType, Is.EqualTo(ReleaseTypeId.NotReleased));
         Assert.That(target.TagMetadata.Version, Is.Null);
@@ -35,7 +35,7 @@ internal class CommitTests
     {
         var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
 
-        var target = new Commit("SHA00002", ["SHA00001"], "summary", "body", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
+        var target = new Commit("SHA00002", ["SHA00001"], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
         Assert.That(target.TagMetadata.ReleaseType, Is.EqualTo(ReleaseTypeId.NotReleased));
         Assert.That(target.TagMetadata.Version, Is.Null);
@@ -52,7 +52,7 @@ internal class CommitTests
         _tagParser.Setup(x => x.ParseTagName("my tag")).Returns(new TagMetadata(ReleaseTypeId.Released, new SemVersion(1, 2, 3)));
         var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
 
-        var target = new Commit("SHA00002", ["SHA00001"], "summary", "body", messageMetadata, _tagParser.Object, [tag.Object], DateTimeOffset.Now);
+        var target = new Commit("SHA00002", ["SHA00001"], "summary", messageMetadata, _tagParser.Object, [tag.Object], DateTimeOffset.Now);
 
         Assert.That(target.TagMetadata.ReleaseType, Is.EqualTo(ReleaseTypeId.Released));
         Assert.That(target.TagMetadata.Version, Is.EqualTo(new SemVersion(1, 2, 3)));
@@ -66,7 +66,7 @@ internal class CommitTests
     {
         var messageMetadata = new CommitMessageMetadata("", "", "", false, [], new ConventionalCommitsSettings());
 
-        var target = new Commit("SHA00001", [], "summary", "body", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
+        var target = new Commit("SHA00001", [], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
         Assert.That(target.TagMetadata.ReleaseType, Is.EqualTo(ReleaseTypeId.RootCommit));
         Assert.That(target.TagMetadata.Version, Is.Null);
@@ -78,7 +78,7 @@ internal class CommitTests
     {
         var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
 
-        var target = new Commit("SHA00001", [], "summary", "body", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
+        var target = new Commit("SHA00001", [], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
         Assert.That(target.TagMetadata.ReleaseType, Is.EqualTo(ReleaseTypeId.RootCommit));
         Assert.That(target.TagMetadata.Version, Is.Null);
@@ -95,7 +95,7 @@ internal class CommitTests
         _tagParser.Setup(x => x.ParseTagName("my tag")).Returns(new TagMetadata(ReleaseTypeId.Released, new SemVersion(1, 2, 3)));
         var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
 
-        var target = new Commit("SHA00001", [], "summary", "body", messageMetadata, _tagParser.Object, [tag.Object], DateTimeOffset.Now);
+        var target = new Commit("SHA00001", [], "summary", messageMetadata, _tagParser.Object, [tag.Object], DateTimeOffset.Now);
 
         Assert.That(target.TagMetadata.ReleaseType, Is.EqualTo(ReleaseTypeId.Released));
         Assert.That(target.TagMetadata.Version, Is.EqualTo(new SemVersion(1, 2, 3)));
