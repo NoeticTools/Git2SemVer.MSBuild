@@ -38,10 +38,10 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
             Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
         }
 
-        var messagesWithChanges = new List<ConventionalCommit>(inputs.Commits);
+        var messagesWithChanges = new List<ConventionalCommit>(inputs.ConventionalCommits);
         if (incremental)
         {
-            messagesWithChanges = GetUnhandledChanges(inputs.Commits, lastRunData.HandledChanges);
+            messagesWithChanges = GetUnhandledChanges(inputs.ConventionalCommits, lastRunData.HandledChanges);
         }
 
         var issueMarkdownFormatter = new MarkdownLinkFormatter(projectSettings.IssueLinkFormat);

@@ -129,9 +129,11 @@ internal class VersionOutputsTests
                                             "Fix": false
                                           },
                                           "Body": "",
-                                          "ChangeDescription": "",
+                                          "Description": "",
                                           "ChangeType": "",
-                                          "FooterKeyValues": {}
+                                          "FooterKeyValues": {
+                                            "Items": []
+                                          }
                                         }
                                       },
                                       "LastReleaseCommit": null,

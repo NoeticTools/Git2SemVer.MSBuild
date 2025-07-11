@@ -54,20 +54,6 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
         var changeDescription = summaryMatch.GetGroupValue("desc");
 
         var bodyMatch = _bodyRegex.Match(commitMessageBody);
-        var bodyMatches = _bodyRegex.Matches(commitMessageBody);
-        foreach (Match match in bodyMatches)
-        {
-            if (!match.Success)
-            {
-                continue;
-            }
-
-            var group = match.Groups["footer"];
-            if (!group.Success)
-            {
-            }
-        }
-
         var body = bodyMatch.GetGroupValue("body");
 
         var keyValuePairs = GetFooterKeyValues(bodyMatch);
@@ -82,13 +68,13 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
 
     private static FooterKeyValues GetFooterKeyValues(Match match)
     {
-        var footerKeyValuePairs = new FooterKeyValues();
+        var footerKeyValues = new FooterKeyValues();
 
         var tokensGroup = match.Groups["token"];
         var valuesGroup = match.Groups["value"];
         if (!tokensGroup.Success || !valuesGroup.Success)
         {
-            return footerKeyValuePairs;
+            return footerKeyValues;
         }
 
         var keywords = tokensGroup.Captures;
@@ -101,9 +87,9 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
             {
                 continue;
             }
-            footerKeyValuePairs.Add(keyword, values[captureIndex].Value.TrimEnd());
+            footerKeyValues.Add(keyword, values[captureIndex].Value.TrimEnd());
         }
 
-        return footerKeyValuePairs;
+        return footerKeyValues;
     }
 }

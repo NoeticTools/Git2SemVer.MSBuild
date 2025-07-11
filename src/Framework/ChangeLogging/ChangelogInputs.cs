@@ -21,12 +21,19 @@ public class ChangelogInputs
     public ChangelogInputs(VersionOutputs outputs, ContributingCommits contributing)
     {
         ContribReleases = outputs.Git.ContributingReleases.Select(x => x.ToString()).ToArray();
-        Commits = contributing.Commits.Where(x => x.MessageMetadata.ChangeType.Length > 0).Select(x => new ConventionalCommit(x)).ToList();
+        ConventionalCommits = contributing.Commits.Where(HasConventionalCommitInfo).Select(x => new ConventionalCommit(x)).ToList();
         HeadCommitSha = contributing.Head.CommitId.Sha;
         HeadCommitWhen = contributing.Head.When;
         BranchName = contributing.BranchName;
         Version = outputs.Version!;
         InformationalVersion = outputs.InformationalVersion!;
+    }
+
+    private static bool HasConventionalCommitInfo(Commit x)
+    {
+        var changeType = x.MessageMetadata.ChangeType;
+        return changeType.Length > 0 &&
+               x.MessageMetadata.ApiChangeFlags.Any;
     }
 
     [JsonRequired]
@@ -38,7 +45,7 @@ public class ChangelogInputs
 
     [JsonPropertyOrder(200)]
     [JsonRequired]
-    public IReadOnlyList<ConventionalCommit> Commits { get; set; } = [];
+    public IReadOnlyList<ConventionalCommit> ConventionalCommits { get; set; } = [];
 
     [JsonPropertyOrder(100)]
     [JsonRequired]

@@ -27,7 +27,7 @@ internal sealed class ChangelogScribanModel(
 
     public bool IsRelease { get; } = inputs.Version.IsRelease;
 
-    public int NumberOfCommits { get; } = inputs.Commits.Count;
+    public int NumberOfCommits { get; } = inputs.ConventionalCommits.Count;
 
     public DateTime ReleaseDate { get; } = DateTime.Now;
 
