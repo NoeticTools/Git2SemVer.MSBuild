@@ -35,9 +35,9 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             
             var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
-            changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+            changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
             changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-            changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
+            changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
 
             var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
             var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
@@ -88,7 +88,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
             File.WriteAllText(cmdLineSettings.OutputFilePath, changelog);
 
-            projectSettings.Save(Path.Combine(cmdLineSettings.DataDirectory, ChangelogResources.ProjectSettingsFilename));
+            projectSettings.Save(Path.Combine(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename));
 
             stopwatch.Stop();
 
@@ -108,7 +108,8 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         {
             VersioningMode = VersioningMode.StandAloneProject,
             IntermediateOutputDirectory = cmdLineSettings.DataDirectory,
-            HostType = cmdLineSettings.HostType ?? ""
+            HostType = cmdLineSettings.HostType ?? "",
+            WriteConventionalCommitsInfo = true
         };
 
         using var logger = CreateLogger(cmdLineSettings.Verbosity);
@@ -191,7 +192,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
     private static ChangelogLocalSettings GetProjectSettings(ChangelogCommandSettings commandSettings)
     {
-        var filePath = Path.Combine(commandSettings.DataDirectory, ChangelogResources.ProjectSettingsFilename);
+        var filePath = Path.Combine(commandSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename);
 
         if (File.Exists(filePath))
         {
@@ -200,7 +201,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
         var config = new ChangelogLocalSettings
         {
-            Categories = ChangelogResources.DefaultCategories
+            Categories = ChangelogConstants.DefaultCategories
         };
         config.Save(filePath);
         return config;
@@ -208,14 +209,14 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
     private string GetTemplate(string directory)
     {
-        var templatePath = Path.Combine(directory, ChangelogResources.DefaultMarkdownTemplateFilename);
+        var templatePath = Path.Combine(directory, ChangelogConstants.DefaultMarkdownTemplateFilename);
         if (File.Exists(templatePath))
         {
             return File.ReadAllText(templatePath);
         }
 
         Console.WriteMarkupDebugLine($"Creating default template file: {templatePath}");
-        var defaultTemplate = ChangelogResources.GetDefaultTemplate();
+        var defaultTemplate = ChangelogConstants.GetDefaultTemplate();
         File.WriteAllText(templatePath, defaultTemplate);
         return defaultTemplate;
     }

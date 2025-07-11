@@ -286,6 +286,12 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public string WorkingDirectory { get; set; } = "";
 
     /// <summary>
+    /// If true conventional commits info file is created. This can be used for changelog generation.
+    /// </summary>
+    /// <remarks>Default is false.</remarks>
+    public bool WriteConventionalCommitsInfo { get; set; } = false;
+
+    /// <summary>
     ///     Called by MSBuild to execute the task.
     /// </summary>
     public override bool Execute()
@@ -321,9 +327,9 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
                 throw new Git2SemVerConfigurationException($"Invalid Git2SemVer_Mode value '{Mode}'.", exception);
             }
 
-            var versionGeneratorFactory = new VersionGeneratorFactory(logger);
+            var versioningEngineFactory = new VersioningEngineFactory(logger);
             using var projectVersioning =
-                new ProjectVersioningFactory(msg => Log.LogMessage(MessageImportance.High, msg), versionGeneratorFactory, logger)
+                new ProjectVersioningFactory(msg => Log.LogMessage(MessageImportance.High, msg), versioningEngineFactory, logger)
                     .Create(this, new MSBuildGlobalProperties(BuildEngine6));
             SetOutputs(projectVersioning.Run());
             return !Log.HasLoggedErrors;

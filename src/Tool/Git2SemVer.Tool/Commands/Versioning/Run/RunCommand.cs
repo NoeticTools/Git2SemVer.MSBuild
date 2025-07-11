@@ -21,7 +21,8 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
             var inputs = new VersionGeneratorInputs
             {
                 VersioningMode = VersioningMode.StandAloneProject,
-                IntermediateOutputDirectory = settings.OutputDirectory
+                IntermediateOutputDirectory = settings.OutputDirectory,
+                WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite,
             };
 
             if (settings.HostType != null)

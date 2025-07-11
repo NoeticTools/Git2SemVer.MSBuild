@@ -1,4 +1,5 @@
 ﻿using NoeticTools.Git2SemVer.Core.Logging;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
@@ -67,7 +68,7 @@ internal class Git2SemVerCommandApp
                   .WithDescription("Run version generator")
                   .WithData(servicesProvider);
 
-            config.AddCommand<ChangelogCliCommand>("changelog")
+            config.AddCommand<ChangelogCliCommand>(ChangelogConstants.DefaultSubfolderName)
                   .WithDescription("Generate changelog command.")
                   .WithData(servicesProvider);
         });

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Xml.Schema;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
@@ -34,7 +35,8 @@ internal sealed class VersioningEngine(
         var stopwatch = Stopwatch.StartNew();
 
         host.BumpBuildNumber();
-        var outputs = GetVersionOutputs().Outputs;
+        var (outputs, versioningResult) = GetVersionOutputs();
+
         SaveGeneratedVersions(outputs);
 
         stopwatch.Stop();
@@ -61,6 +63,12 @@ internal sealed class VersioningEngine(
                                                         results.PriorVersions),
                                          results.Version);
         RunBuilders(outputs);
+
+        if (inputs.WriteConventionalCommitsInfo)
+        {
+            SaveConventionalCommitsInfo(outputs, results.Contributing);
+        }
+
         return (outputs, results);
     }
 
@@ -78,6 +86,17 @@ internal sealed class VersioningEngine(
 
             stopwatch.Stop();
             logger.LogDebug($"Version building completed (in {stopwatch.Elapsed.TotalSeconds:F1} sec).");
+        }
+    }
+
+    private void SaveConventionalCommitsInfo(VersionOutputs outputs, ContributingCommits contributing)
+    {
+        var conventionalCommitsInfo = new ConventionalCommitsVersionInfo(outputs, contributing);
+        const string commitsInfoFilename = ChangelogConstants.DefaultConvCommitsInfoFilename;
+        conventionalCommitsInfo.Write(Path.Combine(inputs.IntermediateOutputDirectory, commitsInfoFilename));
+        if (inputs.VersioningMode != VersioningMode.StandAloneProject)
+        {
+            conventionalCommitsInfo.Write(Path.Combine(inputs.SolutionSharedDirectory, commitsInfoFilename));
         }
     }
 

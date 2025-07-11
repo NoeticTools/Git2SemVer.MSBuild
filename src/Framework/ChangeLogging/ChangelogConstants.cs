@@ -1,6 +1,6 @@
 ﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public static class ChangelogResources
+public static class ChangelogConstants
 {
     public static readonly CategorySettings[] DefaultCategories =
     [
@@ -12,6 +12,9 @@ public static class ChangelogResources
         new(6, "Security", "security"),
         new(7, "Other", "^(?!dev|Dev|refactor).*$")
     ];
+
+    public const string DefaultConvCommitsInfoFilename = "conventionalcommits.g.json";
+    public const string DefaultSubfolderName = "changelog";
 
     public const string DefaultMarkdownTemplateFilename = "markdown.template.scriban";
 

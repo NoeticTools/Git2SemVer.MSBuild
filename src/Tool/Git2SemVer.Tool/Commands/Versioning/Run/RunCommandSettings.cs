@@ -28,4 +28,9 @@ public class RunCommandSettings : CommonCommandSettings
     [DefaultValue("info")]
     [Description("Sets output verbosity. Valid values are 'trace', 'debug', 'info', 'warning', or 'error'.")]
     public string Verbosity { get; set; } = "";
+
+    [CommandOption("--conv-commits-json-write")]
+    [DefaultValue(false)]
+    [Description("Enables writing found conventional commits to file 'conventionalcommits.g.json'. Used for changelog generation.")]
+    public bool EnableConvCommitsJsonWrite { get; set; }
 }

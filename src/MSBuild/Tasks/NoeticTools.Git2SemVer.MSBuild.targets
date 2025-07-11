@@ -10,6 +10,7 @@
     <Git2SemVer_IntermediateOutputPath Condition="'$(Git2SemVer_IntermediateOutputPath)' == '' ">$(BaseIntermediateOutputPath)</Git2SemVer_IntermediateOutputPath>
     <Git2SemVer_VersionCacheDirectory Condition="'$(Git2SemVer_Mode)'=='StandAloneProject'">$(BaseIntermediateOutputPath)</Git2SemVer_VersionCacheDirectory>
     <Git2SemVer_VersionCacheDirectory Condition="'$(Git2SemVer_VersionCacheDirectory)'==''">$(Git2SemVer_ShareDirectory)</Git2SemVer_VersionCacheDirectory>
+    <Git2SemVer_WriteConventionalCommitsInfo Condition="'$(Git2SemVer_WriteConventionalCommitsInfo)'==''">false</Git2SemVer_WriteConventionalCommitsInfo>
   </PropertyGroup>
 
   <!-- Multitargeting project properties -->
@@ -96,7 +97,8 @@
                                    SourceLinkAppendingSha="$(IncludeSourceRevisionInInformationalVersion)"
                                    Mode="$(Git2SemVer_Mode)"
                                    RunScript="$(Git2SemVer_RunScript)"
-                                   ReleaseTagFormat="$(Git2SemVer_ReleaseTagFormat)">
+                                   ReleaseTagFormat="$(Git2SemVer_ReleaseTagFormat)"
+                                   WriteConventionalCommitsInfo="$(Git2SemVer_WriteConventionalCommitsInfo)">
 
       <Output TaskParameter="AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
       <Output TaskParameter="FileVersion" PropertyName="Git2SemVer_FileVersion" />

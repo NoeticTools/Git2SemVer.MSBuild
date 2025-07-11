@@ -47,6 +47,8 @@ public class VersionGeneratorInputsStub : IVersionGeneratorInputs
 
     public string WorkingDirectory { get; set; } = "";
 
+    public bool WriteConventionalCommitsInfo { get; } = false;
+
     public bool ValidateScriptInputs(ILogger logger)
     {
         return true;

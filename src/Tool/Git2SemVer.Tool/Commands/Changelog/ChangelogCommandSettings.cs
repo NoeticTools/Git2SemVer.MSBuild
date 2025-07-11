@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Tool.CommandLine;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 
@@ -14,6 +16,11 @@ public class ChangelogCommandSettings : CommonCommandSettings
     [DefaultValue("https://www.nuget.org/packages/user.project/%VERSION%")]
     [Description("Optional url to a version's artifacts. Must contain version placeholder '%VERSION%'.")]
     public string ArtifactLinkPattern { get; set; } = "";
+
+    [CommandOption("--conv-commits-file-path <FILEPATH>")]
+    [DefaultValue("")]
+    [Description("Generated changelog file path. May be a relative or absolute path. Set to empty string to disable file write.")]
+    public string ConvCommitsInfoFilePath { get; set; } = "";
 
     [CommandOption("-m|--meta-directory <DIRECTORY>")]
     [DefaultValue(".git2semver/changelog")]
@@ -48,4 +55,16 @@ public class ChangelogCommandSettings : CommonCommandSettings
     [DefaultValue(false)]
     [Description("Enable writing generated changelog to the console.")]
     public bool WriteToConsole { get; set; }
+
+    public override ValidationResult Validate()
+    {
+        if (ConvCommitsInfoFilePath.Length == 0)
+        {
+            return ValidationResult.Success();
+        }
+
+        return File.Exists(ConvCommitsInfoFilePath)
+            ? ValidationResult.Success()
+            : ValidationResult.Error("The conventional commits info file must exist");
+    }
 }

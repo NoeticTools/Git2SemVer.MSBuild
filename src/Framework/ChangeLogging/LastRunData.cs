@@ -32,7 +32,7 @@ public sealed class LastRunData
     public static string GetFilePath(string dataDirectory, string targetFilePath)
     {
         var targetFilename = targetFilePath.Length == 0 ? "no_target" : Path.GetFileName(targetFilePath);
-        return Path.Combine(dataDirectory, targetFilename + ChangelogResources.LastRunFileSuffix);
+        return Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunFileSuffix);
     }
 
     public static LastRunData Load(string directory, string filename)
