@@ -7,7 +7,7 @@ public interface IChangeTypeAndDescription
 {
     [JsonPropertyOrder(21)]
 
-    string ChangeDescription { get; }
+    string Description { get; }
 
     /// <summary>
     ///     The raw change type text found in the commit message.

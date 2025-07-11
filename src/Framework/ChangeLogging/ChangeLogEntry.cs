@@ -16,7 +16,7 @@ public sealed class ChangeLogEntry
         TryAddIssues(messageMetadata.Issues);
     }
 
-    public string Description => MessageMetadata.ChangeDescription;
+    public string Description => MessageMetadata.Description;
 
     // ReSharper disable once MemberCanBePrivate.Global
     public IReadOnlyList<string> Issues => _issues;

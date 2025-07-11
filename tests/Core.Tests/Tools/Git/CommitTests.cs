@@ -21,7 +21,7 @@ internal class CommitTests
     [Test]
     public void CommitTest()
     {
-        var messageMetadata = new CommitMessageMetadata("", "", "", false, [], new ConventionalCommitsSettings());
+        var messageMetadata = new CommitMessageMetadata("", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings());
 
         var target = new Commit("SHA00002", ["SHA00001"], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
@@ -33,7 +33,7 @@ internal class CommitTests
     [Test]
     public void CommitWithFeatureAddedTest()
     {
-        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
+        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings());
 
         var target = new Commit("SHA00002", ["SHA00001"], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
@@ -50,7 +50,7 @@ internal class CommitTests
         var tag = new Mock<IGitTag>();
         tag.Setup(x => x.FriendlyName).Returns("my tag");
         _tagParser.Setup(x => x.ParseTagName("my tag")).Returns(new TagMetadata(ReleaseTypeId.Released, new SemVersion(1, 2, 3)));
-        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
+        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings());
 
         var target = new Commit("SHA00002", ["SHA00001"], "summary", messageMetadata, _tagParser.Object, [tag.Object], DateTimeOffset.Now);
 
@@ -64,7 +64,7 @@ internal class CommitTests
     [Test]
     public void RootCommitTest()
     {
-        var messageMetadata = new CommitMessageMetadata("", "", "", false, [], new ConventionalCommitsSettings());
+        var messageMetadata = new CommitMessageMetadata("", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings());
 
         var target = new Commit("SHA00001", [], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
@@ -76,7 +76,7 @@ internal class CommitTests
     [Test]
     public void RootCommitWithFeatureAddedTest()
     {
-        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
+        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings());
 
         var target = new Commit("SHA00001", [], "summary", messageMetadata, _tagParser.Object, [], DateTimeOffset.Now);
 
@@ -93,7 +93,7 @@ internal class CommitTests
         var tag = new Mock<IGitTag>();
         tag.Setup(x => x.FriendlyName).Returns("my tag");
         _tagParser.Setup(x => x.ParseTagName("my tag")).Returns(new TagMetadata(ReleaseTypeId.Released, new SemVersion(1, 2, 3)));
-        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, [], new ConventionalCommitsSettings());
+        var messageMetadata = new CommitMessageMetadata("feat", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings());
 
         var target = new Commit("SHA00001", [], "summary", messageMetadata, _tagParser.Object, [tag.Object], DateTimeOffset.Now);
 

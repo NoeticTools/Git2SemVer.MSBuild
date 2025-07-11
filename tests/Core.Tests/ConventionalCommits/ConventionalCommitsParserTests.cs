@@ -335,9 +335,9 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.FooterKeyValues, Is.Empty);
     }
 
-    private static Dictionary<string, List<string>> GetExpectedKeyValuePairs(string[] expectedTopicValues)
+    private static FooterKeyValues GetExpectedKeyValuePairs(string[] expectedTopicValues)
     {
-        var keyValuePairs = new Dictionary<string, List<string>>();
+        var footerKeyValues = new FooterKeyValues();
         foreach (var line in expectedTopicValues)
         {
             if (line.Length == 0)
@@ -348,15 +348,9 @@ internal class ConventionalCommitsParserTests
             var elements = line.Split('|');
             var key = elements[0];
             var value = elements[1];
-#pragma warning disable CA1854
-            if (!keyValuePairs.ContainsKey(key))
-#pragma warning restore CA1854
-            {
-                keyValuePairs.Add(key, []);
-            }
-            keyValuePairs[key].Add(value);
+            footerKeyValues.Add(key, value);
         }
 
-        return keyValuePairs;
+        return footerKeyValues;
     }
 }

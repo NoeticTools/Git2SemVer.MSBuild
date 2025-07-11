@@ -3,9 +3,9 @@
 using System.Runtime.CompilerServices;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Framework;
+namespace NoeticTools.Git2SemVer.Core;
 
-internal static class EnumerableExtensions
+public static class EnumerableExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> values)

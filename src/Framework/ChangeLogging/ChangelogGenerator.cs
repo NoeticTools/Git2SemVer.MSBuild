@@ -72,9 +72,9 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
         return destinationDocument.Content;
     }
 
-    private ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
-                                                 List<ConventionalCommit> changeMessages, 
-                                                 ITextFormatter markdownIssueFormatter)
+    private static ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
+                                                        List<ConventionalCommit> changeMessages, 
+                                                        ITextFormatter markdownIssueFormatter)
     {
         var changeCategory = new ChangeCategory(categorySettings, markdownIssueFormatter);
         changeCategory.ExtractChangeLogsFrom(changeMessages);
@@ -105,7 +105,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
                 var newHandledChange = new HandledChange
                 {
                     ChangeType = changeMessage.ChangeType,
-                    ChangeDescription = changeMessage.ChangeDescription,
+                    Description = changeMessage.Description,
                     Issues = changeMessage.Issues.ToList()
                 };
                 handledChangesLookup.Add(newHandledChange);

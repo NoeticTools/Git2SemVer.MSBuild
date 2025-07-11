@@ -6,22 +6,22 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 internal sealed class ChangeLookup<T>
 {
     private readonly Dictionary<string, Dictionary<string, T>> _inner = new();
-    private readonly Func<T, IChangeTypeAndDescription> _keyLookup;
+    private readonly Func<T, IChangeTypeAndDescription> _keysLookup;
 
-    public ChangeLookup(Func<T, IChangeTypeAndDescription> keyLookup)
-        : this([], keyLookup)
+    public ChangeLookup(Func<T, IChangeTypeAndDescription> keysLookup)
+        : this([], keysLookup)
     {
     }
 
-    public ChangeLookup(IEnumerable<T> handledChanges, Func<T, IChangeTypeAndDescription> keyLookup)
+    public ChangeLookup(IEnumerable<T> handledChanges, Func<T, IChangeTypeAndDescription> keysLookup)
     {
-        _keyLookup = keyLookup;
+        _keysLookup = keysLookup;
         AddRange(handledChanges);
     }
 
     public void Add(T value)
     {
-        Add(GetKey(_keyLookup(value)), value);
+        Add(GetKeys(_keysLookup(value)), value);
     }
 
     public IReadOnlyList<T> ToList()
@@ -31,12 +31,7 @@ internal sealed class ChangeLookup<T>
 
     public bool TryGet(IChangeTypeAndDescription messageMetadata, out T? value)
     {
-        return TryGet(GetKey(messageMetadata), out value);
-    }
-
-    public bool TryGet(ICommitMessageMetadata messageMetadata, out T? value)
-    {
-        return TryGet(GetKey(messageMetadata), out value);
+        return TryGet(GetKeys(messageMetadata), out value);
     }
 
     private T this[(string, string) key] => _inner[key.Item1][key.Item2];
@@ -72,14 +67,9 @@ internal sealed class ChangeLookup<T>
         return _inner.ContainsKey(key.Item1) && _inner[key.Item1].ContainsKey(key.Item2);
     }
 
-    private static (string, string) GetKey(IChangeTypeAndDescription value)
+    private static (string, string) GetKeys(IChangeTypeAndDescription value)
     {
-        return (value.ChangeType, value.ChangeDescription);
-    }
-
-    private static (string, string) GetKey(ICommitMessageMetadata value)
-    {
-        return (value.ChangeType, value.ChangeDescription);
+        return (value.ChangeType, value.Description);
     }
 
     private bool TryGet((string, string) key, out T? value)

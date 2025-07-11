@@ -23,7 +23,7 @@ internal sealed class ChangelogScribanModel(
 
     public bool Incremental { get; } = incremental;
 
-    public bool IsPrerelease { get; } = inputs.Version.IsPrerelease;
+    public bool IsPrerelease { get; } = inputs.Version!.IsPrerelease;
 
     public bool IsRelease { get; } = inputs.Version.IsRelease;
 

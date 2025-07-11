@@ -12,12 +12,12 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
                                  string changeDescription,
                                  string body,
                                  bool breakingChangeFlagged,
-                                 Dictionary<string, List<string>> footerKeyValues,
+                                 FooterKeyValues footerKeyValues,
                                  ConventionalCommitsSettings convCommitsSettings)
     {
         _convCommitsSettings = convCommitsSettings;
         ChangeType = changeType.ToLower();
-        ChangeDescription = changeDescription;
+        Description = changeDescription;
         Body = body;
         FooterKeyValues = footerKeyValues;
 
@@ -31,7 +31,7 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
     }
 
     public CommitMessageMetadata(ConventionalCommitsSettings convCommitsSettings)
-        : this("", "", "", false, [], convCommitsSettings)
+        : this("", "", "", false, new FooterKeyValues(), convCommitsSettings)
     {
     }
 
@@ -39,11 +39,11 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
 
     public string Body { get; }
 
-    public string ChangeDescription { get; }
+    public string Description { get; }
 
     public string ChangeType { get; }
 
-    public Dictionary<string, List<string>> FooterKeyValues { get; }
+    public FooterKeyValues FooterKeyValues { get; }
 
     public IReadOnlyList<string> Issues
     {
@@ -52,11 +52,6 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
             var issues = new List<string>();
             foreach (var issueKey in _convCommitsSettings.IssueKeys)
             {
-                // ReSharper disable once CanSimplifyDictionaryLookupWithTryGetValue
-                if (!FooterKeyValues.ContainsKey(issueKey))
-                {
-                    continue;
-                }
                 issues.AddRange(FooterKeyValues[issueKey]);
             }
 

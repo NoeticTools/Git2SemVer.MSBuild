@@ -7,7 +7,7 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 public sealed class HandledChange : IChangeTypeAndDescription
 {
     [JsonPropertyOrder(20)]
-    public string ChangeDescription { get; set; } = "";
+    public string Description { get; set; } = "";
 
     [JsonPropertyOrder(10)]
     public string ChangeType { get; set; } = "";

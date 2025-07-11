@@ -6,6 +6,11 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
+/// <summary>
+/// Change category (like 'Added' or 'Fixed') that appears in the changelog.
+/// </summary>
+/// <param name="settings"></param>
+/// <param name="markdownIssueFormatter"></param>
 public sealed class ChangeCategory(CategorySettings settings, ITextFormatter markdownIssueFormatter)
 {
     private readonly List<ChangeLogEntry> _changes = [];

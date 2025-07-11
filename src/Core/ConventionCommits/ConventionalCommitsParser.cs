@@ -70,7 +70,7 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
 
         var body = bodyMatch.GetGroupValue("body");
 
-        var keyValuePairs = GetFooterKeyValuePairs(bodyMatch);
+        var keyValuePairs = GetFooterKeyValues(bodyMatch);
 
         return new CommitMessageMetadata(changeType,
                                          changeDescription,
@@ -80,15 +80,15 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
                                          convCommitsSettings);
     }
 
-    private static Dictionary<string, List<string>> GetFooterKeyValuePairs(Match match)
+    private static FooterKeyValues GetFooterKeyValues(Match match)
     {
-        var keyValuePairs = new Dictionary<string, List<string>>();
+        var footerKeyValuePairs = new FooterKeyValues();
 
         var tokensGroup = match.Groups["token"];
         var valuesGroup = match.Groups["value"];
         if (!tokensGroup.Success || !valuesGroup.Success)
         {
-            return keyValuePairs;
+            return footerKeyValuePairs;
         }
 
         var keywords = tokensGroup.Captures;
@@ -101,14 +101,9 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
             {
                 continue;
             }
-            var value = values[captureIndex].Value.TrimEnd();
-            if (!keyValuePairs.ContainsKey(keyword))
-            {
-                keyValuePairs.Add(keyword, []);
-            }
-            keyValuePairs[keyword].Add(value);
+            footerKeyValuePairs.Add(keyword, values[captureIndex].Value.TrimEnd());
         }
 
-        return keyValuePairs;
+        return footerKeyValuePairs;
     }
 }

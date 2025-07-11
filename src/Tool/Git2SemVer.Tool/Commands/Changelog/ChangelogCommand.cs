@@ -6,6 +6,7 @@ using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
+using Semver;
 
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
@@ -35,13 +36,16 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
             changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+            changeLogInputs = ChangelogInputs.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+            changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
 
             var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
             var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
             var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
             if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
             {
-                if (lastRunData.ContributingReleasesChanged(changeLogInputs.ContribReleases))
+                var contributingReleases = changeLogInputs.ContribReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
+                if (lastRunData.ContributingReleasesChanged(contributingReleases))
                 {
                     Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
                     lastRunData = new LastRunData();
