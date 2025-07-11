@@ -12,7 +12,7 @@ namespace NoeticTools.Git2SemVer.Framework;
 
 [ExcludeFromCodeCoverage]
 public sealed class ProjectVersioningFactory(Action<string> buildOutput, 
-                                             VersionGeneratorFactory versionGeneratorFactory, ILogger logger)
+                                             VersioningEngineFactory versioningEngineFactory, ILogger logger)
 {
     public ProjectVersioning Create(IVersionGeneratorInputs inputs, 
                                     IMSBuildGlobalProperties msBuildGlobalProperties,
@@ -32,7 +32,7 @@ public sealed class ProjectVersioningFactory(Action<string> buildOutput,
                                                                               inputs.BuildContext,
                                                                               inputs.BuildIdFormat);
         var convCommitSettings = new ConventionalCommitsSettings();
-        var versionGenerator = versionGeneratorFactory.Create(inputs, msBuildGlobalProperties, outputsJsonIO, host, convCommitSettings);
+        var versionGenerator = versioningEngineFactory.Create(inputs, msBuildGlobalProperties, outputsJsonIO, host, convCommitSettings);
         var projectVersioning = new ProjectVersioning(inputs, host,
                                                       outputsJsonIO,
                                                       versionGenerator,

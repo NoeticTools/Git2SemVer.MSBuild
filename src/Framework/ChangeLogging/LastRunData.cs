@@ -55,13 +55,13 @@ public sealed class LastRunData
         Git2SemVerJsonSerializer.Write(filePath, this);
     }
 
-    public void Update(ChangelogInputs outputs)
+    public void Update(ConventionalCommitsVersionInfo outputs)
     {
         HeadSha = outputs.HeadCommitSha;
         CommitWhen = DateTimeOffset.Now;
         SemVersion = outputs.Version!.ToString();
         BranchName = outputs.BranchName;
-        ContributingReleases = outputs.ContribReleases.Select(x => x.ToString()).ToReadOnlyList();
+        ContributingReleases = outputs.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
     }
 
     public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)

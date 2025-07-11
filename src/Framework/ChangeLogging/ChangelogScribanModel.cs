@@ -5,7 +5,7 @@
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 internal sealed class ChangelogScribanModel(
-    ChangelogInputs inputs,
+    ConventionalCommitsVersionInfo inputs,
     IReadOnlyList<ChangeCategory> categories,
     string releaseUrl,
     bool incremental)

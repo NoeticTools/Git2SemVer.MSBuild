@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
@@ -11,7 +12,7 @@ using Semver;
 
 namespace NoeticTools.Git2SemVer.Framework.Generation;
 
-internal sealed class VersionGenerator(
+internal sealed class VersioningEngine(
     IVersionGeneratorInputs inputs,
     IBuildHost host,
     IOutputsJsonIO generatedOutputsJsonFile,
@@ -21,7 +22,7 @@ internal sealed class VersionGenerator(
     IVersionBuilder scriptBuilder,
     IMSBuildGlobalProperties msBuildGlobalProperties,
     ILogger logger)
-    : IVersionGenerator
+    : IVersioningEngine
 {
     public void Dispose()
     {
@@ -33,7 +34,7 @@ internal sealed class VersionGenerator(
         var stopwatch = Stopwatch.StartNew();
 
         host.BumpBuildNumber();
-        var outputs = CalculateSemanticVersion().Outputs;
+        var outputs = GetVersionOutputs().Outputs;
         SaveGeneratedVersions(outputs);
 
         stopwatch.Stop();
@@ -45,7 +46,13 @@ internal sealed class VersionGenerator(
         return outputs;
     }
 
-    public (VersionOutputs Outputs, ContributingCommits Contributing) CalculateSemanticVersion()
+    public ConventionalCommitsVersionInfo GetConventionalCommitsInfo()
+    {
+        var (outputs, results) = GetVersionOutputs();
+        return new ConventionalCommitsVersionInfo(outputs, results.Contributing);
+    }
+
+    private (VersionOutputs Outputs, SemanticVersionCalcResult Results) GetVersionOutputs()
     {
         var results = gitWalker.CalculateSemanticVersion();
         var outputs = new VersionOutputs(new GitOutputs(gitTool,
@@ -54,7 +61,7 @@ internal sealed class VersionGenerator(
                                                         results.PriorVersions),
                                          results.Version);
         RunBuilders(outputs);
-        return (outputs, results.Contributing);
+        return (outputs, results);
     }
 
     private void RunBuilders(VersionOutputs outputs)

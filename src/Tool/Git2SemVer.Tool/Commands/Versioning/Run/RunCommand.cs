@@ -37,7 +37,7 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
             logger.Level = GetVerbosity(settings.Verbosity);
 
             IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new OutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
-            var versionGeneratorFactory = new VersionGeneratorFactory(logger);
+            var versionGeneratorFactory = new VersioningEngineFactory(logger);
             var projectVersioning = new ProjectVersioningFactory(msg => logger.LogInfo(msg), versionGeneratorFactory, logger)
                 .Create(inputs, new NullMSBuildGlobalProperties(), outputJsonIO);
             projectVersioning.Run();

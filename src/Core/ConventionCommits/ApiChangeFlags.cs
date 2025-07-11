@@ -76,19 +76,17 @@ public sealed class ApiChangeFlags : IEquatable<ApiChangeFlags>
     [JsonPropertyOrder(2)]
     public bool FunctionalityChange { get; private set; }
 
-    public ApiChangeFlags Aggregate(ApiChangeFlags changeFlags)
+    public void Aggregate(ApiChangeFlags changeFlags)
     {
         var result = new ApiChangeFlags(this);
         if (!changeFlags.Any)
         {
-            return result;
+            return;
         }
 
-        result.BreakingChange |= changeFlags.BreakingChange;
-        result.FunctionalityChange |= changeFlags.FunctionalityChange;
-        result.Fix |= changeFlags.Fix;
-
-        return result;
+        BreakingChange |= changeFlags.BreakingChange;
+        FunctionalityChange |= changeFlags.FunctionalityChange;
+        Fix |= changeFlags.Fix;
     }
 
     public bool Equals(ApiChangeFlags? other)

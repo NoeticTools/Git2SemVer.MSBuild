@@ -3,10 +3,11 @@
 /// <summary>
 /// Key value pair for JSON serialisation. Required for .NET Framework support.
 /// </summary>
-public sealed class KeyValue : IEquatable<KeyValue>
+public sealed class KeyValue(string keyword, string value) : IEquatable<KeyValue>
 {
-    public string Keyword { get; set; } = string.Empty;
-    public string Value { get; set; } = string.Empty;
+    public string Keyword { get; } = keyword;
+
+    public string Value { get; } = value;
 
     public bool Equals(KeyValue? other)
     {
@@ -34,5 +35,21 @@ public sealed class KeyValue : IEquatable<KeyValue>
         {
             return (Keyword.GetHashCode() * 397) ^ Value.GetHashCode();
         }
+    }
+
+    public static KeyValue? Parse(string text)
+    {
+        var elements = text.Split(':');
+        if (elements.Length != 2)
+        {
+            return null;
+        }
+
+        return new KeyValue(elements[0], elements[1].Trim());
+    }
+
+    public override string ToString()
+    {
+        return $"{Keyword}: {Value}";
     }
 }

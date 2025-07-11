@@ -14,7 +14,7 @@ internal sealed class LinkedSegment(GitSegment segment)
     /// <summary>
     ///     Aggregated API changes from this segment up to all younger segments.
     /// </summary>
-    public ApiChangeFlags ChangeFlags => _segment.ApiChanges.Flags;
+    public ApiChangeFlags ChangeFlags => _segment.ApiChangeFlags;
 
     public GitSegment Inner { get; } = segment;
 

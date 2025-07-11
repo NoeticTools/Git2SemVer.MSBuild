@@ -44,7 +44,7 @@ internal sealed class GitSegment
 {
     private readonly List<Commit> _commits = [];
     private readonly ILogger _logger;
-    private ApiChanges? _bumps;
+    private ApiChangeFlags? _bumps;
 
     internal GitSegment(int id, Commit[] commits, ILogger logger)
     {
@@ -56,7 +56,7 @@ internal sealed class GitSegment
     /// <summary>
     ///     Aggregation API change flags in this segment.
     /// </summary>
-    public ApiChanges ApiChanges => GetApiChanges();
+    public ApiChangeFlags ApiChangeFlags => GetApiChanges();
 
     /// <summary>
     ///     Commits in this segment.
@@ -139,17 +139,17 @@ internal sealed class GitSegment
             ParentCommits.Any() ? "" : "0.1.0";
 
         return
-            $"Segment {Id,-3} {YoungestCommit.CommitId.ShortSha,7} -> {OldestCommit.CommitId.ShortSha,-7}   {commitsCount,5}    {ApiChanges.Flags}   {release}";
+            $"Segment {Id,-3} {YoungestCommit.CommitId.ShortSha,7} -> {OldestCommit.CommitId.ShortSha,-7}   {commitsCount,5}    {ApiChangeFlags}   {release}";
     }
 
-    private ApiChanges GetApiChanges()
+    private ApiChangeFlags GetApiChanges()
     {
         if (_bumps != null)
         {
             return _bumps;
         }
 
-        var bumps = new ApiChanges();
+        var bumps = new ApiChangeFlags();
         foreach (var commit in _commits.Where(commit => !commit.IsARelease || commit.IsAWaypoint))
         {
             bumps.Aggregate(commit.MessageMetadata.ApiChangeFlags);

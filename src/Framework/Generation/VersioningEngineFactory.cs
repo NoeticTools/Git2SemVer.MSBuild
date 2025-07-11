@@ -13,9 +13,9 @@ using NoeticTools.Git2SemVer.Framework.Persistence;
 namespace NoeticTools.Git2SemVer.Framework.Generation;
 
 [ExcludeFromCodeCoverage]
-public sealed class VersionGeneratorFactory(ILogger logger)
+public sealed class VersioningEngineFactory(ILogger logger)
 {
-    public IVersionGenerator Create(IVersionGeneratorInputs inputs, 
+    public IVersioningEngine Create(IVersionGeneratorInputs inputs, 
                                     IMSBuildGlobalProperties msBuildGlobalProperties,
                                     IOutputsJsonIO outputsJsonIO, 
                                     IBuildHost host,
@@ -30,7 +30,7 @@ public sealed class VersionGeneratorFactory(ILogger logger)
 
         var defaultBuilderFactory = new DefaultVersionBuilderFactory(logger);
         var scriptBuilder = new ScriptVersionBuilder(logger);
-        var versionGenerator = new VersionGenerator(inputs,
+        var versionGenerator = new VersioningEngine(inputs,
                                                     host,
                                                     outputsJsonIO,
                                                     gitTool,

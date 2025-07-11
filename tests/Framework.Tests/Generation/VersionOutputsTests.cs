@@ -131,9 +131,7 @@ internal class VersionOutputsTests
                                           "Body": "",
                                           "Description": "",
                                           "ChangeType": "",
-                                          "FooterKeyValues": {
-                                            "Items": []
-                                          }
+                                          "FooterKeyValues": []
                                         }
                                       },
                                       "LastReleaseCommit": null,

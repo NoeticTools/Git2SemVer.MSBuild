@@ -23,7 +23,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
-    public string Execute(ChangelogInputs inputs,
+    public string Execute(ConventionalCommitsVersionInfo inputs,
                           LastRunData lastRunData,
                           string scribanTemplate,
                           string changelogToUpdate,
@@ -135,7 +135,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
         }
     }
 
-    private static string CreateNewContent(ChangelogInputs inputs, string scribanTemplate, string releaseUrl,
+    private static string CreateNewContent(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl,
                                            bool incremental, IReadOnlyList<ChangeCategory> changeCategories)
     {
         var newChangesContent = "";

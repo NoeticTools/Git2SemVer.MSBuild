@@ -91,9 +91,9 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.Description, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
-        var keyValuePairs = GetExpectedKeyValuePairs(expectedTopicValues);
+        var keyValuePairs = GetExpectedFooterKeyValues(expectedTopicValues);
 
-        Assert.That(result.FooterKeyValues.Items, Is.EquivalentTo(keyValuePairs.Items));
+        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs));
     }
 
     [TestCase(
@@ -123,7 +123,7 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.False);
         Assert.That(result.Description, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(expectedBody));
-        Assert.That(result.FooterKeyValues.Items, Is.Empty);
+        Assert.That(result.FooterKeyValues, Is.Empty);
     }
 
     [TestCase(
@@ -204,9 +204,9 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.Description, Is.EqualTo("Added a real nice feature"));
         Assert.That(result.Body, Is.EqualTo(""));
-        var keyValuePairs = GetExpectedKeyValuePairs(expectedTopicValues);
+        var keyValuePairs = GetExpectedFooterKeyValues(expectedTopicValues);
 
-        Assert.That(result.FooterKeyValues.Items, Is.EquivalentTo(keyValuePairs.Items));
+        Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs));
     }
 
     [TestCase("feat:")]
@@ -332,10 +332,10 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.ApiChangeFlags.BreakingChange, Is.EqualTo(hasBreakingChange));
         Assert.That(result.Description, Is.EqualTo(expectedChangeDescription));
         Assert.That(result.Body, Is.Empty);
-        Assert.That(result.FooterKeyValues.Items, Is.Empty);
+        Assert.That(result.FooterKeyValues, Is.Empty);
     }
 
-    private static FooterKeyValues GetExpectedKeyValuePairs(string[] expectedTopicValues)
+    private static FooterKeyValues GetExpectedFooterKeyValues(string[] expectedTopicValues)
     {
         var footerKeyValues = new FooterKeyValues();
         foreach (var line in expectedTopicValues)

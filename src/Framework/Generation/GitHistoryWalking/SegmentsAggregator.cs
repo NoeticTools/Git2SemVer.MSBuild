@@ -34,7 +34,7 @@ internal class SegmentsAggregatorResult
 internal sealed class SegmentsAggregator
 {
     private readonly HashSet<LinkedSegment> _aggregatedSegments = [];
-    private ApiChangeFlags _changeFlags = new();
+    private readonly ApiChangeFlags _changeFlags = new();
 
     public SegmentsAggregatorResult Aggregate(Commit head, LinkedSegment releaseLinkedSegment)
     {
@@ -58,7 +58,7 @@ internal sealed class SegmentsAggregator
             return;
         }
 
-        _changeFlags = _changeFlags.Aggregate(linkedSegment.ChangeFlags);
+        _changeFlags.Aggregate(linkedSegment.ChangeFlags);
         foreach (var linkedChildSegment in linkedSegment.LinkedChildSegments)
         {
             AggregateChangeFlags(linkedChildSegment);

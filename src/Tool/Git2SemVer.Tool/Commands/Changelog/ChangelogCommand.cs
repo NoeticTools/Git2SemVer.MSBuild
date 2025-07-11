@@ -36,7 +36,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
             changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-            changeLogInputs = ChangelogInputs.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+            changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
             changeLogInputs.Save(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
 
             var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
@@ -44,7 +44,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
             if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
             {
-                var contributingReleases = changeLogInputs.ContribReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
+                var contributingReleases = changeLogInputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
                 if (lastRunData.ContributingReleasesChanged(contributingReleases))
                 {
                     Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
@@ -102,7 +102,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         }
     }
 
-    private ChangelogInputs RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ChangelogLocalSettings projectSettings)
+    private ConventionalCommitsVersionInfo RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ChangelogLocalSettings projectSettings)
     {
         var inputs = new VersionGeneratorInputs
         {
@@ -113,13 +113,12 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
         using var logger = CreateLogger(cmdLineSettings.Verbosity);
         var host = GetBuildHost(logger, inputs);
-        var versionGenerator = new VersionGeneratorFactory(logger).Create(inputs,
+        var versionGenerator = new VersioningEngineFactory(logger).Create(inputs,
                                                                           new NullMSBuildGlobalProperties(),
                                                                           new NullJsonFileIO(),
                                                                           host,
                                                                           projectSettings.ConvCommits);
-        var (outputs, contributing) = versionGenerator.CalculateSemanticVersion();
-        return new ChangelogInputs(outputs, contributing);
+        return versionGenerator.GetConventionalCommitsInfo();
     }
 
     private bool AskIfToProceed(ChangelogCommandSettings commandSettings,
@@ -158,7 +157,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
     private string Generate(ChangelogCommandSettings commandSettings,
                             ChangelogLocalSettings projectSettings,
                             bool createNewChangelog,
-                            ChangelogInputs inputs,
+                            ConventionalCommitsVersionInfo inputs,
                             LastRunData lastRunData)
     {
         var template = GetTemplate(commandSettings.DataDirectory);
