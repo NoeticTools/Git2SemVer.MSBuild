@@ -42,7 +42,7 @@ internal sealed class VersionGeneratorInputs : IVersionGeneratorInputs
 
     public string WorkingDirectory { get; } = "";
 
-    public bool WriteConventionalCommitsInfo { get; set; } = false;
+    public bool WriteConventionalCommitsInfo { get; set; }
 
     public bool ValidateScriptInputs(ILogger logger)
     {

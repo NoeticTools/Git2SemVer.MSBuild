@@ -106,7 +106,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                                 string headSha,
                                 LastRunData lastRunData)
     {
-        if (commandSettings.Force || !outputFileExists || !string.Equals(headSha, lastRunData.HeadSha))
+        if (commandSettings.Force || !outputFileExists || !string.Equals(headSha, lastRunData.HeadSha, StringComparison.Ordinal))
         {
             return true;
         }
@@ -150,7 +150,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                                                    template,
                                                    existingChangelog, releaseUrl, true, createNewChangelog);
 
-        if (string.Equals(existingChangelog, changelog))
+        if (string.Equals(existingChangelog, changelog, StringComparison.Ordinal))
         {
             Console.WriteMarkupInfoLine("No updates found.");
         }
