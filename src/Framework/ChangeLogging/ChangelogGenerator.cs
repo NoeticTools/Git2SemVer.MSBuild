@@ -48,8 +48,6 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
         var orderedCategories = projectSettings.Categories.OrderBy(x => x.Order);
         var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter)).ToList();
 
-
-
         if (!createNewChangelog && changeCategories.Count == 0)
         {
             return changelogToUpdate;

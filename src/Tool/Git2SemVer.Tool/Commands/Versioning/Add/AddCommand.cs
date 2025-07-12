@@ -10,66 +10,58 @@ using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 
+/// <summary>
+/// Command to add solution versioning to a .net solution (sln).
+/// </summary>
+/// <param name="solutionFinder"></param>
+/// <param name="userOptionsPrompt"></param>
+/// <param name="dotNetCli"></param>
+/// <param name="embeddedResources"></param>
+/// <param name="projectDocumentReader"></param>
+/// <param name="preconditionsValidator"></param>
+/// <param name="console"></param>
+/// <param name="logger"></param>
 [RegisterSingleton]
-internal sealed class AddCommand : ISetupCommand
+internal sealed class AddCommand(
+    ISolutionFinder solutionFinder,
+    IUserOptionsPrompt userOptionsPrompt,
+    IDotNetTool dotNetCli,
+    IEmbeddedResources embeddedResources,
+    IProjectDocumentReader projectDocumentReader,
+    IAddPreconditionValidator preconditionsValidator,
+    IConsoleIO console,
+    ILogger logger)
+    : ISetupCommand
 {
-    private readonly IConsoleIO _console;
-    private readonly IDotNetTool _dotNetCli;
-    private readonly IEmbeddedResources _embeddedResources;
-    private readonly ILogger _logger;
-    private readonly IAddPreconditionValidator _preconditionsValidator;
-    private readonly IProjectDocumentReader _projectDocumentReader;
-    private readonly ISolutionFinder _solutionFinder;
-    private readonly IUserOptionsPrompt _userOptionsPrompt;
-
-    public AddCommand(ISolutionFinder solutionFinder,
-                      IUserOptionsPrompt userOptionsPrompt,
-                      IDotNetTool dotNetCli,
-                      IEmbeddedResources embeddedResources,
-                      IProjectDocumentReader projectDocumentReader,
-                      IAddPreconditionValidator preconditionsValidator,
-                      IConsoleIO console,
-                      ILogger logger)
-    {
-        _solutionFinder = solutionFinder;
-        _userOptionsPrompt = userOptionsPrompt;
-        _dotNetCli = dotNetCli;
-        _embeddedResources = embeddedResources;
-        _projectDocumentReader = projectDocumentReader;
-        _preconditionsValidator = preconditionsValidator;
-        _console = console;
-        _logger = logger;
-    }
-
-    public bool HasError => _console.HasError;
+    public bool HasError => console.HasError;
 
     public void Execute(string inputSolutionFile, bool unattended)
     {
-        _console.WriteMarkupInfoLine($"Adding Git2SemVer solution versioning{(unattended ? " (unattended)" : "")}.");
-        _console.WriteLine();
+        console.WriteMarkupInfoLine($"Adding Git2SemVer solution versioning{(unattended ? " (unattended)" : "")}.");
+        console.WriteLine();
 
-        var solution = _solutionFinder.Find(inputSolutionFile);
-        if (_console.HasError)
+        var solution = solutionFinder.Find(inputSolutionFile);
+        if (console.HasError)
         {
-            _console.WriteErrorLine("Error finding solution file.");
+            console.WriteErrorLine("Error finding solution file.");
             return;
         }
 
         var solutionDirectory = solution!.Directory!;
 
-        if (!_preconditionsValidator.Validate(solutionDirectory, unattended))
+        if (!preconditionsValidator.Validate(solutionDirectory, unattended))
         {
             return;
         }
 
-        var userOptions = _userOptionsPrompt.GetOptions(solution);
-        if (_console.HasError)
+        var userOptions = userOptionsPrompt.GetOptions(solution);
+        if (console.HasError)
         {
             return;
         }
 
-        _console.WriteMarkupInfoLine("Running:");
-        _console.WriteLine();
+        console.WriteMarkupInfoLine("Running:");
+        console.WriteLine();
 
         var propertiesDocument = AddVersioningPropsDocument(solutionDirectory);
         propertiesDocument.Properties["Git2SemVer_VersioningProjectName"].Value = userOptions.VersioningProjectName;
@@ -78,9 +70,9 @@ internal sealed class AddCommand : ISetupCommand
         CreateVersioningProject(userOptions, solution);
         SetupGitIgnore(solutionDirectory);
 
-        if (_console.HasError)
+        if (console.HasError)
         {
-            _console.WriteErrorLine("Add failed.");
+            console.WriteErrorLine("Add failed.");
             return;
         }
 
@@ -99,12 +91,12 @@ internal sealed class AddCommand : ISetupCommand
         var versioningPropsFile = directory.WithFile(filename);
         if (versioningPropsFile.Exists)
         {
-            _console.WriteMarkupDebugLine($"Overwriting file '{filename}'.");
+            console.WriteMarkupDebugLine($"Overwriting file '{filename}'.");
         }
 
-        _embeddedResources.WriteResourceFile(filename, directory);
-        _console.WriteMarkupInfoLine($"\t- Added '{filename}' to solution directory.");
-        return _projectDocumentReader.Read(versioningPropsFile);
+        embeddedResources.WriteResourceFile(filename, directory);
+        console.WriteMarkupInfoLine($"\t- Added '{filename}' to solution directory.");
+        return projectDocumentReader.Read(versioningPropsFile);
     }
 
     private void CreateSharedDirectory(DirectoryInfo parentDirectory)
@@ -112,24 +104,24 @@ internal sealed class AddCommand : ISetupCommand
         var sharedDirectory = parentDirectory.WithSubDirectory(Git2SemVerConstants.ShareFolderName);
         if (sharedDirectory.Exists)
         {
-            _logger.LogTrace("`{0}` already existed. Overwriting files in directory.", sharedDirectory.Name);
+            logger.LogTrace("`{0}` already existed. Overwriting files in directory.", sharedDirectory.Name);
         }
 
         sharedDirectory.Create();
 
-        _embeddedResources.WriteResourceFile(Git2SemVerConstants.SharedVersionJsonPropertiesFilename, sharedDirectory);
+        embeddedResources.WriteResourceFile(Git2SemVerConstants.SharedVersionJsonPropertiesFilename, sharedDirectory);
 
-        _console.WriteMarkupInfoLine($"\t- Added '{Git2SemVerConstants.ShareFolderName}' shared directory to versioning project directory.");
+        console.WriteMarkupInfoLine($"\t- Added '{Git2SemVerConstants.ShareFolderName}' shared directory to versioning project directory.");
     }
 
     private void CreateVersioningProject(UserOptions userOptions, FileInfo solution)
     {
         var projectName = userOptions.VersioningProjectName;
-        _dotNetCli.Projects.New("classlib", $"{projectName}");
-        _dotNetCli.Solution.AddProject(solution.Name, $"{projectName}/{projectName}.csproj");
+        dotNetCli.Projects.New("classlib", $"{projectName}");
+        dotNetCli.Solution.AddProject(solution.Name, $"{projectName}/{projectName}.csproj");
         var csxFileDestination = solution.Directory!.WithSubDirectory(projectName).WithFile(Git2SemVerConstants.DefaultScriptFilename);
-        _embeddedResources.WriteResourceFile(Git2SemVerConstants.DefaultScriptFilename, csxFileDestination.FullName);
-        _console.WriteMarkupInfoLine($"\t- Added '{projectName}' project to solution.");
+        embeddedResources.WriteResourceFile(Git2SemVerConstants.DefaultScriptFilename, csxFileDestination.FullName);
+        console.WriteMarkupInfoLine($"\t- Added '{projectName}' project to solution.");
 
         var versioningProjectDirectory = solution.Directory!.WithSubDirectory(userOptions.VersioningProjectName);
         CreateSharedDirectory(versioningProjectDirectory);
@@ -144,7 +136,7 @@ internal sealed class AddCommand : ISetupCommand
             if (existingContent.Contains($"<Import Project=\"{SolutionVersioningConstants.DirectoryVersionPropsFilename}\"/>",
                                          StringComparison.Ordinal))
             {
-                _console.WriteWarningLine($"Existing '{buildPropsFile.FullName}' already has {SolutionVersioningConstants.DirectoryVersionPropsFilename} import.");
+                console.WriteWarningLine($"Existing '{buildPropsFile.FullName}' already has {SolutionVersioningConstants.DirectoryVersionPropsFilename} import.");
             }
             else
             {
@@ -154,7 +146,7 @@ internal sealed class AddCommand : ISetupCommand
                                                                                     </Project>
                                                                                     """,
                                                                                    StringComparison.Ordinal));
-                _console.WriteMarkupInfoLine($"\t- Updated '{buildPropsFile.Name}'.");
+                console.WriteMarkupInfoLine($"\t- Updated '{buildPropsFile.Name}'.");
             }
         }
         else
@@ -164,7 +156,7 @@ internal sealed class AddCommand : ISetupCommand
                                                             <Import Project="{SolutionVersioningConstants.DirectoryVersionPropsFilename}"/>
                                                         </Project>
                                                         """);
-            _console.WriteMarkupInfoLine($"\t- Added '{buildPropsFile.Name}' file to solution directory.");
+            console.WriteMarkupInfoLine($"\t- Added '{buildPropsFile.Name}' file to solution directory.");
         }
     }
 
@@ -177,7 +169,7 @@ internal sealed class AddCommand : ISetupCommand
             var content = File.ReadAllText(fullName);
             if (content.Contains(Git2SemVerConstants.ShareFolderName, StringComparison.Ordinal))
             {
-                _console.WriteWarningLine($"The .gitignore file already had an entry for {Git2SemVerConstants.ShareFolderName}.");
+                console.WriteWarningLine($"The .gitignore file already had an entry for {Git2SemVerConstants.ShareFolderName}.");
                 return;
             }
 
@@ -188,11 +180,11 @@ internal sealed class AddCommand : ISetupCommand
 
                         """;
             File.WriteAllText(fullName, content);
-            _console.WriteMarkupInfoLine($"\t- Added generated version properties file '{Git2SemVerConstants.SharedVersionJsonPropertiesFilename}' to .gitignore file.");
+            console.WriteMarkupInfoLine($"\t- Added generated version properties file '{Git2SemVerConstants.SharedVersionJsonPropertiesFilename}' to .gitignore file.");
         }
         else
         {
-            _logger.LogDebug(".gitignore file not found.");
+            logger.LogDebug(".gitignore file not found.");
         }
     }
 }

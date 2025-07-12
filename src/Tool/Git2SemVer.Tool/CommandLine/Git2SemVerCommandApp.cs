@@ -3,6 +3,7 @@ using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 using Spectre.Console.Cli;
 
 

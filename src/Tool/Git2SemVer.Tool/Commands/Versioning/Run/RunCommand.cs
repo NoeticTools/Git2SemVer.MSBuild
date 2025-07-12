@@ -22,7 +22,7 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
             {
                 VersioningMode = VersioningMode.StandAloneProject,
                 IntermediateOutputDirectory = settings.OutputDirectory,
-                WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite,
+                WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite
             };
 
             if (settings.HostType != null)

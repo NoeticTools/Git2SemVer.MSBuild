@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NoeticTools.Git2SemVer.Core.Console;
-using NoeticTools.Git2SemVer.Tool.Commands;
-using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
+using NoeticTools.Git2SemVer.Tool.CommandLine;
 using Spectre.Console.Cli;
 
 
 // ReSharper disable ClassNeverInstantiated.Global
 
-namespace NoeticTools.Git2SemVer.Tool.CommandLine;
+namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 internal sealed class RunCliCommand : Command<RunCommandSettings>
 {

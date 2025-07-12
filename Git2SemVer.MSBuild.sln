@@ -65,6 +65,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{54730EF3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticCodesDocBuilder", "src\DiagnosticCodesDocBuilder\DiagnosticCodesDocBuilder.csproj", "{0FE450F7-CA5B-434A-8594-5924F69A7647}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Tool", "..\..\NoeticTools\Git2SemVer.MSBuild\src\Tool\Git2SemVer.Tool\Git2SemVer.Tool.csproj", "{12D64ECA-F902-1DC1-A455-A14B29F18902}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,6 +144,12 @@ Global
 		{0FE450F7-CA5B-434A-8594-5924F69A7647}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
 		{0FE450F7-CA5B-434A-8594-5924F69A7647}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FE450F7-CA5B-434A-8594-5924F69A7647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12D64ECA-F902-1DC1-A455-A14B29F18902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D64ECA-F902-1DC1-A455-A14B29F18902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12D64ECA-F902-1DC1-A455-A14B29F18902}.DebugPack|Any CPU.ActiveCfg = Debug|Any CPU
+		{12D64ECA-F902-1DC1-A455-A14B29F18902}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
+		{12D64ECA-F902-1DC1-A455-A14B29F18902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12D64ECA-F902-1DC1-A455-A14B29F18902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +170,7 @@ Global
 		{1890E2B7-C4AA-485A-A6ED-4E0B5979C920} = {4F5F4537-80BA-4561-A29C-DF6AD9921C08}
 		{54730EF3-58EB-4714-AD25-E4C61B98ECE8} = {4F5F4537-80BA-4561-A29C-DF6AD9921C08}
 		{0FE450F7-CA5B-434A-8594-5924F69A7647} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{12D64ECA-F902-1DC1-A455-A14B29F18902} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C89AA72-27F1-4410-8A4F-6F87F721B719}

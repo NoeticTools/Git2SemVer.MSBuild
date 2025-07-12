@@ -10,38 +10,27 @@ using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
 namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
 
 [RegisterSingleton]
-internal sealed class RemoveCommand : IRemoveCommand
+internal sealed class RemoveCommand(
+    ISolutionFinder solutionFinder,
+    IDotNetTool dotNetCli,
+    IConsoleIO console,
+    IContentEditor contentEditor)
+    : IRemoveCommand
 {
-    private readonly IConsoleIO _console;
-    private readonly IContentEditor _contentEditor;
-    private readonly IDotNetTool _dotNetCli;
-    private readonly ISolutionFinder _solutionFinder;
-
-    public RemoveCommand(ISolutionFinder solutionFinder,
-                         IDotNetTool dotNetCli,
-                         IConsoleIO console,
-                         IContentEditor contentEditor)
-    {
-        _solutionFinder = solutionFinder;
-        _dotNetCli = dotNetCli;
-        _console = console;
-        _contentEditor = contentEditor;
-    }
-
-    public bool HasError => _console.HasError;
+    public bool HasError => console.HasError;
 
     public void Execute(string inputSolutionFile, bool unattended)
     {
-        _console.WriteMarkupInfoLine($"Removing Git2SemVer solution versioning{(unattended ? " (unattended)" : "")}.");
-        _console.WriteLine();
+        console.WriteMarkupInfoLine($"Removing Git2SemVer solution versioning{(unattended ? " (unattended)" : "")}.");
+        console.WriteLine();
 
-        var solution = _solutionFinder.Find(inputSolutionFile);
+        var solution = solutionFinder.Find(inputSolutionFile);
         if (HasError)
         {
             return;
         }
 
-        _console.WriteMarkupLine($"""
+        console.WriteMarkupLine($"""
 
                                   Ready to remove Git2SemVer versioning from [aqua]{solution!.Name}[/] solution. If the solution is currently open in Visual Studio, close it before proceeding.
 
@@ -51,11 +40,11 @@ internal sealed class RemoveCommand : IRemoveCommand
                                   """);
         if (!unattended)
         {
-            var proceed = _console.PromptYesNo("Proceed?");
-            _console.WriteLine();
+            var proceed = console.PromptYesNo("Proceed?");
+            console.WriteLine();
             if (!proceed)
             {
-                _console.WriteErrorLine("Aborted.");
+                console.WriteErrorLine("Aborted.");
             }
         }
 
@@ -64,8 +53,8 @@ internal sealed class RemoveCommand : IRemoveCommand
         var solutionDirectory = solution.Directory!;
 
         var changeMade = false;
-        _console.WriteMarkupInfoLine("Running:");
-        _console.WriteLine();
+        console.WriteMarkupInfoLine("Running:");
+        console.WriteLine();
         changeMade |= RemoveDirectoryPropertiesInclude(solutionDirectory);
         changeMade |= DeleteDirectoryVersioningPropertiesFile(solutionDirectory);
         changeMade |= DeleteVersioningProjectFolder(solutionDirectory, leaderProjectName);
@@ -73,20 +62,20 @@ internal sealed class RemoveCommand : IRemoveCommand
 
         if (HasError)
         {
-            _console.WriteLine();
-            _console.WriteErrorLine("Remove failed.");
+            console.WriteLine();
+            console.WriteErrorLine("Remove failed.");
             return;
         }
 
-        _console.WriteLine();
-        _console.WriteLine();
+        console.WriteLine();
+        console.WriteLine();
         if (changeMade)
         {
-            _console.WriteMarkupInfoLine("Done.");
+            console.WriteMarkupInfoLine("Done.");
         }
         else
         {
-            _console.WriteWarningLine("Nothing found to remove. Either manual removal is required or Git2SemVer was not added to this solution.");
+            console.WriteWarningLine("Nothing found to remove. Either manual removal is required or Git2SemVer was not added to this solution.");
         }
     }
 
@@ -96,11 +85,11 @@ internal sealed class RemoveCommand : IRemoveCommand
         if (directoryVersioningPropsFile.Exists)
         {
             directoryVersioningPropsFile.Delete();
-            _console.WriteMarkupInfoLine($"\t- Deleted properties file: '{directoryVersioningPropsFile.Name}.");
+            console.WriteMarkupInfoLine($"\t- Deleted properties file: '{directoryVersioningPropsFile.Name}.");
             return true;
         }
 
-        _console.WriteWarningLine($"\t- No change. Properties file '{directoryVersioningPropsFile.Name}' not found.");
+        console.WriteWarningLine($"\t- No change. Properties file '{directoryVersioningPropsFile.Name}' not found.");
         return false;
     }
 
@@ -110,11 +99,11 @@ internal sealed class RemoveCommand : IRemoveCommand
         if (versioningProjectDirectory.Exists)
         {
             versioningProjectDirectory.Delete(true);
-            _console.WriteMarkupInfoLine($"\t- Deleted project: '{leaderProjectName}.");
+            console.WriteMarkupInfoLine($"\t- Deleted project: '{leaderProjectName}.");
             return true;
         }
 
-        _console.WriteWarningLine($"\t- No change. Versioning project folder '{versioningProjectDirectory.Name}' not found.");
+        console.WriteWarningLine($"\t- No change. Versioning project folder '{versioningProjectDirectory.Name}' not found.");
         return false;
     }
 
@@ -123,7 +112,7 @@ internal sealed class RemoveCommand : IRemoveCommand
         var buildPropsFile = solutionDirectory.WithFile(SolutionVersioningConstants.DirectoryBuildPropsFilename);
         if (!buildPropsFile.Exists)
         {
-            _console.WriteWarningLine($"\t- No change. Properties file '{buildPropsFile.Name}' not found.");
+            console.WriteWarningLine($"\t- No change. Properties file '{buildPropsFile.Name}' not found.");
             return false;
         }
 
@@ -134,15 +123,15 @@ internal sealed class RemoveCommand : IRemoveCommand
 
         if (existingContent.Contains(includeLine, StringComparison.CurrentCultureIgnoreCase))
         {
-            var content = _contentEditor.RemoveLinesWith(includeLine, existingContent);
+            var content = contentEditor.RemoveLinesWith(includeLine, existingContent);
             File.WriteAllText(buildPropsFile.FullName, content);
             //existingContent = existingContent.Replace(includeLine, "", StringComparison.CurrentCultureIgnoreCase);
             //File.WriteAllText(buildPropsFile.FullName, existingContent);
-            _console.WriteMarkupInfoLine($"\t- Updated '{buildPropsFile.Name}'.");
+            console.WriteMarkupInfoLine($"\t- Updated '{buildPropsFile.Name}'.");
             return true;
         }
 
-        _console.WriteWarningLine($"\t- No change. '<Import Project=\"{SolutionVersioningConstants.DirectoryVersionPropsFilename}\"/>' not found in '{buildPropsFile.Name}'.");
+        console.WriteWarningLine($"\t- No change. '<Import Project=\"{SolutionVersioningConstants.DirectoryVersionPropsFilename}\"/>' not found in '{buildPropsFile.Name}'.");
         return false;
     }
 
@@ -153,25 +142,25 @@ internal sealed class RemoveCommand : IRemoveCommand
             return false;
         }
 
-        var progResult = _dotNetCli.Solution.GetProjects(solution.Name);
+        var progResult = dotNetCli.Solution.GetProjects(solution.Name);
         if (!progResult.projects.Any(x => x.Equals($"{leaderProjectName}\\{leaderProjectName}.csproj", StringComparison.Ordinal)))
         {
-            _console.WriteWarningLine($"\t- No change. Project '{leaderProjectName}' not found in solution.");
+            console.WriteWarningLine($"\t- No change. Project '{leaderProjectName}' not found in solution.");
 
-            _console.WriteLine();
+            console.WriteLine();
             var projectsString = new StringBuilder("\t\t");
             projectsString.AppendJoin("\n\t\t", progResult.projects);
-            _console.WriteMarkupInfoLine(projectsString.ToString());
+            console.WriteMarkupInfoLine(projectsString.ToString());
             return false;
         }
 
-        var result = _dotNetCli.Solution.RemoveProject(solution.Name, $"{leaderProjectName}/{leaderProjectName}.csproj");
+        var result = dotNetCli.Solution.RemoveProject(solution.Name, $"{leaderProjectName}/{leaderProjectName}.csproj");
         if (!HasError && result.returnCode == 0)
         {
             return true;
         }
 
-        _console.WriteErrorLine($"Unable to remove project '{leaderProjectName}' from solution '{solution.Name}'.");
+        console.WriteErrorLine($"Unable to remove project '{leaderProjectName}' from solution '{solution.Name}'.");
         return false;
     }
 }

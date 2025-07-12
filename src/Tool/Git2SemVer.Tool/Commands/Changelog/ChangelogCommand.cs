@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Xml.Linq;
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Generation;
@@ -32,7 +31,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
             EnsureDataDirectoryExists(cmdLineSettings);
             var projectSettings = GetProjectSettings(cmdLineSettings);
-            
+
             var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
             changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
@@ -100,26 +99,6 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             Console.WriteErrorLine(exception);
             throw;
         }
-    }
-
-    private ConventionalCommitsVersionInfo RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ChangelogLocalSettings projectSettings)
-    {
-        var inputs = new VersionGeneratorInputs
-        {
-            VersioningMode = VersioningMode.StandAloneProject,
-            IntermediateOutputDirectory = cmdLineSettings.DataDirectory,
-            HostType = cmdLineSettings.HostType ?? "",
-            WriteConventionalCommitsInfo = true
-        };
-
-        using var logger = CreateLogger(cmdLineSettings.Verbosity);
-        var host = GetBuildHost(logger, inputs);
-        var versionGenerator = new VersioningEngineFactory(logger).Create(inputs,
-                                                                          new NullMSBuildGlobalProperties(),
-                                                                          new NullJsonFileIO(),
-                                                                          host,
-                                                                          projectSettings.ConvCommits);
-        return versionGenerator.GetConventionalCommitsInfo();
     }
 
     private bool AskIfToProceed(ChangelogCommandSettings commandSettings,
@@ -219,5 +198,25 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         var defaultTemplate = ChangelogConstants.GetDefaultTemplate();
         File.WriteAllText(templatePath, defaultTemplate);
         return defaultTemplate;
+    }
+
+    private ConventionalCommitsVersionInfo RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ChangelogLocalSettings projectSettings)
+    {
+        var inputs = new VersionGeneratorInputs
+        {
+            VersioningMode = VersioningMode.StandAloneProject,
+            IntermediateOutputDirectory = cmdLineSettings.DataDirectory,
+            HostType = cmdLineSettings.HostType ?? "",
+            WriteConventionalCommitsInfo = true
+        };
+
+        using var logger = CreateLogger(cmdLineSettings.Verbosity);
+        var host = GetBuildHost(logger, inputs);
+        var versionGenerator = new VersioningEngineFactory(logger).Create(inputs,
+                                                                          new NullMSBuildGlobalProperties(),
+                                                                          new NullJsonFileIO(),
+                                                                          host,
+                                                                          projectSettings.ConvCommits);
+        return versionGenerator.GetConventionalCommitsInfo();
     }
 }
