@@ -18,7 +18,7 @@
 
   <PropertyGroup>
     <!-- Modification: Versioning project name set manually. -->
-    <Git2SemVer_VersioningProjectName>SolutionVersioningProject</Git2SemVer_VersioningProjectName>
+    <Git2SemVer_VersioningProjectName>Git2SemVer.Tool.SlnVersioningProject</Git2SemVer_VersioningProjectName>
     <Git2SemVer_VersioningProjectDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
     <Git2SemVer_VersioningProjectPath>$(Git2SemVer_VersioningProjectDirectory)\$(Git2SemVer_VersioningProjectName).csproj</Git2SemVer_VersioningProjectPath>
     <Git2SemVer_ScriptPath Condition="'$(Git2SemVer_ScriptPath)' == ''">$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/Git2SemVer.csx</Git2SemVer_ScriptPath>

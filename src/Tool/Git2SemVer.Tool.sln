@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Tool", "Git2SemV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Tool.Tests", "Git2SemVer.Tool.Tests\Git2SemVer.Tool.Tests.csproj", "{D569E085-5CF6-4DFF-A5F3-1B96D2FF0481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionVersioningProject", "SolutionVersioningProject\SolutionVersioningProject.csproj", "{E5819E29-DBC5-4A81-868D-5ED5283F66B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Tool.SolutionVersioningProject", "SolutionVersioningProject\Git2SemVer.Tool.SolutionVersioningProject.csproj", "{E5819E29-DBC5-4A81-868D-5ED5283F66B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{CCCB979E-7BDF-4923-A701-DCAB1D4A1E80}"
 EndProject
