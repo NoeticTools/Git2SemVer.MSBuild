@@ -1,9 +1,9 @@
 ﻿using Moq;
+using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.Tools;
 using NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 using NoeticTools.Git2SemVer.Testing.Core;
-using NoeticTools.Git2SemVer.Tool.Commands.Remove;
-using NoeticTools.Git2SemVer.Tool.Framework;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
 
 

@@ -12,7 +12,7 @@ namespace NoeticTools.Git2SemVer.Framework.Generation.Builders;
 /// <summary>
 ///     Git2SemVer's default outputs builder. This builder sets all MSBuild output properties.
 /// </summary>
-internal sealed class DefaultVersionBuilder(SemVersion semanticVersion, ILogger logger) : IVersionBuilder
+internal sealed class DefaultVersionBuilder(ILogger logger) : IVersionBuilder
 {
     /// <summary>
     ///     Build versioning outputs from found git history path to prior releases.
@@ -30,7 +30,7 @@ internal sealed class DefaultVersionBuilder(SemVersion semanticVersion, ILogger 
         {
             var prereleaseLabel = GetPrereleaseLabel(inputs, outputs);
 
-            var version = GetVersion(prereleaseLabel, host);
+            var version = GetVersion(outputs, prereleaseLabel, host);
             var informationalVersion = GetInformationalVersion(version, host, outputs);
             outputs.SetAllVersionPropertiesFrom(informationalVersion,
                                                 host.BuildNumber,
@@ -70,7 +70,7 @@ internal sealed class DefaultVersionBuilder(SemVersion semanticVersion, ILogger 
     private string GetPrereleaseLabel(IVersionGeneratorInputs inputs, IVersionOutputs outputs)
     {
         var initialDevSuffix = "";
-        if (semanticVersion.Major == 0)
+        if (outputs.Version!.Major == 0)
         {
             initialDevSuffix = VersioningConstants.InitialDevelopmentLabel;
         }
@@ -121,16 +121,16 @@ internal sealed class DefaultVersionBuilder(SemVersion semanticVersion, ILogger 
         return "UNKNOWN_BRANCH";
     }
 
-    private SemVersion GetVersion(string prereleaseLabel, IBuildHost host)
+    private SemVersion GetVersion(IVersionOutputs outputs, string prereleaseLabel, IBuildHost host)
     {
         var isARelease = string.IsNullOrWhiteSpace(prereleaseLabel);
         if (isARelease)
         {
-            return semanticVersion;
+            return outputs.Version!;
         }
 
         var prereleaseIdentifiers = new List<string> { prereleaseLabel };
         prereleaseIdentifiers.AddRange(host.BuildId);
-        return semanticVersion.WithPrerelease(prereleaseIdentifiers.ToArray());
+        return outputs.Version!.WithPrerelease(prereleaseIdentifiers.ToArray());
     }
 }

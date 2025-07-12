@@ -15,9 +15,13 @@ public sealed class GitOutputs : IGitOutputs
     {
     }
 
-    internal GitOutputs(IGitTool gitTool, SemVersion priorReleaseVersion, CommitId priorReleaseCommitId)
+    internal GitOutputs(IGitTool gitTool,   
+                        SemVersion priorReleaseVersion, 
+                        CommitId priorReleaseCommitId,
+                        IReadOnlyList<SemVersion> contributingReleases)
     {
         PriorReleaseVersion = priorReleaseVersion;
+        ContributingReleases = contributingReleases.ToArray();
         PriorReleaseCommit = gitTool.Get(priorReleaseCommitId);
         HeadCommit = gitTool.Head;
         BranchName = gitTool.BranchName;
@@ -69,6 +73,23 @@ public sealed class GitOutputs : IGitOutputs
     /// </summary>
     [JsonPropertyName("LastReleaseVersion")]
     public SemVersion? PriorReleaseVersion { get; }
+
+    /// <summary>
+    ///     Prior releases that are directly reachable from the head commit. 
+    /// </summary>
+    /// <remarks>
+    /// <p>
+    ///     A git tree showing 2 prior contributing releases (1.2.4 & 1.3.0):
+    /// </p>
+    /// <code>
+    ///       1.2.3        1.3.0          head
+    ///   ------o------o-----o----o---o--- o
+    ///          \                   /
+    ///           o-----o-----------o
+    ///               1.2.4
+    /// </code>
+    /// </remarks>
+    public SemVersion[] ContributingReleases { get; } = [];
 
     [JsonIgnore]
     public int CommitsSinceLastRelease = 0;

@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using NoeticTools.Git2SemVer.Core;
 using Semver;
 
 

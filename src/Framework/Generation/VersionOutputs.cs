@@ -9,45 +9,63 @@ namespace NoeticTools.Git2SemVer.Framework.Generation;
 public sealed class VersionOutputs : IVersionOutputs
 {
     [JsonConstructor]
-    public VersionOutputs() : this(new GitOutputs())
+    public VersionOutputs() : this(new GitOutputs(), new SemVersion(0, 0, 0))
     {
     }
 
-    public VersionOutputs(GitOutputs gitOutputs)
+    public VersionOutputs(GitOutputs gitOutputs, SemVersion version)
     {
         Git = gitOutputs;
+        Version = version;
+        InformationalVersion = version;
+        PackageVersion = version;
+        AssemblyVersion = version.ToVersion();
+        FileVersion = AssemblyVersion;
     }
 
+    [JsonPropertyOrder(25)]
     public Version? AssemblyVersion { get; set; }
 
+    [JsonPropertyOrder(45)]
     public string BuildContext { get; set; } = "";
 
+    [JsonPropertyOrder(35)]
     public string BuildNumber { get; set; } = "";
 
+    [JsonPropertyOrder(20)]
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion? BuildSystemVersion { get; set; }
 
+    [JsonPropertyOrder(30)]
     public Version? FileVersion { get; set; }
 
+    [JsonPropertyOrder(70)]
     public IGitOutputs Git { get; }
 
+    [JsonPropertyOrder(15)]
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion? InformationalVersion { get; set; }
 
+    [JsonPropertyOrder(60)]
     public bool IsInInitialDevelopment { get; set; }
 
     [JsonIgnore]
     public bool IsValid => BuildNumber.Length > 0;
 
+    [JsonPropertyOrder(90)]
     public string Output1 { get; set; } = "";
 
+    [JsonPropertyOrder(91)]
     public string Output2 { get; set; } = "";
 
+    [JsonPropertyOrder(17)]
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion? PackageVersion { get; set; }
 
+    [JsonPropertyOrder(40)]
     public string PrereleaseLabel { get; set; } = "";
 
+    [JsonPropertyOrder(10)]
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion? Version { get; set; }
 

@@ -55,18 +55,15 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup"
-          Condition=" '$(GenerateDependencyFile)' == 'true'">
+  <Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
     <ItemGroup>
-      <BuiltProjectOutputGroupOutput Include="$(ProjectDepsFilePath)" TargetPath="$(ProjectDepsFileName)"
-                                     FinalOutputPath="$(ProjectDepsFilePath)" />
+      <BuiltProjectOutputGroupOutput Include="$(ProjectDepsFilePath)" TargetPath="$(ProjectDepsFileName)" FinalOutputPath="$(ProjectDepsFilePath)" />
     </ItemGroup>
   </Target>
 
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
     <ItemGroup>
-      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths)"
-                            TargetPath="%(ReferenceCopyLocalPaths.DestinationSubPath)" />
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths)" TargetPath="%(ReferenceCopyLocalPaths.DestinationSubPath)" />
     </ItemGroup>
   </Target>
 
@@ -82,16 +79,16 @@
     <EmbeddedResource Include="Resources\Git2SemVer.csx" />
     <EmbeddedResource Include="Resources\Git2SemVer.VersionInfo.g.json" />
     <EmbeddedResource Include="Resources\Directory.Versioning.Build.props" />
-    <None Include="..\Documentation\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True"
-          PackagePath="\" />
+    <None Include="..\Documentation\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="JsonPeek" Version="1.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
     <PackageReference Include="Injectio" Version="5.0.0" />
+    <PackageReference Include="Scriban" Version="6.2.1" />
     <PackageReference Include="Spectre.Console" Version="0.50.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
   </ItemGroup>
@@ -101,33 +98,30 @@
     <ProjectReference Include="..\..\Framework\Git2SemVer.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Framework\" />
+  </ItemGroup>
+
   <!-- Custom configuration so that Git2SemVer project can self-version -->
 
   <!-- Ensure that the Git2SemVer version information JSON file is available.  -->
-  <Target Name="Git2SemVerEnsureVersionInfoBuilt"
-          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'" AfterTargets="PrepareResources"
-          BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
+  <Target Name="Git2SemVerEnsureVersionInfoBuilt" Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'" AfterTargets="PrepareResources" BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
     <PropertyGroup>
       <SharedPropsFileExists Condition="Exists($(Git2SemVer_SharedVersioningJsonFile))">true</SharedPropsFileExists>
       <SharedPropsFileExists Condition="'$(SharedPropsFileExists)' == ''">false</SharedPropsFileExists>
     </PropertyGroup>
 
-    <Message Text="Git2SemVer: Generating versioning information." Importance="high"
-             Condition=" '$(SharedPropsFileExists)' == 'false' " />
+    <Message Text="Git2SemVer: Generating versioning information." Importance="high" Condition=" '$(SharedPropsFileExists)' == 'false' " />
 
     <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)" Condition=" '$(SharedPropsFileExists)' == 'false' " />
 
   </Target>
 
   <!-- Load generated versioning information -->
-  <Target Name="Git2SemVerLoadVersionInformation"
-          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
-          DependsOnTargets="Git2SemVerEnsureVersionInfoBuilt" AfterTargets="PrepareResources"
-          BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
+  <Target Name="Git2SemVerLoadVersionInformation" Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'" DependsOnTargets="Git2SemVerEnsureVersionInfoBuilt" AfterTargets="PrepareResources" BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
 
-    <Message Text="Git2SemVer: Loading versioning information. - $(Git2SemVer_SharedVersioningJsonFile)"
-             Importance="high" />
+    <Message Text="Git2SemVer: Loading versioning information. - $(Git2SemVer_SharedVersioningJsonFile)" Importance="high" />
 
     <!-- ReSharper disable once UnknownTask -->
     <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.Git2SemVerVersionInfo">

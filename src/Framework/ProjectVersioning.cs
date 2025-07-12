@@ -14,25 +14,25 @@ public sealed class ProjectVersioning : IDisposable
     private readonly IVersionGeneratorInputs _inputs;
     private readonly ILogger _logger;
     private readonly IOutputsJsonIO _outputsCacheJsonFile;
-    private readonly IVersionGenerator _versionGenerator;
+    private readonly IVersioningEngine _versioningEngine;
 
     internal ProjectVersioning(
         IVersionGeneratorInputs inputs,
         IBuildHost host,
         IOutputsJsonIO outputsCacheJsonFile,
-        IVersionGenerator versionGenerator,
+        IVersioningEngine versioningEngine,
         ILogger logger)
     {
         _inputs = inputs;
         _host = host;
         _outputsCacheJsonFile = outputsCacheJsonFile;
-        _versionGenerator = versionGenerator;
+        _versioningEngine = versioningEngine;
         _logger = logger;
     }
 
     public void Dispose()
     {
-        _versionGenerator.Dispose();
+        _versioningEngine.Dispose();
         _host.Dispose();
     }
 
@@ -77,7 +77,7 @@ public sealed class ProjectVersioning : IDisposable
         var lastBuildNumber = GetClientLastBuildNumber();
         if (lastBuildNumber == _host.BuildNumber)
         {
-            return _versionGenerator.Run();
+            return _versioningEngine.PrebuildRun();
         }
 
         var output = _outputsCacheJsonFile.Load(_inputs.SolutionSharedDirectory);
@@ -89,13 +89,13 @@ public sealed class ProjectVersioning : IDisposable
     {
         _logger.LogTrace("Versioning mode: Solution");
         var output = _outputsCacheJsonFile.Load(_inputs.SolutionSharedDirectory);
-        return !output.IsValid ? _versionGenerator.Run() : output;
+        return !output.IsValid ? _versioningEngine.PrebuildRun() : output;
     }
 
     private IVersionOutputs PerformStandAloneProjectVersioning()
     {
         _logger.LogTrace("Versioning mode: Stand-alone project");
-        return _versionGenerator.Run();
+        return _versioningEngine.PrebuildRun();
     }
 
     private void UpdateHostBuildLabel(IVersionOutputs output)

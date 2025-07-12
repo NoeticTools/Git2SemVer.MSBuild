@@ -20,9 +20,13 @@ public class Commit : ICommit
     /// <summary>
     ///     Git commit.
     /// </summary>
-    public Commit(string sha, string[] parents, string summary, string messageBody,
-                  ICommitMessageMetadata messageMetadata, ITagParser tagParser, IReadOnlyList<IGitTag>? tags)
-        : this(sha, parents, summary, messageBody, messageMetadata, tagParser)
+    public Commit(string sha, string[] parents,
+                  string summary,
+                  ICommitMessageMetadata messageMetadata,
+                  ITagParser tagParser,
+                  IReadOnlyList<IGitTag>? tags,
+                  DateTimeOffset when)
+        : this(sha, parents, summary, messageMetadata, tagParser, when)
     {
         if (tags != null)
         {
@@ -37,19 +41,20 @@ public class Commit : ICommit
     /// <summary>
     ///     Construct commit from git log information.
     /// </summary>
-    public Commit(string sha, string[] parents, string summary, string messageBody, string refs,
+    public Commit(string sha, string[] parents, string summary, string refs,
                   ICommitMessageMetadata messageMetadata,
                   ITagParser? tagParser = null)
-        : this(sha, parents, summary, messageBody, messageMetadata, tagParser ?? new TagParser())
+        : this(sha, parents, summary, messageMetadata, tagParser ?? new TagParser(),
+               new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.FromHours(10)))
     {
         var metadata = GetReleaseMetadata(refs);
         ReleasedVersion = metadata.Version;
         TagMetadata = metadata;
     }
 
-    private Commit(string sha, string[] parents, string summary, string messageBody,
+    private Commit(string sha, string[] parents, string summary,
                    ICommitMessageMetadata messageMetadata,
-                   ITagParser tagParser)
+                   ITagParser tagParser, DateTimeOffset when)
     {
         _tagParser = tagParser;
         CommitId = new CommitId(sha);
@@ -64,8 +69,8 @@ public class Commit : ICommit
         }
 
         Summary = summary;
-        MessageBody = messageBody;
         MessageMetadata = messageMetadata;
+        When = when;
         _tagFromRefsRegex = new Regex(@"tag: (?<name>[^,]+)", RegexOptions.IgnoreCase);
     }
 
@@ -84,23 +89,17 @@ public class Commit : ICommit
     [JsonIgnore]
     public bool IsRootCommit => TagMetadata.IsRootCommit;
 
-    [JsonPropertyOrder(22)]
-    public string MessageBody { get; }
-
     /// <summary>
     ///     Commit message metadata.
     /// </summary>
     [JsonPropertyOrder(90)]
     public ICommitMessageMetadata MessageMetadata { get; }
 
-    [JsonPropertyOrder(12)]
-    public TagMetadata TagMetadata { get; } = null!;
-
     /// <summary>
     ///     A null commit.
     /// </summary>
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata());
+    public static Commit Null => new("00000000", [], "null commit", "", new CommitMessageMetadata(new ConventionalCommitsSettings()));
 
     [JsonPropertyOrder(31)]
     public CommitId[] Parents { get; }
@@ -111,8 +110,14 @@ public class Commit : ICommit
     [JsonPropertyOrder(21)]
     public string Summary { get; }
 
+    [JsonPropertyOrder(12)]
+    public TagMetadata TagMetadata { get; } = null!;
+
     [JsonIgnore]
     public IReadOnlyList<IGitTag> Tags { get; } = [];
+
+    [JsonIgnore]
+    public DateTimeOffset When { get; }
 
     private TagMetadata GetReleaseMetadata(string gitRefs)
     {

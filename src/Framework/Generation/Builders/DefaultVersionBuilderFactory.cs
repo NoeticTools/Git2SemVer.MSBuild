@@ -15,6 +15,6 @@ internal sealed class DefaultVersionBuilderFactory : IDefaultVersionBuilderFacto
 
     public IVersionBuilder Create(SemVersion semanticVersion)
     {
-        return new DefaultVersionBuilder(semanticVersion, _logger);
+        return new DefaultVersionBuilder(_logger);
     }
 }

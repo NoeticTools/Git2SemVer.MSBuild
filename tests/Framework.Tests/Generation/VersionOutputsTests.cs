@@ -92,11 +92,16 @@ internal class VersionOutputsTests
                                 {
                                   "Rev": 3,
                                   "Git2SemVerVersionInfo": {
-                                    "AssemblyVersion": "10.11.12",
-                                    "BuildContext": "CONTEXT",
-                                    "BuildNumber": "777",
+                                    "Version": "0.0.0",
+                                    "InformationalVersion": "0.0.0",
+                                    "PackageVersion": "0.0.0",
                                     "BuildSystemVersion": "5.6.7-TEST",
-                                    "FileVersion": null,
+                                    "AssemblyVersion": "10.11.12",
+                                    "FileVersion": "0.0.0",
+                                    "BuildNumber": "777",
+                                    "PrereleaseLabel": "",
+                                    "BuildContext": "CONTEXT",
+                                    "IsInInitialDevelopment": false,
                                     "Git": {
                                       "$type": "GitOutputs",
                                       "BranchName": "",
@@ -104,8 +109,7 @@ internal class VersionOutputsTests
                                       "HeadCommit": {
                                         "$type": "Commit",
                                         "CommitId": {
-                                          "Sha": "00000000",
-                                          "ShortSha": "0000000"
+                                          "Sha": "00000000"
                                         },
                                         "TagMetadata": {
                                           "ReleaseType": 1,
@@ -117,7 +121,6 @@ internal class VersionOutputsTests
                                           }
                                         },
                                         "Summary": "null commit",
-                                        "MessageBody": "",
                                         "Parents": [],
                                         "MessageMetadata": {
                                           "ApiChangeFlags": {
@@ -126,22 +129,17 @@ internal class VersionOutputsTests
                                             "Fix": false
                                           },
                                           "Body": "",
-                                          "ChangeDescription": "",
-                                          "ChangeType": 1,
-                                          "ChangeTypeText": "",
+                                          "Description": "",
+                                          "ChangeType": "",
                                           "FooterKeyValues": []
                                         }
                                       },
                                       "LastReleaseCommit": null,
-                                      "LastReleaseVersion": null
+                                      "LastReleaseVersion": null,
+                                      "ContributingReleases": []
                                     },
-                                    "InformationalVersion": null,
-                                    "IsInInitialDevelopment": false,
                                     "Output1": "",
-                                    "Output2": "",
-                                    "PackageVersion": null,
-                                    "PrereleaseLabel": "",
-                                    "Version": null
+                                    "Output2": ""
                                   }
                                 }
                                 """;

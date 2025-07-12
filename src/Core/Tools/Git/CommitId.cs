@@ -1,5 +1,6 @@
 ﻿// ReSharper disable ReplaceSubstringWithRangeIndexer
 
+using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 
 
@@ -7,9 +8,16 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 {
+    private readonly LoadOnDemand<string> _shortSha;
     private const int ShortShaLength = 7;
 
-    public CommitId(string sha)
+    [JsonConstructor]
+    public CommitId()
+    {
+        _shortSha = new LoadOnDemand<string>(() => Sha.Length < 7 ? Sha : Sha.Substring(0, ShortShaLength));
+    }
+
+    public CommitId(string sha) : this()
     {
         if (sha.Length == 0)
         {
@@ -17,12 +25,12 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
         }
 
         Sha = sha;
-        ShortSha = sha.Length < 7 ? sha : sha.Substring(0, ShortShaLength);
     }
 
-    public string Sha { get; }
+    public string Sha { get; set; } = string.Empty;
 
-    public string ShortSha { get; }
+    [JsonIgnore]
+    public string ShortSha => _shortSha.Value;
 
     public bool Equals(string? other)
     {

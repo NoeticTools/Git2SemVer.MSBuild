@@ -1,5 +1,5 @@
-﻿using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Tool.Framework;
+﻿using NoeticTools.Git2SemVer.Core.Console;
+using NoeticTools.Git2SemVer.Core.Logging;
 
 
 namespace NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;

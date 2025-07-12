@@ -14,14 +14,7 @@ public interface ICommit
     CommitId CommitId { get; }
 
     /// <summary>
-    ///     Commit message body or description.
-    /// </summary>
-    string MessageBody { get; }
-
-    TagMetadata TagMetadata { get; }
-
-    /// <summary>
-    ///     This commit's parent commits.
+    ///     The commit's parent commits.
     /// </summary>
     CommitId[] Parents { get; }
 
@@ -37,7 +30,17 @@ public interface ICommit
     string Summary { get; }
 
     /// <summary>
+    ///     Release metadata obtained from the commit tags.
+    /// </summary>
+    TagMetadata TagMetadata { get; }
+
+    /// <summary>
     ///     Tags associated with this commit.
     /// </summary>
     IReadOnlyList<IGitTag> Tags { get; }
+
+    /// <summary>
+    ///     When the commit was commited.
+    /// </summary>
+    DateTimeOffset When { get; }
 }

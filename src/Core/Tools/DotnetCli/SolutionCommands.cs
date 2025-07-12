@@ -21,16 +21,14 @@ public sealed class SolutionCommands : ISolutionCommands
 
     public (int returnCode, IReadOnlyList<string> project) GetProjects()
     {
-        throw new NotImplementedException(); // >>> need to resolve CS0121 error
-        //var returnCode = _inner.RunReturningStdOut("sln list", out var standardOutput);
-        //return (returnCode, standardOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
+        var returnCode = _inner.RunReturningStdOut("sln list", out var standardOutput);
+        return (returnCode, standardOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
     }
 
     public (int returnCode, IReadOnlyList<string> projects) GetProjects(string solutionName)
     {
-        throw new NotImplementedException(); // >>> need to resolve CS0121 error
-        //var returnCode = _inner.RunReturningStdOut($"sln {solutionName} list", out var standardOutput);
-        //return (returnCode, standardOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
+        var returnCode = _inner.RunReturningStdOut($"sln {solutionName} list", out var standardOutput);
+        return (returnCode, standardOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
     }
 
     public void New(string solutionName)

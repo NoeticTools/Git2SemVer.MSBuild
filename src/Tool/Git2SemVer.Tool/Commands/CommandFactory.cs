@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NoeticTools.Git2SemVer.Tool.Commands.Add;
-using NoeticTools.Git2SemVer.Tool.Commands.Remove;
-using NoeticTools.Git2SemVer.Tool.Commands.Run;
+using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -21,6 +22,11 @@ internal class CommandFactory : ICommandFactory
     public ISetupCommand CreateAddCommand()
     {
         return _servicesProvider.GetService<ISetupCommand>()!;
+    }
+
+    public IChangelogCommand CreateChangelogCommand()
+    {
+        return _servicesProvider.GetService<IChangelogCommand>()!;
     }
 
     public IRemoveCommand CreateRemoveCommand()

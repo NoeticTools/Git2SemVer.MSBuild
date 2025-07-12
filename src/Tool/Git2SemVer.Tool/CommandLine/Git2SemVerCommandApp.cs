@@ -1,4 +1,8 @@
 ﻿using NoeticTools.Git2SemVer.Core.Logging;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging;
+using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
 using Spectre.Console.Cli;
 
 
@@ -17,19 +21,55 @@ internal class Git2SemVerCommandApp
 
         app.Configure(config =>
         {
-            config.SetApplicationName("Git2SemVer");
+            config.SetApplicationName("dotnet git2semver");
             config.UseAssemblyInformationalVersion();
 
+            config.AddBranch<CommandSettings>("versioning", branch =>
+            {
+                branch.SetDescription("Solution versioning commands (Alias 'ver')");
+
+                branch.AddCommand<RunCliCommand>("run")
+                      .WithDescription("Run version generator.")
+                      .WithData(servicesProvider);
+
+                branch.AddBranch<CommandSettings>("solution-setup", bootBranch =>
+                {
+                    bootBranch.SetDescription("Solution versioning setup commands (Alias 'setup')");
+
+                    bootBranch.AddCommand<AddCliCommand>("add")
+                              .WithDescription("Add Git2SemVer solution versioning to solution in working directory")
+                              .WithData(servicesProvider)
+                              .WithExample("versioning", "solution-setup", "add ")
+                              .WithExample("ver", "setup", "add")
+                              .WithExample("ver", "setup", "add -u")
+                              .WithExample("ver", "setup", "add -u", "--solution", "'MyOtherSolution.sln'");
+                    bootBranch.AddCommand<RemoveCliCommand>("remove")
+                              .WithDescription("Remove Git2SemVer solution versioning from solution in working directory")
+                              .WithData(servicesProvider)
+                              .WithExample("versioning", "install", "remove", "--solution", "'MyOtherSolution.sln'");
+                }).WithAlias("setup");
+            }).WithAlias("ver");
+
+            // Depreciated
             config.AddCommand<AddCliCommand>("add")
-                  .WithDescription("Add Git2SemVer solution versioning to solution in working directory.")
+                  .IsHidden()
+                  .WithDescription("Add Git2SemVer solution versioning to solution in working directory")
                   .WithData(servicesProvider);
 
+            // Depreciated
             config.AddCommand<RemoveCliCommand>("remove")
-                  .WithDescription("Remove Git2SemVer solution versioning from solution in working directory.")
+                  .IsHidden()
+                  .WithDescription("Remove Git2SemVer solution versioning from solution in working directory")
                   .WithData(servicesProvider);
 
+            // Depreciated
             config.AddCommand<RunCliCommand>("run")
-                  .WithDescription("Run version generator.")
+                  .IsHidden()
+                  .WithDescription("Run version generator")
+                  .WithData(servicesProvider);
+
+            config.AddCommand<ChangelogCliCommand>(ChangelogConstants.DefaultSubfolderName)
+                  .WithDescription("Generate changelog command.")
                   .WithData(servicesProvider);
         });
 

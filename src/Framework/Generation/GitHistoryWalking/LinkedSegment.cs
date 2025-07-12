@@ -14,15 +14,17 @@ internal sealed class LinkedSegment(GitSegment segment)
     /// <summary>
     ///     Aggregated API changes from this segment up to all younger segments.
     /// </summary>
-    public ApiChangeFlags ChangeFlags => _segment.ApiChanges.Flags;
+    public ApiChangeFlags ChangeFlags => _segment.ApiChangeFlags;
 
     public GitSegment Inner { get; } = segment;
 
+    public IReadOnlyList<Commit> Commits => _segment.Commits;
+
     public IReadOnlyList<LinkedSegment> LinkedChildSegments => _linkedChildSegments;
 
-    public CommitId OldestCommitId => _segment.OldestCommit.CommitId;
+    public Commit OldestCommit => _segment.OldestCommit;
 
-    public CommitId YoungestCommitId => _segment.YoungestCommit.CommitId;
+    public Commit YoungestCommit => _segment.YoungestCommit;
 
     /// <summary>
     ///     Link to child (younger) segment.

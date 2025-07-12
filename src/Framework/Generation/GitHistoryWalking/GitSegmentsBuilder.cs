@@ -7,7 +7,7 @@ using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
 namespace NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 
-internal sealed class GitSegmentsBuilder
+internal sealed class GitSegmentsBuilder : IGitSegmentsBuilder
 {
     private readonly Dictionary<CommitId, GitSegment> _commitsCache = new();
     private readonly IGitTool _gitTool;
@@ -36,10 +36,10 @@ internal sealed class GitSegmentsBuilder
         _segments.Add(_segment.Id, _segment);
     }
 
-    public IReadOnlyList<GitSegment> BuildTo(Commit commit)
+    public ContributingCommits GetContributingCommits(Commit headCommit)
     {
         var stopwatch = Stopwatch.StartNew();
-        FindPathSegmentsReachableFrom(commit);
+        FindSegmentsReachableFrom(headCommit);
         stopwatch.Stop();
         _logger.LogDebug($"Found {_segments.Count} segment{(_segments.Count == 1 ? "" : "s")} (in {stopwatch.Elapsed.TotalMilliseconds:F0} ms):");
         using (_logger.EnterLogScope())
@@ -47,10 +47,10 @@ internal sealed class GitSegmentsBuilder
             _logger.LogDebug(GetFoundSegmentsReport());
         }
 
-        return _segments.Values.ToList();
+        return new ContributingCommits(_segments.Values.ToList(), headCommit, _gitTool.BranchName);
     }
 
-    private void FindPathSegmentsReachableFrom(Commit commit)
+    private void FindSegmentsReachableFrom(Commit commit)
     {
         while (NextCommit(commit) == SegmentWalkResult.Continue)
         {
@@ -127,7 +127,7 @@ internal sealed class GitSegmentsBuilder
             using (_logger.EnterLogScope())
             {
                 var newSegmentVisitor = new GitSegmentsBuilder(this);
-                newSegmentVisitor.FindPathSegmentsReachableFrom(parentCommit);
+                newSegmentVisitor.FindSegmentsReachableFrom(parentCommit);
             }
         }
     }

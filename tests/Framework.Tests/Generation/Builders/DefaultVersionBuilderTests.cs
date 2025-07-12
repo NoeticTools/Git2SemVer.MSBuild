@@ -104,6 +104,7 @@ internal class DefaultVersionBuilderTests
     {
         _version = SemVersion.Parse(version, SemVersionStyles.Strict);
         _gitOutputs.Setup(x => x.BranchName).Returns(branchName);
-        return new DefaultVersionBuilder(_version, _logger);
+        _outputs.Setup(x => x.Version).Returns(_version);
+        return new DefaultVersionBuilder(_logger);
     }
 }

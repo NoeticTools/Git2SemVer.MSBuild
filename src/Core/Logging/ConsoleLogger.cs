@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using NoeticTools.Git2SemVer.Core.Diagnostics;
-using Spectre.Console;
+using AnsiConsole = Spectre.Console.AnsiConsole;
 
 
 namespace NoeticTools.Git2SemVer.Core.Logging;
@@ -42,7 +42,7 @@ public sealed class ConsoleLogger : LoggerBase, ILogger
         }
 
         message = IndentLines(message);
-        Console.Out.WriteLine(message);
+        System.Console.Out.WriteLine(message);
     }
 
     public void LogDebug(Func<string> messageGenerator)
@@ -97,7 +97,7 @@ public sealed class ConsoleLogger : LoggerBase, ILogger
         }
 
         message = IndentLines(message);
-        Console.Out.WriteLine(message);
+        System.Console.Out.WriteLine(message);
     }
 
     public void LogInfo(string message, params object[] messageArgs)

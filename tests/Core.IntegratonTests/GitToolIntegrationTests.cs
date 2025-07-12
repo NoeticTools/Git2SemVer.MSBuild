@@ -1,3 +1,4 @@
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
@@ -18,7 +19,7 @@ public class GitToolIntegrationTests
     public void SetUp()
     {
         _logger = new ConsoleLogger();
-        _target = new GitTool(new TagParser());
+        _target = new GitTool(new TagParser(), new ConventionalCommitsParser(new ConventionalCommitsSettings()));
     }
 
     [TearDown]

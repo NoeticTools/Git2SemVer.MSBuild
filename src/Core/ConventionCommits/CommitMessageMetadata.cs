@@ -6,31 +6,32 @@ namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 [JsonDerivedType(typeof(ICommitMessageMetadata))]
 public sealed class CommitMessageMetadata : ICommitMessageMetadata
 {
-    private static readonly Dictionary<string, CommitChangeTypeId> ChangeTypeIdLookup = new()
-    {
-        { "feat", CommitChangeTypeId.Feature },
-        { "fix", CommitChangeTypeId.Fix }
-    };
+    private readonly ConventionalCommitsSettings _convCommitsSettings;
 
-    public CommitMessageMetadata(string changeType, bool breakingChangeFlagged, string changeDescription, string body,
-                                 List<(string key, string value)> footerKeyValues)
+    public CommitMessageMetadata(string changeType,
+                                 string changeDescription,
+                                 string body,
+                                 bool breakingChangeFlagged,
+                                 FooterKeyValues footerKeyValues,
+                                 ConventionalCommitsSettings convCommitsSettings)
     {
-        ChangeType = ToChangeTypeId(changeType.ToLower());
-        ChangeTypeText = changeType;
-        ChangeDescription = changeDescription;
+        _convCommitsSettings = convCommitsSettings;
+        ChangeType = changeType.ToLower();
+        Description = changeDescription;
         Body = body;
-        FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
+        FooterKeyValues = footerKeyValues;
 
-        var functionalityChange = ChangeType == CommitChangeTypeId.Feature;
-        var fix = ChangeType == CommitChangeTypeId.Fix;
+        var functionalityChange = string.Equals(ChangeType, "feat", StringComparison.InvariantCultureIgnoreCase);
+        var fix = string.Equals(ChangeType, "fix", StringComparison.InvariantCultureIgnoreCase);
         var breakingChange = breakingChangeFlagged ||
-                             FooterKeyValues.Contains("BREAKING-CHANGE") ||
-                             FooterKeyValues.Contains("BREAKING CHANGE");
+                             FooterKeyValues.ContainsKey("BREAKING-CHANGE") ||
+                             FooterKeyValues.ContainsKey("BREAKING CHANGE");
 
         ApiChangeFlags = new ApiChangeFlags(breakingChange, functionalityChange, fix);
     }
 
-    public CommitMessageMetadata() : this("", false, "", "", [])
+    public CommitMessageMetadata(ConventionalCommitsSettings convCommitsSettings)
+        : this("", "", "", false, new FooterKeyValues(), convCommitsSettings)
     {
     }
 
@@ -38,22 +39,25 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
 
     public string Body { get; }
 
-    public string ChangeDescription { get; }
+    public string Description { get; }
 
-    public CommitChangeTypeId ChangeType { get; }
+    public string ChangeType { get; }
 
-    public string ChangeTypeText { get; }
+    public FooterKeyValues FooterKeyValues { get; }
 
-    public ILookup<string, string> FooterKeyValues { get; }
-
-    private static CommitChangeTypeId ToChangeTypeId(string value)
+    public IReadOnlyList<string> Issues
     {
-        // ReSharper disable once CanSimplifyDictionaryTryGetValueWithGetValueOrDefault
-        if (ChangeTypeIdLookup.TryGetValue(value, out var changeTypeId))
+        get
         {
-            return changeTypeId;
-        }
+            var issues = new List<string>();
+            foreach (var issueKey in _convCommitsSettings.IssueKeys)
+            {
+                issues.AddRange(FooterKeyValues[issueKey]);
+            }
 
-        return string.IsNullOrWhiteSpace(value) ? CommitChangeTypeId.None : CommitChangeTypeId.Custom;
+            return issues;
+        }
     }
+
+    public static CommitMessageMetadata Null => new(new ConventionalCommitsSettings());
 }

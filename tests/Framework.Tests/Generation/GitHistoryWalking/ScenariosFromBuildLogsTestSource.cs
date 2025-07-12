@@ -351,13 +351,6 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
     ///     Tests waypoint tag with feature bump.
     /// </summary>
     public LoggedScenario Scenario14 { get; } =
-        //new("1.0.0", "0002", $"""
-        //                      *               {US}.|0002|0001|{STX}fix!: REDACTED{ETX}|{STX}{ETX}| (HEAD -> REDACTED_BRANCH, origin/REDACTED_BRANCH, origin/REDACTED_BRANCH)|
-        //                      *               {US}.|0001|0003|{STX}REDACTED{ETX}|{STX}{ETX}||
-        //                      *               {US}.|0003|0004|{STX}REDACTED{ETX}|{STX}{ETX}||
-        //                      *               {US}.|0004||{STX}REDACTED{ETX}|{STX}{ETX}||
-        //                      """);
-
         new("1.3.0", "0002", $"""
                               *               {US}.|0002|0001|{STX}REDACTED{ETX}|{STX}{ETX}| (HEAD -> REDACTED_BRANCH, origin/main)|
                               *               {US}.|0001|0003|{STX}REDACTED{ETX}|{STX}{ETX}| (tag: .git2semver.waypoint(v1.2.3).feat)|

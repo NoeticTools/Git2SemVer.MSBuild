@@ -22,3 +22,5 @@ nupkg
 /src/Tool/Documentation/api
 /src/Tool/Documentation/_site
 /packages
+/src/Tool/TestSolutions/SolutionVersioning/.changelog
+/src/Tool/TestSolutions/SolutionVersioning/CHANGELOG.md

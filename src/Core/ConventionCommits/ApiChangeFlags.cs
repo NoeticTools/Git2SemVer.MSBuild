@@ -56,6 +56,7 @@ public sealed class ApiChangeFlags : IEquatable<ApiChangeFlags>
     ///     </para>
     /// </remarks>
     [JsonPropertyOrder(3)]
+    // ReSharper disable once MemberCanBePrivate.Global
     public bool Fix { get; private set; }
 
     /// <summary>
@@ -75,19 +76,17 @@ public sealed class ApiChangeFlags : IEquatable<ApiChangeFlags>
     [JsonPropertyOrder(2)]
     public bool FunctionalityChange { get; private set; }
 
-    public ApiChangeFlags Aggregate(ApiChangeFlags changeFlags)
+    public void Aggregate(ApiChangeFlags changeFlags)
     {
         var result = new ApiChangeFlags(this);
         if (!changeFlags.Any)
         {
-            return result;
+            return;
         }
 
-        result.BreakingChange |= changeFlags.BreakingChange;
-        result.FunctionalityChange |= changeFlags.FunctionalityChange;
-        result.Fix |= changeFlags.Fix;
-
-        return result;
+        BreakingChange |= changeFlags.BreakingChange;
+        FunctionalityChange |= changeFlags.FunctionalityChange;
+        Fix |= changeFlags.Fix;
     }
 
     public bool Equals(ApiChangeFlags? other)
@@ -103,22 +102,6 @@ public sealed class ApiChangeFlags : IEquatable<ApiChangeFlags>
         }
 
         return BreakingChange == other.BreakingChange && Fix == other.Fix && FunctionalityChange == other.FunctionalityChange;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return ReferenceEquals(this, obj) || (obj is ApiChangeFlags other && Equals(other));
-    }
-
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            var hashCode = BreakingChange.GetHashCode();
-            hashCode = (hashCode * 397) ^ Fix.GetHashCode();
-            hashCode = (hashCode * 397) ^ FunctionalityChange.GetHashCode();
-            return hashCode;
-        }
     }
 
     public override string ToString()

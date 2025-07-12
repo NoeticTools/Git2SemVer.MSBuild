@@ -5,22 +5,11 @@ using NoeticTools.Git2SemVer.Framework.Framework.Config;
 
 namespace NoeticTools.Git2SemVer.Framework.Tools.CI;
 
-internal sealed class BuildHostFactory
+public sealed class BuildHostFactory(IConfiguration config, Action<string> buildOutput, ILogger logger)
 {
-    private readonly Action<string> _buildOutput;
-    private readonly IConfiguration _config;
-    private readonly ILogger _logger;
-
-    public BuildHostFactory(IConfiguration config, Action<string> buildOutput, ILogger logger)
-    {
-        _config = config;
-        _buildOutput = buildOutput;
-        _logger = logger;
-    }
-
     public IBuildHost Create(string hostType, string buildNumber, string buildContext, string inputsBuildIdFormat)
     {
-        var host = new BuildHost(new BuildHostFinder(_config, _buildOutput, _logger).Find(hostType), _logger);
+        var host = new BuildHost(new BuildHostFinder(config, buildOutput, logger).Find(hostType), logger);
 
         if (!string.IsNullOrWhiteSpace(buildNumber))
         {

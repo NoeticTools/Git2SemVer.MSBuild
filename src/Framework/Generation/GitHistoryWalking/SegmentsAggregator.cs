@@ -34,7 +34,7 @@ internal class SegmentsAggregatorResult
 internal sealed class SegmentsAggregator
 {
     private readonly HashSet<LinkedSegment> _aggregatedSegments = [];
-    private ApiChangeFlags _changeFlags = new();
+    private readonly ApiChangeFlags _changeFlags = new();
 
     public SegmentsAggregatorResult Aggregate(Commit head, LinkedSegment releaseLinkedSegment)
     {
@@ -42,7 +42,7 @@ internal sealed class SegmentsAggregator
 
         var releaseSegment = releaseLinkedSegment.Inner;
         var oldestCommit = releaseSegment.OldestCommit;
-        var priorVersion = oldestCommit.IsRootCommit ? new SemVersion(0, 1, 0) : oldestCommit.ReleasedVersion!;
+        var priorVersion = oldestCommit.IsRootCommit ? new SemVersion(0, 1, 0) : oldestCommit.TagMetadata.Version!;
 
         var version = (oldestCommit.IsRootCommit && !_changeFlags.Any) || oldestCommit.Equals(head)
             ? priorVersion
@@ -58,7 +58,7 @@ internal sealed class SegmentsAggregator
             return;
         }
 
-        _changeFlags = _changeFlags.Aggregate(linkedSegment.ChangeFlags);
+        _changeFlags.Aggregate(linkedSegment.ChangeFlags);
         foreach (var linkedChildSegment in linkedSegment.LinkedChildSegments)
         {
             AggregateChangeFlags(linkedChildSegment);

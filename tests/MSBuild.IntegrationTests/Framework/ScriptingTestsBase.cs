@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
@@ -22,7 +23,7 @@ internal abstract class ScriptingTestsBase
     protected void OneTimeSetUpBase()
     {
         Logger = new NUnitLogger(); // todo - Logger is set here and in the SetUpBase method
-        Git = new GitTool(new TagParser());
+        Git = new GitTool(new TagParser(), new ConventionalCommitsParser(new ConventionalCommitsSettings()));
     }
 
     protected void OneTimeTearDownBase()

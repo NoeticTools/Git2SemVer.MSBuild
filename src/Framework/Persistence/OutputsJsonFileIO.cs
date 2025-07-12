@@ -9,7 +9,7 @@ using NoeticTools.Git2SemVer.Framework.Generation;
 namespace NoeticTools.Git2SemVer.Framework.Persistence;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class OutputsJsonFileIO : IOutputsJsonIO
+public sealed class OutputsJsonFileIO : IOutputsJsonIO
 {
     private static readonly JsonSerializerOptions SerialiseOptions = new()
     {

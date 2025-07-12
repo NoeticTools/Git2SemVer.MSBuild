@@ -12,7 +12,7 @@ internal class HostBuildLabelUpdateUnitTests : ProjectVersioningUnitTestsBase
     {
         SharedCachedOutputs.Setup(x => x.IsValid).Returns(true);
         GeneratedOutputs.Setup(x => x.IsValid).Returns(true);
-        VersionGenerator.Setup(x => x.Run()).Returns(GeneratedOutputs.Object);
+        VersionGenerator.Setup(x => x.PrebuildRun()).Returns(GeneratedOutputs.Object);
     }
 
     [TestCase(VersioningMode.SolutionVersioningProject)]
