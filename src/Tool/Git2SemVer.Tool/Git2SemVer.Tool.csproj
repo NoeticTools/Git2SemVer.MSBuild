@@ -98,10 +98,6 @@
     <ProjectReference Include="..\..\Framework\Git2SemVer.Framework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Framework\" />
-  </ItemGroup>
-
   <!-- Custom configuration so that Git2SemVer project can self-version -->
 
   <!-- Ensure that the Git2SemVer version information JSON file is available.  -->
