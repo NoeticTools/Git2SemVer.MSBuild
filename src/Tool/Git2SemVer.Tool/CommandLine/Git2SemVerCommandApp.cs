@@ -1,4 +1,7 @@
-﻿using NoeticTools.Git2SemVer.Core.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NoeticTools.Git2SemVer.Core;
+using NoeticTools.Git2SemVer.Core.Console;
+using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
@@ -16,14 +19,21 @@ internal class Git2SemVerCommandApp
     public static int Execute(string[] args)
     {
         using var logger = new FileLogger(GetLogFilePath());
+        return Execute(args, logger);
+    }
+
+    public static int Execute(string[] args, ILogger logger)
+    {
         var servicesProvider = Services.ConfigureServices(logger);
 
         var app = new CommandApp();
 
         app.Configure(config =>
         {
+            config.PropagateExceptions();
+
             config.SetApplicationName("dotnet git2semver");
-            config.UseAssemblyInformationalVersion();
+            config.SetApplicationVersion(typeof(Git2SemVerCommandApp).Assembly.GetInformationalVersion());
 
             config.AddBranch<CommandSettings>("versioning", branch =>
             {
@@ -74,7 +84,17 @@ internal class Git2SemVerCommandApp
                   .WithData(servicesProvider);
         });
 
-        return app.Run(args);
+        try
+        {
+            return app.Run(args);
+        }
+        catch (Exception exception)
+        {
+            var console = servicesProvider.GetService<IConsoleIO>()!;
+            console.WriteErrorLine($"Error: {exception.Message}");
+            logger.LogError(exception);
+            return 100;
+        }
     }
 
     private static string GetLogFilePath()

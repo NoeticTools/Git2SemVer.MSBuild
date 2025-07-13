@@ -15,90 +15,82 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 {
     public void Execute(ChangelogCommandSettings cmdLineSettings)
     {
-        try
+        Console.WriteMarkupInfoLine($"Generating Changelog {(cmdLineSettings.Unattended ? " (unattended)" : "")}.");
+        Console.WriteLine("");
+
+        var proceed = Console.PromptYesNo("Proceed?");
+        Console.WriteLine();
+        if (!proceed)
         {
-            Console.WriteMarkupInfoLine($"Generating Changelog {(cmdLineSettings.Unattended ? " (unattended)" : "")}.");
-            Console.WriteLine("");
-
-            var proceed = Console.PromptYesNo("Proceed?");
-            Console.WriteLine();
-            if (!proceed)
-            {
-                Console.WriteErrorLine("Aborted.");
-            }
-
-            var stopwatch = Stopwatch.StartNew();
-
-            EnsureDataDirectoryExists(cmdLineSettings);
-            var projectSettings = GetProjectSettings(cmdLineSettings);
-
-            var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
-
-            changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-            changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-            changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
-
-            var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
-            var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
-            var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
-            if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
-            {
-                var contributingReleases = changeLogInputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
-                if (lastRunData.ContributingReleasesChanged(contributingReleases))
-                {
-                    Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
-                    lastRunData = new LastRunData();
-                    createNewChangelog = true;
-                }
-            }
-
-            var canProceed = AskIfToProceed(cmdLineSettings, outputFileExists, changeLogInputs.HeadCommitSha, lastRunData);
-            if (!canProceed)
-            {
-                Console.WriteLine();
-                Console.WriteMarkupInfoLine("[em]Aborted[/]");
-                return;
-            }
-
-            var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
-
-            if (cmdLineSettings.WriteToConsole)
-            {
-                Console.WriteLine($"\n{(createNewChangelog ? "Created" : "Updated")} changelog:");
-                Console.WriteHorizontalLine();
-                Console.WriteCodeLine(changelog.TrimEnd());
-                Console.WriteHorizontalLine();
-            }
-
-            if (cmdLineSettings.OutputFilePath.Length == 0)
-            {
-                Console.WriteLine();
-                Console.WriteMarkupDebugLine("Write changelog to file is disabled as the file output path is an empty string.");
-                return;
-            }
-
-            lastRunData.Update(changeLogInputs);
-            lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
-
-            Console.WriteLine();
-            var verb = cmdLineSettings.Incremental && !createNewChangelog ? "Updating" :
-                !cmdLineSettings.Incremental && createNewChangelog ? "Overwriting" :
-                "Creating";
-            Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
-            File.WriteAllText(cmdLineSettings.OutputFilePath, changelog);
-
-            projectSettings.Save(Path.Combine(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename));
-
-            stopwatch.Stop();
-
-            Console.WriteLine("");
-            Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
+            Console.WriteErrorLine("Aborted.");
         }
-        catch (Exception exception)
+
+        var stopwatch = Stopwatch.StartNew();
+
+        EnsureDataDirectoryExists(cmdLineSettings);
+        var projectSettings = GetProjectSettings(cmdLineSettings);
+
+        var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
+
+        changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+        changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+        changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
+
+        var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
+        var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
+        var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
+        if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
         {
-            Console.WriteErrorLine(exception);
-            throw;
+            var contributingReleases = changeLogInputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
+            if (lastRunData.ContributingReleasesChanged(contributingReleases))
+            {
+                Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
+                lastRunData = new LastRunData();
+                createNewChangelog = true;
+            }
         }
+
+        var canProceed = AskIfToProceed(cmdLineSettings, outputFileExists, changeLogInputs.HeadCommitSha, lastRunData);
+        if (!canProceed)
+        {
+            Console.WriteLine();
+            Console.WriteMarkupInfoLine("[em]Aborted[/]");
+            return;
+        }
+
+        var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
+
+        if (cmdLineSettings.WriteToConsole)
+        {
+            Console.WriteLine($"\n{(createNewChangelog ? "Created" : "Updated")} changelog:");
+            Console.WriteHorizontalLine();
+            Console.WriteCodeLine(changelog.TrimEnd());
+            Console.WriteHorizontalLine();
+        }
+
+        if (cmdLineSettings.OutputFilePath.Length == 0)
+        {
+            Console.WriteLine();
+            Console.WriteMarkupDebugLine("Write changelog to file is disabled as the file output path is an empty string.");
+            return;
+        }
+
+        lastRunData.Update(changeLogInputs);
+        lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
+
+        Console.WriteLine();
+        var verb = cmdLineSettings.Incremental && !createNewChangelog ? "Updating" :
+            !cmdLineSettings.Incremental && createNewChangelog ? "Overwriting" :
+            "Creating";
+        Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
+        File.WriteAllText(cmdLineSettings.OutputFilePath, changelog);
+
+        projectSettings.Save(Path.Combine(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename));
+
+        stopwatch.Stop();
+
+        Console.WriteLine("");
+        Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
     }
 
     private bool AskIfToProceed(ChangelogCommandSettings commandSettings,
