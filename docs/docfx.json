@@ -1,24 +1,5 @@
 {
-  "metadata": [
-    {
-      "src": [
-        {
-          "src": "../src",
-          "files": [
-            "**/*.csproj"
-          ],
-          "exclude": [
-            "Tool/**",
-            "DiagnosticCodesDocBuilder/**"
-          ]
-        }
-      ],
-      "dest": "api",
-      "properties": {
-        "TargetFrameworks": "net8.0"
-      }
-    }
-  ],
+  "metadata": [],
   "build": {
     "content": [
       {

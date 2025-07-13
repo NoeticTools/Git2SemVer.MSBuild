@@ -42,6 +42,11 @@ gitGraph
 
         commit id:"2.0.1-beta.108"
 ```
+<br/>
+
+Example generated draft (pre-release) changelog fragment:
+
+![](docs/Images/draft_changelog_fragment.png | width=300)
 
 <br/>
 

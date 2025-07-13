@@ -50,26 +50,32 @@ a
 
 # Git2SemVer
 
-Git2SemVer is a Visual Studio and developer friendly <a href="https://semver.org">Semantic Versioning</a> framework for .NET solution and project versioning.
+Git2SemVer is a Visual Studio and developer friendly <a href="https://semver.org">Semantic Versioning</a> framework for .NET solution/project versioning and changelog generation.
 It works the same with both Visual Studio and dotnet CLI builds. 
 Every build, on both developer boxes and the build system, get traceable build numbering (no commit counting).
 
-This tool is for teams that:
+This tool:
 
-* Can benefit from true <a href="https://semver.org">Semantic Versioning</a>.
-* Uses <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> to automatically generate change logs.
+* Provides <a href="https://semver.org">Semantic Versioning</a> specification compliant versioning.
+* Uses <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> to identify new features and fixes to bump the version.
 * Uses branches to separate releasable code from feature or under development code (e.g: GitHub flow or GitFlow). 
-* Only releases builds from a build system (or controlled host).
-* Wants to avoid custom build scripts, and tools, on a build system.
-* Uses Visual Studio as well as dotnet CLI.
-* Values full traceability for every build regardless if on a build system or an uncontrolled developer box (commit counts/depth will not do).
-* Needs unique versioning customisation that the built-in C# scripting may provide.
+* By default, only builds releases builds from a build system (or controlled host).
+* Can generate a changelog (feature currently only available as a dotnet tool).
+
+Best for teams that:
+
+* Uses both Visual Studio and dotnet CLI.
+* Using <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> to automatically generate change logs.
+* Want to avoid custom build scripts, and tools, on dev boxes and build system.
+* Need full traceability for every build regardless if on a build system or an uncontrolled developer box (commit counts/depth will not do).
+* Need unique versioning customisation that the built-in C# scripting may provide.
+* Value dev box build versioning being clearly identifyable from build system builds (e.g: `1.2.3-alpha.JohnsPC.3456` vs `1.2.3-beta.3456`).
 
 ## Quick introduction
 
 You:
 * Mark a release's commit by adding a [git tag](xref:release-tagging) like `v1.2.3`.
-* Use [separate branches](xref:branch-naming) for building release and non-release commits.
+* Use [separate branches](xref:branch-naming) to separate release builds and non-release builds (e.g: `main` and/or `release/A` may build release builds while `feature/A` or `dev/A` may build pre-release builds).
 * Use <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commit</a> mesages like `fix: fixed crash on shutdown`
 to mark commits with fixes, features, and/or breaking changes.
 
@@ -78,15 +84,15 @@ Git2SemVer automatically, on every build, provides:
   * File version
   * Assembly version
   * Informational version
-  * Package version (NuGet package version)
+  * Package version (NuGet package version and filename)
   * Other MSBuild version properties
-  * [Pre-release identifier](xref:maturity-identifier) like `alpha`/`beta`/`rc` (from branch name)
-* [Build number](xref:glossary#build-number)
+  * [Pre-release identifier](xref:maturity-identifier) like `alpha`/`beta`/`rc` (from branch name and if a build system build)
+* [Build number](xref:glossary#build-number) - even on dev boxes
 * [Host adaptive version formating](xref:examples) like:
-  * Including machine name in semantic version metadata when building on a developer's box.
-  * Different build number sources and formating on GitHub Workflow and TeamCity.
+  * When building a developer's box - All builds are pre-release `alpha` builds and the pre-release metadata automatically includes the host machine's name.
+  * Different build number sources and formating to best suit a host's (e.g: GitHub Workflow and TeamCity) capabilities.
 
-Git2SemVer also detects and executes an optional [C# script](xref:csharp-script). This script can change any part of the versioning.
+Git2SemVer also detects and executes an optional [C# script](xref:csharp-script) that can change any part of the versioning.
 
 It can be configured for any mix of solution versioning and individual project versioning without external build-time tools.
 No build system version generation steps are needed, keeps developer and build environments simple and aligned.
