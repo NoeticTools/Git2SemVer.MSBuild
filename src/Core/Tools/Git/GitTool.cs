@@ -115,7 +115,18 @@ public sealed class GitTool : IGitTool
 
     private static string DiscoverRepositoryDirectory(string currentDirectory)
     {
-        return currentDirectory.EndsWith(".git") ? currentDirectory : new DirectoryInfo(Repository.Discover(currentDirectory)).Parent!.FullName;
+        if (currentDirectory.EndsWith(".git"))
+        {
+            return currentDirectory;
+        }
+
+        var discoveredDirectory = Repository.Discover(currentDirectory);
+        if (discoveredDirectory == null)
+        {
+            throw new Git2SemVerRepositoryException($"Unable to find git repository from directory '{currentDirectory}'.");
+        }
+
+        return new DirectoryInfo(discoveredDirectory).Parent!.FullName;
     }
 
     private bool GetHasLocalChanges()
