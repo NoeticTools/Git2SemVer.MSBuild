@@ -26,7 +26,7 @@ internal sealed class SolutionFinder : ISolutionFinder
                 return new FileInfo(inputSolutionFile);
             }
 
-            throw new Git2SemVerArgumentException($"The solution '{inputSolutionFile}' was not found in the working directory.");
+            throw new Git2SemVerFileNotFoundException($"The solution '{inputSolutionFile}' was not found in the working directory.");
         }
 
         var solutionFile = Find(new DirectoryInfo(Environment.CurrentDirectory));

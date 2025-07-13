@@ -67,6 +67,7 @@ dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_prefer_collection_expression = true:silent
 dotnet_style_namespace_match_folder = true:suggestion
 dotnet_diagnostic.CA2000.severity = suggestion
+dotnet_diagnostic.CA1031.severity = suggestion
 
 [*.cs]
 csharp_indent_labels = one_less_than_current
