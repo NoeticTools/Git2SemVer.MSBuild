@@ -115,6 +115,11 @@ public sealed class GitTool : IGitTool
 
     private static string DiscoverRepositoryDirectory(string currentDirectory)
     {
+        if (string.IsNullOrEmpty(currentDirectory))
+        {
+            currentDirectory = Environment.CurrentDirectory;
+        }
+
         if (currentDirectory.EndsWith(".git"))
         {
             return currentDirectory;
