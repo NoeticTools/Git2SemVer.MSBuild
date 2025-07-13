@@ -1,19 +1,22 @@
-﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public sealed class HandledChange : IChangeTypeAndDescription
 {
-    [JsonPropertyOrder(20)]
-    public string Description { get; set; } = "";
-
     [JsonPropertyOrder(10)]
-    public string ChangeType { get; set; } = "";
+    public string ChangeType { get; set; } = string.Empty;
+
+    [JsonPropertyOrder(20)]
+    public string Description { get; set; } = string.Empty;
 
     [JsonPropertyOrder(30)]
     public List<string> Issues { get; set; } = [];
+
+    [JsonPropertyOrder(15)]
+    public string Scope { get; set; } = string.Empty;
 
     public bool TryAddIssues(IEnumerable<string> issues)
     {

@@ -4,6 +4,7 @@
 namespace NoeticTools.Git2SemVer.Tool.Tests.CommandLine;
 
 [TestFixture]
+[NonParallelizable]
 internal class Git2SemVerCommandAppTests
 {
     [Test]

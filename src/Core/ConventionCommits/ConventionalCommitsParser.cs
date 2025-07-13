@@ -50,6 +50,7 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
         }
 
         var changeType = summaryMatch.GetGroupValue("ChangeType");
+        var scope = summaryMatch.GetGroupValue("scope");
         var breakingChangeFlagged = summaryMatch.GetGroupValue("breakFlag").Length > 0;
         var changeDescription = summaryMatch.GetGroupValue("desc");
 
@@ -59,10 +60,11 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
         var keyValuePairs = GetFooterKeyValues(bodyMatch);
 
         return new CommitMessageMetadata(changeType,
+                                         scope,
                                          changeDescription,
                                          body,
                                          breakingChangeFlagged,
-                                         keyValuePairs, 
+                                         keyValuePairs,
                                          convCommitsSettings);
     }
 
@@ -87,6 +89,7 @@ public sealed class ConventionalCommitsParser(ConventionalCommitsSettings convCo
             {
                 continue;
             }
+
             footerKeyValues.Add(keyword, values[captureIndex].Value.TrimEnd());
         }
 

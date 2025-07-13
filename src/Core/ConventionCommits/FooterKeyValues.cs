@@ -1,6 +1,6 @@
-﻿using NoeticTools.Git2SemVer.Core.ConventionCommits.Json;
-using System.Collections;
+﻿using System.Collections;
 using System.Text.Json.Serialization;
+using NoeticTools.Git2SemVer.Core.ConventionCommits.Json;
 
 
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
@@ -11,7 +11,8 @@ public sealed class FooterKeyValues : IEnumerable<KeyValue>
     private readonly List<KeyValue> _items = [];
 
     public FooterKeyValues()
-    {}
+    {
+    }
 
     public FooterKeyValues(IEnumerable<KeyValue> items)
     {

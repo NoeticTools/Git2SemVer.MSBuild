@@ -131,6 +131,7 @@ internal class VersionOutputsTests
                                           "Body": "",
                                           "Description": "",
                                           "ChangeType": "",
+                                          "Scope": "",
                                           "FooterKeyValues": []
                                         }
                                       },
