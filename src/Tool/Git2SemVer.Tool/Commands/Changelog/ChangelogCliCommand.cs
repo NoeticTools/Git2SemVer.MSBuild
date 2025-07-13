@@ -9,21 +9,14 @@ using Spectre.Console.Cli;
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 
-internal class ChangelogCliCommand : Command<ChangelogCommandSettings>
+internal class ChangelogCliCommand : CliCommandBase<ChangelogCommandSettings>
 {
     public override int Execute(CommandContext context, ChangelogCommandSettings settings)
     {
-        var remainingParsed = context.Remaining.Parsed;
-        if (remainingParsed.Any())
-        {
-            throw new Git2SemVerUnknownCommandOptionException($"Unknown changelog command argument '{remainingParsed.First().Key}'");
-        }
+        Validate(context);
 
-        var serviceProvider = (IServiceProvider)context.Data!;
-        var console = serviceProvider.GetService<IConsoleIO>()!;
-        var commandFactory = serviceProvider.GetService<ICommandFactory>()!;
+        var commandFactory = GetCommandFactory(context, settings);
 
-        console.Unattended = settings.Unattended;
         var runner = commandFactory.CreateChangelogCommand();
         runner.Execute(settings);
         return (int)(runner.HasError ? ReturnCodes.CommandError : ReturnCodes.Succeeded);

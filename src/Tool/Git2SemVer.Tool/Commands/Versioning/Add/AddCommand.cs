@@ -41,12 +41,6 @@ internal sealed class AddCommand(
         console.WriteLine();
 
         var solution = solutionFinder.Find(inputSolutionFile);
-        if (console.HasError)
-        {
-            console.WriteErrorLine("Error finding solution file.");
-            return;
-        }
-
         var solutionDirectory = solution!.Directory!;
 
         if (!preconditionsValidator.Validate(solutionDirectory, unattended))
