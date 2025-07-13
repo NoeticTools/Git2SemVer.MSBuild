@@ -46,7 +46,7 @@ gitGraph
 
 Example generated draft (pre-release) changelog fragment:
 
-![](docs/Images/draft_changelog_fragment.png | width=300)
+![](docs/Images/draft_changelog_fragment.png)
 
 <br/>
 
