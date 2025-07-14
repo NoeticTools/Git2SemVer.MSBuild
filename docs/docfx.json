@@ -21,14 +21,20 @@
     "output": "_site",
     "template": [
       "default",
-      "modern"
+      "modern",
+      "templates/material",
+      "templates/my-template"
     ],
     "globalMetadata": {
       "_appName": "Git2SemVer",
       "_appTitle": "Git2SemVer",
       "_appLogoPath": "Images/Git2SemVer_icon_32x32.png",
       "_enableSearch": true,
-      "pdf": false
+      "pdf": false,
+      "font-size-base": "8px"
+    },
+    "markdownEngineProperties": {
+      "markdigExtensions": ["Diagrams"]
     }
   }
 }

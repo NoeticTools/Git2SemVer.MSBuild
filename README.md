@@ -44,6 +44,8 @@ gitGraph
 ```
 <br/>
 
+Git2SemVer can also generate the changelog. 
+
 Example generated draft (pre-release) changelog fragment:
 
 ![](docs/Images/draft_changelog_fragment.png)

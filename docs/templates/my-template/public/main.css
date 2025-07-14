@@ -1,0 +1,15 @@
+:root {
+    --bs-body-font-size: 0.92rem
+}
+
+.links {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none !important
+}
+
+a {
+    text-decoration: none !important
+}

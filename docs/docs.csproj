@@ -29,4 +29,8 @@
     <EmbeddedResource Include="GettingStarted\CsxDemos\ForceProperties1.csx" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dhgms.DocFx.MermaidJs.Plugin" Version="4.0.1" />
+  </ItemGroup>
+
 </Project>

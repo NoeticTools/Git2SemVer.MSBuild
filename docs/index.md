@@ -1,6 +1,8 @@
 ---
 _layout: landing
 ---
+
+<!--
 <style>
 
 .featureTitle {
@@ -36,6 +38,7 @@ a
   text-decoration: none; 
 }
 </style>
+-->
 
 <div style="background-color:#944248;padding:0px;margin-bottom:0.5em">
   <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/Git2SemVer_banner_840x70.png"/>
@@ -48,11 +51,13 @@ a
   ![Static Badge](https://img.shields.io/badge/GitHub%20project-944248?logo=github)
 </a>
 
+
 # Git2SemVer
 
 Git2SemVer is a Visual Studio and developer friendly <a href="https://semver.org">Semantic Versioning</a> framework for .NET solution/project versioning and changelog generation.
 It works the same with both Visual Studio and dotnet CLI builds. 
 Every build, on both developer boxes and the build system, get traceable build numbering (no commit counting).
+
 
 This tool:
 
@@ -61,15 +66,60 @@ This tool:
 * Uses branches to separate releasable code from feature or under development code (e.g: GitHub flow or GitFlow). 
 * By default, only builds releases builds from a build system (or controlled host).
 * Can generate a changelog (feature currently only available as a dotnet tool).
+* Works the same with both dotnet CLI and Visual Studio.
 
-Best for teams that:
-
-* Uses both Visual Studio and dotnet CLI.
-* Using <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a> to automatically generate change logs.
-* Want to avoid custom build scripts, and tools, on dev boxes and build system.
-* Need full traceability for every build regardless if on a build system or an uncontrolled developer box (commit counts/depth will not do).
-* Need unique versioning customisation that the built-in C# scripting may provide.
-* Value dev box build versioning being clearly identifyable from build system builds (e.g: `1.2.3-alpha.JohnsPC.3456` vs `1.2.3-beta.3456`).
+<div class="container mb-4">
+<div class="row row-cols-xs-2 row-cols-sm-2 row-cols-md-3 row-cols-xxl-6 g-4">
+    <div class="col">
+        <div class="card m-1" >
+            <div class="card-body" style="min-height: 150px">
+                <p class="fw-bolder"><a href="index.md">Automatic Versioning</a></p>
+                <p>Tutorials to add automatic Semmantic versioning, from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>, to your projects or solution.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card" >
+            <div class="card-body" style="min-height: 150px">
+                <p class="fw-bolder"><a href="index.md">Changelog Generation</a></p>
+                <p>Tutorials to add incremental draft changelog generation from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body" style="min-height: 150px">
+                <p class="fw-bolder"><a href="https://github.com/noetictools/git2semver/tree/main/docs/samples/">Dotnet tool</a></p>
+                <p>XXXXX.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body" style="min-height: 150px">
+                <p class="fw-bolder"><a href="https://github.com/noetictools/git2semver">MSBuild</a></p>
+                <p>XXXXX.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body" style="min-height: 150px">
+                <p class="fw-bolder"><a href="https://nuget.org/packages/McMaster.Extensions.CommandLineUtils">Solution Versioning</a></p>
+                <p>Learn about automatic versioning of all projects in a solution.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card" >
+            <div class="card-body" style="min-height: 150px">
+                <p class="fw-bolder"><a href="https://github.com/natemcmaster/CommandLineUtils/tree/main/CHANGELOG.md">Releases</a></p>
+                <p>XXXXXX.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 ## Quick introduction
 
@@ -263,7 +313,8 @@ gitGraph
            Build Host Adaptive Versioning
         </p>
         <p>The versioning adapts according to the build host.</p>
-        <p>e.g: Automatically uses TeamCity build counter for build number and drops machine name metadata.</p>
+        <p>e.g: Automatically uses TeamCity build counter for build number and on dev boxes adds machine name metadata like: 
+        <code>1.2.3-beta.3456</code> vs <code>1.2.3-alpha.JohnsPC.3456</code>.</p>
     </td>
 </tr>
 
