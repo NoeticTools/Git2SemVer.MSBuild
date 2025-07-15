@@ -1,6 +1,8 @@
 - name: Home
-  uid: landing
+  uid: home
 - name: Versioning
   uid: versioning-landing
 - name: Changelog generation
   uid: changelog-landing
+- name: XXX
+  href: Usage/
