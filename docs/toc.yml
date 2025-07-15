@@ -1,2 +1,6 @@
-- name: Usage
-  href: Usage/
+- name: Home
+  uid: landing
+- name: Versioning
+  uid: versioning-landing
+- name: Changelog generation
+  uid: changelog-landing

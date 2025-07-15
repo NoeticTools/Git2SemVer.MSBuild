@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
 :root {
-    --bs-body-font-size: 0.92rem
+    --bs-font-sans-serif: 'Roboto';
+    --bs-body-font-size: 0.85rem;
 }
 
 .links {
@@ -7,9 +10,13 @@
 }
 
 a:hover {
-    text-decoration: none !important
+    text-decoration: none !important;
 }
 
 a {
-    text-decoration: none !important
+    text-decoration: none !important;
+}
+
+.container {
+    max-width: 1000px;
 }

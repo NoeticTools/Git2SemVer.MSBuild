@@ -3,13 +3,8 @@ export default {
   iconLinks: [
     {
       icon: 'github',
-      href: 'https://github.com/dotnet/docfx',
+      href: 'https://github.com/noetictools/git2semver',
       title: 'GitHub'
-    },
-    {
-      icon: 'twitter',
-      href: 'https://twitter.com',
-      title: 'Twitter'
     }
   ]
 }

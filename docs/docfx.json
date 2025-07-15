@@ -30,8 +30,7 @@
       "_appTitle": "Git2SemVer",
       "_appLogoPath": "Images/Git2SemVer_icon_32x32.png",
       "_enableSearch": true,
-      "pdf": false,
-      "font-size-base": "8px"
+      "pdf": false
     },
     "markdownEngineProperties": {
       "markdigExtensions": ["Diagrams"]
