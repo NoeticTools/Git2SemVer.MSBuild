@@ -1,0 +1,4 @@
+- name: Prerequisites
+  uid: git2semver-msbuild-prerequisites
+- name: Installing
+  uid: git2semver-msbuild-installing

@@ -39,11 +39,6 @@ a
 }
 </style>
 
-<!--
-[![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.Msbuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild)
-[![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool)
--->
-
 # Git2SemVer
 
 **Git2SemVer** is a Visual Studio and developer friendly <a href="https://semver.org">Semantic Versioning</a> and changelog generation framework for .NET solutions or projects using dotnet CLI or Visual Studio.
@@ -51,54 +46,38 @@ Every build, on both developer boxes and the build system, without scripts or en
 
 
 <div class="container-fluid mb-4">
-    <div class="row row-cols-xs-2 row-cols-sm-2 row-cols-md-3 g-4">
+    <div class="row row-cols-xs-2 row-cols-md-2 row-cols-lg-4 g-4">
         <div class="col">
-            <div class="card" style="min-height: 170px; min-width: 225px">
+            <div class="card" style="min-height: 190px; min-width: 220px">
                 <div class="card-body" >
-                    <p class="fw-semibold"><a href="/Versioning/VersioningIntro.html">Automatic Versioning</a></p>
+                    <p class="fw-semibold"><a href="/articles/Versioning/VersioningLanding.html">Automatic Versioning</a></p>
                     <p>Tutorials to add automatic Semmantic versioning, from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>, to your projects or solution.</p>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="min-height: 170px; min-width: 225px" >
+            <div class="card" style="min-height: 190px; min-width: 220px" >
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/ChangelogGen/ChangelogGenerationIntro.html">Changelog Generation</a></p>
+                    <p class="fw-semibold"><a href="/articles/ChangelogGen/ChangelogGenerationLanding.html">Changelog Generation</a></p>
                     <p>Tutorials to add incremental draft changelog generation from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>.</p>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="min-height: 170px; min-width: 225px">
+            <div class="card" style="min-height: 190px; min-width: 220px">
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/MSBuildTask/MSBuildTaskIntro.html">Git2SemVer.MSBuild</a></p>
-                    <p><b>Git2SemVer.MSBuild</b> tutorials and documentation. 
-                    It is a nuget package that, when added to a project, adds a pre-build versioning task for every build.</p>
+                    <p class="fw-semibold"><a href="/articles/MSBuildTask/MSBuildTaskIntro.html">Git2SemVer.MSBuild</a></p>
+                    <p><a href="https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild"><img src="https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.MSBuild" alt="Current Version"></a></p>
+                    <p>A nuget package that adds a versioning task for every build.</p>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="min-height: 170px; min-width: 225px">
+            <div class="card" style="min-height: 190px; min-width: 220px">
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/DotnetTool/Git2SemVer.Tool.html">Git2SemVer.Tool</a></p>
-                    <p><b>Git2SemVer.Tool</b> tutorials and documentation.
-                    It is a dotnet tool nuget package for command line versioning and changelog generation.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="min-height: 170px; min-width: 225px">
-                <div class="card-body">
-                    <p class="fw-semibold"><a href="/Versioning/Learn/SolutionVersioning.html">Solution Versioning</a></p>
-                    <p>Learn about <b>Git2SemVer</b> solution versioning.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" style="min-height: 170px; min-width: 225px">
-                <div class="card-body">
-                    <p class="fw-semibold"><a href="https://github.com/noetictools/git2semver/tree/main/src/CHANGELOG.md">Releases</a></p>
-                    <p>Releases changelog.</p>
+                    <p class="fw-semibold"><a href="/articles/DotnetTool/Git2SemVer.Tool.html">Git2SemVer.Tool</a></p>
+                    <p><a href="https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool"><img src="https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool" alt="Current Version"></a></p>
+                    <p>A dotnet tool for command line versioning and changelog generation.</p>
                 </div>
             </div>
         </div>

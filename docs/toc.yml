@@ -1,6 +1,6 @@
 - name: Home
   uid: home
 - name: Versioning
-  href: Versioning/
+  href: articles/Versioning/
 - name: Changelog generation
-  href: ChangelogGen/
+  href: articles/ChangelogGen/
