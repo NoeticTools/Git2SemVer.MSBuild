@@ -23,3 +23,17 @@ To test the install, run the command:
 ```winbatch
 git2semver --version
 ```
+<!--
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="trailer" class="section d-flex justify-content-center embed-responsive embed-responsive-4by3">
+        <video class="embed-responsive-item w-100" controls>
+          <source src="/../../../images/Untitled video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
+-->
