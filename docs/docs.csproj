@@ -22,4 +22,10 @@
     <PackageReference Include="Dhgms.DocFx.MermaidJs.Plugin" Version="4.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ChangelogGen\" />
+    <Folder Include="DotnetTool\" />
+    <Folder Include="MSBuildTask\" />
+  </ItemGroup>
+
 </Project>
