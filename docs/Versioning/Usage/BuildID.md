@@ -31,4 +31,4 @@ See the [build host](xref:build-hosts) type for details.
 > [!NOTE]
 > The host's generated build number can be overriden in any build by setting the MSBuild property `Git2SemVer_BuildNumber`.
 >
-> See [MSBuild properties](xref:msbuild-properties).
+> See [MSBuild properties](xref:versioning-msbuild-properties).

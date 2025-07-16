@@ -39,7 +39,7 @@ On each Git2SemVer can set the TeamCity build label to the build version as show
 ![TeamCity build labeling example](../../Images/TeamCity-BuildLabels.png "TeamCity build labeling")
 
 > [!IMPORTANT]
-> To use build system build labelling it must first be enabled by setting the [MSBuild property](xref:msbuild-properties) `Git2SemVer_UpdateHostBuildLabel` to true.
+> To use build system build labelling it must first be enabled by setting the [MSBuild property](xref:versioning-msbuild-properties) `Git2SemVer_UpdateHostBuildLabel` to true.
 > The default is `false` (disabled).
 
 build system build labelling can be enabled on the build command line like this:
@@ -80,5 +80,5 @@ The build host object's properties:
 
 Git2SemVer's default version generator will:
 
-* Call `SetBuildLabel` with the generated build system version if [Git2SemVer_UpdateHostBuildLabel](xref:msbuild-properties##inputs) is set to true.
+* Call `SetBuildLabel` with the generated build system version if [Git2SemVer_UpdateHostBuildLabel](xref:versioning-msbuild-properties##inputs) is set to true.
 * Call `ReportBuildStatistic` with Git2SemVer's MSTask execution time.

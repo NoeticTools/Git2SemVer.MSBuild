@@ -204,4 +204,4 @@ Examples:
 * [Versioning](xref:versioning)
 * [Branch naming](xref:branch-naming)
 * [Build maturity identifier](xref:maturity-identifier)
-* [Build properties](xref:msbuild-properties)
+* [Build properties](xref:versioning-msbuild-properties)

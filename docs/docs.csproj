@@ -8,29 +8,24 @@
 
   <ItemGroup>
     <Compile Remove="api\**" />
+    <Compile Remove="GettingStarted\**" />
     <Compile Remove="_site\**" />
     <EmbeddedResource Remove="api\**" />
+    <EmbeddedResource Remove="GettingStarted\**" />
     <EmbeddedResource Remove="_site\**" />
     <None Remove="api\**" />
+    <None Remove="GettingStarted\**" />
     <None Remove="_site\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="GettingStarted\CsxDemos\ForceProperties1.csx" />
-    <None Remove="GettingStarted\CsxDemos\ForceProperties2.csx" />
-    <None Remove="GettingStarted\CsxDemos\ForceProperties3.csx" />
-    <None Remove="GettingStarted\CsxDemos\ForceProperties4.csx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="GettingStarted\CsxDemos\ForceProperties4.csx" />
-    <EmbeddedResource Include="GettingStarted\CsxDemos\ForceProperties3.csx" />
-    <EmbeddedResource Include="GettingStarted\CsxDemos\ForceProperties2.csx" />
-    <EmbeddedResource Include="GettingStarted\CsxDemos\ForceProperties1.csx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dhgms.DocFx.MermaidJs.Plugin" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ChangelogGen\" />
+    <Folder Include="DotnetTool\" />
+    <Folder Include="MSBuildTask\" />
   </ItemGroup>
 
 </Project>

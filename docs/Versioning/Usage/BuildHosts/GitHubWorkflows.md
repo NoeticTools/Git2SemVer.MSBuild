@@ -85,8 +85,8 @@ The GitHub build host object's properties:
 
 | Host property | Description  |
 |:-- |:-- |
-| Build number  | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildNumber](xref:msbuild-properties##inputs) property to `github.run_number` in the workflow. |
-| Build context | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildContext](xref:msbuild-properties##inputs) property to `github.run_attempt` in the workflow. |
+| Build number  | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildNumber](xref:versioning-msbuild-properties##inputs) property to `github.run_number` in the workflow. |
+| Build context | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildContext](xref:versioning-msbuild-properties##inputs) property to `github.run_attempt` in the workflow. |
 | Build ID      | `<build context>.<build number>` |
 | Name          | 'GitHub'    |
 

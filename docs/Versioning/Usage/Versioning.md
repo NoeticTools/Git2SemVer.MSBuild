@@ -17,7 +17,7 @@ Git2SemVer generates versioning information and passes this to the optional [C# 
 
 ![](../Images/MSBuild_tasks_01.png)
 
-This topic describes the default versioning without a custom C# script and without customised [build properties](xref:msbuild-properties).
+This topic describes the default versioning without a custom C# script and without customised [build properties](xref:versioning-msbuild-properties).
 
 ## Release versioning
 
@@ -97,7 +97,7 @@ the table below.
 ---
 
 > [!NOTE]
-> Pre-release maturity labels are configurable by setting the MSBuild property [Git2SemVer_BranchMaturityPattern](xref:msbuild-properties).
+> Pre-release maturity labels are configurable by setting the MSBuild property [Git2SemVer_BranchMaturityPattern](xref:versioning-msbuild-properties).
 > Values shown here are defaults.
 
 ## Examples
@@ -111,4 +111,4 @@ See [Versioning examples](xref:examples).
 * [Release tagging](xref:release-tagging)
 * [Branch naming](xref:branch-naming)
 * [Build maturity identifier](xref:maturity-identifier)
-* [Build properties](xref:msbuild-properties)
+* [Build properties](xref:versioning-msbuild-properties)

@@ -58,7 +58,7 @@ Every build, on both developer boxes and the build system, without scripts or en
         <div class="col">
             <div class="card" style="min-height: 170px; min-width: 225px">
                 <div class="card-body" >
-                    <p class="fw-semibold"><a href="VersioningLanding.html">Automatic Versioning</a></p>
+                    <p class="fw-semibold"><a href="Versioning/VersioningIntro.html">Automatic Versioning</a></p>
                     <p>Tutorials to add automatic Semmantic versioning, from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>, to your projects or solution.</p>
                 </div>
             </div>

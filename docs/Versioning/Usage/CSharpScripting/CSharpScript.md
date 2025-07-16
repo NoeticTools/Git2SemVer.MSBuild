@@ -22,7 +22,7 @@ This optional script can be used to change any Git2SemVer output.
 
 ## Script location
 
-MSBuild property [Git2SemVer_ScriptPath](xref:msbuild-properties) provides the path to this C# script file.
+MSBuild property [Git2SemVer_ScriptPath](xref:versioning-msbuild-properties) provides the path to this C# script file.
 It defaults to the file `Git2SemVer.csx` in the project folder.
 
 The CS-Script file may be empty but if the file is not found the build fails.

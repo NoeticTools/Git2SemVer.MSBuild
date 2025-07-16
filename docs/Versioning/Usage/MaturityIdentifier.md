@@ -23,7 +23,7 @@ For example:
 > 1.2.3-beta.7658+feature-mybranch.6ab397d5
 
 The build maturity is derived from the branch name using a regular express set in the MSBuild property `Git2SemVer_BranchMaturityPattern`.
-See [MSBuild properties](xref:msbuild-properties).
+See [MSBuild properties](xref:versioning-msbuild-properties).
 
 The default settings are (first match from top is used):
 
@@ -41,4 +41,4 @@ The default settings are (first match from top is used):
 * [Release tagging](xref:release-tagging)
 * [Versioning](xref:versioning)
 * [Branch naming](xref:branch-naming)
-* [Build properties](xref:msbuild-properties)
+* [Build properties](xref:versioning-msbuild-properties)

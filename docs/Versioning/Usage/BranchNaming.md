@@ -51,7 +51,7 @@ gitGraph
 
 ## Custom configuration
 
-A custom branch maturity pattern regular expression pattern can be set using the [`Git2SemVer_BranchMaturityPattern`](xref:msbuild-properties).
+A custom branch maturity pattern regular expression pattern can be set using the [`Git2SemVer_BranchMaturityPattern`](xref:versioning-msbuild-properties).
 
 For example:
 ```xml
@@ -97,4 +97,4 @@ gitGraph
 * [Release tagging](xref:release-tagging)
 * [Versioning](xref:versioning)
 * [Build maturity identifier](xref:maturity-identifier)
-* [Build properties](xref:msbuild-properties)
+* [Build properties](xref:versioning-msbuild-properties)

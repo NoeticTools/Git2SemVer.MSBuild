@@ -1,5 +1,5 @@
 ﻿---
-uid: msbuild-properties
+uid: versioning-msbuild-properties
 ---
 
 <style>

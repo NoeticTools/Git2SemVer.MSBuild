@@ -1,5 +1,5 @@
 ---
-uid: versioning-landing
+uid: versioning-intro
 ---
 
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.Msbuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild)

@@ -1,5 +1,5 @@
 ---
-uid: Upgrading_v1_to_v2
+uid: msbuild_upgrading_v1_to_v2
 ---
 
 <div style="background-color:#944248;padding:0px;margin-bottom:0.5em">
