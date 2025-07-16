@@ -99,12 +99,3 @@ the table below.
 ## Examples
 
 See [Versioning examples](xref:examples).
-
-
-## Related topics
-
-* [Workflow](xref:workflow)
-* [Release tagging](xref:release-tagging)
-* [Branch naming](xref:branch-naming)
-* [Build maturity identifier](xref:maturity-identifier)
-* [Build properties](xref:versioning-msbuild-properties)

@@ -11,6 +11,6 @@ public class CommonCommandSettings : CommandSettings
 {
     [CommandOption("-u|--unattended")]
     [DefaultValue(false)]
-    [Description("Unattened execution. Accepts all defaults.")]
+    [Description("Unattended execution. Uses all defaults.")]
     public bool Unattended { get; set; }
 }

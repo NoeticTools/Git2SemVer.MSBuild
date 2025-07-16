@@ -32,7 +32,7 @@ internal class Git2SemVerCommandApp
         {
             config.PropagateExceptions();
 
-            config.SetApplicationName("dotnet git2semver");
+            config.SetApplicationName("git2semver");
             config.SetApplicationVersion(typeof(Git2SemVerCommandApp).Assembly.GetInformationalVersion());
 
             config.AddBranch<CommandSettings>("versioning", branch =>
@@ -52,12 +52,11 @@ internal class Git2SemVerCommandApp
                               .WithData(servicesProvider)
                               .WithExample("versioning", "solution-setup", "add ")
                               .WithExample("ver", "setup", "add")
-                              .WithExample("ver", "setup", "add -u")
                               .WithExample("ver", "setup", "add -u", "--solution", "'MyOtherSolution.sln'");
                     bootBranch.AddCommand<RemoveCliCommand>("remove")
                               .WithDescription("Remove Git2SemVer solution versioning from solution in working directory")
                               .WithData(servicesProvider)
-                              .WithExample("versioning", "install", "remove", "--solution", "'MyOtherSolution.sln'");
+                              .WithExample("versioning", "setup", "remove", "--solution", "'MyOtherSolution.sln'");
                 }).WithAlias("setup");
             }).WithAlias("ver");
 
@@ -77,10 +76,12 @@ internal class Git2SemVerCommandApp
             config.AddCommand<RunCliCommand>("run")
                   .IsHidden()
                   .WithDescription("Run version generator")
+                  .WithExample("versioning", "run")
                   .WithData(servicesProvider);
 
             config.AddCommand<ChangelogCliCommand>(ChangelogConstants.DefaultSubfolderName)
                   .WithDescription("Generate changelog command.")
+                  .WithExample("changelog", "-u")
                   .WithData(servicesProvider);
         });
 

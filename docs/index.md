@@ -39,9 +39,10 @@ a
 }
 </style>
 
+<!--
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.Msbuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild)
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool)
-
+-->
 
 # Git2SemVer
 
@@ -70,16 +71,18 @@ Every build, on both developer boxes and the build system, without scripts or en
         <div class="col">
             <div class="card" style="min-height: 170px; min-width: 225px">
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/MSBuildTask/MSBuildTaskIntro.html">MSBuild</a></p>
-                    <p><b>Git2SemVer.MSBuild</b> tutorials and documentation.</p>
+                    <p class="fw-semibold"><a href="/MSBuildTask/MSBuildTaskIntro.html">Git2SemVer.MSBuild</a></p>
+                    <p><b>Git2SemVer.MSBuild</b> tutorials and documentation. 
+                    It is a nuget package that, when added to a project, adds a pre-build versioning task for every build.</p>
                 </div>
             </div>
         </div>
         <div class="col">
             <div class="card" style="min-height: 170px; min-width: 225px">
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/DotnetTool/DotnetToolIntro.html">Dotnet tool</a></p>
-                    <p><b>Git2SemVer.Tool</b> tutorials and documentation.</p>
+                    <p class="fw-semibold"><a href="/DotnetTool/Git2SemVer.Tool.html">Git2SemVer.Tool</a></p>
+                    <p><b>Git2SemVer.Tool</b> tutorials and documentation.
+                    It is a dotnet tool nuget package for command line versioning and changelog generation.</p>
                 </div>
             </div>
         </div>

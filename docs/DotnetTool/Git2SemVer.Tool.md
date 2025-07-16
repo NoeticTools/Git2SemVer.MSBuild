@@ -1,5 +1,5 @@
 ﻿---
-uid: git2semver-tool
+uid: git2semver-tool-landing
 ---
 
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.MSBuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MsBuild)

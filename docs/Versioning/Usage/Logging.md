@@ -16,5 +16,5 @@ This file is overwritten on every build.
 
 ## Git2SemVer.Tool
 
-On every command the [Git2SemVer.Tool](xref:git2semver-tool) tool creates a log file `Git2SemVer.Tool.log` in the user's `%appdata%\GitSemVer` folder 
+On every command the [Git2SemVer.Tool](xref:git2semver-tool-landing) tool creates a log file `Git2SemVer.Tool.log` in the user's `%appdata%\GitSemVer` folder 
 which is typically `C:\Users\<username>\AppData\Local\Git2SemVer`

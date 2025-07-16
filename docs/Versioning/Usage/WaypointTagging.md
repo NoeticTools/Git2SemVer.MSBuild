@@ -56,8 +56,5 @@ and most significant change, before the tagged commit, was a feature:
 .git2semver.waypoint(v1.2.3).feat
 ```
 
-## Related topics
-
-* [Workflow](xref:workflow)
-* [Versioning](xref:versioning)
-* [Release tagging](xref:release-tagging)
+> [!NOTE]
+> The waypoint tag format is intentionally distinctive to ensure it is not confused with release tags.

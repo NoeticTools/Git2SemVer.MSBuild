@@ -24,8 +24,8 @@
 
   <ItemGroup>
     <Folder Include="ChangelogGen\" />
-    <Folder Include="DotnetTool\" />
     <Folder Include="MSBuildTask\" />
+    <Folder Include="articles\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,10 @@
+- name: Git2SemVer.Tool
+  uid: git2semver-tool-landing
 - name: Getting Started
   uid: dotnet-tool-getting-started
 - name: Usage
-  href: Usage/
+  href: /DotnetTool/Usage/
+  expanded: true
+  items:
+  - name: Commands
+    uid: git2semver-tool-commands

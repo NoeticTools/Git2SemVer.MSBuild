@@ -13,7 +13,7 @@ uid: solution-versioning
 Solution versioning is when projects in a solution share the same versioning.
 Solution versioning is used to allow for all assemblies in a project to have the same version.
 
-[Git2SemVer.Tool](xref:git2semver-tool) configures a solution to use solution versioning.
+[Git2SemVer.Tool](xref:git2semver-tool-landing) configures a solution to use solution versioning.
 It will add a new versioning project and configure other projects to use versioning information from the versioning project.
 
 ## Build numbering

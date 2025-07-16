@@ -1,8 +1,8 @@
 ﻿---
-uid: dotnet-tool-git2semver-tool
+uid: git2semver-tool-installing
 ---
 
-# Git2SemVer.Tool
+# Installing Git2SemVer.Tool
 
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool)
 
@@ -17,12 +17,6 @@ To setup a solution to use Git2SemVer solution versioning, first install the dot
 
 ```winbatch
 dotnet tool install --global NoeticTools.Git2SemVer.Tool
-```
-
-Then, in the solution's directory, run:
-
-```winbatch
-Git2SemVer add
 ```
 
 To update the tool to the latest:

@@ -2,9 +2,6 @@
 uid: versioning-intro
 ---
 
-[![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.Msbuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild)
-[![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool)
-
 <style>
 
 .featureTitle {
@@ -43,6 +40,7 @@ a
 
 
 # Git2SemVer Versioning
+
 
 Git2SemVer is a Visual Studio and developer friendly <a href="https://semver.org">Semantic Versioning</a> framework for .NET solution/project versioning and changelog generation.
 It works the same with both Visual Studio and dotnet CLI builds. 
