@@ -1,8 +1,6 @@
-- name: MSBuild properties
-  href: MSBuildProperties.md
-- name: Glossary
-  href: Glossary.md
 - name: Errors and Warnings
   href: ErrorsAndWarnings/
 - name: Upgrading
   href: Upgrading/
+- name: Glossary
+  uid: glossary

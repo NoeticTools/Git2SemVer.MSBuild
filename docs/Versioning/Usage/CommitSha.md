@@ -1,5 +1,5 @@
 ﻿---
-uid: project-versioning
+uid: commit-sha
 ---
 
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.MSBuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MsBuild)
@@ -7,9 +7,7 @@ uid: project-versioning
   ![Static Badge](https://img.shields.io/badge/GitHub%20project-944248?logo=github)
 </a>
 
+# Commit SHA
 
-## Project versioning
+The full commit SHA is used rather than a short version to maintain consistency and compatibility with [sourceLink related changes in .NET SDK 8](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/source-link).
 
-Project versioning is when a project is versioned independly of any other project in a solution.
-
-To use project versioning add the [Git2SemVer.MSBuild nuget package](xref:git2semver-msbuild) to the project.

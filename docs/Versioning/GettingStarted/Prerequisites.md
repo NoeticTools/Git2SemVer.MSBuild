@@ -1,5 +1,5 @@
 ﻿---
-uid: project-versioning
+uid: prerequisites
 ---
 
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.MSBuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MsBuild)
@@ -7,9 +7,17 @@ uid: project-versioning
   ![Static Badge](https://img.shields.io/badge/GitHub%20project-944248?logo=github)
 </a>
 
+#  Prerequisites
 
-## Project versioning
+Git2SemVer requires:
 
-Project versioning is when a project is versioned independly of any other project in a solution.
+* `git` CLI to be executable from any project directory.
+* `dotnet` CLI to be executable from any project directory.
 
-To use project versioning add the [Git2SemVer.MSBuild nuget package](xref:git2semver-msbuild) to the project.
+Known compatibility:
+
+* `dotnet.exe` `8.0.403` or later.
+* `git` `2.41.0` or later.
+* Windows 11
+* Ubuntu 20.04 LTS
+
