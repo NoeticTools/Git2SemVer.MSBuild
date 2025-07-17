@@ -13,7 +13,7 @@ uid: git2semver-tool-landing
 * Setup a .NET solution for [solution versioning](xref:solution-versioning).
 
 <div class="container-fluid mb-4 w-100">
-    <div class="row row-cols-xs-2 row-cols-s-3 g-4">
+    <div class="row row-cols-xs-2 row-cols-sm-3 g-4">
         <div class="col">
             <div class="card" style="min-height: 140px; min-width: 170px">
                 <div class="card-body" >

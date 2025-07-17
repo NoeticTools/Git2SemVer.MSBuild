@@ -1,2 +1,18 @@
 - name: Changelog intro
   uid: changelog-gen-landing
+- name: Getting started
+  uid: changelog-getting-started
+- name: Workflows
+  expanded: true
+  items:
+  - name: Incremental
+    uid: changelog-workflow-incremental
+  - name: Traditional
+    uid: changelog-workflow-traditional
+- name: Usage
+  expanded: true
+  items:
+  - name: Customising
+    uid: changelog-customising
+  - name: Settings
+    uid: changelog-settings
