@@ -28,12 +28,12 @@ This format is used to extract the  released version (`<major>.<minor>.<patch>`)
 
 The default release tag format is:
 
-```winbatch
+```console
   v<major>.<minor>.<patch>
 ```
 
 Or, in regular expression format:
-```winbatch
+```console
   ^v(?<version>\d+\.\d+\.\d+)"
 ```
 
@@ -78,7 +78,7 @@ Default release version tag friendly name example matching:
 </table>
 For example, tag friendly names that will match this default format include:
 
-```winbatch
+```console
   v1.2.3
   v1.2.3 our big beautiful pink release
 ```
@@ -188,11 +188,3 @@ Examples:
     </tbody>
 </table>
 
-
-## Related topics
-
-* [Workflow](xref:workflow)
-* [Versioning](xref:versioning)
-* [Branch naming](xref:branch-naming)
-* [Build maturity identifier](xref:maturity-identifier)
-* [Build properties](xref:versioning-msbuild-properties)

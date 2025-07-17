@@ -52,7 +52,7 @@ public sealed class CommitMessageMetadata : ICommitMessageMetadata
         get
         {
             var issues = new List<string>();
-            foreach (var issueKey in _convCommitsSettings.IssueKeys)
+            foreach (var issueKey in _convCommitsSettings.FooterIssueTokens)
             {
                 issues.AddRange(FooterKeyValues[issueKey]);
             }

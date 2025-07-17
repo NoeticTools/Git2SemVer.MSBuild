@@ -1,5 +1,5 @@
 ﻿---
-uid: workflow
+uid: versioning-workflow
 ---
 
 <style>
@@ -8,9 +8,9 @@ th {
 }
 </style>
 
-## Workflow
+# Versioning workflow
 
-### The release versioning cycle
+## The release versioning cycle
 
 If the Git code repository does not have any [release tags](xref:release-tagging) then the project is in the [Semver initial development phase](https://semver.org/#how-should-i-deal-with-revisions-in-the-0yz-initial-development-phase).
 The starting version is `0.1.0` (See also: [Versioning](xref:versioning)).
@@ -23,7 +23,7 @@ The versioning cycle restarts when there is a new release.
 Normally the release tag will have the same version as that commit's build version.
 The tag does not, normally, change the version but ends the current versioning cycle and starts a new one.
 
-### Version incrementing
+## Version incrementing
 
 Semantic versioning indicates if release has, since the last release, one or more fixes, features, or breaking changes.
 So if the start release is, say, `1.2.3` then the next release will be one of:
@@ -37,7 +37,7 @@ The patch number is automatically bumped after a release to keep the version uni
 The version is bumped by either [Conventionial Commits](https://www.conventionalcommits.org/en/v1.0.0/) messages indicating that a feature or breaking change has been added.
 In exceptional cirumstances, such as to correct an error, a release's version can be manipulated by a release tag and then rebuilding the commit.
 
-### Guava example
+## Guava example
 
 An example workflow:
 
@@ -73,7 +73,7 @@ gitGraph
        commit id:"1.3.1+109"
 ```
 
-### FAQ
+## FAQ
 
 **Can I force a release version with a release tag?**
 
@@ -90,10 +90,3 @@ and the contents of a release cannot be changed ([Semver spec, item 6](<see href
 **Does the release need to be the most recent commit on the release branch**
 
 No - If it is not the most recent then, after adding a [release tag](xref:release-tagging), rebuilding following commits will result in their versions following the released version according to semantic versioning rules.
-
-## Related topics
-
-* [Versioning](xref:versioning)
-* [Branch naming](xref:branch-naming)
-* [Build maturity identifier](xref:maturity-identifier)
-* [Build properties](xref:versioning-msbuild-properties)

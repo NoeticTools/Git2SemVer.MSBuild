@@ -8,7 +8,7 @@ Git2SemVer generates versioning information and passes this to the optional [C# 
 
 ![](../../../Images/MSBuild_tasks_01.png)
 
-This topic describes the default versioning without a custom C# script and without customised [build properties](xref:versioning-msbuild-properties).
+This topic describes the default versioning without a custom C# script and without customised [build properties](xref:msbuild-properties).
 
 ## Release versioning
 
@@ -63,7 +63,7 @@ Examples:
 
 ## Initial development versioning (0.x.x)
 
-All versions with a 0 major number (0.x.x) are initial development build versions (See [Semmantic Versioning spec item 4](https://semver.org/#spec-item-4)).
+All versions with a 0 major number (0.x.x) are initial development build versions (See [Semantic Versioning spec item 4](https://semver.org/#spec-item-4)).
 Git2SemVer makes all initial development builds pre-release build with "InidialDev" added to the [maturity ID](xref:maturity-identifier) as shown in
 the table below.
 
@@ -88,7 +88,7 @@ the table below.
 ---
 
 > [!NOTE]
-> Pre-release maturity labels are configurable by setting the MSBuild property [Git2SemVer_BranchMaturityPattern](xref:versioning-msbuild-properties).
+> Pre-release maturity labels are configurable by setting the MSBuild property [Git2SemVer_BranchMaturityPattern](xref:msbuild-properties).
 > Values shown here are defaults.
 
 ## Examples

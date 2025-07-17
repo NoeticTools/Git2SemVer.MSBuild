@@ -8,7 +8,7 @@ For traceability every build requires a unique ID that is easily traceable to th
 Best practice is for this to be a single incrementing [build number](xref:glossary#build-number). 
 Host like TeamCity do provide such a build number but some, like GitHub do not.
 There can also be multiple build number contexts such as dev boxes. 
-In these cases a [build ID](xref:glossary#build-id) is constructed to be a unique psuedo build number using multiple Semmantic Versioning dot delimited identifiers.
+In these cases a [build ID](xref:glossary#build-id) is constructed to be a unique psuedo build number using multiple Semantic Versioning dot delimited identifiers.
 
 Example build ID shemas:
 
@@ -21,4 +21,4 @@ See the [build host](xref:build-hosts) type for details.
 > [!NOTE]
 > The host's generated build number can be overriden in any build by setting the MSBuild property `Git2SemVer_BuildNumber`.
 >
-> See [MSBuild properties](xref:versioning-msbuild-properties).
+> See [MSBuild properties](xref:msbuild-properties).

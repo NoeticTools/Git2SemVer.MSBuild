@@ -26,11 +26,11 @@ Example versions:
 * `1.2.3-JohnsPC.12345+3a962b33`
 * `1.2.3+JohnsPC.12345.3a962b33`
 
-The machine name (build context) identifier comes before the build number to give the machine name higher [Semmantic Versioning pecedence](https://semver.org/#spec-item-11)
+The machine name (build context) identifier comes before the build number to give the machine name higher [Semantic Versioning pecedence](https://semver.org/#spec-item-11)
 precedence for comparing versions from multiple hosts as the build numbers for different hosts are not comparable.
 
 > [!NOTE]
-> [Semmantic Versioning pecedence](https://semver.org/#spec-item-11) will not work when comparing versions from different hosts.
+> [Semantic Versioning pecedence](https://semver.org/#spec-item-11) will not work when comparing versions from different hosts.
 > So NuGet pre-release builds must be published from one host only (typically the build system) so that the highest precedence build is shown.
 
 ### Properties

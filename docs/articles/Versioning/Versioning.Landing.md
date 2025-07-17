@@ -110,7 +110,7 @@ gitGraph
 * [Getting Started](xref:versioning-getting-started)
 * [Default Versioning](xref:versioning)
 * Usage
-  * [Workflow](xref:workflow)
+  * [Workflow](xref:versioning-workflow)
   * [Release Tagging](xref:release-tagging)
   * [Branch naming](xref:branch-naming)
   * [Build Hosts](xref:build-hosts)
@@ -164,10 +164,10 @@ gitGraph
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-          <a href="https://semver.org/">Semmantic Versioning</a>
+          <a href="https://semver.org/">Semantic Versioning</a>
         </p>
         <p>
-           Industry standard Semmantic Version compliance.
+           Industry standard Semantic Version compliance.
         </p>
         <p>
            Supports <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Reference/Glossary.html##initial-development">initial development versioning.</a> 

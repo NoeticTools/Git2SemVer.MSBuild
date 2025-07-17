@@ -2,5 +2,9 @@
   uid: home
 - name: Versioning
   href: articles/Versioning/
-- name: Changelog generation
+- name: Changelog gen.
   href: articles/ChangelogGen/
+- name: Git2SemVer.MSBuild
+  href: articles/Git2SemVer.MSBuild/
+- name: Git2SemVer.Tool
+  href: articles/Git2SemVer.Tool/

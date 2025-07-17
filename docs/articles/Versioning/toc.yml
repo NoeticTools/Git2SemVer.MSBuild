@@ -1,10 +1,12 @@
 - name: Versioning introduction
   uid: versioning-landing
+- name: Getting started
+  uid: versioning-getting-started
 - name: Usage
   expanded: true
   items:
   - name: Workflow
-    uid: workflow
+    uid: versioning-workflow
   - name: Versioning
     uid: versioning
   - name: Release tagging
@@ -27,3 +29,10 @@
     href: /Versioning/CSharpScripting/
   - name: Waypoint tagging
     uid: waypoint-tagging
+- name: Learn
+  expanded: true
+  items:
+  - name: Solution versioning
+    uid: solution-versioning
+  - name: Project versioning
+    uid: project-versioning

@@ -1,0 +1,16 @@
+- name: Git2SemVer.MSBuild
+  uid: git2semver-msbuild-landing
+- name: Getting Started
+  expanded: true
+  items:
+  - name: Installing
+    uid: git2semver-msbuild-installing
+- name: Usage
+  expanded: true
+  items:
+  - name: Logging
+    uid: git2semver-msbuild-logging
+  - name: MSBuild properties
+    uid: msbuild-properties
+- name: Error and Warning codes
+  uid: GSV001

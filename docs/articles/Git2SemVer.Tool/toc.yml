@@ -3,7 +3,7 @@
 - name: Getting Started
   uid: dotnet-tool-getting-started
 - name: Usage
-  href: /DotnetTool/Usage/
+  href: /Git2SemVer.Tool/Usage/
   expanded: true
   items:
   - name: Commands

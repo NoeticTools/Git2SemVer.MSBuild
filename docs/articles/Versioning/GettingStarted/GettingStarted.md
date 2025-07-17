@@ -5,24 +5,16 @@ uid: versioning-getting-started
 [![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.MSBuild)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.MsBuild)
 
 
-# Getting Started
+# Versioning - Getting Started
 
-## Installing
+## Setup
 
-First check [prerequisites](xref:git2semver-tool-prerequisites) and then install the dotnet tool `Git2SemVer.Tool`:
-
-```console
-dotnet tool install --global NoeticTools.Git2SemVer.Tool
-```
-
-> [!NOTE]
-> Git2SemVer.Tool is only required for solution setup.
-> For a single project solution you could just reference the `Git2SemVer.MSBuild` package.
+Dotnet tool `Git2SemVer.Tool` install instruction are [here](xref:git2semver-tool-installing).
 
 Then, in the solution's directory, run:
 
 ```console
-Git2SemVer add
+git2semver add
 ```
 
 You will be prompted with a few options and then setup is done.
@@ -37,7 +29,7 @@ Try building the solution, all projects will be automatically versioned using [G
 
 ### First build
 
-If you have not installed Git2SemVer and configured your test solution for solution versioning, do it now. Instructions are [here](#installing).
+If you have not installed Git2SemVer and configured your test solution for solution versioning, do it now. Instructions are [here](#setup).
 
 Your test solution must be under Git revision control.
 

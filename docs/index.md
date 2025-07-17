@@ -50,8 +50,8 @@ Every build, on both developer boxes and the build system, without scripts or en
         <div class="col">
             <div class="card" style="min-height: 190px; min-width: 220px">
                 <div class="card-body" >
-                    <p class="fw-semibold"><a href="/articles/Versioning/VersioningLanding.html">Automatic Versioning</a></p>
-                    <p>Tutorials to add automatic Semmantic versioning, from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>, to your projects or solution.</p>
+                    <p class="fw-semibold"><a href="/articles/Versioning/Versioning.Landing.html">Automatic Versioning</a></p>
+                    <p>Tutorials to add automatic Semantic versioning, from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>, to your projects or solution.</p>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@ Every build, on both developer boxes and the build system, without scripts or en
         <div class="col">
             <div class="card" style="min-height: 190px; min-width: 220px">
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/articles/MSBuildTask/MSBuildTaskIntro.html">Git2SemVer.MSBuild</a></p>
+                    <p class="fw-semibold"><a href="/articles/Git2SemVer.MSBuild/Git2SemVer.MSBuild.Landing.html">Git2SemVer.MSBuild</a></p>
                     <p><a href="https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild"><img src="https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.MSBuild?label=Git2SemVer.MSBuild" alt="Current Version"></a></p>
                     <p>A nuget package that adds a versioning task for every build.</p>
                 </div>
@@ -75,9 +75,9 @@ Every build, on both developer boxes and the build system, without scripts or en
         <div class="col">
             <div class="card" style="min-height: 190px; min-width: 220px">
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/articles/DotnetTool/Git2SemVer.Tool.html">Git2SemVer.Tool</a></p>
+                    <p class="fw-semibold"><a href="/articles/Git2SemVer.Tool/Git2SemVer.Tool.Landing.html">Git2SemVer.Tool</a></p>
                     <p><a href="https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool"><img src="https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool" alt="Current Version"></a></p>
-                    <p>A dotnet tool for command line versioning and changelog generation.</p>
+                    <p>A dotnet tool nuget package providing command line versioning and changelog generation.</p>
                 </div>
             </div>
         </div>

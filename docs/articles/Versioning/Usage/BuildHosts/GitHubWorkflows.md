@@ -68,7 +68,7 @@ Example versions with the build ID identifiers highlighted:
 * 1.2.3-`12345.1`+3a962b33
 * 1.2.3+`12345.1`.3a962b33
 
-The build context identifier (run attempt) comes second to ensure correct [Semmantic Versioning pecedence](https://semver.org/#spec-item-11) of rebuilds.
+The build context identifier (run attempt) comes second to ensure correct [Semantic Versioning pecedence](https://semver.org/#spec-item-11) of rebuilds.
 
 ### Properties
 
@@ -76,8 +76,8 @@ The GitHub build host object's properties:
 
 | Host property | Description  |
 |:-- |:-- |
-| Build number  | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildNumber](xref:versioning-msbuild-properties##inputs) property to `github.run_number` in the workflow. |
-| Build context | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildContext](xref:versioning-msbuild-properties##inputs) property to `github.run_attempt` in the workflow. |
+| Build number  | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildNumber](xref:msbuild-properties##inputs) property to `github.run_number` in the workflow. |
+| Build context | Default is 'UNKNOWN'. Set via MSBuild [Git2SemVer_BuildContext](xref:msbuild-properties##inputs) property to `github.run_attempt` in the workflow. |
 | Build ID      | `<build context>.<build number>` |
 | Name          | 'GitHub'    |
 

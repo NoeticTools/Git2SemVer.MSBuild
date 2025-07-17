@@ -9,10 +9,10 @@ namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 public sealed class ConventionalCommitsSettings
 {
     /// <summary>
-    ///     Commit message footer keys will comma-delimited list of issues.
+    ///     Commit message footer tokens that may contain a comma-delimited list of issues.
     /// </summary>
     [JsonPropertyOrder(20)]
-    public string[] IssueKeys { get; set; } =
+    public string[] FooterIssueTokens { get; set; } =
     [
         "issues",
         "issue",

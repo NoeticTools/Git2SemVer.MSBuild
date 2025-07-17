@@ -1,5 +1,5 @@
 ﻿---
-uid: versioning-msbuild-properties
+uid: msbuild-properties
 ---
 
 <style>
@@ -50,9 +50,7 @@ Or, in the `csproj` file like:
 
 ```
   <PropertyGroup>
-        :
     <Git2SemVer_UpdateHostBuildLabel>true</Git2SemVer_UpdateHostBuildLabel>
-        :
   </PropertyGroup>
 ```
 

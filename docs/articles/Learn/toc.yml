@@ -1,7 +1,3 @@
-- name: Solution versioning
-  uid: solution-versioning
-- name: Project versioning
-  uid: project-versioning
 - name: Working with the code
   uid: working-with-the-code
 - name: Acknowledgments
