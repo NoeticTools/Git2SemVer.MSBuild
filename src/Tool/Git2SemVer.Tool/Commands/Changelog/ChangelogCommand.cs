@@ -32,9 +32,9 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
         var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
-        changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-        changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-        changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
+        //changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+        //changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
+        //changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
 
         var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
         var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
@@ -47,15 +47,14 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                 Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
                 lastRunData = new LastRunData();
                 createNewChangelog = true;
+                var canProceed = Console.PromptYesNo("Proceed?");
+                if (!canProceed)
+                {
+                    Console.WriteLine();
+                    Console.WriteMarkupInfoLine("[em]Aborted[/]");
+                    return;
+                }
             }
-        }
-
-        var canProceed = AskIfToProceed(cmdLineSettings, outputFileExists, changeLogInputs.HeadCommitSha, lastRunData);
-        if (!canProceed)
-        {
-            Console.WriteLine();
-            Console.WriteMarkupInfoLine("[em]Aborted[/]");
-            return;
         }
 
         var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
@@ -76,7 +75,10 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
         }
 
         lastRunData.Update(changeLogInputs);
-        lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
+        if (cmdLineSettings.Incremental)
+        {
+            lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
+        }
 
         Console.WriteLine();
         var verb = cmdLineSettings.Incremental && !createNewChangelog ? "Updating" :
@@ -91,26 +93,6 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
         Console.WriteLine("");
         Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
-    }
-
-    private bool AskIfToProceed(ChangelogCommandSettings commandSettings,
-                                bool outputFileExists,
-                                string headSha,
-                                LastRunData lastRunData)
-    {
-        if (commandSettings.Force || !outputFileExists || !string.Equals(headSha, lastRunData.HeadSha, StringComparison.Ordinal))
-        {
-            return true;
-        }
-
-        Console.WriteMarkupInfoLine("The changelog exists and the head commit has not changed since last run. There should be no changes.");
-
-        if (commandSettings.Unattended)
-        {
-            return false;
-        }
-
-        return Console.PromptYesNo($"{(commandSettings.Incremental ? "Update" : "Recreate")} anyway?", false);
     }
 
     private static void EnsureDataDirectoryExists(ChangelogCommandSettings cmdLineSettings)
@@ -199,7 +181,7 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
             VersioningMode = VersioningMode.StandAloneProject,
             IntermediateOutputDirectory = cmdLineSettings.DataDirectory,
             HostType = cmdLineSettings.HostType ?? "",
-            WriteConventionalCommitsInfo = true
+            WriteConventionalCommitsInfo = false
         };
 
         using var logger = CreateLogger(cmdLineSettings.Verbosity);

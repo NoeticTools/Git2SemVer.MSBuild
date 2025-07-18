@@ -2,7 +2,6 @@
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
@@ -79,7 +78,7 @@ internal class Git2SemVerCommandApp
                   .WithExample("versioning", "run")
                   .WithData(servicesProvider);
 
-            config.AddCommand<ChangelogCliCommand>(ChangelogConstants.DefaultSubfolderName)
+            config.AddCommand<ChangelogCliCommand>("changelog")
                   .WithDescription("Generate changelog command.")
                   .WithExample("changelog", "-u")
                   .WithData(servicesProvider);

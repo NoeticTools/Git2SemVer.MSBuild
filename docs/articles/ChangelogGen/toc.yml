@@ -1,4 +1,4 @@
-- name: Changelog intro
+- name: Changelog generation
   uid: changelog-gen-landing
 - name: Getting started
   uid: changelog-getting-started
@@ -16,3 +16,7 @@
     uid: changelog-customising
   - name: Settings
     uid: changelog-settings
+  - name: Templating
+    uid: changelog-templating
+  - name: Data files
+    uid: changelog-data-files

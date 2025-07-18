@@ -11,6 +11,8 @@ If no template is provided **Git2SemVer** will install and its default template 
 
 The template file can be edited to customise the generated changelog markdown.
 
+For more details see [Templating](xref:changelog-templating).
+
 ## Release link
 
 The url set by the **Git2SemVer.Tool** changelog command option `--artifact-url` is passed to the changelog template.

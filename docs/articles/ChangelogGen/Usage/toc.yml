@@ -9,3 +9,7 @@
     uid: changelog-workflow-incremental
   - name: Traditional
     uid: changelog-workflow-traditional
+- name: Templating
+  uid: changelog-templating
+- name: Data files
+  uid: changelog-data-files

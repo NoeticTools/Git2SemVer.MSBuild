@@ -13,14 +13,13 @@ public static class ChangelogConstants
         new(7, "Other", "^(?!dev|Dev|refactor).*$")
     ];
 
-    public const string DefaultConvCommitsInfoFilename = "conventionalcommits.g.json";
-    public const string DefaultSubfolderName = "changelog";
+    public const string DefaultConvCommitsInfoFilename = "conventionalcommits.data.g.json";
 
     public const string DefaultMarkdownTemplateFilename = "markdown.template.scriban";
 
     public const string ProjectSettingsFilename = "git2semver.changelog.settings.json";
 
-    public const string LastRunFileSuffix = ".g2sv.data.json";
+    public const string LastRunDataFileSuffix = ".g2sv.data.g.json";
 
     public static string GetDefaultTemplate()
     {
