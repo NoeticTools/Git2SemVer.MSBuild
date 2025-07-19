@@ -1,25 +1,21 @@
 ﻿using System.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Console;
+using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
-using Semver;
 
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 
 [RegisterSingleton]
-internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console), IChangelogCommand
+internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : CommandBase(console), IChangelogCommand
 {
     public void Execute(ChangelogCommandSettings cmdLineSettings)
     {
-        Console.WriteMarkupInfoLine($"Generating Changelog {(cmdLineSettings.Unattended ? " (unattended)" : "")}.");
-        Console.WriteLine("");
-
-        var proceed = Console.PromptYesNo("Proceed?");
-        Console.WriteLine();
+        var proceed = WriteConsolePreamble(cmdLineSettings);
         if (!proceed)
         {
             Console.WriteErrorLine("Aborted.");
@@ -32,30 +28,9 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
 
         var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
-        //changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-        //changeLogInputs = ConventionalCommitsVersionInfo.Load(Path.Combine(cmdLineSettings.DataDirectory, "test.json")); // >>> test
-        //changeLogInputs.Write(Path.Combine(cmdLineSettings.DataDirectory, "test2.json")); // >>> test
-
         var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
         var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
         var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
-        if (!createNewChangelog && !projectSettings.AllowVariationsToSemVerStandard)
-        {
-            var contributingReleases = changeLogInputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
-            if (lastRunData.ContributingReleasesChanged(contributingReleases))
-            {
-                Console.WriteMarkupInfoLine("[lightsalmon1]There has been a release since last run, a new changelog will be generated.[/]");
-                lastRunData = new LastRunData();
-                createNewChangelog = true;
-                var canProceed = Console.PromptYesNo("Proceed?");
-                if (!canProceed)
-                {
-                    Console.WriteLine();
-                    Console.WriteMarkupInfoLine("[em]Aborted[/]");
-                    return;
-                }
-            }
-        }
 
         var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
 
@@ -116,13 +91,16 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
     {
         var template = GetTemplate(commandSettings.DataDirectory);
         var releaseUrl = commandSettings.ArtifactLinkPattern;
-        var changelogGenerator = new ChangelogGenerator(projectSettings);
+        var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
 
         var existingChangelog = createNewChangelog ? "" : File.ReadAllText(commandSettings.OutputFilePath);
         var changelog = changelogGenerator.Execute(inputs,
                                                    lastRunData,
                                                    template,
-                                                   existingChangelog, releaseUrl, true, createNewChangelog);
+                                                   existingChangelog,
+                                                   releaseUrl,
+                                                   incremental: true, // todo
+                                                   createNewChangelog);
 
         if (string.Equals(existingChangelog, changelog, StringComparison.Ordinal))
         {
@@ -192,5 +170,15 @@ internal sealed class ChangelogCommand(IConsoleIO console) : CommandBase(console
                                                                           host,
                                                                           projectSettings.ConvCommits);
         return versionGenerator.GetConventionalCommitsInfo();
+    }
+
+    private bool WriteConsolePreamble(ChangelogCommandSettings cmdLineSettings)
+    {
+        Console.WriteMarkupInfoLine($"Generating Changelog {(cmdLineSettings.Unattended ? " (unattended)" : "")}.");
+        Console.WriteLine("");
+
+        var proceed = Console.PromptYesNo("Proceed?");
+        Console.WriteLine();
+        return proceed;
     }
 }

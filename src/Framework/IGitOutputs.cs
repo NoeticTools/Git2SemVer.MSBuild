@@ -21,6 +21,23 @@ public interface IGitOutputs
     string BranchName { get; }
 
     /// <summary>
+    ///     Prior releases that are directly reachable from the head commit.
+    /// </summary>
+    /// <remarks>
+    ///     <p>
+    ///         A git tree showing 2 prior contributing releases (1.2.4 & 1.3.0):
+    ///     </p>
+    ///     <code>
+    ///       1.2.3        1.3.0          head
+    ///   ------o------o-----o----o---o--- o
+    ///          \                   /
+    ///           o-----o-----------o
+    ///               1.2.4
+    /// </code>
+    /// </remarks>
+    SemVersion[] ContributingReleases { get; }
+
+    /// <summary>
     ///     True if there are local changes since the last commit.
     /// </summary>
     /// <remarks>
@@ -51,21 +68,4 @@ public interface IGitOutputs
     ///     The last release's version. Null if no prior release.
     /// </summary>
     SemVersion? PriorReleaseVersion { get; }
-
-    /// <summary>
-    ///     Prior releases that are directly reachable from the head commit. 
-    /// </summary>
-    /// <remarks>
-    /// <p>
-    ///     A git tree showing 2 prior contributing releases (1.2.4 & 1.3.0):
-    /// </p>
-    /// <code>
-    ///       1.2.3        1.3.0          head
-    ///   ------o------o-----o----o---o--- o
-    ///          \                   /
-    ///           o-----o-----------o
-    ///               1.2.4
-    /// </code>
-    /// </remarks>
-    SemVersion[] ContributingReleases { get; }
 }

@@ -11,7 +11,7 @@ public class Git2SemVerUnknownCommandOptionException : Git2SemverExceptionBase
     }
 
     // ReSharper disable once UnusedMember.Global
-    public Git2SemVerUnknownCommandOptionException(string message, Exception innerException) 
+    public Git2SemVerUnknownCommandOptionException(string message, Exception innerException)
         : base(message, innerException)
     {
     }

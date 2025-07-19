@@ -66,6 +66,7 @@ public class ConventionalCommitsVersionInfo
         {
             Directory.CreateDirectory(directory!);
         }
+
         Git2SemVerJsonSerializer.Write(filePath, this);
     }
 

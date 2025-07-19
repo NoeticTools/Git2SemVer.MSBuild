@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Xml.Schema;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
@@ -8,7 +7,6 @@ using NoeticTools.Git2SemVer.Framework.Generation.Builders;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using NoeticTools.Git2SemVer.Framework.Persistence;
-using Semver;
 
 
 namespace NoeticTools.Git2SemVer.Framework.Generation;
@@ -30,6 +28,12 @@ internal sealed class VersioningEngine(
         gitTool.Dispose();
     }
 
+    public ConventionalCommitsVersionInfo GetConventionalCommitsInfo()
+    {
+        var (outputs, results) = GetVersionOutputs();
+        return new ConventionalCommitsVersionInfo(outputs, results.Contributing);
+    }
+
     public IVersionOutputs PrebuildRun()
     {
         var stopwatch = Stopwatch.StartNew();
@@ -46,12 +50,6 @@ internal sealed class VersioningEngine(
         host.ReportBuildStatistic("git2semver.runtime.seconds", stopwatch.Elapsed.TotalSeconds);
 
         return outputs;
-    }
-
-    public ConventionalCommitsVersionInfo GetConventionalCommitsInfo()
-    {
-        var (outputs, results) = GetVersionOutputs();
-        return new ConventionalCommitsVersionInfo(outputs, results.Contributing);
     }
 
     private (VersionOutputs Outputs, SemanticVersionCalcResult Results) GetVersionOutputs()

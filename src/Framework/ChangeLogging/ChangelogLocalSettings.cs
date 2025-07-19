@@ -15,19 +15,6 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 /// </remarks>
 public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
 {
-    // ReSharper disable once GrammarMistakeInComment
-    /// <summary>
-    /// Issue link format with issue ID as argument ({0}).
-    /// </summary>
-    /// <remarks>
-    /// Example:
-    /// <example>
-    /// "https://organisation-name/project-name/issues/{0}"
-    /// </example>
-    /// </remarks>
-    [JsonPropertyOrder(5)]
-    public string IssueLinkFormat { get; set; } = "{0}";
-
     /// <summary>
     ///     Categories to include in the changelog.
     /// </summary>
@@ -37,22 +24,24 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     [JsonPropertyOrder(10)]
     public ConventionalCommitsSettings ConvCommits { get; set; } = new();
 
+    // ReSharper disable once GrammarMistakeInComment
+    /// <summary>
+    ///     Issue link format with issue ID as argument ({0}).
+    /// </summary>
+    /// <remarks>
+    ///     Example:
+    ///     <example>
+    ///         "https://organisation-name/project-name/issues/{0}"
+    ///     </example>
+    /// </remarks>
+    [JsonPropertyOrder(5)]
+    public string IssueLinkFormat { get; set; } = "{0}";
+
     /// <summary>
     ///     Configuration file schema revision.
     /// </summary>
     [JsonPropertyOrder(-10)]
     public string Rev { get; set; } = "1";
-
-    /// <summary>
-    ///     If true, some variations to the Semantic Versioning specification are allowed.
-    /// </summary>
-    /// <remarks>
-    /// <p>
-    ///     If true, functionality complies with the specification.
-    /// </p>
-    /// </remarks>
-    [JsonPropertyOrder(5)]
-    public bool AllowVariationsToSemVerStandard { get; set; } = false;
 
     public bool Equals(ChangelogLocalSettings? other)
     {

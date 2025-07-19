@@ -7,17 +7,32 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public sealed class LastRunData
 {
+    [JsonPropertyOrder(40)]
+    public IReadOnlyList<string> ContributingReleases { get; set; } = [];
+
     [JsonPropertyOrder(50)]
     public List<HandledChange> HandledChanges { get; set; } = [];
 
     /// <summary>
-    /// This file's schema revision. To allow for file migration.
+    ///     This file's schema revision. To allow for file migration.
     /// </summary>
     [JsonPropertyOrder(-10)]
     public string Rev { get; set; } = "1";
 
-    [JsonPropertyOrder(40)]
-    public IReadOnlyList<string> ContributingReleases { get; set; } = [];
+    public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)
+    {
+        if (ContributingReleases.Count == 0)
+        {
+            return false; // no data
+        }
+
+        if (ContributingReleases.Count != priorContributingReleases.Length)
+        {
+            return true;
+        }
+
+        return !priorContributingReleases.All(ver => ContributingReleases.Contains(ver.ToString()));
+    }
 
     public static DirectoryInfo GetFilePath(string dataDirectory, string targetFilePath)
     {
@@ -44,20 +59,5 @@ public sealed class LastRunData
     public void Update(ConventionalCommitsVersionInfo outputs)
     {
         ContributingReleases = outputs.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
-    }
-
-    public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)
-    {
-        if (ContributingReleases.Count == 0)
-        {
-            return false; // no data
-        }
-
-        if (ContributingReleases.Count != priorContributingReleases.Length)
-        {
-            return true;
-        }
-
-        return !priorContributingReleases.All(ver => ContributingReleases.Contains(ver.ToString()));
     }
 }

@@ -7,7 +7,7 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 /// <summary>
-/// Change category (like 'Added' or 'Fixed') that appears in the changelog.
+///     Change category (like 'Added' or 'Fixed') that appears in the changelog.
 /// </summary>
 /// <param name="settings"></param>
 /// <param name="markdownIssueFormatter"></param>
@@ -20,11 +20,6 @@ public sealed class ChangeCategory(CategorySettings settings, ITextFormatter mar
 
     public CategorySettings Settings { get; } = settings;
 
-    private void AddRange(IReadOnlyList<ChangeLogEntry> changes)
-    {
-        _changes.AddRange(changes);
-    }
-
     public void ExtractChangeLogsFrom(List<ConventionalCommit> metatdata)
     {
         var matchingMetadata = metatdata.Where(Matches).ToList();
@@ -32,9 +27,9 @@ public sealed class ChangeCategory(CategorySettings settings, ITextFormatter mar
         AddRange(GetUniqueChangelogEntries(matchingMetadata));
     }
 
-    private bool Matches(IChangeTypeAndDescription messageMetadata)
+    private void AddRange(IReadOnlyList<ChangeLogEntry> changes)
     {
-        return _changeTypeRegex.IsMatch(messageMetadata.ChangeType);
+        _changes.AddRange(changes);
     }
 
     private IReadOnlyList<ChangeLogEntry> GetUniqueChangelogEntries(List<ConventionalCommit> metadata)
@@ -53,5 +48,10 @@ public sealed class ChangeCategory(CategorySettings settings, ITextFormatter mar
         }
 
         return changeLogEntries.ToList();
+    }
+
+    private bool Matches(IChangeTypeAndDescription messageMetadata)
+    {
+        return _changeTypeRegex.IsMatch(messageMetadata.ChangeType);
     }
 }

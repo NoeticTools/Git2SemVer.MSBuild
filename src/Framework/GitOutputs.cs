@@ -15,8 +15,8 @@ public sealed class GitOutputs : IGitOutputs
     {
     }
 
-    internal GitOutputs(IGitTool gitTool,   
-                        SemVersion priorReleaseVersion, 
+    internal GitOutputs(IGitTool gitTool,
+                        SemVersion priorReleaseVersion,
                         CommitId priorReleaseCommitId,
                         IReadOnlyList<SemVersion> contributingReleases)
     {
@@ -39,6 +39,23 @@ public sealed class GitOutputs : IGitOutputs
     ///     </para>
     /// </remarks>
     public string BranchName { get; } = "";
+
+    /// <summary>
+    ///     Prior releases that are directly reachable from the head commit.
+    /// </summary>
+    /// <remarks>
+    ///     <p>
+    ///         A git tree showing 2 prior contributing releases (1.2.4 & 1.3.0):
+    ///     </p>
+    ///     <code>
+    ///       1.2.3        1.3.0          head
+    ///   ------o------o-----o----o---o--- o
+    ///          \                   /
+    ///           o-----o-----------o
+    ///               1.2.4
+    /// </code>
+    /// </remarks>
+    public SemVersion[] ContributingReleases { get; } = [];
 
     /// <summary>
     ///     True if there are local changes since the last commit.
@@ -73,23 +90,6 @@ public sealed class GitOutputs : IGitOutputs
     /// </summary>
     [JsonPropertyName("LastReleaseVersion")]
     public SemVersion? PriorReleaseVersion { get; }
-
-    /// <summary>
-    ///     Prior releases that are directly reachable from the head commit. 
-    /// </summary>
-    /// <remarks>
-    /// <p>
-    ///     A git tree showing 2 prior contributing releases (1.2.4 & 1.3.0):
-    /// </p>
-    /// <code>
-    ///       1.2.3        1.3.0          head
-    ///   ------o------o-----o----o---o--- o
-    ///          \                   /
-    ///           o-----o-----------o
-    ///               1.2.4
-    /// </code>
-    /// </remarks>
-    public SemVersion[] ContributingReleases { get; } = [];
 
     [JsonIgnore]
     public int CommitsSinceLastRelease = 0;

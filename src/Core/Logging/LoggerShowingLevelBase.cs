@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Diagnostics;
-using NoeticTools.Git2SemVer.Core.Diagnostics;
+﻿using NoeticTools.Git2SemVer.Core.Diagnostics;
 
 
 namespace NoeticTools.Git2SemVer.Core.Logging;
@@ -8,8 +6,6 @@ namespace NoeticTools.Git2SemVer.Core.Logging;
 public abstract class LoggerShowingLevelBase : LoggerBase
 {
     public override LoggingLevel Level { get; set; }
-
-    protected abstract void WriteLine(string message);
 
     public void Log(LoggingLevel level, string message)
     {
@@ -146,4 +142,6 @@ public abstract class LoggerShowingLevelBase : LoggerBase
     {
         LogWarning(code.MessageWithCode);
     }
+
+    protected abstract void WriteLine(string message);
 }

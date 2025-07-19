@@ -8,24 +8,7 @@ namespace NoeticTools.Git2SemVer.Tool.Tests.CommandLine;
 [NonParallelizable]
 internal class Git2SemVerCommandAppTests
 {
-    [Test]
-    public void WithVersionOptionsShowsToolInfoVersionTest()
-    {
-        var exitCode = Git2SemVerCommandApp.Execute(["--version"]);
-        // Spectre.Console.Cli handles this straight to console
-
-        Assert.That(exitCode, Is.Zero);
-    }
-
-    [Test]
-    public void WithoutArgumentsReturnsNonZeroExitCodeTest()
-    {
-        var exitCode = Git2SemVerCommandApp.Execute([""]);
-
-        Assert.That(exitCode, Is.Not.Zero);
-    }
-
-    [TestCase("changelog", "-u", "--xxx", "0" )]
+    [TestCase("changelog", "-u", "--xxx", "0")]
     [TestCase("versioning", "run", "--host-type", "xxx")]
     [TestCase("versioning", "-u", "run", "--xxx")]
     [TestCase("versioning", "setup", "add", "--solution", "xxx")]
@@ -37,5 +20,22 @@ internal class Git2SemVerCommandAppTests
 
         Assert.That(exitCode, Is.Not.Zero);
         Assert.That(stringLogger.HasError);
+    }
+
+    [Test]
+    public void WithoutArgumentsReturnsNonZeroExitCodeTest()
+    {
+        var exitCode = Git2SemVerCommandApp.Execute([""]);
+
+        Assert.That(exitCode, Is.Not.Zero);
+    }
+
+    [Test]
+    public void WithVersionOptionsShowsToolInfoVersionTest()
+    {
+        var exitCode = Git2SemVerCommandApp.Execute(["--version"]);
+        // Spectre.Console.Cli handles this straight to console
+
+        Assert.That(exitCode, Is.Zero);
     }
 }

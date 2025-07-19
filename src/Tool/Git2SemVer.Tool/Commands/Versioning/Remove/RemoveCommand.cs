@@ -32,12 +32,12 @@ internal sealed class RemoveCommand(
 
         console.WriteMarkupLine($"""
 
-                                  Ready to remove Git2SemVer versioning from [aqua]{solution!.Name}[/] solution. If the solution is currently open in Visual Studio, close it before proceeding.
+                                 Ready to remove Git2SemVer versioning from [aqua]{solution!.Name}[/] solution. If the solution is currently open in Visual Studio, close it before proceeding.
 
-                                  This is a best effort to remove all Git2SemVer files, projects, and settings from the solution. However customisation, renaming, or formatting may mean that some items may not be found. If so, this will be shown in the output as "No change." and some manual cleanup may be required.
+                                 This is a best effort to remove all Git2SemVer files, projects, and settings from the solution. However customisation, renaming, or formatting may mean that some items may not be found. If so, this will be shown in the output as "No change." and some manual cleanup may be required.
 
 
-                                  """);
+                                 """);
         if (!unattended)
         {
             var proceed = console.PromptYesNo("Proceed?");

@@ -11,12 +11,14 @@ using NoeticTools.Git2SemVer.Framework.Tools.CI;
 namespace NoeticTools.Git2SemVer.Framework;
 
 [ExcludeFromCodeCoverage]
-public sealed class ProjectVersioningFactory(Action<string> buildOutput, 
-                                             VersioningEngineFactory versioningEngineFactory, ILogger logger)
+public sealed class ProjectVersioningFactory(
+    Action<string> buildOutput,
+    VersioningEngineFactory versioningEngineFactory,
+    ILogger logger)
 {
-    public ProjectVersioning Create(IVersionGeneratorInputs inputs, 
+    public ProjectVersioning Create(IVersionGeneratorInputs inputs,
                                     IMSBuildGlobalProperties msBuildGlobalProperties,
-                                    IOutputsJsonIO? outputsJsonIO = null, 
+                                    IOutputsJsonIO? outputsJsonIO = null,
                                     IConfiguration? config = null)
     {
         if (inputs == null)
@@ -28,9 +30,9 @@ public sealed class ProjectVersioningFactory(Action<string> buildOutput,
         config ??= Git2SemVerConfiguration.Load();
 
         var host = new BuildHostFactory(config, buildOutput, logger).Create(inputs.HostType,
-                                                                              inputs.BuildNumber,
-                                                                              inputs.BuildContext,
-                                                                              inputs.BuildIdFormat);
+                                                                            inputs.BuildNumber,
+                                                                            inputs.BuildContext,
+                                                                            inputs.BuildIdFormat);
         var convCommitSettings = new ConventionalCommitsSettings();
         var versionGenerator = versioningEngineFactory.Create(inputs, msBuildGlobalProperties, outputsJsonIO, host, convCommitSettings);
         var projectVersioning = new ProjectVersioning(inputs, host,
@@ -39,6 +41,4 @@ public sealed class ProjectVersioningFactory(Action<string> buildOutput,
                                                       logger);
         return projectVersioning;
     }
-
-
 }

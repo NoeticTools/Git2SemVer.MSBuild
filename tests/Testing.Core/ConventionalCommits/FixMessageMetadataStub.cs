@@ -11,11 +11,11 @@ public sealed class FixMessageMetadataStub : MessageMetadataStubBase
     }
 
     public FixMessageMetadataStub(string scope,
-                            string changeDescription,
-                            string body,
-                            bool breakingChangeFlagged,
-                            FooterKeyValues footerKeyValues,
-                            ConventionalCommitsSettings convCommitsSettings)
+                                  string changeDescription,
+                                  string body,
+                                  bool breakingChangeFlagged,
+                                  FooterKeyValues footerKeyValues,
+                                  ConventionalCommitsSettings convCommitsSettings)
         : base("fix", scope, changeDescription, body, breakingChangeFlagged, footerKeyValues, convCommitsSettings)
     {
     }

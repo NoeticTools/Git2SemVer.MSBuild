@@ -16,9 +16,9 @@ internal sealed class LinkedSegment(GitSegment segment)
     /// </summary>
     public ApiChangeFlags ChangeFlags => _segment.ApiChangeFlags;
 
-    public GitSegment Inner { get; } = segment;
-
     public IReadOnlyList<Commit> Commits => _segment.Commits;
+
+    public GitSegment Inner { get; } = segment;
 
     public IReadOnlyList<LinkedSegment> LinkedChildSegments => _linkedChildSegments;
 

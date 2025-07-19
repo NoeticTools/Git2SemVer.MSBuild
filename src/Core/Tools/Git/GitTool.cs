@@ -28,6 +28,7 @@ public sealed class GitTool : IGitTool
         {
             RepositoryDirectory = Environment.CurrentDirectory;
         }
+
         _metadataParser = convCommitsParser;
     }
 

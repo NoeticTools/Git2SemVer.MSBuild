@@ -1,5 +1,4 @@
-﻿using NoeticTools.Git2SemVer.Core.Console;
-using NoeticTools.Git2SemVer.Core.Exceptions;
+﻿using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 
 
@@ -21,7 +20,6 @@ internal sealed class SolutionFinder(ILogger logger) : ISolutionFinder
         }
 
         throw new Git2SemVerFileNotFoundException($"The solution '{inputSolutionFile}' was not found in the working directory.");
-
     }
 
     private FileInfo Find(DirectoryInfo solutionDirectory)
@@ -34,7 +32,8 @@ internal sealed class SolutionFinder(ILogger logger) : ISolutionFinder
 
         if (solutions.Length > 1)
         {
-            throw new Git2SemVerFileNotFoundException("More than one solution (.sln) in the current directory. Use --Solution option to select the solution..");
+            throw new
+                Git2SemVerFileNotFoundException("More than one solution (.sln) in the current directory. Use --Solution option to select the solution..");
         }
 
         var solutionFile = solutions[0];

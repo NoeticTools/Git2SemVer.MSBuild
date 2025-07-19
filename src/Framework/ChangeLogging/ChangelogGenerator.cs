@@ -1,14 +1,14 @@
 ﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
+using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Exceptions;
-using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using Scriban;
 using Semver;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
+public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger logger)
 {
     /// <summary>
     ///     Generate changelog document.
@@ -38,6 +38,14 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
             Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
         }
 
+        var contributingReleases = inputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
+        var newRelease = lastRunData.ContributingReleasesChanged(contributingReleases);
+        if (newRelease)
+        {
+            logger.LogInfo("New release.");
+            lastRunData = new LastRunData();
+        }
+
         var messagesWithChanges = new List<ConventionalCommit>(inputs.ConventionalCommits);
         if (incremental)
         {
@@ -46,32 +54,65 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
 
         var issueMarkdownFormatter = new MarkdownLinkFormatter(projectSettings.IssueLinkFormat);
         var orderedCategories = projectSettings.Categories.OrderBy(x => x.Order);
-        var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter)).ToList();
-
+        var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter))
+                                                .ToList();
         if (!createNewChangelog && changeCategories.Count == 0)
         {
             return changelogToUpdate;
+            //xxx; // todo - option to insert new release?  REVIEW non-incremental
         }
 
         var newChangesContent = CreateNewContent(inputs, scribanTemplate, releaseUrl, incremental, changeCategories);
-
         if (createNewChangelog)
         {
             return newChangesContent;
         }
 
-        var newChangesDocument = new ChangelogDocument("new_changes", newChangesContent);
-        var destinationDocument = new ChangelogDocument("existing", changelogToUpdate);
-
-        CopyChangesToReviewSection(changeCategories, newChangesDocument, destinationDocument);
-
-        destinationDocument["version"].Content = newChangesDocument["version"].Content;
+        var newChangesDocument = new ChangelogDocument("new_changes", newChangesContent, logger);
+        var destinationDocument = new ChangelogDocument("existing", changelogToUpdate, logger);
+        if (newRelease)
+        {
+            destinationDocument.InsertNewRelease(newChangesDocument);
+        }
+        else
+        {
+            destinationDocument.AppendForGrooming(changeCategories, newChangesDocument);
+        }
 
         return destinationDocument.Content;
     }
 
+    private static string CreateNewContent(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl,
+                                           bool incremental, IReadOnlyList<ChangeCategory> changeCategories)
+    {
+        var newChangesContent = "";
+        try
+        {
+            var model = new ChangelogScribanModel(inputs,
+                                                  changeCategories,
+                                                  releaseUrl,
+                                                  incremental);
+            var template = Template.Parse(scribanTemplate);
+            newChangesContent = template.Render(model, member => member.Name);
+            if (newChangesContent.Trim().Length == 0)
+            {
+                throw new Git2SemVerScribanFileParsingException("The Scriban template file rendered no content.");
+            }
+        }
+        catch (Git2SemVerScribanFileParsingException)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            throw new Git2SemVerScribanFileParsingException("There was a problem parsing or rendering a Scriban template file.", exception);
+        }
+
+        return newChangesContent;
+    }
+
     private static ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
-                                                        List<ConventionalCommit> changeMessages, 
+                                                        List<ConventionalCommit> changeMessages,
                                                         ITextFormatter markdownIssueFormatter)
     {
         var changeCategory = new ChangeCategory(categorySettings, markdownIssueFormatter);
@@ -85,7 +126,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
     /// <param name="changeMessages"></param>
     /// <param name="handledChanges"></param>
     private static List<ConventionalCommit> GetUnhandledChanges(IReadOnlyList<ConventionalCommit> changeMessages,
-                                                                    List<HandledChange> handledChanges)
+                                                                List<HandledChange> handledChanges)
     {
         var unhandledMessages = new List<ConventionalCommit>(changeMessages);
         var handledChangesLookup = new ChangeLookup<HandledChange>(handledChanges, v => v);
@@ -112,54 +153,5 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
         }
 
         return unhandledMessages;
-    }
-
-    private static void CopyChangesToReviewSection(IEnumerable<ChangeCategory> changes,
-                                                   ChangelogDocument sourceDocument,
-                                                   ChangelogDocument destinationDocument)
-    {
-        foreach (var category in changes)
-        {
-            var sourceContent = sourceDocument[category.Settings.Name + " changes"].Content;
-            if (sourceContent.Trim().Length <= 0)
-            {
-                continue;
-            }
-
-            var destinationSection = destinationDocument[category.Settings.Name + " changes - for grooming"];
-            if (destinationSection.Exists)
-            {
-                destinationSection.Content += sourceContent;
-            }
-        }
-    }
-
-    private static string CreateNewContent(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl,
-                                           bool incremental, IReadOnlyList<ChangeCategory> changeCategories)
-    {
-        var newChangesContent = "";
-        try
-        {
-            var model = new ChangelogScribanModel(inputs,
-                                           changeCategories,
-                                           releaseUrl,
-                                           incremental);
-            var template = Template.Parse(scribanTemplate);
-            newChangesContent = template.Render(model, member => member.Name);
-            if (newChangesContent.Trim().Length == 0)
-            {
-                throw new Git2SemVerScribanFileParsingException("The Scriban template file rendered no content.");
-            }
-        }
-        catch (Git2SemVerScribanFileParsingException)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            throw new Git2SemVerScribanFileParsingException("There was a problem parsing or rendering a Scriban template file.", exception);
-        }
-
-        return newChangesContent;
     }
 }

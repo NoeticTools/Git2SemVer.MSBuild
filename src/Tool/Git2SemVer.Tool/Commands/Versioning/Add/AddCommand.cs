@@ -11,7 +11,7 @@ using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
 namespace NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 
 /// <summary>
-/// Command to add solution versioning to a .net solution (sln).
+///     Command to add solution versioning to a .net solution (sln).
 /// </summary>
 /// <param name="solutionFinder"></param>
 /// <param name="userOptionsPrompt"></param>
