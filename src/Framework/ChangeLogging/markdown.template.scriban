@@ -60,10 +60,9 @@ if Incremental
        :
     <!- Section end: version ->
 
-  The 'version' and '<name>, for manual review' sections are replaced on every run.
-  Any manual changes to these sections will be lost on the next tool run.
-  Other changes like editing or deleting listed changes is expected. When a change is shown in
-  a `for manual review` section is edited, move it out of the section.
+  Any manual changes in the 'version' and '<name> - for grooming' sections may be lost on the next tool run.
+  When a change is in a `- for grooming` section is edited, move it out of the section.
+  This also helps to indicate which changes have been groomed.
 
   Note: Do not remove any `<!- Section .... ->` section markers, even if they look empty.
 -->
@@ -76,6 +75,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
+{{~ section_start_marker "next release" ~}}
 
 {{~
   section_start_marker "version"
@@ -119,9 +121,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 {{~
     end
 
-    section_start_marker category.Settings.Name + " changes, for manual review"
+    section_start_marker category.Settings.Name + " changes - for grooming"
 
-    section_end_marker category.Settings.Name + " changes, for manual review"
+    section_end_marker category.Settings.Name + " changes - for grooming"
 
   end # for categories
+
 ~}}
+
+{{~ section_end_marker "next release" ~}}

@@ -11,27 +11,37 @@ internal sealed class ChangelogScribanModel(
     bool incremental)
 {
     /// <summary>
-    ///     The git branch that the head commit is on.
+    /// Categories to group changes into.
     /// </summary>
-    public string BranchName { get; } = inputs.BranchName;
-
     public IReadOnlyList<ChangeCategory> Categories { get; } = categories;
 
-    public DateTime HeadDateTime { get; } = inputs.HeadCommitWhen.DateTime;
-
-    public string HeadSha { get; } = inputs.HeadCommitSha;
-
+    /// <summary>
+    /// True if generating an incremental changelog. Otherwise, generating a new non-incremental changelog.
+    /// </summary>
     public bool Incremental { get; } = incremental;
 
+    /// <summary>
+    /// True if generating a changelog for a prerelease version.
+    /// </summary>
     public bool IsPrerelease { get; } = inputs.Version!.IsPrerelease;
 
+    /// <summary>
+    /// True if generating a changelog for a release version.
+    /// </summary>
     public bool IsRelease { get; } = inputs.Version.IsRelease;
 
-    public int NumberOfCommits { get; } = inputs.ConventionalCommits.Count;
-
+    /// <summary>
+    /// Date that will be shown on a release changelog.
+    /// </summary>
     public DateTime ReleaseDate { get; } = DateTime.Now;
 
+    /// <summary>
+    /// Format string to build URL to artifact.
+    /// </summary>
     public string ReleaseUrl { get; } = releaseUrl;
 
+    /// <summary>
+    /// Current version.
+    /// </summary>
     public string SemVersion { get; } = inputs.Version.ToString();
 }

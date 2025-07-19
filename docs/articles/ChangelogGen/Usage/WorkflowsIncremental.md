@@ -9,7 +9,17 @@ uid: changelog-workflow-incremental
 An generated incremental changelog is kept in the Git repository and may be manually groomed at any time
 during the release development cycle.
 
---- TODO ---
+The workflow could be summarised as:
+
+| #       | Description                       | Changelog fragment    |
+|  :--:   | :--                               | :-- |
+| &#9312; | New changelog generated           | ![New prerelease changelog code fragment](../../../Images/changelog_draft_frag_02_700x375.png) |
+| &#9313; | **Git2SemVer** discovers changes  | ![Prerelease changelog code fragment showing incremental changes](../../../Images/changelog_draft_frag_inc_changes_01_700x213.png) |
+| &#9314; | You groom                         | ![Prerelease changelog code fragment showing incremental changes](../../../Images/changelog_draft_frag_groomed_changes_01_700x150.png) |
+| &#9315; | Repeat steps &#9313; & &#9314;   ||
+| &#9316; | A release is built                | ![Release changelog code fragment](../../../Images/changelog_rel_frag_02_700x324.png) |
+
+The following sections give more details.
 
 ## Changelog generation
 
@@ -26,30 +36,10 @@ A incremental changelog generated on a release build:
 * Hides all hint text that appears in pre-release changelogs.
 * Lists all incremental changes after reviewed changes (one group).
 
-A release changelog will look something like:
+A release changelog fragement will look something like:
 
-> <span style="font-size:x-large;font-weight: bold">Changelog</span>
-> 
-> All notable changes to this project will be documented in this file.
-> 
-> The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-> and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-> 
-> <span style="font-size:large;font-weight: bold">1.2.3</span>
-> 
-> <span style="font-size:medium;font-weight: bold">Added</span>
-> * Add changelog generation.
-> * Add changelog user editable template.
-> * Add versioning waypoint tagging (#55).
-> * Support multiline footer topic values in conventional commits.
-> 
-> <span style="font-size:medium;font-weight: bold">Depreciated</span>
-> 
-> * Dotnet CLI tool versioning add, remove, and run commands depreciated. 
-> 
->   Still functional but they will not appear in tool help.
->   Use new command under versioning command.
->   To be removed in next major release.
+![Release changelog code fragment](../../../Images/changelog_rel_frag_02_700x324.png)
+
 
 ### Prerelease build
 
@@ -59,38 +49,10 @@ An incremental changelog generated on a pre-release build:
 * Includes hint text.
 * Keeps add incremental changes slightly separated from reviewed changes.
 
-A pre-release changelog will look something like:
+A pre-release changelog fragment will look something like:
 
-> <span style="font-size:x-large;font-weight: bold">Changelog</span>
-> 
-> All notable changes to this project will be documented in this file.
-> 
-> The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-> and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-> 
-> <span style="font-size:large;font-weight: bold">Unreleased</span>
-> 
-> > This is a DRAFT changelog from a pre-release commit. It includes changes since last release.
-> > HTML comments (``<!-- Start .. --> ... <!-- End .. -->``) mark sections in the markdown file used to make incremental changes.
-> 
-> <span style="font-size:medium;font-weight: bold">Added</span>
-> * Add changelog generation.
-> * Add changelog user editable template.
-> 
-> > Incremental changes, if any, will appear below. Move to above section when edited/reviewed.
-> 
-> * Add versioning waypoint tagging (#55).
-> * Support multiline footer topic values in conventional commits.
-> 
-> <span style="font-size:medium;font-weight: bold">Depreciated</span>
-> 
-> * Dotnet CLI tool versioning add, remove, and run depreciated. 
-> 
->   Still functional but they will not appear in tool help.
->   Use new command under versioning command.
->   To be removed in next major release.
-> 
-> > Incremental changes, if any, will appear below. Move to above section when edited/reviewed.
+![Prerelease changelog code fragment](../../../Images/changelog_draft_frag_01_700x466.png)
+
 
 ## New release detected
 
@@ -112,19 +74,12 @@ On a release build, new changes are appended to the existing changes list.
 On a pre-release build, new change are appended to a list of incremental changes that is kept below
 the manually reviewed changes list.
 
-A pre-release changelog fragment example showing 2 reviewed changes and 2 incremental changes:
+A pre-release changelog fragment example showing 2 reviewed changes and 4 incremental changes:
 
-> <span style="font-size:medium;font-weight: bold">Added</span>
-> * Add changelog generation.
-> * Add changelog user editable template.
-> 
-> > Incremental changes, if any, will appear below. Move to above section when edited/reviewed.
-> 
-> * Add versioning waypoint tagging (#55).
-> * Support multiline footer topic values in conventional commits.
+![Prerelease changelog code fragment showing incremental changes](../../../Images/changelog_draft_frag_inc_changes_01_700x213.png)
 
 
-## Grooming the changelog
+## Grooming
 
 An generated incremental changelog is kept in the Git repository and may be edited (groomed) at any time
 during the release development cycle.
@@ -135,45 +90,40 @@ This promotes early grooming.
 
 Sections in the markdown file are marked by HTML commits like:
 
-> <span style="font-size:medium;font-weight: bold">Added</span>
->
-> **<!- Section start: Added changes -->**
-> * Add changelog generation.
-> * Add changelog user editable template.
-> 
-> **<!- Section end: Added changes -->**
->
-> > Incremental changes, if any, will appear below. Move to above section when edited/reviewed.
-> 
-> **<!- Section start: Added changes, for manual review -->**
-> * Add versioning waypoint tagging (#55).
-> * Support multiline footer topic values in conventional commits.
->
-> **<!- Section end: Added changes, for manual review -->**
+![Changelog markdown fragment showing pregroomed changes](../../../Images/changelog_md_changes_pregroomed_01_700x281.png)
 
 When grooming a change move it out of the incremental section and into the changes list above.
 For example the above changelog may be groomed to:
 
-> #### Added
->
-> **<!- Section start: Added changes -->**
-> * Add versioning waypoint tagging (#55).
-> * Add changelog generation (#145).
-> * Add conventional commits multiline footer support (#99).
-> 
-> **<!- Section end: Added changes -->**
-> 
-> > Incremental changes, if any, will appear below. Move to above section when edited/reviewed.
-> 
-> **<!- Section start: Added changes, for manual review -->**
-> 
-> **<!- Section end: Added changes, for manual review -->**
+![Changelog markdown fragment showing groomed changes](../../../Images/changelog_md_changes_groomed_01_700x224.png)
 
-> [!NOTE]
-> `<---` syntax is shown here as `<-`.
+Or, viewed, changelog:
+
+![Prerelease changelog code fragment showing incremental changes](../../../Images/changelog_draft_frag_groomed_changes_01_700x150.png)
 
 ## Q&A
 
-TODO
+### Will duplicate Conventional Commits make changes reappear in the changelog?
 
-- Duplicates
+No. **Git2SemVer** keeps of record of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) that have been handled
+and will not add them to the changelog a second time.
+
+However, If a commit with a duplicate summary but new/different footer related issue
+values is found, it is a new change.
+
+### Can I delete a change from the changelog?
+
+Yes. **Git2SemVer** will only add a change once for each release.
+
+## Can I organise changes into subgroups?
+
+Yes. The content and layout of the groomed issues list is up to you.
+**Git2SemVer** will not alter changes content already present in the changelog.
+
+For example, you could organise issues like:
+
+![Groomed changelog fragment with grouped changes](../../../Images/changelog_groomed_frag_02_700x161.png)
+
+## Change header or layout when grooming
+
+Yes. However consider editing the [template file](xref:changelog-templating) to preserve these changes when/if a new changelog is generated.

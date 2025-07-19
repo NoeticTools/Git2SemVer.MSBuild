@@ -25,11 +25,6 @@ public class ChangelogCommandSettings : CommonCommandSettings
     [Description("Directory in which to place the generators metadata file.")]
     public string DataDirectory { get; set; } = "";
 
-    [CommandOption("-f|--force", IsHidden = true)]
-    [DefaultValue(false)]
-    [Description("Force create or update regardless if there a no new commits. For debugging.")]
-    public bool Force { get; set; }
-
     [CommandOption("--host-type <TYPE>")]
     [Description("Force the host type. Use for testing expected behaviour on other hosts. Valid values are 'Custom', 'Uncontrolled', 'TeamCity', or 'GitHub'.")]
     public string? HostType { get; set; } = null;

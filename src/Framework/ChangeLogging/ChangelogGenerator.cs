@@ -113,6 +113,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
 
         return unhandledMessages;
     }
+
     private static void CopyChangesToReviewSection(IEnumerable<ChangeCategory> changes,
                                                    ChangelogDocument sourceDocument,
                                                    ChangelogDocument destinationDocument)
@@ -125,7 +126,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings)
                 continue;
             }
 
-            var destinationSection = destinationDocument[category.Settings.Name + " changes, for manual review"];
+            var destinationSection = destinationDocument[category.Settings.Name + " changes - for grooming"];
             if (destinationSection.Exists)
             {
                 destinationSection.Content += sourceContent;
