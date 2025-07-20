@@ -8,6 +8,7 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 public sealed class LastRunData
 {
     [JsonPropertyOrder(40)]
+    // ReSharper disable once MemberCanBePrivate.Global
     public IReadOnlyList<string> ContributingReleases { get; set; } = [];
 
     [JsonPropertyOrder(50)]
@@ -17,7 +18,11 @@ public sealed class LastRunData
     ///     This file's schema revision. To allow for file migration.
     /// </summary>
     [JsonPropertyOrder(-10)]
-    public string Rev { get; set; } = "1";
+    // ReSharper disable once MemberCanBePrivate.Global
+    public string Rev { get; set; } = "";
+
+    [JsonIgnore]
+    public bool NoData => string.IsNullOrEmpty(Rev);
 
     public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)
     {
@@ -42,16 +47,12 @@ public sealed class LastRunData
 
     public static LastRunData Load(string directory, string filename)
     {
-        return Load(GetFilePath(directory, filename).FullName);
-    }
-
-    public static LastRunData Load(string filePath)
-    {
-        return Git2SemVerJsonSerializer.Read<LastRunData>(filePath);
+        return Git2SemVerJsonSerializer.Read<LastRunData>(GetFilePath(directory, filename).FullName);
     }
 
     public void Save(string directory, string filePath)
     {
+        Rev = "1";
         var path = GetFilePath(directory, filePath).FullName;
         Git2SemVerJsonSerializer.Write(path, this);
     }

@@ -2,11 +2,18 @@
 
 internal static class SectionNameConstants
 {
-    public static string ChangesToGroomSuffix => " changes - to groom";
+    /// <summary>
+    /// Name of the section in the generated Markdown document where newly found changes are placed.
+    /// </summary>
+    public static string UngroomedChangesSuffix => " - changes";
 
-    public static string GroomedChangesSuffix => " - groomed changes";
-
+    /// <summary>
+    /// Name of the section in the generated Markdown document that contains the current or next release changes.
+    /// </summary>
     public static string NextRelease => "next release";
 
+    /// <summary>
+    /// Name of the section in the generated Markdown document that contains the current or next release version or 'Unreleased'.
+    /// </summary>
     public static string Version => "version";
 }

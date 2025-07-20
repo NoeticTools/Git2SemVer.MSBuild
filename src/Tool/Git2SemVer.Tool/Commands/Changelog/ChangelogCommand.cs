@@ -1,11 +1,12 @@
-﻿using System.Diagnostics;
-using NoeticTools.Git2SemVer.Core.Console;
+﻿using NoeticTools.Git2SemVer.Core.Console;
+using NoeticTools.Git2SemVer.Core.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
+using System.Diagnostics;
 
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
@@ -25,12 +26,11 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
 
         EnsureDataDirectoryExists(cmdLineSettings);
         var projectSettings = GetProjectSettings(cmdLineSettings);
-
         var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
 
         var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
         var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
-        var lastRunData = GetLastRunData(cmdLineSettings, createNewChangelog);
+        var lastRunData = createNewChangelog ? new LastRunData() : GetLastRunData(cmdLineSettings);
 
         var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
 
@@ -70,16 +70,19 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
     }
 
-    private static void EnsureDataDirectoryExists(ChangelogCommandSettings cmdLineSettings)
+    private void EnsureDataDirectoryExists(ChangelogCommandSettings cmdLineSettings)
     {
         var dataDirectory = cmdLineSettings.DataDirectory;
         // ReSharper disable once InvertIf
         if (dataDirectory.Length > 0)
         {
-            if (!Directory.Exists(dataDirectory))
+            if (Directory.Exists(dataDirectory))
             {
-                Directory.CreateDirectory(dataDirectory);
+                return;
             }
+
+            logger.LogDebug("Creating data directory '{0}'", dataDirectory);
+            Directory.CreateDirectory(dataDirectory);
         }
     }
 
@@ -99,8 +102,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
                                                    template,
                                                    existingChangelog,
                                                    releaseUrl,
-                                                   incremental: true, // todo
-                                                   createNewChangelog);
+                                                   incremental: true);
 
         if (string.Equals(existingChangelog, changelog, StringComparison.Ordinal))
         {
@@ -110,15 +112,14 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         return changelog;
     }
 
-    private static LastRunData GetLastRunData(ChangelogCommandSettings cmdLineSettings, bool reset)
+    private LastRunData GetLastRunData(ChangelogCommandSettings cmdLineSettings)
     {
-        if (reset)
+        var data = LastRunData.Load(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
+        if (data.NoData)
         {
-            return new LastRunData();
+            logger.LogWarning(new GSV201(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath));
         }
-
-        EnsureDataDirectoryExists(cmdLineSettings);
-        return LastRunData.Load(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
+        return data;
     }
 
     private static ChangelogLocalSettings GetProjectSettings(ChangelogCommandSettings commandSettings)

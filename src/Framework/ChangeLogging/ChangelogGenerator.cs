@@ -19,7 +19,6 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
     /// <param name="changelogToUpdate"></param>
     /// <param name="releaseUrl"></param>
     /// <param name="incremental"></param>
-    /// <param name="createNewChangelog"></param>
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
@@ -28,55 +27,47 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
                           string scribanTemplate,
                           string changelogToUpdate,
                           string releaseUrl,
-                          bool incremental,
-                          bool createNewChangelog)
+                          bool incremental)
     {
         Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
         Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
-        if (!createNewChangelog)
-        {
-            Git2SemVerArgumentException.ThrowIfNullOrEmpty(changelogToUpdate, nameof(changelogToUpdate));
-        }
+        Git2SemVerArgumentException.ThrowIfNull(changelogToUpdate, nameof(changelogToUpdate));
 
         var contributingReleases = inputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
-        var newRelease = lastRunData.ContributingReleasesChanged(contributingReleases);
-        if (newRelease)
+        var addNewRelease = lastRunData.ContributingReleasesChanged(contributingReleases);
+        if (addNewRelease)
         {
             logger.LogInfo("New release.");
             lastRunData = new LastRunData();
         }
 
-        var messagesWithChanges = new List<ConventionalCommit>(inputs.ConventionalCommits);
-        if (incremental)
-        {
-            messagesWithChanges = GetUnhandledChanges(inputs.ConventionalCommits, lastRunData.HandledChanges);
-        }
+        var messagesWithChanges = GetUnhandledChanges(inputs.ConventionalCommits, lastRunData.HandledChanges);
 
         var issueMarkdownFormatter = new MarkdownLinkFormatter(projectSettings.IssueLinkFormat);
         var orderedCategories = projectSettings.Categories.OrderBy(x => x.Order);
         var changeCategories = orderedCategories.Select(category => ExtractChangeCategory(category, messagesWithChanges, issueMarkdownFormatter))
                                                 .ToList();
-        if (!createNewChangelog && changeCategories.Count == 0)
+        if (changelogToUpdate.Length > 0 && changeCategories.Count == 0)
         {
             return changelogToUpdate;
-            //xxx; // todo - option to insert new release?  REVIEW non-incremental
         }
 
         var newChangesContent = CreateNewContent(inputs, scribanTemplate, releaseUrl, incremental, changeCategories);
-        if (createNewChangelog)
+
+        if (changelogToUpdate.Length == 0)
         {
             return newChangesContent;
         }
 
         var newChangesDocument = new ChangelogDocument("new_changes", newChangesContent, logger);
         var destinationDocument = new ChangelogDocument("existing", changelogToUpdate, logger);
-        if (newRelease)
+        if (addNewRelease)
         {
-            destinationDocument.InsertNewRelease(newChangesDocument);
+            destinationDocument.AddNewRelease(newChangesDocument);
         }
         else
         {
-            destinationDocument.AppendForGrooming(changeCategories, newChangesDocument);
+            destinationDocument.AppendChanges(changeCategories, newChangesDocument);
         }
 
         return destinationDocument.Content;
@@ -90,8 +81,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
         {
             var model = new ChangelogScribanModel(inputs,
                                                   changeCategories,
-                                                  releaseUrl,
-                                                  incremental);
+                                                  releaseUrl);
             var template = Template.Parse(scribanTemplate);
             newChangesContent = template.Render(model, member => member.Name);
             if (newChangesContent.Trim().Length == 0)

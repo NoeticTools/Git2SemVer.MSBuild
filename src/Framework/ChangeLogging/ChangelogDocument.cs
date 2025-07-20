@@ -12,18 +12,18 @@ internal sealed class ChangelogDocument(string name, string content, ILogger log
     /// </summary>
     public string Name { get; } = name;
 
-    public void AppendForGrooming(IEnumerable<ChangeCategory> changes,
+    public void AppendChanges(IEnumerable<ChangeCategory> changes,
                                   ChangelogDocument sourceDocument)
     {
         foreach (var category in changes)
         {
-            var sourceContent = sourceDocument[category.Settings.Name + SectionNameConstants.GroomedChangesSuffix].Content;
+            var sourceContent = sourceDocument[category.Settings.Name + SectionNameConstants.UngroomedChangesSuffix].Content;
             if (sourceContent.Trim().Length <= 0)
             {
                 continue;
             }
 
-            var destinationSection = this[category.Settings.Name + SectionNameConstants.ChangesToGroomSuffix];
+            var destinationSection = this[category.Settings.Name + SectionNameConstants.UngroomedChangesSuffix];
             if (destinationSection.Exists)
             {
                 destinationSection.Content += sourceContent;
@@ -38,7 +38,7 @@ internal sealed class ChangelogDocument(string name, string content, ILogger log
     ///     release section.
     /// </summary>
     /// <param name="sourceDocument"></param>
-    public void InsertNewRelease(ChangelogDocument sourceDocument)
+    public void AddNewRelease(ChangelogDocument sourceDocument)
     {
         if (this[SectionNameConstants.Version].Content.Contains("Unreleased"))
         {

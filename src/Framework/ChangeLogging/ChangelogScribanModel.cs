@@ -5,18 +5,12 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 internal sealed class ChangelogScribanModel(
     ConventionalCommitsVersionInfo inputs,
     IReadOnlyList<ChangeCategory> categories,
-    string releaseUrl,
-    bool incremental)
+    string releaseUrl)
 {
     /// <summary>
     ///     Categories to group changes into.
     /// </summary>
     public IReadOnlyList<ChangeCategory> Categories { get; } = categories;
-
-    /// <summary>
-    ///     True if generating an incremental changelog. Otherwise, generating a new non-incremental changelog.
-    /// </summary>
-    public bool Incremental { get; } = incremental;
 
     /// <summary>
     ///     True if generating a changelog for a prerelease version.
