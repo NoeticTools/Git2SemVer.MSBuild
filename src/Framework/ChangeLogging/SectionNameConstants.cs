@@ -2,9 +2,9 @@
 
 internal static class SectionNameConstants
 {
-    public static string ChangesToGroomSuffix => " changes - for grooming";
+    public static string ChangesToGroomSuffix => " changes - to groom";
 
-    public static string GroomedChangesSuffix => " changes";
+    public static string GroomedChangesSuffix => " - groomed changes";
 
     public static string NextRelease => "next release";
 

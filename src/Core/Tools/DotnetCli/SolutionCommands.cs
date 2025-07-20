@@ -22,13 +22,17 @@ public sealed class SolutionCommands : ISolutionCommands
     public (int returnCode, IReadOnlyList<string> project) GetProjects()
     {
         var returnCode = _inner.RunReturningStdOut("sln list", out var standardOutput);
-        return (returnCode, standardOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
+        // ReSharper disable once UseCollectionExpression
+        // FxCop CS0121 fails the build build without the "new char[]".
+        return (returnCode, standardOutput.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
     }
 
     public (int returnCode, IReadOnlyList<string> projects) GetProjects(string solutionName)
     {
         var returnCode = _inner.RunReturningStdOut($"sln {solutionName} list", out var standardOutput);
-        return (returnCode, standardOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
+        // ReSharper disable once UseCollectionExpression
+        // FxCop CS0121 fails the build build without the "new char[]".
+        return (returnCode, standardOutput.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
     }
 
     public void New(string solutionName)

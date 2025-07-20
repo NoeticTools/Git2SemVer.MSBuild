@@ -152,6 +152,6 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
             }
         }
 
-        return unhandledMessages;
+        return unhandledMessages.OrderBy(x => x.Description).ToList();
     }
 }

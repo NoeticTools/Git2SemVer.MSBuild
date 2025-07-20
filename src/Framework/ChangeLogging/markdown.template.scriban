@@ -1,5 +1,6 @@
 ﻿{{~
 func render_change(change)
+  # Function to render a change list item.
   if change.Issues | array.size == 0
     issues = ""
   else
@@ -10,27 +11,29 @@ func render_change(change)
 end
 
 func render_changes_list(changes)
+  # Function to render list of changes in the groomed changes section.
   if changes | array.size == 0 
 ~}}
 
 {{~ 
     if Incremental 
 ~}}
-<!-- fyi: manually remove following 'none' text when changes are found -->
+<!-- Hint: manually remove following 'none' text when changes are found and groomed -->
 {{~ 
     end
 ~}}
 None.
 {{~ 
   end 
-  section_start_marker category.Settings.Name + " changes"
+  section_start_marker category.Settings.Name + " - groomed changes"
   for change in changes
     change | render_change
   end
-  section_end_marker category.Settings.Name + " changes"
+  section_end_marker category.Settings.Name + " - groomed changes"
 end
 
 func section_start_marker(name)
+  # Function to render a section start marker.
   if Incremental
 ~}}
 <!-- Section start: {{name}} -->
@@ -39,6 +42,7 @@ func section_start_marker(name)
 end
 
 func section_end_marker(name)
+  # Function to render a section end marker.
   if Incremental
 ~}}
 <!-- Section end: {{name}} -->
@@ -60,9 +64,9 @@ if Incremental
        :
     <!- Section end: version ->
 
-  Any manual changes in the 'version' and '<name> - for grooming' sections may be lost on the next tool run.
-  When a change is in a `- for grooming` section is edited, move it out of the section.
-  This also helps to indicate which changes have been groomed.
+  Any manual changes in the 'version' and '<name> - to groom' sections may be lost on the next tool run.
+  When a change is groomed, move it out of the `- to groom` section.
+  This also helps to indicate which changes have not been groomed.
 
   Note: Do not remove any `<!- Section .... ->` section markers, even if they look empty.
 -->
@@ -94,14 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 {{~ # hack to overcome syntax highlighting ~}}
-> This is a DRAFT changelog from a pre-release commit. It includes changes since last release.
 {{~
-    if Incremental
-~}}
-> HTML comments (``<!-- Start .. --> ... <!-- End .. -->``) mark sections in the markdown file used to make incremental changes.
-{{~
-    end # Incremental
-
   end # if else IsRelease
 
   section_end_marker "version"
@@ -113,17 +110,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 {{~ 
     category.Changes | render_changes_list
 
-    if Incremental && !IsRelease
-~}}
+    section_start_marker category.Settings.Name + " changes - to groom"
 
-> Incremental changes, if any, will appear below. Move to above section when edited/reviewed.
-
-{{~
-    end
-
-    section_start_marker category.Settings.Name + " changes - for grooming"
-
-    section_end_marker category.Settings.Name + " changes - for grooming"
+    section_end_marker category.Settings.Name + " changes - to groom"
 
   end # for categories
 
