@@ -105,6 +105,7 @@ internal class VersionOutputsTests
                                     "Git": {
                                       "$type": "GitOutputs",
                                       "BranchName": "",
+                                      "ContributingReleases": [],
                                       "HasLocalChanges": false,
                                       "HeadCommit": {
                                         "$type": "Commit",
@@ -136,8 +137,7 @@ internal class VersionOutputsTests
                                         }
                                       },
                                       "LastReleaseCommit": null,
-                                      "LastReleaseVersion": null,
-                                      "ContributingReleases": []
+                                      "LastReleaseVersion": null
                                     },
                                     "Output1": "",
                                     "Output2": ""
