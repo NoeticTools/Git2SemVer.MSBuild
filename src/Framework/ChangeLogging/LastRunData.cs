@@ -7,6 +7,10 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public sealed class LastRunData
 {
+    [JsonPropertyOrder(10)]
+    // ReSharper disable once MemberCanBePrivate.Global
+    public string ForcedReleasedTitle { get; set; } = "";
+
     [JsonPropertyOrder(40)]
     // ReSharper disable once MemberCanBePrivate.Global
     public IReadOnlyList<string> ContributingReleases { get; set; } = [];
@@ -39,7 +43,7 @@ public sealed class LastRunData
         return !priorContributingReleases.All(ver => ContributingReleases.Contains(ver.ToString()));
     }
 
-    public static DirectoryInfo GetFilePath(string dataDirectory, string targetFilePath)
+    private static DirectoryInfo GetFilePath(string dataDirectory, string targetFilePath)
     {
         var targetFilename = targetFilePath.Length == 0 ? "no_target" : Path.GetFileName(targetFilePath);
         return new DirectoryInfo(Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunDataFileSuffix));

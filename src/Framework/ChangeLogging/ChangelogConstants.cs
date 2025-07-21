@@ -2,6 +2,8 @@
 
 public static class ChangelogConstants
 {
+    public const string VersionPlaceholder = "%VERSION%";
+
     public const string DefaultConvCommitsInfoFilename = "conventionalcommits.data.g.json";
 
     public const string DefaultMarkdownTemplateFilename = "markdown.template.scriban";

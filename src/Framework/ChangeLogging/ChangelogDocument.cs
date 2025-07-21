@@ -45,10 +45,10 @@ internal sealed class ChangelogDocument(string name, string content, ILogger log
             logger.LogWarning("Inserting new release into changelog when current release is `Unreleased`.");
         }
 
-        var nextNewReleaseSection = this[SectionNameConstants.NextRelease];
-        nextNewReleaseSection.Content = sourceDocument[SectionNameConstants.NextRelease].Content;
-        var cleanedPriorContent = ChangelogSection.RemoveSectionMarkers(nextNewReleaseSection.Content);
-        nextNewReleaseSection.AppendAfter(cleanedPriorContent);
+        var nextReleaseSection = this[SectionNameConstants.NextRelease];
+        var cleanedPriorContent = ChangelogSection.RemoveSectionMarkers(nextReleaseSection.Content);
+        nextReleaseSection.AppendAfter(cleanedPriorContent);
+        nextReleaseSection.Content = sourceDocument[SectionNameConstants.NextRelease].Content;
         this[SectionNameConstants.Version].Content = sourceDocument[SectionNameConstants.Version].Content;
     }
 

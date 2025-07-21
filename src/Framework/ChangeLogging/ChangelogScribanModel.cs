@@ -2,25 +2,35 @@
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-internal sealed class ChangelogScribanModel(
-    ConventionalCommitsVersionInfo inputs,
-    IReadOnlyList<ChangeCategory> categories,
-    string releaseUrl)
+internal sealed class ChangelogScribanModel
 {
+    public ChangelogScribanModel(ConventionalCommitsVersionInfo inputs,
+                                 IReadOnlyList<ChangeCategory> categories,
+                                 string releaseUrl,
+                                 string forcedReleaseTitle)
+    {
+        Categories = categories;
+        IsPrerelease = forcedReleaseTitle.Length == 0 && inputs.Version!.IsPrerelease;
+        IsRelease = forcedReleaseTitle.Length > 0 || inputs.Version.IsRelease;
+        var version = forcedReleaseTitle.Length > 0 ? forcedReleaseTitle : inputs.Version.ToString();
+        SemVersion = version;
+        ReleaseUrl = releaseUrl.Contains(ChangelogConstants.VersionPlaceholder) ? releaseUrl.Replace(ChangelogConstants.VersionPlaceholder, version) : releaseUrl;
+    }
+
     /// <summary>
     ///     Categories to group changes into.
     /// </summary>
-    public IReadOnlyList<ChangeCategory> Categories { get; } = categories;
+    public IReadOnlyList<ChangeCategory> Categories { get; }
 
     /// <summary>
     ///     True if generating a changelog for a prerelease version.
     /// </summary>
-    public bool IsPrerelease { get; } = inputs.Version!.IsPrerelease;
+    public bool IsPrerelease { get; }
 
     /// <summary>
     ///     True if generating a changelog for a release version.
     /// </summary>
-    public bool IsRelease { get; } = inputs.Version.IsRelease;
+    public bool IsRelease { get; }
 
     /// <summary>
     ///     Date that will be shown on a release changelog.
@@ -30,10 +40,10 @@ internal sealed class ChangelogScribanModel(
     /// <summary>
     ///     Format string to build URL to artifact.
     /// </summary>
-    public string ReleaseUrl { get; } = releaseUrl;
+    public string ReleaseUrl { get; }
 
     /// <summary>
-    ///     Current version.
+    ///     Current semantic versioning version.
     /// </summary>
-    public string SemVersion { get; } = inputs.Version.ToString();
+    public string SemVersion { get; }
 }

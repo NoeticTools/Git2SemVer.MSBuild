@@ -21,7 +21,7 @@ None.
   end 
 ~}}
 
-<!-- Tip: Once a change is groomed consider moving above this line. Separating groomed and ungroomed highlights if grooming is needed. -->
+<!-- Tip: Once a change is groomed consider moving it above this line to separate groomed and ungroomed changes. -->
 {{~
   section_start_marker category.Settings.Name + " - changes"
   for change in changes
@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   if IsRelease 
 
 ~}}
-## [{{ SemVersion }}]({{ ReleaseUrl }}/{{ SemVersion }}) - _{{ ReleaseDate | date.to_string '%F' }}_
+## [{{ SemVersion }}]({{ ReleaseUrl }}) - _{{ ReleaseDate | date.to_string '%F' }}_
 {{~ 
 
   else

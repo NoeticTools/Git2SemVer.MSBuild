@@ -6,6 +6,7 @@ using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
+using Spectre.Console.Cli;
 using System.Diagnostics;
 
 
@@ -27,16 +28,29 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         EnsureDataDirectoryExists(cmdLineSettings);
         var projectSettings = GetProjectSettings(cmdLineSettings);
         var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings);
-
-        var outputFileExists = File.Exists(cmdLineSettings.OutputFilePath);
-        var createNewChangelog = !outputFileExists || !cmdLineSettings.Incremental;
+        var createNewChangelog = !File.Exists(cmdLineSettings.OutputFilePath);
         var lastRunData = createNewChangelog ? new LastRunData() : GetLastRunData(cmdLineSettings);
+        var template = GetTemplate(cmdLineSettings.DataDirectory);
+        var releaseUrl = cmdLineSettings.ArtifactLinkPattern;
+        var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
+        var existingChangelog = createNewChangelog ? "" : File.ReadAllText(cmdLineSettings.OutputFilePath);
 
-        var changelog = Generate(cmdLineSettings, projectSettings, createNewChangelog, changeLogInputs, lastRunData);
+        var changelog = changelogGenerator.Execute(changeLogInputs,
+                                                   lastRunData,
+                                                   template,
+                                                   existingChangelog,
+                                                   releaseUrl,
+                                                   cmdLineSettings.ForcedReleaseTitle);
 
+        if (string.Equals(existingChangelog, changelog, StringComparison.Ordinal))
+        {
+            Console.WriteMarkupInfoLine("No updates found.");
+        }
+
+        var verb = !createNewChangelog ? "Updated" : "Created";
         if (cmdLineSettings.WriteToConsole)
         {
-            Console.WriteLine($"\n{(createNewChangelog ? "Created" : "Updated")} changelog:");
+            Console.WriteLine($"\n{verb} changelog:");
             Console.WriteHorizontalLine();
             Console.WriteCodeLine(changelog.TrimEnd());
             Console.WriteHorizontalLine();
@@ -50,15 +64,10 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         }
 
         lastRunData.Update(changeLogInputs);
-        if (cmdLineSettings.Incremental)
-        {
-            lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
-        }
+        lastRunData.ForcedReleasedTitle = cmdLineSettings.ForcedReleaseTitle;
+        lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
 
         Console.WriteLine();
-        var verb = cmdLineSettings.Incremental && !createNewChangelog ? "Updating" :
-            !cmdLineSettings.Incremental && createNewChangelog ? "Overwriting" :
-            "Creating";
         Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
         File.WriteAllText(cmdLineSettings.OutputFilePath, changelog);
 
@@ -84,32 +93,6 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
             logger.LogDebug("Creating data directory '{0}'", dataDirectory);
             Directory.CreateDirectory(dataDirectory);
         }
-    }
-
-    private string Generate(ChangelogCommandSettings commandSettings,
-                            ChangelogLocalSettings projectSettings,
-                            bool createNewChangelog,
-                            ConventionalCommitsVersionInfo inputs,
-                            LastRunData lastRunData)
-    {
-        var template = GetTemplate(commandSettings.DataDirectory);
-        var releaseUrl = commandSettings.ArtifactLinkPattern;
-        var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
-
-        var existingChangelog = createNewChangelog ? "" : File.ReadAllText(commandSettings.OutputFilePath);
-        var changelog = changelogGenerator.Execute(inputs,
-                                                   lastRunData,
-                                                   template,
-                                                   existingChangelog,
-                                                   releaseUrl,
-                                                   incremental: true);
-
-        if (string.Equals(existingChangelog, changelog, StringComparison.Ordinal))
-        {
-            Console.WriteMarkupInfoLine("No updates found.");
-        }
-
-        return changelog;
     }
 
     private LastRunData GetLastRunData(ChangelogCommandSettings cmdLineSettings)
