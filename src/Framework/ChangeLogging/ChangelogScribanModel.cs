@@ -7,12 +7,12 @@ internal sealed class ChangelogScribanModel
     public ChangelogScribanModel(ConventionalCommitsVersionInfo inputs,
                                  IReadOnlyList<ChangeCategory> categories,
                                  string releaseUrl,
-                                 string forcedReleaseTitle)
+                                 string forceReleaseAs)
     {
         Categories = categories;
-        IsPrerelease = forcedReleaseTitle.Length == 0 && inputs.Version!.IsPrerelease;
-        IsRelease = forcedReleaseTitle.Length > 0 || inputs.Version.IsRelease;
-        var version = forcedReleaseTitle.Length > 0 ? forcedReleaseTitle : inputs.Version.ToString();
+        IsPrerelease = forceReleaseAs.Length == 0 && inputs.Version!.IsPrerelease;
+        IsRelease = forceReleaseAs.Length > 0 || inputs.Version.IsRelease;
+        var version = forceReleaseAs.Length > 0 ? forceReleaseAs : inputs.Version.ToString();
         SemVersion = version;
         ReleaseUrl = releaseUrl.Contains(ChangelogConstants.VersionPlaceholder) ? releaseUrl.Replace(ChangelogConstants.VersionPlaceholder, version) : releaseUrl;
     }
@@ -31,11 +31,6 @@ internal sealed class ChangelogScribanModel
     ///     True if generating a changelog for a release version.
     /// </summary>
     public bool IsRelease { get; }
-
-    /// <summary>
-    ///     Date that will be shown on a release changelog.
-    /// </summary>
-    public DateTime ReleaseDate { get; } = DateTime.Now;
 
     /// <summary>
     ///     Format string to build URL to artifact.

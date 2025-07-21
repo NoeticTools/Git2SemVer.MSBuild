@@ -18,7 +18,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
     /// <param name="scribanTemplate"></param>
     /// <param name="changelogToUpdate"></param>
     /// <param name="releaseUrl"></param>
-    /// <param name="forcedReleaseTitle"></param>
+    /// <param name="releaseAs"></param>
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
@@ -26,8 +26,8 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
                           LastRunData lastRunData,
                           string scribanTemplate,
                           string changelogToUpdate,
-                          string releaseUrl, 
-                          string forcedReleaseTitle)
+                          string releaseUrl,
+                          string releaseAs)
     {
         Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
         Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
@@ -52,7 +52,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
             return changelogToUpdate;
         }
 
-        var newChangesContent = CreateNewContent(inputs, scribanTemplate, releaseUrl, forcedReleaseTitle, changeCategories);
+        var newChangesContent = RenderContent(inputs, scribanTemplate, releaseUrl, releaseAs, changeCategories);
 
         if (changelogToUpdate.Length == 0)
         {
@@ -61,7 +61,8 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
 
         var newChangesDocument = new ChangelogDocument("new_changes", newChangesContent, logger);
         var destinationDocument = new ChangelogDocument("existing", changelogToUpdate, logger);
-        var priorForcedReleaseTitle = lastRunData.ForcedReleasedTitle.Length > 0 && !lastRunData.ForcedReleasedTitle.Equals(forcedReleaseTitle, StringComparison.InvariantCulture);
+        var priorForcedReleaseTitle = lastRunData.ForcedReleasedTitle.Length > 0 &&
+                                      !lastRunData.ForcedReleasedTitle.Equals(releaseAs, StringComparison.InvariantCulture);
         if (addNewRelease || priorForcedReleaseTitle)
         {
             destinationDocument.AddNewRelease(newChangesDocument);
@@ -72,38 +73,6 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
         }
 
         return destinationDocument.Content;
-    }
-
-    private static string CreateNewContent(ConventionalCommitsVersionInfo inputs,
-                                           string scribanTemplate,
-                                           string releaseUrl,
-                                           string forcedReleaseTitle,
-                                           IReadOnlyList<ChangeCategory> changeCategories)
-    {
-        var newChangesContent = "";
-        try
-        {
-            var model = new ChangelogScribanModel(inputs,
-                                                  changeCategories,
-                                                  releaseUrl,
-                                                  forcedReleaseTitle);
-            var template = Template.Parse(scribanTemplate);
-            newChangesContent = template.Render(model, member => member.Name);
-            if (newChangesContent.Trim().Length == 0)
-            {
-                throw new Git2SemVerScribanFileParsingException("The Scriban template file rendered no content.");
-            }
-        }
-        catch (Git2SemVerScribanFileParsingException)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            throw new Git2SemVerScribanFileParsingException("There was a problem parsing or rendering a Scriban template file.", exception);
-        }
-
-        return newChangesContent;
     }
 
     private static ChangeCategory ExtractChangeCategory(CategorySettings categorySettings,
@@ -148,5 +117,34 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
         }
 
         return unhandledMessages.OrderBy(x => x.Description).ToList();
+    }
+
+    private static string RenderContent(ConventionalCommitsVersionInfo inputs,
+                                        string scribanTemplate,
+                                        string releaseUrl,
+                                        string releaseAs,
+                                        IReadOnlyList<ChangeCategory> changeCategories)
+    {
+        var newChangesContent = "";
+        try
+        {
+            var model = new ChangelogScribanModel(inputs,
+                                                  changeCategories,
+                                                  releaseUrl,
+                                                  releaseAs);
+            var template = Template.Parse(scribanTemplate);
+            newChangesContent = template.Render(model, member => member.Name);
+        }
+        catch (Exception exception)
+        {
+            throw new Git2SemVerScribanFileParsingException("There was a problem parsing or rendering a Scriban template file.", exception);
+        }
+
+        if (newChangesContent.Trim().Length == 0)
+        {
+            throw new Git2SemVerScribanFileParsingException("The Scriban template must render content.");
+        }
+
+        return newChangesContent;
     }
 }

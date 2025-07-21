@@ -124,9 +124,6 @@ OPTIONS:
                                                                                   Valid values are 'Custom',
                                                                                   'Uncontrolled', 'TeamCity', or
                                                                                   'GitHub'
-    -i, --incremental                   True                                      Enable incremental changelog updating.
-                                                                                  Setting this to false will cause a new
-                                                                                  changelog to be created
     -o, --output <FILEPATH>             CHANGELOG.md                              Generated changelog file path. May be
                                                                                   a relative or absolute path. Set to
                                                                                   empty string to disable file write

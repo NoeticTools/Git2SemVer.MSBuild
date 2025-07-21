@@ -59,7 +59,7 @@ Every build, on both developer boxes and the build system, without scripts or en
             <div class="card" style="min-height: 190px; min-width: 220px" >
                 <div class="card-body">
                     <p class="fw-semibold"><a href="/articles/ChangelogGen/ChangelogGenerationLanding.html">Changelog Generation</a></p>
-                    <p>Tutorials to add incremental draft changelog generation from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>.</p>
+                    <p>Tutorials to generate changelog from <a href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>.</p>
                 </div>
             </div>
         </div>

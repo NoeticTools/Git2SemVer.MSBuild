@@ -78,15 +78,6 @@ Examples:
 | `#{0}`             | 42       | #42                    |
 | `https://organisation-name/project-name/issues/{0}` | #42  | \[#42](https://organisation-name/project-name/issues/#42)  |
 
-
-## AllowVariationsToSemVerStandard
-
-If `true`, variations to the Semantic Versioning standard are permitted. The default is `false`.
-
-Currently this property is only used by the changelog generator when it detects a new prior release since the last changelog run and using incremental changelog generation.
-If `AllowVariationsToSemVerStandard` is `false` **Git2SemVer** will generate a new changelog, discarding any manual edits.
-Otherwise it will continue to add new changes to the incremental changelog.
-
 ## ConvCommits
 
 The settings file `ConvCommits.FooterIssueTokens` property provides a list of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) footer tokens (like `issues`) that may have comma delimited list of issues related to the change.

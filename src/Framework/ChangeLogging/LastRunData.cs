@@ -5,6 +5,9 @@ using Semver;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
+/// <summary>
+/// Data from the last run when generating a specific changelog.
+/// </summary>
 public sealed class LastRunData
 {
     [JsonPropertyOrder(10)]

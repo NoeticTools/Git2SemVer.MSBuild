@@ -40,7 +40,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
                                                    template,
                                                    existingChangelog,
                                                    releaseUrl,
-                                                   cmdLineSettings.ForcedReleaseTitle);
+                                                   cmdLineSettings.ReleaseAs);
 
         if (string.Equals(existingChangelog, changelog, StringComparison.Ordinal))
         {
@@ -64,7 +64,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         }
 
         lastRunData.Update(changeLogInputs);
-        lastRunData.ForcedReleasedTitle = cmdLineSettings.ForcedReleaseTitle;
+        lastRunData.ForcedReleasedTitle = cmdLineSettings.ReleaseAs;
         lastRunData.Save(cmdLineSettings.DataDirectory, cmdLineSettings.OutputFilePath);
 
         Console.WriteLine();

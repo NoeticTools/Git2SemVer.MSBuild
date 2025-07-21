@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   if IsRelease 
 
 ~}}
-## [{{ SemVersion }}]({{ ReleaseUrl }}) - _{{ ReleaseDate | date.to_string '%F' }}_
+## [{{ SemVersion }}]({{ ReleaseUrl }}) <!-- Tip: Manually set release date here like ' - _2025-07-21_' -->
 {{~ 
 
   else

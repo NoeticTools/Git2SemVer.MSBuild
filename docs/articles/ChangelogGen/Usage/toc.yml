@@ -3,12 +3,7 @@
 - name: Settings
   uid: changelog-settings
 - name: Workflows
-  expanded: true
-  items:
-  - name: Incremental
-    uid: changelog-workflow-incremental
-  - name: Traditional
-    uid: changelog-workflow-traditional
+  uid: changelog-workflow
 - name: Templating
   uid: changelog-templating
 - name: Data files
