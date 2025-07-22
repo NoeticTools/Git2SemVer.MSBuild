@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using NoeticTools.Git2SemVer.Tool.CommandLine;
 using Spectre.Console.Cli;
 
 

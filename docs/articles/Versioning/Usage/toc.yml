@@ -1,0 +1,27 @@
+- name: Usage
+  expanded: true
+  items:
+  - name: Workflow
+    uid: versioning-workflow
+  - name: Versioning
+    uid: versioning
+  - name: Release tagging
+    uid: release-tagging
+  - name: Branch naming
+    uid: branch-naming
+  - name: Build maturity identifier
+    uid: maturity-identifier
+  - name: Build ID/number
+    uid: build-id
+  - name: Version examples
+    uid: examples
+  - name: Logging
+    uid: logging
+  - name: Waypoint tagging
+    uid: waypoint-tagging
+  - name: Commit SHA
+    uid: commit-sha
+- name: Continuous Integration
+  href: BuildHosts/
+- name: C# Scripting
+  href: CSharpScripting/

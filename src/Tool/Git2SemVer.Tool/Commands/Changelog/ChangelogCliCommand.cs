@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NoeticTools.Git2SemVer.Core.Console;
-using NoeticTools.Git2SemVer.Tool.CommandLine;
+﻿using NoeticTools.Git2SemVer.Tool.CommandLine;
 using Spectre.Console.Cli;
 
 
@@ -8,15 +6,14 @@ using Spectre.Console.Cli;
 
 namespace NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 
-internal class ChangelogCliCommand : Command<ChangelogCommandSettings>
+internal class ChangelogCliCommand : CliCommandBase<ChangelogCommandSettings>
 {
     public override int Execute(CommandContext context, ChangelogCommandSettings settings)
     {
-        var serviceProvider = (IServiceProvider)context.Data!;
-        var console = serviceProvider.GetService<IConsoleIO>()!;
-        var commandFactory = serviceProvider.GetService<ICommandFactory>()!;
+        Validate(context);
 
-        console.Unattended = settings.Unattended;
+        var commandFactory = GetCommandFactory(context, settings);
+
         var runner = commandFactory.CreateChangelogCommand();
         runner.Execute(settings);
         return (int)(runner.HasError ? ReturnCodes.CommandError : ReturnCodes.Succeeded);

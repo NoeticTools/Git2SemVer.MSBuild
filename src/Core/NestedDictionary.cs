@@ -1,10 +1,11 @@
 ﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable MemberCanBePrivate.Global
+
 namespace NoeticTools.Git2SemVer.Core;
 
 /// <summary>
-/// A dictionary of dictionaries both using string keys. The value key is of type (string, string).
+///     A dictionary of dictionaries both using string keys. The value key is of type (string, string).
 /// </summary>
 public class NestedDictionary<T>
 {
@@ -12,25 +13,7 @@ public class NestedDictionary<T>
 
     public int Count => _inner.Select(x => x.Value).Sum(x => x.Count);
 
-    public bool TryGet((string, string) key, out T? value)
-    {
-        if (Contains(key))
-        {
-            value = this[key];
-            return true;
-        }
-
-        value = default(T);
-        return false;
-    }
-
-    /// <summary>
-    /// Get all values.
-    /// </summary>
-    public IReadOnlyList<T> GetAll()
-    {
-        return _inner.SelectMany(x => x.Value.Select(y => y.Value)).ToList();
-    }
+    public T this[(string, string) key] => _inner[key.Item1][key.Item2];
 
     public void Add((string, string) key, T value)
     {
@@ -55,12 +38,12 @@ public class NestedDictionary<T>
         return _inner.ContainsKey(key.Item1) && _inner[key.Item1].ContainsKey(key.Item2);
     }
 
-    public T this[(string, string) key]
+    /// <summary>
+    ///     Get all values.
+    /// </summary>
+    public IReadOnlyList<T> GetAll()
     {
-        get
-        {
-            return _inner[key.Item1][key.Item2];
-        }
+        return _inner.SelectMany(x => x.Value.Select(y => y.Value)).ToList();
     }
 
     public void Remove((string, string) key)
@@ -71,5 +54,17 @@ public class NestedDictionary<T>
         {
             _inner.Remove(key.Item1);
         }
+    }
+
+    public bool TryGet((string, string) key, out T? value)
+    {
+        if (Contains(key))
+        {
+            value = this[key];
+            return true;
+        }
+
+        value = default;
+        return false;
     }
 }

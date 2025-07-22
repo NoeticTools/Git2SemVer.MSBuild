@@ -1,0 +1,38 @@
+- name: Versioning introduction
+  uid: versioning-landing
+- name: Getting started
+  uid: versioning-getting-started
+- name: Usage
+  expanded: true
+  items:
+  - name: Workflow
+    uid: versioning-workflow
+  - name: Versioning
+    uid: versioning
+  - name: Release tagging
+    uid: release-tagging
+  - name: Branch naming
+    uid: branch-naming
+  - name: Build maturity identifier
+    uid: maturity-identifier
+  - name: Commit SHA
+    uid: commit-sha
+  - name: Build ID/number
+    uid: build-id
+  - name: Version examples
+    uid: examples
+  - name: Logging
+    uid: logging
+  - name: Build hosts
+    href: /Versioning/BuildHosts/
+  - name: C# Script
+    href: /Versioning/CSharpScripting/
+  - name: Waypoint tagging
+    uid: waypoint-tagging
+- name: Learn
+  expanded: true
+  items:
+  - name: Solution versioning
+    uid: solution-versioning
+  - name: Project versioning
+    uid: project-versioning

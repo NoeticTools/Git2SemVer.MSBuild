@@ -1,37 +1,44 @@
-﻿
-
-// ReSharper disable UnusedMember.Global
+﻿// ReSharper disable UnusedMember.Global
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-internal sealed class ChangelogScribanModel(
-    ConventionalCommitsVersionInfo inputs,
-    IReadOnlyList<ChangeCategory> categories,
-    string releaseUrl,
-    bool incremental)
+internal sealed class ChangelogScribanModel
 {
+    public ChangelogScribanModel(ConventionalCommitsVersionInfo inputs,
+                                 IReadOnlyList<ChangeCategory> categories,
+                                 string releaseUrl,
+                                 string forceReleaseAs)
+    {
+        Categories = categories;
+        IsPrerelease = forceReleaseAs.Length == 0 && inputs.Version!.IsPrerelease;
+        IsRelease = forceReleaseAs.Length > 0 || inputs.Version.IsRelease;
+        var version = forceReleaseAs.Length > 0 ? forceReleaseAs : inputs.Version.ToString();
+        SemVersion = version;
+        ReleaseUrl = releaseUrl.Contains(ChangelogConstants.VersionPlaceholder) ? releaseUrl.Replace(ChangelogConstants.VersionPlaceholder, version) : releaseUrl;
+    }
+
     /// <summary>
-    ///     The git branch that the head commit is on.
+    ///     Categories to group changes into.
     /// </summary>
-    public string BranchName { get; } = inputs.BranchName;
+    public IReadOnlyList<ChangeCategory> Categories { get; }
 
-    public IReadOnlyList<ChangeCategory> Categories { get; } = categories;
+    /// <summary>
+    ///     True if generating a changelog for a prerelease version.
+    /// </summary>
+    public bool IsPrerelease { get; }
 
-    public DateTime HeadDateTime { get; } = inputs.HeadCommitWhen.DateTime;
+    /// <summary>
+    ///     True if generating a changelog for a release version.
+    /// </summary>
+    public bool IsRelease { get; }
 
-    public string HeadSha { get; } = inputs.HeadCommitSha;
+    /// <summary>
+    ///     Format string to build URL to artifact.
+    /// </summary>
+    public string ReleaseUrl { get; }
 
-    public bool Incremental { get; } = incremental;
-
-    public bool IsPrerelease { get; } = inputs.Version!.IsPrerelease;
-
-    public bool IsRelease { get; } = inputs.Version.IsRelease;
-
-    public int NumberOfCommits { get; } = inputs.ConventionalCommits.Count;
-
-    public DateTime ReleaseDate { get; } = DateTime.Now;
-
-    public string ReleaseUrl { get; } = releaseUrl;
-
-    public string SemVersion { get; } = inputs.Version.ToString();
+    /// <summary>
+    ///     Current semantic versioning version.
+    /// </summary>
+    public string SemVersion { get; }
 }

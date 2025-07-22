@@ -1,6 +1,5 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Text.Unicode;
 
 
@@ -14,8 +13,7 @@ public static class Git2SemVerJsonSerializer
     {
         WriteIndented = true,
         IgnoreReadOnlyFields = true,
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
-        
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
     };
 
     public static T Read<T>(string filePath) where T : new()

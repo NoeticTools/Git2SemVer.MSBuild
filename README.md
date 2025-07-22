@@ -42,6 +42,13 @@ gitGraph
 
         commit id:"2.0.1-beta.108"
 ```
+<br/>
+
+Git2SemVer can also generate the changelog. 
+
+Example generated draft (pre-release) changelog fragment:
+
+![](docs/Images/draft_changelog_fragment.png)
 
 <br/>
 

@@ -29,23 +29,9 @@ public class ConsoleIO(ILogger logger) : IConsoleIO
         return result;
     }
 
-    public void WriteMarkupErrorLine(string message)
+    public string Escape(string message)
     {
-        WriteMarkupLine(message);
-        logger.LogError(RemoveNamedColoursMarkup(message));
-    }
-
-    public void WriteMarkupLine(string message)
-    {
-        var markupText = Regex.Replace(message, RegexHighlightMarkupPattern, NamedColoursEvaluator,
-                                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        AnsiConsole.MarkupLine(markupText);
-    }
-
-    public void WriteMarkupWarningLine(string message)
-    {
-        WriteMarkupLine(message);
-        logger.LogWarning(RemoveNamedColoursMarkup(message));
+        return Markup.Escape(message);
     }
 
     public T Prompt<T>(TextPrompt<T> prompt, T defaultValue)
@@ -91,17 +77,9 @@ public class ConsoleIO(ILogger logger) : IConsoleIO
         return result;
     }
 
-    public void WriteMarkupDebugLine(string message)
+    public void WriteCodeLine(string code)
     {
-        if (Level >= LoggingLevel.Debug)
-        {
-            AnsiConsole.MarkupLine("[grey]" + message + "[/]");
-        }
-
-        if (logger.Level >= LoggingLevel.Debug)
-        {
-            logger.LogDebug(message);
-        }
+        WriteMarkupLine("[code]" + Escape(code) + "[/]");
     }
 
     public void WriteErrorLine(Exception exception)
@@ -122,10 +100,9 @@ public class ConsoleIO(ILogger logger) : IConsoleIO
         logger.LogError(message);
     }
 
-    public void WriteMarkupInfoLine(string message)
+    public void WriteHorizontalLine()
     {
-        WriteMarkupLine(message);
-        logger.LogInfo(message);
+        AnsiConsole.Write(new Rule());
     }
 
     public void WriteLine()
@@ -138,9 +115,42 @@ public class ConsoleIO(ILogger logger) : IConsoleIO
         AnsiConsole.WriteLine(message);
     }
 
-    public string Escape(string message)
+    public void WriteMarkupDebugLine(string message)
     {
-        return Spectre.Console.Markup.Escape(message);
+        if (Level >= LoggingLevel.Debug)
+        {
+            AnsiConsole.MarkupLine("[grey]" + message + "[/]");
+        }
+
+        if (logger.Level >= LoggingLevel.Debug)
+        {
+            logger.LogDebug(message);
+        }
+    }
+
+    public void WriteMarkupErrorLine(string message)
+    {
+        WriteMarkupLine(message);
+        logger.LogError(RemoveNamedColoursMarkup(message));
+    }
+
+    public void WriteMarkupInfoLine(string message)
+    {
+        WriteMarkupLine(message);
+        logger.LogInfo(message);
+    }
+
+    public void WriteMarkupLine(string message)
+    {
+        var markupText = Regex.Replace(message, RegexHighlightMarkupPattern, NamedColoursEvaluator,
+                                       RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        AnsiConsole.MarkupLine(markupText);
+    }
+
+    public void WriteMarkupWarningLine(string message)
+    {
+        WriteMarkupLine(message);
+        logger.LogWarning(RemoveNamedColoursMarkup(message));
     }
 
     public void WriteWarningLine(string message)
@@ -151,16 +161,6 @@ public class ConsoleIO(ILogger logger) : IConsoleIO
         {
             logger.LogWarning(message);
         }
-    }
-
-    public void WriteCodeLine(string code)
-    {
-        WriteMarkupLine("[code]" + Escape(code) + "[/]");
-    }
-
-    public void WriteHorizontalLine()
-    {
-        AnsiConsole.Write(new Rule());
     }
 
     private static string NamedColoursEvaluator(Match match)

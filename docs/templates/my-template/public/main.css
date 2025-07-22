@@ -1,0 +1,30 @@
+
+:root {
+    --bs-body-font-size: 0.85rem;
+}
+
+[data-bs-theme='light'] nav.navbar {
+    background-color: rgb(240, 240, 240);
+}
+
+[data-bs-theme='dark'] nav.navbar {
+    background-color: rgb(148, 66, 72);
+}
+
+article {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.links {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+a {
+    text-decoration: none !important;
+}

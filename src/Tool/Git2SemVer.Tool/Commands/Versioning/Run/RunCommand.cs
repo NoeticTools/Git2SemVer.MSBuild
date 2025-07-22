@@ -13,43 +13,35 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
 {
     public void Execute(RunCommandSettings settings)
     {
-        try
+        Console.WriteMarkupInfoLine($"Running Git2SemVer version generator{(settings.Unattended ? " (unattended)" : "")}.");
+        Console.WriteLine();
+
+        var inputs = new VersionGeneratorInputs
         {
-            Console.WriteMarkupInfoLine($"Running Git2SemVer version generator{(settings.Unattended ? " (unattended)" : "")}.");
-            Console.WriteLine();
+            VersioningMode = VersioningMode.StandAloneProject,
+            IntermediateOutputDirectory = settings.OutputDirectory,
+            WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite
+        };
 
-            var inputs = new VersionGeneratorInputs
-            {
-                VersioningMode = VersioningMode.StandAloneProject,
-                IntermediateOutputDirectory = settings.OutputDirectory,
-                WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite,
-            };
-
-            if (settings.HostType != null)
-            {
-                inputs.HostType = settings.HostType;
-            }
+        if (settings.HostType != null)
+        {
+            inputs.HostType = settings.HostType;
+        }
 
 #pragma warning disable CA2000
-            using var logger = new CompositeLogger();
-            //logger.Add(new NoDisposeLoggerDecorator(_logger));
-            logger.Add(new ConsoleLogger());
+        using var logger = new CompositeLogger();
+        //logger.Add(new NoDisposeLoggerDecorator(_logger));
+        logger.Add(new ConsoleLogger());
 #pragma warning restore CA2000
-            logger.Level = GetVerbosity(settings.Verbosity);
+        logger.Level = GetVerbosity(settings.Verbosity);
 
-            IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new OutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
-            var versionGeneratorFactory = new VersioningEngineFactory(logger);
-            var projectVersioning = new ProjectVersioningFactory(msg => logger.LogInfo(msg), versionGeneratorFactory, logger)
-                .Create(inputs, new NullMSBuildGlobalProperties(), outputJsonIO);
-            projectVersioning.Run();
+        IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new OutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
+        var versionGeneratorFactory = new VersioningEngineFactory(logger);
+        var projectVersioning = new ProjectVersioningFactory(msg => logger.LogInfo(msg), versionGeneratorFactory, logger)
+            .Create(inputs, new NullMSBuildGlobalProperties(), outputJsonIO);
+        projectVersioning.Run();
 
-            Console.WriteMarkupInfoLine("");
-            Console.WriteMarkupInfoLine("Completed");
-        }
-        catch (Exception exception)
-        {
-            Console.WriteErrorLine(exception);
-            throw;
-        }
+        Console.WriteMarkupInfoLine("");
+        Console.WriteMarkupInfoLine("Completed");
     }
 }

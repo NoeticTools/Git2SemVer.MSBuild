@@ -1,7 +1,7 @@
 ﻿namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 /// <summary>
-/// Key value pair for JSON serialisation. Required for .NET Framework support.
+///     Key value pair for JSON serialisation. Required for .NET Framework support.
 /// </summary>
 public sealed class KeyValue(string keyword, string value) : IEquatable<KeyValue>
 {
@@ -26,7 +26,7 @@ public sealed class KeyValue(string keyword, string value) : IEquatable<KeyValue
 
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || obj is KeyValue other && Equals(other);
+        return ReferenceEquals(this, obj) || (obj is KeyValue other && Equals(other));
     }
 
     public override int GetHashCode()

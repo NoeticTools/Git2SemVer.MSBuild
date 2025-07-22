@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
+using NoeticTools.Git2SemVer.Testing.Core.ConventionalCommits;
 
 
 namespace NoeticTools.Git2SemVer.Framework.Tests.TestScenarios;
@@ -172,8 +173,7 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      """,
                                      [
                                          new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002.0000", ["1.001.0000"], "fix:bug1", "",
-                                                    new CommitMessageMetadata("fix", "", "", false, new FooterKeyValues(), new ConventionalCommitsSettings())),
+                                         new Commit("1.002.0000", ["1.001.0000"], "fix:bug1", "", new FixMessageMetadataStub()),
                                          new Commit("1.003.0000", ["1.002.0000"], "head", "", CommitMessageMetadata.Null)
                                      ],
                                      "1.003.0000",
@@ -251,11 +251,9 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
                                          new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", CommitMessageMetadata.Null),
                                          new Commit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0", CommitMessageMetadata.Null),
-                                         new Commit("1.004.0000", ["1.003.0000"], "added feature", "",
-                                                    new CommitMessageMetadata("feat", "added feature", "", false, new FooterKeyValues(), new ConventionalCommitsSettings())),
+                                         new Commit("1.004.0000", ["1.003.0000"], "added feature", "", new FeatureMessageMetadataStub("", "added feature", "")),
                                          new Commit("1.005.0000", ["1.004.0000", "2.003.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "", 
-                                                    new CommitMessageMetadata("fix", "fixed bug", "", false, new FooterKeyValues(), new ConventionalCommitsSettings())),
+                                         new Commit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "", new FeatureMessageMetadataStub("", "fixed bug", "")),
                                          new Commit("1.007.0000", ["1.006.0000"], "Head commit", "", CommitMessageMetadata.Null),
 
                                          // branch 2 (middle)

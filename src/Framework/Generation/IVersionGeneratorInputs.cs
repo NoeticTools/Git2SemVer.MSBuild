@@ -195,7 +195,7 @@ public interface IVersionGeneratorInputs //: IMSBuildTask
     string WorkingDirectory { get; }
 
     /// <summary>
-    /// If true conventional commits info file is created. This can be used for changelog generation.
+    ///     If true conventional commits info file is created. This can be used for changelog generation.
     /// </summary>
     /// <remarks>Default is false.</remarks>
     bool WriteConventionalCommitsInfo { get; }

@@ -1,8 +1,11 @@
-﻿using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Framework.ChangeLogging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NoeticTools.Git2SemVer.Core;
+using NoeticTools.Git2SemVer.Core.Console;
+using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
 using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
+using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
 using Spectre.Console.Cli;
 
 
@@ -15,14 +18,21 @@ internal class Git2SemVerCommandApp
     public static int Execute(string[] args)
     {
         using var logger = new FileLogger(GetLogFilePath());
+        return Execute(args, logger);
+    }
+
+    public static int Execute(string[] args, ILogger logger)
+    {
         var servicesProvider = Services.ConfigureServices(logger);
 
         var app = new CommandApp();
 
         app.Configure(config =>
         {
-            config.SetApplicationName("dotnet git2semver");
-            config.UseAssemblyInformationalVersion();
+            config.PropagateExceptions();
+
+            config.SetApplicationName("git2semver");
+            config.SetApplicationVersion(typeof(Git2SemVerCommandApp).Assembly.GetInformationalVersion());
 
             config.AddBranch<CommandSettings>("versioning", branch =>
             {
@@ -41,12 +51,11 @@ internal class Git2SemVerCommandApp
                               .WithData(servicesProvider)
                               .WithExample("versioning", "solution-setup", "add ")
                               .WithExample("ver", "setup", "add")
-                              .WithExample("ver", "setup", "add -u")
                               .WithExample("ver", "setup", "add -u", "--solution", "'MyOtherSolution.sln'");
                     bootBranch.AddCommand<RemoveCliCommand>("remove")
                               .WithDescription("Remove Git2SemVer solution versioning from solution in working directory")
                               .WithData(servicesProvider)
-                              .WithExample("versioning", "install", "remove", "--solution", "'MyOtherSolution.sln'");
+                              .WithExample("versioning", "setup", "remove", "--solution", "'MyOtherSolution.sln'");
                 }).WithAlias("setup");
             }).WithAlias("ver");
 
@@ -66,14 +75,26 @@ internal class Git2SemVerCommandApp
             config.AddCommand<RunCliCommand>("run")
                   .IsHidden()
                   .WithDescription("Run version generator")
+                  .WithExample("versioning", "run")
                   .WithData(servicesProvider);
 
-            config.AddCommand<ChangelogCliCommand>(ChangelogConstants.DefaultSubfolderName)
+            config.AddCommand<ChangelogCliCommand>("changelog")
                   .WithDescription("Generate changelog command.")
+                  .WithExample("changelog", "-u")
                   .WithData(servicesProvider);
         });
 
-        return app.Run(args);
+        try
+        {
+            return app.Run(args);
+        }
+        catch (Exception exception)
+        {
+            var console = servicesProvider.GetService<IConsoleIO>()!;
+            console.WriteErrorLine($"Error: {exception.Message}");
+            logger.LogError(exception);
+            return 100;
+        }
     }
 
     private static string GetLogFilePath()

@@ -24,17 +24,20 @@ public sealed class ConventionalCommit : IChangeTypeAndDescription
     [JsonPropertyOrder(40)]
     public bool BreakingChange { get; set; }
 
-    [JsonPropertyOrder(20)]
-    public string Description { get; set; } = string.Empty;
-
     [JsonPropertyOrder(10)]
     public string ChangeType { get; set; } = string.Empty;
+
+    [JsonPropertyOrder(20)]
+    public string Description { get; set; } = string.Empty;
 
     [JsonPropertyOrder(60)]
     public FooterKeyValues Footer { get; set; } = new();
 
     [JsonPropertyOrder(50)]
     public IReadOnlyList<string> Issues { get; set; } = [];
+
+    [JsonPropertyOrder(15)]
+    public string Scope { get; set; } = string.Empty;
 
     [JsonPropertyOrder(30)]
     public string Sha { get; set; } = string.Empty;

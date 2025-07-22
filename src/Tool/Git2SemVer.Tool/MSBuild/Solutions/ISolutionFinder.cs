@@ -2,5 +2,5 @@
 
 internal interface ISolutionFinder
 {
-    FileInfo? Find(string inputSolutionFile);
+    FileInfo Find(string inputSolutionFile);
 }

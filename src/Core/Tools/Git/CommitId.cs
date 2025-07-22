@@ -8,8 +8,8 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 {
-    private readonly LoadOnDemand<string> _shortSha;
     private const int ShortShaLength = 7;
+    private readonly LoadOnDemand<string> _shortSha;
 
     [JsonConstructor]
     public CommitId()

@@ -1,24 +1,5 @@
 {
-  "metadata": [
-    {
-      "src": [
-        {
-          "src": "../src",
-          "files": [
-            "**/*.csproj"
-          ],
-          "exclude": [
-            "Tool/**",
-            "DiagnosticCodesDocBuilder/**"
-          ]
-        }
-      ],
-      "dest": "api",
-      "properties": {
-        "TargetFrameworks": "net8.0"
-      }
-    }
-  ],
+  "metadata": [],
   "build": {
     "content": [
       {
@@ -40,14 +21,20 @@
     "output": "_site",
     "template": [
       "default",
-      "modern"
+      "modern",
+      "templates/material",
+      "templates/my-template"
     ],
     "globalMetadata": {
       "_appName": "Git2SemVer",
       "_appTitle": "Git2SemVer",
-      "_appLogoPath": "Images/Git2SemVer_icon_32x32.png",
+      "_appLogoPath": "Images/Git2SemVer_trans_icon_32x32.png",
       "_enableSearch": true,
+      "_disableBreadcrumb": true,
       "pdf": false
+    },
+    "markdownEngineProperties": {
+      "markdigExtensions": [ "Diagrams" ]
     }
   }
 }

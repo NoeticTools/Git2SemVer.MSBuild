@@ -1,8 +1,8 @@
 - name: GSV001
-  href: GSV001.md
+  uid: GSV001
 - name: GSV002
-  href: GSV002.md
+  uid: GSV002
 - name: GSV003
-  href: GSV003.md
+  uid: GSV003
 - name: GSV004
-  href: GSV004.md
+  uid: GSV004

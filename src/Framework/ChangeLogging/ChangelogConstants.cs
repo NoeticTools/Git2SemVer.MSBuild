@@ -2,6 +2,16 @@
 
 public static class ChangelogConstants
 {
+    public const string VersionPlaceholder = "%VERSION%";
+
+    public const string DefaultConvCommitsInfoFilename = "conventionalcommits.data.g.json";
+
+    public const string DefaultMarkdownTemplateFilename = "markdown.template.scriban";
+
+    public const string LastRunDataFileSuffix = ".g2sv.data.g.json";
+
+    public const string ProjectSettingsFilename = "git2semver.changelog.settings.json";
+
     public static readonly CategorySettings[] DefaultCategories =
     [
         new(1, "Added", "feat"),
@@ -12,15 +22,6 @@ public static class ChangelogConstants
         new(6, "Security", "security"),
         new(7, "Other", "^(?!dev|Dev|refactor).*$")
     ];
-
-    public const string DefaultConvCommitsInfoFilename = "conventionalcommits.g.json";
-    public const string DefaultSubfolderName = "changelog";
-
-    public const string DefaultMarkdownTemplateFilename = "markdown.template.scriban";
-
-    public const string ProjectSettingsFilename = "git2semver.changelog.settings.json";
-
-    public const string LastRunFileSuffix = ".g2sv.data.json";
 
     public static string GetDefaultTemplate()
     {

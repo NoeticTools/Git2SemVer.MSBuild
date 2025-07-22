@@ -1,22 +1,10 @@
-- name: Documentation
-  items:
-    - name: Getting Started
-      uid: getting-started
-    - name: Usage
-      href: Usage/
-    - name: Reference
-      href: Reference/
-    - name: Learn
-      href: Learn/
-
-- name: API
-  href: api/
-
-- name: Resources
-  items:
-    - name: GitHub project
-      href: https://github.com/NoeticTools/Git2SemVer.MSBuild
-    - name: MSBuild Nuget package
-      href: https://www.nuget.org/packages/NoeticTools.Git2SemVer.MSBuild/
-    - name: dotnet Tool Nuget package
-      href: https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool/
+- name: Home
+  uid: home
+- name: Versioning
+  href: articles/Versioning/
+- name: Changelog gen.
+  href: articles/ChangelogGen/
+- name: Git2SemVer.MSBuild
+  href: articles/Git2SemVer.MSBuild/
+- name: Git2SemVer.Tool
+  href: articles/Git2SemVer.Tool/

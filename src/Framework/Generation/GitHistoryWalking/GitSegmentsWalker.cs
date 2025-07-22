@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Core.Tools.Git;
 
 
 namespace NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
@@ -14,7 +13,7 @@ internal sealed class GitSegmentsWalker(ContributingCommits contributing, ILogge
 
         var result = new SemanticVersionCalcResult
         {
-            Contributing = contributing,
+            Contributing = contributing
         };
 
         var stringBuilder = new StringBuilder();
@@ -43,10 +42,10 @@ internal sealed class GitSegmentsWalker(ContributingCommits contributing, ILogge
 
         stopwatch.Stop();
         logger.LogDebug("Found {0} prior releases reachable from head {1} (in {2:F0} ms):\n{3}",
-                         releasedSegments.Count.ToString(),
-                         contributing.Head.CommitId.ShortSha,
-                         stopwatch.ElapsedMilliseconds,
-                         stringBuilder.ToString().TrimEnd());
+                        releasedSegments.Count.ToString(),
+                        contributing.Head.CommitId.ShortSha,
+                        stopwatch.ElapsedMilliseconds,
+                        stringBuilder.ToString().TrimEnd());
 
         return result;
     }

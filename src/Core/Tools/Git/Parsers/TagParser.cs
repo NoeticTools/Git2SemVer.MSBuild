@@ -50,8 +50,8 @@ public sealed class TagParser : ITagParser
         }
 
         return new TagMetadata(ReleaseTypeId.Released,
-                                  SemVersion.Parse(match.Groups["version"].Value, SemVersionStyles.Strict),
-                                  new ApiChangeFlags());
+                               SemVersion.Parse(match.Groups["version"].Value, SemVersionStyles.Strict),
+                               new ApiChangeFlags());
     }
 
     private static TagMetadata CreateWaypointReleaseState(Match match)

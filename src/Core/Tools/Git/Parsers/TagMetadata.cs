@@ -13,7 +13,7 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 public sealed class TagMetadata
 {
     /// <summary>
-    /// Create a tag metadata for a commit that does not have any versioning tag.
+    ///     Create a tag metadata for a commit that does not have any versioning tag.
     /// </summary>
     public TagMetadata()
         : this(ReleaseTypeId.NotReleased,

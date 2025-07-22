@@ -20,31 +20,21 @@ public sealed class ContributingCommits
     }
 
     /// <summary>
+    ///     The branch the head is on.
+    /// </summary>
+    public string BranchName { get; }
+
+    /// <summary>
     ///     All commits reachable from head commit to all immediately prior releases.
     /// </summary>
     public IReadOnlyList<Commit> Commits { get; }
 
     /// <summary>
-    /// The head commit. All contributing commits are reachable from this commit.
+    ///     The head commit. All contributing commits are reachable from this commit.
     /// </summary>
     public Commit Head { get; }
 
-    /// <summary>
-    /// The branch the head is on.
-    /// </summary>
-    public string BranchName { get; }
-
-    /// <summary>
-    ///     Segments where the oldest commit is a prior release (or root commit).
-    /// </summary>
-    internal IReadOnlyList<LinkedSegment> LeafSegments => _leafSegments.Value;
-
-    /// <summary>
-    ///     Linked git segments containing the commits. Use for navigating to prior releases.
-    /// </summary>
-    internal IReadOnlyList<LinkedSegment> Segments => _segments.Value;
-
-    public static ContributingCommits Null { get; } = new ContributingCommits([], Commit.Null, "");
+    public static ContributingCommits Null { get; } = new([], Commit.Null, "");
 
     private static IReadOnlyList<LinkedSegment> BuildLinkedSegments(Commit head, IReadOnlyList<GitSegment> gitSegments)
     {
@@ -88,4 +78,14 @@ public sealed class ContributingCommits
         linkedSegments.Add(youngestCommitId, linkedSegment);
         return linkedSegment;
     }
+
+    /// <summary>
+    ///     Segments where the oldest commit is a prior release (or root commit).
+    /// </summary>
+    internal IReadOnlyList<LinkedSegment> LeafSegments => _leafSegments.Value;
+
+    /// <summary>
+    ///     Linked git segments containing the commits. Use for navigating to prior releases.
+    /// </summary>
+    internal IReadOnlyList<LinkedSegment> Segments => _segments.Value;
 }

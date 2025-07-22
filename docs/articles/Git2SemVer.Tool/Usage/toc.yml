@@ -1,0 +1,4 @@
+- name: Commands
+  uid: git2semver-tool-commands
+- name: Logging
+  uid: git2semver-tool-logging

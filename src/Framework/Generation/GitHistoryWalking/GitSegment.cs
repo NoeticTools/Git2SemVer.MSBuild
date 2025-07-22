@@ -69,7 +69,7 @@ internal sealed class GitSegment
     public int Id { get; }
 
     /// <summary>
-    /// Indicates if this commit commit is a release or root commit.
+    ///     Indicates if this commit commit is a release or root commit.
     /// </summary>
     public bool IsAReleaseSegment => Version != null ||
                                      (_commits.Count != 0 && OldestCommit.TagMetadata.IsRootCommit);
@@ -86,8 +86,8 @@ internal sealed class GitSegment
     public IReadOnlyList<CommitId> ParentCommits => OldestCommit.Parents.ToList();
 
     /// <summary>
-    /// If the oldest commit has a release tag or a waypoint tag this is the version read from that tag,
-    /// otherwise null.
+    ///     If the oldest commit has a release tag or a waypoint tag this is the version read from that tag,
+    ///     otherwise null.
     /// </summary>
     public SemVersion? Version => _commits.Count != 0 ? OldestCommit.TagMetadata.Version : null;
 

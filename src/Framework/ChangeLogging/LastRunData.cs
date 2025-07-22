@@ -1,68 +1,35 @@
 ﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core;
-using NoeticTools.Git2SemVer.Framework.Framework;
 using Semver;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
+/// <summary>
+/// Data from the last run when generating a specific changelog.
+/// </summary>
 public sealed class LastRunData
 {
-    [JsonPropertyOrder(40)]
-    public string BranchName { get; set; } = "";
+    [JsonPropertyOrder(10)]
+    // ReSharper disable once MemberCanBePrivate.Global
+    public string ForcedReleasedTitle { get; set; } = "";
 
-    [JsonPropertyOrder(20)]
-    public DateTimeOffset CommitWhen { get; set; } = DateTimeOffset.MinValue;
+    [JsonPropertyOrder(40)]
+    // ReSharper disable once MemberCanBePrivate.Global
+    public IReadOnlyList<string> ContributingReleases { get; set; } = [];
 
     [JsonPropertyOrder(50)]
     public List<HandledChange> HandledChanges { get; set; } = [];
 
-    [JsonPropertyOrder(10)]
-    public string HeadSha { get; set; } = "";
-
+    /// <summary>
+    ///     This file's schema revision. To allow for file migration.
+    /// </summary>
     [JsonPropertyOrder(-10)]
-    public string Rev { get; set; } = "1.0.0";
+    // ReSharper disable once MemberCanBePrivate.Global
+    public string Rev { get; set; } = "";
 
-    [JsonPropertyOrder(30)]
-    public string SemVersion { get; set; } = "";
-
-    [JsonPropertyOrder(40)]
-    public IReadOnlyList<string> ContributingReleases { get; set; } = [];
-
-    public static string GetFilePath(string dataDirectory, string targetFilePath)
-    {
-        var targetFilename = targetFilePath.Length == 0 ? "no_target" : Path.GetFileName(targetFilePath);
-        return Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunFileSuffix);
-    }
-
-    public static LastRunData Load(string directory, string filename)
-    {
-        return Load(GetFilePath(directory, filename));
-    }
-
-    public static LastRunData Load(string filePath)
-    {
-        return Git2SemVerJsonSerializer.Read<LastRunData>(filePath);
-    }
-
-    public void Save(string directory, string filePath)
-    {
-        Git2SemVerJsonSerializer.Write(GetFilePath(directory, filePath), this);
-    }
-
-    public void Save(string filePath)
-    {
-        Git2SemVerJsonSerializer.Write(filePath, this);
-    }
-
-    public void Update(ConventionalCommitsVersionInfo outputs)
-    {
-        HeadSha = outputs.HeadCommitSha;
-        CommitWhen = DateTimeOffset.Now;
-        SemVersion = outputs.Version!.ToString();
-        BranchName = outputs.BranchName;
-        ContributingReleases = outputs.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
-    }
+    [JsonIgnore]
+    public bool NoData => string.IsNullOrEmpty(Rev);
 
     public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)
     {
@@ -77,5 +44,28 @@ public sealed class LastRunData
         }
 
         return !priorContributingReleases.All(ver => ContributingReleases.Contains(ver.ToString()));
+    }
+
+    private static DirectoryInfo GetFilePath(string dataDirectory, string targetFilePath)
+    {
+        var targetFilename = targetFilePath.Length == 0 ? "no_target" : Path.GetFileName(targetFilePath);
+        return new DirectoryInfo(Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunDataFileSuffix));
+    }
+
+    public static LastRunData Load(string directory, string filename)
+    {
+        return Git2SemVerJsonSerializer.Read<LastRunData>(GetFilePath(directory, filename).FullName);
+    }
+
+    public void Save(string directory, string filePath)
+    {
+        Rev = "1";
+        var path = GetFilePath(directory, filePath).FullName;
+        Git2SemVerJsonSerializer.Write(path, this);
+    }
+
+    public void Update(ConventionalCommitsVersionInfo outputs)
+    {
+        ContributingReleases = outputs.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
     }
 }

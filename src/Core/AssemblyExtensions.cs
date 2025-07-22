@@ -8,6 +8,11 @@ namespace NoeticTools.Git2SemVer.Core;
 
 public static class AssemblyExtensions
 {
+    public static string GetInformationalVersion(this Assembly assembly)
+    {
+        return assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+    }
+
     public static string GetResourceFileContent(this Assembly assembly, string filename)
     {
         try
