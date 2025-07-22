@@ -137,7 +137,7 @@ public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger 
         }
         catch (Exception exception)
         {
-            throw new Git2SemVerScribanFileParsingException("There was a problem parsing or rendering a Scriban template file.", exception);
+            throw new Git2SemVerScribanFileParsingException("There was a problem parsing or rendering the Scriban template file.", exception);
         }
 
         if (newChangesContent.Trim().Length == 0)

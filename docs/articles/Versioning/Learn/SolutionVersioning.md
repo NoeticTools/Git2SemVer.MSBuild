@@ -1,15 +1,34 @@
 ﻿---
-uid: solution-versioning
+uid: versioning-solution-versioning
 ---
-
 
 # Solution versioning
 
-Solution versioning is when projects in a solution share the same versioning.
-Solution versioning is used to allow for all assemblies in a project to have the same version.
+## Setup
 
-[Git2SemVer.Tool](xref:git2semver-tool-landing) configures a solution to use solution versioning.
-It will add a new versioning project and configure other projects to use versioning information from the versioning project.
+Solution versioning is when projects in a solution share the same versioning.
+It synchonises the versioning of all project in a solution.
+
+To a solution to use solution versioning run the [Git2SemVer.Tool](xref:git2semver-tool-landing) [`versioning setup add` command](xref:git2semver-tool-commands).
+A new versioning project will be added and projects will be setup to use versioning information from the versioning project.
+
+In the solution's directory, run:
+
+```winbatch
+git2semver versioning setup add
+```
+
+You will be prompted with a few options and then setup is done.
+
+> [!IMPORTANT]
+> Ensure the solution is not open in Visual Studio when running this command.
+> Visual Studio only loads MSBuild tasks when the solution is opened.
+
+Rebuild the solution, all projects will be automatically versioned. See [Versioning](xref:versioning-landing).
+
+> [!TIP]
+> Git2SemVer outputs the generated informational version to the compiler's output.
+
 
 ## Build numbering
 

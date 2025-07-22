@@ -9,7 +9,7 @@ uid: versioning-getting-started
 
 ## Setup
 
-Dotnet tool `Git2SemVer.Tool` install instruction are [here](xref:git2semver-tool-installing).
+Dotnet tool `Git2SemVer.Tool` install instruction are [here](xref:changelog-getting-started).
 
 Then, in the solution's directory, run:
 

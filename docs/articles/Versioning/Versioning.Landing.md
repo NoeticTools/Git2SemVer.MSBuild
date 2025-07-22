@@ -127,7 +127,7 @@ gitGraph
 <tr>
     <td class="iconcolumn">
       <a href="https://www.conventionalcommits.org/en/v1.0.0/">
-        <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/ConventionalCommits_128x128.png" height=64 width=64 />
+        <img src="https://noetictools.github.io/Git2SemVer/Images/ConventionalCommits_128x128.png" height=64 width=64 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
@@ -143,7 +143,7 @@ gitGraph
 <!-- Visual studio -->
 <tr>
     <td class="iconcolumn">
-        <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/VisualStudio_128x128.png" height=64 width=64 />
+        <img src="https://noetictools.github.io/Git2SemVer/Images/VisualStudio_128x128.png" height=64 width=64 />
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
@@ -159,7 +159,7 @@ gitGraph
 <tr>
     <td class="iconcolumn">
       <a href="https://semver.org/">
-        <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/SemVer122x64(dark).png" height=64 width=122 />
+        <img src="https://noetictools.github.io/Git2SemVer/Images/SemVer122x64(dark).png" height=64 width=122 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
@@ -170,20 +170,20 @@ gitGraph
            Industry standard Semantic Version compliance.
         </p>
         <p>
-           Supports <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Reference/Glossary.html##initial-development">initial development versioning.</a> 
+           Supports <a href="https://noetictools.github.io/Git2SemVer/Reference/Glossary.html##initial-development">initial development versioning.</a> 
         </p>
 </tr>
 
 <!-- Environmental Parity -->
 <tr>
     <td class="iconcolumn">
-      <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Reference/Glossary.html##environment-parity">
-            <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/consistency_128x128.png"  height=64 width=64 />
+      <a href="https://noetictools.github.io/Git2SemVer/Reference/Glossary.html##environment-parity">
+            <img src="https://noetictools.github.io/Git2SemVer/Images/consistency_128x128.png"  height=64 width=64 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-            <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Reference/Glossary.html##environment-parity">Environment Parity</a>
+            <a href="https://noetictools.github.io/Git2SemVer/Reference/Glossary.html##environment-parity">Environment Parity</a>
         </p>
         <p>
             Visual Studio, VS Code, and dotnet CLI are all the same to Git2SemVer.
@@ -199,7 +199,7 @@ gitGraph
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-          <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Reference/Glossary.html##build-number">
+          <a href="https://noetictools.github.io/Git2SemVer/Reference/Glossary.html##build-number">
             Build Numbering
           </a>
         </p>
@@ -208,7 +208,7 @@ gitGraph
         <p>
         <p>
            Full traceability.
-           <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Reference/Glossary.html##build-height">Build height</a> <b>NOT</b> used.
+           <a href="https://noetictools.github.io/Git2SemVer/Reference/Glossary.html##build-height">Build height</a> <b>NOT</b> used.
         </p>
     </td>
 </tr>
@@ -216,11 +216,11 @@ gitGraph
 <!-- C# -->
 <tr>
     <td class="iconcolumn">
-      <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/CSharp_128x128.png" height=64 width=64 />
+      <img src="https://noetictools.github.io/Git2SemVer/Images/CSharp_128x128.png" height=64 width=64 />
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-           <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/CSharpScripting/CSharpScript.html">C# Scripting</a>
+           <a href="https://noetictools.github.io/Git2SemVer/Usage/CSharpScripting/CSharpScript.html">C# Scripting</a>
         </p>
         <p>
            <b>No limits customisable</b> by built-in C# scripting with a versioning API.
@@ -231,7 +231,7 @@ gitGraph
 <!-- Build Host Adaptive Versioning -->
 <tr>
     <td class="iconcolumn">
-      <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/ComputerMonitor.png" height=64 width=64 />
+      <img src="https://noetictools.github.io/Git2SemVer/Images/ComputerMonitor.png" height=64 width=64 />
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
@@ -246,7 +246,7 @@ gitGraph
 <!-- Workflow agnostic -->
 <tr>
     <td class="iconcolumn">
-      <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/git_workflow_128x128.png" height=64 width=64 />
+      <img src="https://noetictools.github.io/Git2SemVer/Images/git_workflow_128x128.png" height=64 width=64 />
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">Git Workflow Agnostic</p>
@@ -257,13 +257,13 @@ gitGraph
 <!-- TeamCity -->
 <tr>
     <td class="iconcolumn">
-      <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/BuildHosts/TeamCity.html">
-        <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/TeamCity_128x128.png" height=64 width=64 />
+      <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/TeamCity.html">
+        <img src="https://noetictools.github.io/Git2SemVer/Images/TeamCity_128x128.png" height=64 width=64 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-           <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/BuildHosts/TeamCity.html">
+           <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/TeamCity.html">
             TeamCity Integration
            </a>
         </p>
@@ -271,20 +271,20 @@ gitGraph
            Automatic build system detection with server build number (label) updated with
            a build version specifically adapted for TeamCity.
          </p>
-         <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/TeamCity-01.png">
+         <img src="https://noetictools.github.io/Git2SemVer/Images/TeamCity-01.png">
     </td>
 </tr>
 
 <!-- GitHub Workflows -->
 <tr>
     <td class="iconcolumn">
-      <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/BuildHosts/GitHubWorkflows.html">
-        <img src="https://noetictools.github.io/Git2SemVer.MSBuild/Images/github_gray_128x128.png" height=64 width=64 />
+      <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/GitHubWorkflows.html">
+        <img src="https://noetictools.github.io/Git2SemVer/Images/github_gray_128x128.png" height=64 width=64 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-          <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/BuildHosts/GitHubWorkflows.html">
+          <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/GitHubWorkflows.html">
             GitHub Workflows
           </a>
         </p>

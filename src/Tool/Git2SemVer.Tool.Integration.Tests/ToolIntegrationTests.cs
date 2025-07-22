@@ -31,15 +31,15 @@ internal class ToolIntegrationTests : SolutionTestsBase
     public void TearDown()
     {
         Console.WriteLine("-- Test Tear Down --");
-        ExecuteGit2SemVerTool("remove -u");
+        ExecuteGit2SemVerTool("remove -c false");
     }
 
     [TestCase("ver setup")]
-    [TestCase("versioning solution-setup")]
-    [TestCase("ver solution-setup")]
+    [TestCase("versioning setup")]
+    [TestCase("ver setup")]
     public void AddCommandTest(string commandPrefix)
     {
-        var result = ExecuteGit2SemVerTool(commandPrefix + " add -u");
+        var result = ExecuteGit2SemVerTool(commandPrefix + " add -c false");
 
         Console.WriteLine(result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
@@ -63,7 +63,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
 
         try
         {
-            var result = ExecuteGit2SemVerTool("changelog -u");
+            var result = ExecuteGit2SemVerTool("changelog run -c false");
 
             Console.WriteLine(result.stdOutput);
             Assert.That(Logger.HasError, Is.False);
@@ -81,7 +81,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [Test]
     public void DepreciatedAddCommandTest()
     {
-        var result = ExecuteGit2SemVerTool("add -u");
+        var result = ExecuteGit2SemVerTool("add -c false");
 
         Console.WriteLine(result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
@@ -91,7 +91,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [Test]
     public void DepreciatedRemoveCommandTest()
     {
-        var result = ExecuteGit2SemVerTool("remove -u");
+        var result = ExecuteGit2SemVerTool("remove -c false");
 
         Console.WriteLine(result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
@@ -107,13 +107,13 @@ internal class ToolIntegrationTests : SolutionTestsBase
         Assert.That(Logger.HasError, Is.False);
         Assert.That(result.returnCode, Is.Zero);
         Assert.That(result.stdOutput, Does.Contain("-h, --help"));
-        Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
+        Assert.That(result.stdOutput, Does.Contain("-c, --confirm"));
     }
 
     [Test]
     public void RemoveCommandTest()
     {
-        var result = ExecuteGit2SemVerTool("versioning solution-setup remove -u");
+        var result = ExecuteGit2SemVerTool("versioning setup remove -c false");
 
         Console.WriteLine(result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
@@ -128,7 +128,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [TestCase("trace")]
     public void RunCommandTest(string verbosity)
     {
-        var result = ExecuteGit2SemVerTool($"ver run -u --verbosity {verbosity}");
+        var result = ExecuteGit2SemVerTool($"ver run -c false --verbosity {verbosity}");
 
         Console.WriteLine(result.stdOutput);
         Assert.That(Logger.HasError, Is.False);
@@ -144,7 +144,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
         Assert.That(Logger.HasError, Is.False);
         Assert.That(result.returnCode, Is.Zero);
         Assert.That(result.stdOutput, Does.Contain("-h, --help"));
-        Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
+        Assert.That(result.stdOutput, Does.Contain("-c, --confirm"));
     }
 
     [Test]
@@ -156,7 +156,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
         Assert.That(Logger.HasError, Is.False);
         Assert.That(result.returnCode, Is.Zero);
         Assert.That(result.stdOutput, Does.Contain("-h, --help"));
-        Assert.That(result.stdOutput, Does.Not.Contain("-u, --unattended"));
+        Assert.That(result.stdOutput, Does.Not.Contain("-c, --confirm"));
     }
 
     [Test]
@@ -168,7 +168,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
         Assert.That(Logger.HasError, Is.False);
         Assert.That(result.returnCode, Is.Zero);
         Assert.That(result.stdOutput, Does.Contain("-h, --help"));
-        Assert.That(result.stdOutput, Does.Contain("-u, --unattended"));
+        Assert.That(result.stdOutput, Does.Contain("-c, --confirm"));
         Assert.That(result.stdOutput, Does.Contain("-v, --verbosity"));
         Assert.That(result.stdOutput, Does.Contain("--host-type"));
         Assert.That(result.stdOutput, Does.Contain("--output"));

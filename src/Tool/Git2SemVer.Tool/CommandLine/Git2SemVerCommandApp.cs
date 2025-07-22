@@ -2,10 +2,10 @@
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Tool.Commands.Changelog;
-using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Add;
-using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Remove;
-using NoeticTools.Git2SemVer.Tool.Commands.Versioning.Run;
+using NoeticTools.Git2SemVer.Tool.CommandLine.Changelog;
+using NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Add;
+using NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Remove;
+using NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Run;
 using Spectre.Console.Cli;
 
 
@@ -34,29 +34,40 @@ internal class Git2SemVerCommandApp
             config.SetApplicationName("git2semver");
             config.SetApplicationVersion(typeof(Git2SemVerCommandApp).Assembly.GetInformationalVersion());
 
-            config.AddBranch<CommandSettings>("versioning", branch =>
+            config.AddBranch<CommandSettings>("changelog", changelogBranch =>
             {
-                branch.SetDescription("Solution versioning commands (Alias 'ver')");
+                changelogBranch.SetDescription("Changelog commands");
 
-                branch.AddCommand<RunCliCommand>("run")
-                      .WithDescription("Run version generator.")
-                      .WithData(servicesProvider);
+                changelogBranch.AddCommand<ChangelogCliCommand>("run")
+                               .WithDescription("Generate/update changelog command")
+                               .WithExample("changelog", "run")
+                               .WithData(servicesProvider);
+            });
 
-                branch.AddBranch<CommandSettings>("solution-setup", bootBranch =>
+            config.AddBranch<CommandSettings>("versioning", verBranch =>
+            {
+                verBranch.SetDescription("Solution versioning commands (alias 'ver')");
+
+                verBranch.AddCommand<RunCliCommand>("run")
+                         .WithDescription("Run version generator command")
+                         .WithExample("versioning", "run")
+                         .WithData(servicesProvider);
+
+                verBranch.AddBranch<CommandSettings>("setup", bootBranch =>
                 {
-                    bootBranch.SetDescription("Solution versioning setup commands (Alias 'setup')");
+                    bootBranch.SetDescription("Solution versioning setup command (Alias 'setup')");
 
                     bootBranch.AddCommand<AddCliCommand>("add")
                               .WithDescription("Add Git2SemVer solution versioning to solution in working directory")
                               .WithData(servicesProvider)
-                              .WithExample("versioning", "solution-setup", "add ")
-                              .WithExample("ver", "setup", "add")
-                              .WithExample("ver", "setup", "add -u", "--solution", "'MyOtherSolution.sln'");
+                              .WithExample("versioning", "setup", "add")
+                              .WithExample("versioning", "setup", "add", "-confirm", "false", "--solution", "'MyOtherSolution.sln'");
                     bootBranch.AddCommand<RemoveCliCommand>("remove")
                               .WithDescription("Remove Git2SemVer solution versioning from solution in working directory")
                               .WithData(servicesProvider)
                               .WithExample("versioning", "setup", "remove", "--solution", "'MyOtherSolution.sln'");
-                }).WithAlias("setup");
+
+                });
             }).WithAlias("ver");
 
             // Depreciated
@@ -77,18 +88,15 @@ internal class Git2SemVerCommandApp
                   .WithDescription("Run version generator")
                   .WithExample("versioning", "run")
                   .WithData(servicesProvider);
-
-            config.AddCommand<ChangelogCliCommand>("changelog")
-                  .WithDescription("Generate changelog command.")
-                  .WithExample("changelog", "-u")
-                  .WithData(servicesProvider);
         });
 
         try
         {
             return app.Run(args);
         }
+#pragma warning disable CA1031
         catch (Exception exception)
+#pragma warning restore CA1031
         {
             var console = servicesProvider.GetService<IConsoleIO>()!;
             console.WriteErrorLine($"Error: {exception.Message}");

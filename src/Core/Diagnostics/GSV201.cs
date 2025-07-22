@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Git2SemVer.Core.Diagnostics;
 
-//[DiagnosticCode]
+[DiagnosticCode]
 public sealed class GSV201 : DiagnosticCodeBase
 {
     public GSV201(string dataDirectory, string changelogFileName)

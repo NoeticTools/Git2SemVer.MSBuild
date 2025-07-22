@@ -33,6 +33,6 @@
   expanded: true
   items:
   - name: Solution versioning
-    uid: solution-versioning
+    uid: versioning-solution-versioning
   - name: Project versioning
-    uid: project-versioning
+    uid: versioning-project-versioning

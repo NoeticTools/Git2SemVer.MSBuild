@@ -8,9 +8,9 @@ namespace NoeticTools.Git2SemVer.Tool.Tests.CommandLine;
 [NonParallelizable]
 internal class Git2SemVerCommandAppTests
 {
-    [TestCase("changelog", "-u", "--xxx", "0")]
+    [TestCase("changelog", "run", "-c", "false", "--xxx", "0")]
     [TestCase("versioning", "run", "--host-type", "xxx")]
-    [TestCase("versioning", "-u", "run", "--xxx")]
+    [TestCase("versioning", "-c", "false", "run", "--xxx")]
     [TestCase("versioning", "setup", "add", "--solution", "xxx")]
     public void WithInvalidArgumentReturnsNonZeroExitCodeTest(params string[] args)
     {
