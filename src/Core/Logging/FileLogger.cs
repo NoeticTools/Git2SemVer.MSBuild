@@ -22,7 +22,7 @@ public sealed class FileLogger : LoggerShowingLevelBase, ILogger
             }
             catch (IOException)
             {
-                if (stopwatch.ElapsedMilliseconds < 3000)
+                if (stopwatch.ElapsedMilliseconds < 10000)
                 {
                     Thread.Sleep(25);
                 }
