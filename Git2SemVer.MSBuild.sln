@@ -88,6 +88,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tool", "Tool", "{C3EBC693-7
 		src\Tool\Directory.Versioning.Build.props = src\Tool\Directory.Versioning.Build.props
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Solution items", "1 - Solution items", "{2FA7BDFD-410B-458E-B2C8-21D4890DD43D}"
+	ProjectSection(SolutionItems) = preProject
+		src\Tool\.gitignore = src\Tool\.gitignore
+		src\Tool\Directory.Build.props = src\Tool\Directory.Build.props
+		src\Tool\Directory.Build.targets = src\Tool\Directory.Build.targets
+		src\Tool\Directory.Versioning.Build.props = src\Tool\Directory.Versioning.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,6 +224,7 @@ Global
 		{8EED4F95-602C-4FD5-B3AF-75848E6E8CBF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{88C792C1-51D3-4B4F-8092-7E59DC1DE1D0} = {3B28B2BF-AD6F-42CE-B31B-35E88B911204}
 		{C3EBC693-7E1F-4407-93C0-7771263503DC} = {1890E2B7-C4AA-485A-A6ED-4E0B5979C920}
+		{2FA7BDFD-410B-458E-B2C8-21D4890DD43D} = {8EED4F95-602C-4FD5-B3AF-75848E6E8CBF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C89AA72-27F1-4410-8A4F-6F87F721B719}
