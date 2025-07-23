@@ -17,6 +17,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <Git2SemVer_ReleaseTagFormat Condition="'$(Git2SemVer_ReleaseTagFormat)' == ''">tool.v%VERSION%</Git2SemVer_ReleaseTagFormat>
     <!-- Modification: Versioning project name set manually. -->
     <Git2SemVer_VersioningProjectName>Git2SemVer.Tool.SlnVersioningProject</Git2SemVer_VersioningProjectName>
     <Git2SemVer_VersioningProjectDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
