@@ -31,4 +31,8 @@
     <NoWarn>NU5100;NU1803;NU5128;CS0121</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Git2SemVer_ArtifactsDirectory>$(MSBuildThisFileDirectory)../../artifacts/</Git2SemVer_ArtifactsDirectory>
+  </PropertyGroup>
+
 </Project>

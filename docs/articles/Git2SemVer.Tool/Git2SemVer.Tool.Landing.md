@@ -10,7 +10,7 @@ uid: git2semver-tool-landing
 
 * Generate version information JSON file.
 * Generate [changlog](xref:changelog-gen-landing).
-* Setup a .NET solution for [solution versioning](xref:solution-versioning).
+* Setup a .NET solution for [solution versioning](xref:versioning-solution-versioning).
 
 <div class="container-fluid mb-4 w-100">
     <div class="row row-cols-xs-2 row-cols-sm-3 g-4">
@@ -35,7 +35,7 @@ uid: git2semver-tool-landing
 
 
 > [!NOTE]
-> **Git2SemVer.MSBuild** is recommended for [project versioning](xref:project-versioning) of individual .NET projects.
+> **Git2SemVer.MSBuild** is recommended for [project versioning](xref:versioning-project-versioning) of individual .NET projects.
 
 
 ## License

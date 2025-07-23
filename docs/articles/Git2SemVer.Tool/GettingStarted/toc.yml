@@ -1,4 +1,2 @@
 - name: Getting started
-  uid: dotnet-tool-getting-started
-- name: Installing
-  uid: git2semver-tool-installing
+  uid: git2semver-tool-getting-started

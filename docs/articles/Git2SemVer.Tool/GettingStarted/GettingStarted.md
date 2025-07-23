@@ -1,82 +1,83 @@
 ﻿---
-uid: dotnet-tool-getting-started
+uid: git2semver-tool-getting-started
 ---
 
 # Git2SemVer.Tool - Getting Started
 
-## First build
+[![Current Version](https://img.shields.io/nuget/v/NoeticTools.Git2SemVer.Tool?label=Git2SemVer.Tool)](https://www.nuget.org/packages/NoeticTools.Git2SemVer.Tool)
 
-If you have not installed **Git2SemVer** and configured your test solution for solution versioning, do it now. Instructions are [here](xref:git2semver-tool-installing).
+## Prerequisites
 
-Your test solution must be under Git revision control.
+Git2SemVer requires:
 
-Rebuild and you will see the generated version in compiler's output. It will be something like:
+* `git` CLI to be executable from any project directory.
+* `dotnet` CLI to be executable from any project directory.
+
+Known compatibility:
+
+* `dotnet.exe` `8.0.403` or later.
+* `git` `2.41.0` or later.
+* Windows 11
+* Ubuntu 20.04 LTS
+
+## Installing
+
+To install:
 
 ```console
-Git2SemVer calculated version: 0.18.2-Alpha-InitialDev.MyPC.1422+Documentation-updates.3bda6f4fbedf2fe469da35b9f1a58146d4a36927
+dotnet tool install --global NoeticTools.Git2SemVer.Tool
 ```
 
-> [!IMPORTANT]
-> If the message does not appear check that build output verbosity is at least `Normal` in Visual Studio `Tools | Options | Projects and Solutions`.
-> The message will not appear if set to `Minimal` or `Quiet`.
+To update the tool to the latest:
 
-> [!TIP]
-> A versioning log `Git2SemVer.MSBuild.log` is written to the project's intermediate file folder (obj).
-> This log includes information to show how the version was calculated.
-
-### Build with custom C# script
-
-Customise the versioning open the file `Git2SemVer.csx` in the `SolutionVersioning` (or the name given during setup) project and add:
-
-```csharp
-Log.LogInfo("Hello world - my first Git2SemVer C# script is born.");
+```console
+dotnet tool update NoeticTools.Git2SemVer.Tool --global
 ```
 
-Rebuild and you will the message `Hello world - my first After Burner C# script is born.` in the compiler's output.
-If the message does not appear check that build output verbosity is at least `Normal` in Visual Studio `Tools | Options | Projects and Solutions`.
-The message will not appear if set to `Minimal` or `Quiet`.
+Once installed the tool is available as `git2semver`. 
+To test the install, run the command:
 
-That was using C# script globals. `Log` is a global property. 
-Another way is to use a context instance exposted by the `VersionContext` property:
-
-```csharp
-var context = VersioningContext.Instance!;
-
-context.Logger.LogInfo("Hello world - my second Git2SemVer C# script is born.");
+```console
+git2semver --version
 ```
 
-`VersioningContext.Instance` provides the global properties as a context object. It provides a better coding experience.
-We will use the context object but the same can be done using the global properties.
+<!--
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div id="trailer" class="section d-flex justify-content-center embed-responsive embed-responsive-4by3">
+        <video class="embed-responsive-item w-100" controls>
+          <source src="/../../../images/Untitled video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
+-->
 
-> [!TIP]
-> **Git2SemVer** has loaded common libraries and has setup implied using namespaces.
-> Using statements may added to the file for more advanced editing.
+## Quick start
 
-As a simple example of seting assembly, file, informational, as well as package versions, replace the code in the csx file with:
+To see versioning information, in your solution's directory, run:
 
-```csharp
-var context = VersioningContext.Instance!;
-context.Logger.LogInfo("Running demo Git2SemVer customisation script.");
-
-context.Outputs.SetAllVersionPropertiesFrom(SemVersion.ParseFrom("1.2.3-Demo.999+ASimpleDemoScriptVersion"));
+```console
+dotnet versioning run
 ```
- 
- This will give you:
 
- <pre>
- Informational version:     1.2.3-Demo.999+ASimpleDemoScriptVersion
- Version:                   1.2.3-Demo.999
- AssemblyVersion:           1.2.3.0
- FileVersion:               1.2.3.0
- Build system version:      1.2.3-Demo.999
- Prereleaase label:         Demo
- Is in initial development: false</pre>
+For more information see [versioning](xref:versioning-landing).
 
-To demonstate reading **Git2SemVer** properties and overriding/customising everything replace the code in the csx file with:
+To generate a changelog, in your solution's directory, run:
 
-[!code-csharp[](CsxDemos/ForceProperties4.csx)]
+```console
+dotnet changelog
+```
 
+For more information see [changelog generation](xref:changelog-gen-landing).
 
-## Configuring build system
+To investiage other commands use the `--help` option or view all commands [here](git2semver-tool-commands).
 
-Your build system may need to be configured to make the build number available to **Git2SemVer**. See [Build Hosts](xref:build-hosts).
+## Uninstalling
+
+```console
+dotnet tool uninstall NoeticTools.Git2SemVer.Tool --global
+```

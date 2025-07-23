@@ -30,6 +30,7 @@
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
     <AnalysisLevel>preview-all</AnalysisLevel>
+    <PackageOutputPath>$(Git2SemVer_ArtifactsDirectory)</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -79,7 +80,7 @@
     <EmbeddedResource Include="Resources\Git2SemVer.csx" />
     <EmbeddedResource Include="Resources\Git2SemVer.VersionInfo.g.json" />
     <EmbeddedResource Include="Resources\Directory.Versioning.Build.props" />
-    <None Include="..\Documentation\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True" PackagePath="\" />
+    <None Include="..\..\..\docs\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

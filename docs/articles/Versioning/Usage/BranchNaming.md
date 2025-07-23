@@ -14,7 +14,7 @@ how to use custom patterns.
 The default branch maturity pattern regular expression pattern is:
 
 ```xml
-^((?<rc>(main|release)[\\\/_](.*[\\\/_])?rc.*)|(?<release>main|release)|(?<beta>feature)|(?<alpha>.+))[\\\/_]?
+^((?<rc>(main|master|release)[\\\/_](.*[\\\/_])?rc.*)|(?<release>main|release)|(?<beta>feature)|(?<alpha>.+))[\\\/_]?
 ```
 
 The table below gives example default release/pre-release branch [versioning](xref:versioning) (SHAs abbreviated).
@@ -48,7 +48,7 @@ For example:
 ```xml
 <PropertyGroup>
     <Git2SemVer_BranchMaturityPattern>
-        ^((?<rc>(main|release)[\\\/_](.*[\\\/_])?rc.*)|(?<release>main|release)|(?<beta>feature)|(?<alpha>.+))[\\\/_]?
+        ^((?<rc>(main|master|release)[\\\/_](.*[\\\/_])?rc.*)|(?<release>main|release)|(?<beta>feature)|(?<alpha>.+))[\\\/_]?
     </Git2SemVer_BranchMaturityPattern>
 </PropertyGroup>
 ```

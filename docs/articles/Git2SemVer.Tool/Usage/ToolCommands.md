@@ -4,6 +4,7 @@ uid: git2semver-tool-commands
 
 # Git2SemVer.Tool Commands
 
+
 ```console
 USAGE:
     git2semver [OPTIONS] <COMMAND>
@@ -26,16 +27,17 @@ COMMANDS:
 
 ## Versioning
 
-### Run
+#### Synopsis
 
-Command to version a solution or generate version info JSON file.
+
+### Run
 
 ```console
 DESCRIPTION:
 Run version generator
 
 USAGE:
-    dotnet git2semver versioning run [OPTIONS]
+    git2semver versioning run [OPTIONS]
 
 OPTIONS:
                                      DEFAULT
@@ -52,20 +54,20 @@ OPTIONS:
 
 ### Solution versioning - Add
 
-Command to configure a solution for [solution versioning](xref:solution-versioning).
+Command to configure a solution for [solution versioning](xref:versioning-solution-versioning).
 
 ```console
 DESCRIPTION:
 Add Git2SemVer solution versioning to solution in working directory
 
 USAGE:
-    dotnet git2semver versioning solution-setup add [OPTIONS]
+    git2semver versioning solution-setup add [OPTIONS]
 
 EXAMPLES:
-    dotnet git2semver versioning solution-setup add
-    dotnet git2semver ver setup add
-    dotnet git2semver ver setup add -u
-    dotnet git2semver ver setup add -u --solution 'MyOtherSolution.sln'
+    git2semver versioning solution-setup add
+    git2semver ver setup add
+    git2semver ver setup add -u
+    git2semver ver setup add -u --solution 'MyOtherSolution.sln'
 
 OPTIONS:
                         DEFAULT
@@ -84,10 +86,10 @@ DESCRIPTION:
 Remove Git2SemVer solution versioning from solution in working directory
 
 USAGE:
-    dotnet git2semver versioning solution-setup remove [OPTIONS]
+    git2semver versioning solution-setup remove [OPTIONS]
 
 EXAMPLES:
-    dotnet git2semver versioning setup remove --solution 'MyOtherSolution.sln'
+    git2semver versioning setup remove --solution 'MyOtherSolution.sln'
 
 OPTIONS:
                         DEFAULT
@@ -107,7 +109,7 @@ DESCRIPTION:
 Generate changelog command
 
 USAGE:
-    dotnet git2semver changelog [OPTIONS]
+    git2semver changelog run [OPTIONS]
 
 OPTIONS:
                                         DEFAULT

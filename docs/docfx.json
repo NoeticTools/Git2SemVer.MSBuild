@@ -30,7 +30,7 @@
       "_appTitle": "Git2SemVer",
       "_appLogoPath": "Images/Git2SemVer_trans_icon_32x32.png",
       "_enableSearch": true,
-      "_disableBreadcrumb": true,
+      "_disableBreadcrumb": false,
       "pdf": false
     },
     "markdownEngineProperties": {
