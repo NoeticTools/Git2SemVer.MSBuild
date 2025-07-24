@@ -17,6 +17,7 @@ import jetbrains.buildServer.configs.kotlin.failureConditions.failOnText
 import jetbrains.buildServer.configs.kotlin.projectFeatures.githubIssues
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -86,7 +87,7 @@ object BuildAndTest : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
-
+        checkoutMode
         cleanCheckout = true
     }
 
@@ -220,6 +221,7 @@ object HttpsGithubComNoetictoolsGit2semverMsbuildRefsHeadsMain : GitVcsRoot({
         +:refs/tags/*
     """.trimIndent()
     useTagsAsBranches = true
+    checkoutPolicy = GitVcsRoot.AgentCheckoutPolicy.NO_MIRRORS
     authMethod = uploadedKey {
         uploadedKey = "Git2SemVerMSBuildWriteSSH"
     }
