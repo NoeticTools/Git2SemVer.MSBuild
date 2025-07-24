@@ -2,7 +2,7 @@
   "profiles": {
     "Git2SemVer.Tool": {
       "commandName": "Project",
-      "commandLineArgs": "changelog run -c false"
+      "commandLineArgs": "changelog run -r \"(\""
     }
   }
 }

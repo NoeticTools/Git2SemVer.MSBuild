@@ -13,15 +13,21 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
 {
     public void Execute(RunCommandSettings settings)
     {
-        Console.WriteMarkupInfoLine($"Running Git2SemVer version generator{(settings.Confirm ? "" : " (unattended)")}.");
+        Console.WriteMarkupInfoLine($"Running Git2SemVer version generator{(settings.Unattended ? " (unattended)" : "")}.");
         Console.WriteLine();
 
         var inputs = new VersionGeneratorInputs
         {
             VersioningMode = VersioningMode.StandAloneProject,
             IntermediateOutputDirectory = settings.OutputDirectory,
-            WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite
+            WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite,
+            ReleaseTagFormat = settings.ReleaseTagFormat!
         };
+
+        if (!string.IsNullOrEmpty(settings.BranchMaturityPattern))
+        {
+            inputs.BranchMaturityPattern = settings.BranchMaturityPattern;
+        }
 
         if (settings.HostType != null)
         {

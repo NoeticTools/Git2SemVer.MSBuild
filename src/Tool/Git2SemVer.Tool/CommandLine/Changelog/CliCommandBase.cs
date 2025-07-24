@@ -21,7 +21,7 @@ internal abstract class CliCommandBase<T> : Command<T> where T : CommandSettings
     {
         var serviceProvider = (IServiceProvider)context.Data!;
         var console = serviceProvider.GetService<IConsoleIO>()!;
-        console.Unattended = !settings.Confirm;
+        console.Unattended = settings.Unattended;
         var commandFactory = serviceProvider.GetService<ICommandFactory>()!;
         return commandFactory;
     }

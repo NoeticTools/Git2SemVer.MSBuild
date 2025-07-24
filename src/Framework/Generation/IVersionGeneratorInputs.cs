@@ -7,7 +7,7 @@ namespace NoeticTools.Git2SemVer.Framework.Generation;
 /// <summary>
 ///     Inputs into the MSBuild task read from MSBuild properties.
 /// </summary>
-public interface IVersionGeneratorInputs //: IMSBuildTask
+public interface IVersionGeneratorInputs
 {
     /// <summary>
     ///     Optional input  MSBuild <c>Git2SemVer_BranchMaturityPattern</c> property.
@@ -106,16 +106,6 @@ public interface IVersionGeneratorInputs //: IMSBuildTask
     string IntermediateOutputDirectory { get; }
 
     /// <summary>
-    ///     Optional MSBuild <c>Git2SemVer_ReleaseTagFormat</c> property.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         MSBuild task input.
-    ///     </para>
-    /// </remarks>
-    string ReleaseTagFormat { get; }
-
-    /// <summary>
     ///     Optional MSBuild <c>Git2SemVer_RunScript</c> property.
     /// </summary>
     /// <remarks>
@@ -199,6 +189,8 @@ public interface IVersionGeneratorInputs //: IMSBuildTask
     /// </summary>
     /// <remarks>Default is false.</remarks>
     bool WriteConventionalCommitsInfo { get; }
+
+    string ReleaseTagFormat { get; }
 
     bool ValidateScriptInputs(ILogger logger);
 }

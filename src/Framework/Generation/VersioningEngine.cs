@@ -39,7 +39,7 @@ internal sealed class VersioningEngine(
         var stopwatch = Stopwatch.StartNew();
 
         host.BumpBuildNumber();
-        var (outputs, versioningResult) = GetVersionOutputs();
+        var (outputs, _) = GetVersionOutputs();
 
         SaveGeneratedVersions(outputs);
 
@@ -91,9 +91,11 @@ internal sealed class VersioningEngine(
     {
         var conventionalCommitsInfo = new ConventionalCommitsVersionInfo(outputs, contributing);
         const string commitsInfoFilename = ChangelogConstants.DefaultConvCommitsInfoFilename;
-        conventionalCommitsInfo.Write(Path.Combine(inputs.IntermediateOutputDirectory, commitsInfoFilename));
+        var filePath = Path.Combine(inputs.IntermediateOutputDirectory, commitsInfoFilename);
+        conventionalCommitsInfo.Write(filePath);
         if (inputs.VersioningMode != VersioningMode.StandAloneProject)
         {
+            logger.LogDebug("Saving conventional commits info file to '{0}'.", filePath);
             conventionalCommitsInfo.Write(Path.Combine(inputs.SolutionSharedDirectory, commitsInfoFilename));
         }
     }

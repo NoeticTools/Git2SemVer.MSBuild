@@ -66,7 +66,6 @@ internal class Git2SemVerCommandApp
                               .WithDescription("Remove Git2SemVer solution versioning from solution in working directory")
                               .WithData(servicesProvider)
                               .WithExample("versioning", "setup", "remove", "--solution", "'MyOtherSolution.sln'");
-
                 });
             }).WithAlias("ver");
 
@@ -101,7 +100,7 @@ internal class Git2SemVerCommandApp
             var console = servicesProvider.GetService<IConsoleIO>()!;
             console.WriteErrorLine($"Error: {exception.Message}");
             logger.LogError(exception);
-            return 100;
+            return (int)ExitCodes.UnexpectedException;
         }
     }
 

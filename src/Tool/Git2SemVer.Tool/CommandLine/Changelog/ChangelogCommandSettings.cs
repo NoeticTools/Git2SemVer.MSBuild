@@ -11,7 +11,6 @@ namespace NoeticTools.Git2SemVer.Tool.CommandLine.Changelog;
 public class ChangelogCommandSettings : CommonCommandSettings
 {
     [CommandOption("-a|--artifact-url <URL>")]
-    [DefaultValue("https://www.nuget.org/packages/org.project.product/%VERSION%")]
     [Description("Optional url to a version's artifacts. May contain version placeholder '%VERSION%'.")]
     public string ArtifactLinkPattern { get; set; } = "";
 
@@ -37,7 +36,7 @@ public class ChangelogCommandSettings : CommonCommandSettings
 
     [CommandOption("-r|--release-as <TITLE>")]
     [DefaultValue("")]
-    [Description("If not an empty string sets the changes version (normally version or 'Unreleased'). Does not need to version, any text permitted.")]
+    [Description("If not an empty string sets the changes version (normally version or 'Unreleased'). Any text permitted.")]
     public string ReleaseAs { get; set; } = "";
 
     [CommandOption("-v|--verbosity <LEVEL>")]
@@ -46,19 +45,14 @@ public class ChangelogCommandSettings : CommonCommandSettings
     public string Verbosity { get; set; } = "";
 
     [CommandOption("-s|--show")]
-    [DefaultValue(false)]
     [Description("Show changelog in console.")]
     public bool WriteToConsole { get; set; }
 
     public override ValidationResult Validate()
     {
-        if (ConvCommitsInfoFilePath.Length == 0)
-        {
-            return ValidationResult.Success();
-        }
-
-        return File.Exists(ConvCommitsInfoFilePath)
+        var result = new ChangelogRunCommandSettingsValidator().Validate(this);
+        return result.IsValid
             ? ValidationResult.Success()
-            : ValidationResult.Error("The conventional commits info file must exist");
+            : ValidationResult.Error(string.Join("\n", result.Errors));
     }
 }

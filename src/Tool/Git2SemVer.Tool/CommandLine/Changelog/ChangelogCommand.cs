@@ -158,7 +158,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
 
     private bool WriteConsolePreamble(ChangelogCommandSettings cmdLineSettings)
     {
-        Console.WriteMarkupInfoLine($"Generating Changelog {(cmdLineSettings.Confirm ? "" : " (unattended)")}.");
+        Console.WriteMarkupInfoLine($"Generating Changelog {(cmdLineSettings.Unattended ? " (unattended)" : "")}.");
         Console.WriteLine("");
 
         var proceed = Console.PromptYesNo("Proceed?");

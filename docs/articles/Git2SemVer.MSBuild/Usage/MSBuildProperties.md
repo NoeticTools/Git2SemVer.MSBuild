@@ -238,7 +238,11 @@ The MSBuild input poperties are:
     <td>
         <div class="descriptionCol">
             <p>
-                Optional regular expression format to identify a release, and get the version, from a Git tag's friendly name.
+                Optional regular expression format to identify a release tag, and get the version, from a Git tag's friendly name.
+                Must include the version placeholder text "%VERSION%".
+            </p>
+            <p>
+                Default is "v%VERSION%"` which will match "v1.2.3".
             </p>
             <p>
                 See: <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/ReleaseTagging.html">Release Tagging</a>

@@ -11,11 +11,15 @@ internal class RemoveCliCommand : CliCommandBase<SolutionCommandSettings>
     public override int Execute(CommandContext context, SolutionCommandSettings settings)
     {
         Validate(context);
+        if (!settings.Validate().Successful)
+        {
+            return (int)ExitCodes.InvalidCommandSettingsError;
+        }
 
         var commandFactory = GetCommandFactory(context, settings);
 
         var runner = commandFactory.CreateRemoveCommand();
-        runner.Execute(settings.SolutionName, !settings.Confirm);
+        runner.Execute(settings.SolutionName, settings.Unattended);
         return (int)(runner.HasError ? ReturnCodes.CommandError : ReturnCodes.Succeeded);
     }
 }

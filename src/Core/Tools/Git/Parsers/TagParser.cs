@@ -14,10 +14,8 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 [RegisterSingleton]
 public sealed class TagParser : ITagParser
 {
-    private const string DefaultVersionPrefix = "v";
     private const string PriorVersionPattern = @"(?<priorVersion>\d+\.\d+\.\d+)";
     private const string VersionPattern = @"(?<version>\d+\.\d+\.\d+)";
-    private const string VersionPlaceholder = "%VERSION%";
     private const string WaypointTagPrefix = @"(?<waypoint>.git2semver\.waypoint\()";
     private const string WaypointTagSuffix = @"\)\.((?<breaking>break(ing)?)|(?<feat>feat(ure)?)|(?<fix>fix)|none)";
 
@@ -68,11 +66,11 @@ public sealed class TagParser : ITagParser
     {
         if (string.IsNullOrWhiteSpace(releaseTagFormat))
         {
-            return $"(({DefaultVersionPrefix}{VersionPattern})|({WaypointTagPrefix}{DefaultVersionPrefix}{PriorVersionPattern}{WaypointTagSuffix}))";
+            return $"(({TagParsingConstants.DefaultVersionPrefix}{VersionPattern})|({WaypointTagPrefix}{TagParsingConstants.DefaultVersionPrefix}{PriorVersionPattern}{WaypointTagSuffix}))";
         }
 
         var versionPattern = ReplacePlaceholderInPattern(releaseTagFormat!);
-        var priorVersionPattern = releaseTagFormat!.Replace(VersionPlaceholder, PriorVersionPattern);
+        var priorVersionPattern = releaseTagFormat!.Replace(TagParsingConstants.VersionPlaceholder, PriorVersionPattern);
         return $"({versionPattern}|({WaypointTagPrefix}{priorVersionPattern}{WaypointTagSuffix}))";
     }
 
@@ -85,11 +83,11 @@ public sealed class TagParser : ITagParser
             throw new Git2SemVerDiagnosticCodeException(new GSV005(releaseTagFormat!, reservedPrefix));
         }
 
-        if (!releaseTagFormat!.Contains(VersionPlaceholder))
+        if (!releaseTagFormat!.Contains(TagParsingConstants.VersionPlaceholder))
         {
             throw new Git2SemVerDiagnosticCodeException(new GSV006(releaseTagFormat!));
         }
 
-        return releaseTagFormat!.Replace(VersionPlaceholder, VersionPattern);
+        return releaseTagFormat!.Replace(TagParsingConstants.VersionPlaceholder, VersionPattern);
     }
 }

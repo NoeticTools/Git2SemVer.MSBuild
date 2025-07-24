@@ -10,6 +10,10 @@ internal class ChangelogCliCommand : CliCommandBase<ChangelogCommandSettings>
     public override int Execute(CommandContext context, ChangelogCommandSettings settings)
     {
         Validate(context);
+        if (!settings.Validate().Successful)
+        {
+            return (int)ExitCodes.InvalidCommandSettingsError;
+        }
 
         var commandFactory = GetCommandFactory(context, settings);
 
