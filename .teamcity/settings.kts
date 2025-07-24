@@ -86,7 +86,7 @@ object BuildAndTest : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
-
+        checkoutMode
         cleanCheckout = true
     }
 
@@ -220,6 +220,7 @@ object HttpsGithubComNoetictoolsGit2semverMsbuildRefsHeadsMain : GitVcsRoot({
         +:refs/tags/*
     """.trimIndent()
     useTagsAsBranches = true
+    checkoutPolicy = GitVcsRoot.AgentCheckoutPolicy.NO_MIRRORS
     authMethod = uploadedKey {
         uploadedKey = "Git2SemVerMSBuildWriteSSH"
     }
