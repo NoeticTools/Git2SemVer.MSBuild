@@ -18,11 +18,6 @@ public sealed class RunCommandSettingsValidator : AbstractValidator<RunCommandSe
                                                .WithMessage("The verbosity must be 'Trace', 'Debug', 'Info', 'Warning', or 'Error'.");
     }
 
-    private static bool BeAValidVerbosity(string verbosity)
-    {
-        return Enum.TryParse(verbosity, true, out LoggingLevel level);
-    }
-
     private static bool BeAValidReleaseTagFormat(string? releaseTagFormat)
     {
         if (string.IsNullOrEmpty(releaseTagFormat))
@@ -42,5 +37,10 @@ public sealed class RunCommandSettingsValidator : AbstractValidator<RunCommandSe
         }
 
         return releaseTagFormat.Contains(TagParsingConstants.VersionPlaceholder);
+    }
+
+    private static bool BeAValidVerbosity(string verbosity)
+    {
+        return Enum.TryParse(verbosity, true, out LoggingLevel level);
     }
 }

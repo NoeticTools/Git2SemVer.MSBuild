@@ -1,8 +1,7 @@
-﻿using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
-using Spectre.Console.Cli;
-using System.ComponentModel;
-using System.Xml.Linq;
+﻿using System.ComponentModel;
+using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 using Spectre.Console;
+using Spectre.Console.Cli;
 
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global

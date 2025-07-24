@@ -9,8 +9,7 @@ namespace NoeticTools.Git2SemVer.Tool.CommandLine;
 
 public class CommonCommandSettings : CommandSettings
 {
-    [CommandOption("-c|--confirm")]
-    [DefaultValue(true)]
-    [Description("Ask user before operation is performed. If false (unattended mode) choices defaults are used.")]
-    public bool Confirm { get; set; }
+    [CommandOption("-u|--unattended")]
+    [Description("Run unattended. If used, does not ask user before operation is performed and choices defaults are used.")]
+    public bool Unattended { get; set; }
 }

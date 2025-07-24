@@ -2,7 +2,7 @@
   "profiles": {
     "Git2SemVer.Tool": {
       "commandName": "Project",
-      "commandLineArgs": "versioning run --enable-json-write --conv-commits-json-write true"
+      "commandLineArgs": "changelog run -r \"(\""
     }
   }
 }

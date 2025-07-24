@@ -11,6 +11,10 @@ internal sealed class RunCliCommand : CliCommandBase<RunCommandSettings>
     public override int Execute(CommandContext context, RunCommandSettings settings)
     {
         Validate(context);
+        if (!settings.Validate().Successful)
+        {
+            return (int)ExitCodes.InvalidCommandSettingsError;
+        }
 
         var commandFactory = GetCommandFactory(context, settings);
 
