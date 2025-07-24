@@ -17,7 +17,6 @@ import jetbrains.buildServer.configs.kotlin.failureConditions.failOnText
 import jetbrains.buildServer.configs.kotlin.projectFeatures.githubIssues
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
-import jetbrains.buildServer.configs.kotlin.
 
 /*
 The settings script is an entry point for defining a TeamCity
