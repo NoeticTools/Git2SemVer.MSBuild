@@ -36,7 +36,7 @@ public sealed class RunCommandSettingsValidator : AbstractValidator<RunCommandSe
             return false;
         }
 
-        return releaseTagFormat.Contains(TagParsingConstants.VersionPlaceholder);
+        return releaseTagFormat.Contains(TagParsingConstants.VersionPlaceholder, StringComparison.Ordinal);
     }
 
     private static bool BeAValidVerbosity(string verbosity)
