@@ -22,7 +22,7 @@ internal sealed class VersionGeneratorInputs : IVersionGeneratorInputs
 
     public string IntermediateOutputDirectory { get; set; } = "";
 
-    public string ReleaseTagFormat { get; } = "";
+    public string ReleaseTagFormat { get; set; } = "";
 
     public bool? RunScript { get; set; }
 

@@ -20,8 +20,14 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
         {
             VersioningMode = VersioningMode.StandAloneProject,
             IntermediateOutputDirectory = settings.OutputDirectory,
-            WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite
+            WriteConventionalCommitsInfo = settings.EnableConvCommitsJsonWrite,
+            ReleaseTagFormat = settings.ReleaseTagFormat!,
         };
+
+        if (!string.IsNullOrEmpty(settings.BranchMaturityPattern))
+        {
+            inputs.BranchMaturityPattern = settings.BranchMaturityPattern;
+        }
 
         if (settings.HostType != null)
         {

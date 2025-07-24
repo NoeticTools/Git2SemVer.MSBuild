@@ -11,7 +11,6 @@ namespace NoeticTools.Git2SemVer.Tool.CommandLine.Changelog;
 public class ChangelogCommandSettings : CommonCommandSettings
 {
     [CommandOption("-a|--artifact-url <URL>")]
-    [DefaultValue("https://www.nuget.org/packages/org.project.product/%VERSION%")]
     [Description("Optional url to a version's artifacts. May contain version placeholder '%VERSION%'.")]
     public string ArtifactLinkPattern { get; set; } = "";
 

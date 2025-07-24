@@ -66,7 +66,7 @@ public sealed class OutputsJsonFileIO : IOutputsJsonIO
 
     private static void WriteToFile(string directory, IVersionOutputs outputs)
     {
-        if (!Directory.Exists(directory))
+        if (directory.Length > 0 && !Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }

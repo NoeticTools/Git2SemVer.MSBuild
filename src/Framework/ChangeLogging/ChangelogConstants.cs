@@ -1,8 +1,11 @@
-﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
+﻿using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
+
+
+namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public static class ChangelogConstants
 {
-    public const string VersionPlaceholder = "%VERSION%";
+    public const string VersionPlaceholder = TagParsingConstants.VersionPlaceholder;
 
     public const string DefaultConvCommitsInfoFilename = "conventionalcommits.data.g.json";
 

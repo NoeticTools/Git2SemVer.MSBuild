@@ -62,7 +62,7 @@ public class ConventionalCommitsVersionInfo
     public void Write(string filePath)
     {
         var directory = Path.GetDirectoryName(filePath);
-        if (!Directory.Exists(directory))
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory!);
         }
