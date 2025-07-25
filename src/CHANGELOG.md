@@ -7,6 +7,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 3.3.1 - _July 25, 2025_
+
+### Added
+
+None.
+
+### Changed
+
+None.
+
+### Fixed
+
+* Fixed link in Nuget package description to correct Git2SemVer doc site (#70).
+
+
 ## 3.3.0 - _July 25, 2025_
 
 ### Added
