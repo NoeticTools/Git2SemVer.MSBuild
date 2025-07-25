@@ -10,14 +10,14 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>git2semver</ToolCommandName>
     <PackageOutputPath>./../../../packages</PackageOutputPath>
-    <Title>Simple automatic Git to Semantic Versioning for .NET projects.</Title>
+    <Title>Dotnet tool for automatic Git to Semantic Versioning and changelog generation from Conventional Commits.</Title>
     <Description>Automated Semantic Versioning for Visual Studio and dotnet cli.</Description>
-    <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer.MSBuild</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/NoeticTools/Git2SemVer.MSBuild</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NoeticTools/Git2SemVer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NoeticTools/Git2SemVer</RepositoryUrl>
     <PackageIcon>Git2SemVer_icon_32x32.png</PackageIcon>
     <ApplicationIcon>Git2SemVer_icon_64x64.ico</ApplicationIcon>
     <PackageReadmeFile>NuGet_description.md</PackageReadmeFile>
-    <PackageTags>tool versioning semver git noetictools msbuild</PackageTags>
+    <PackageTags>tool versioning semver git noetictools changelog conventional_commits</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <TargetsForTfmSpecificBuildOutput>
