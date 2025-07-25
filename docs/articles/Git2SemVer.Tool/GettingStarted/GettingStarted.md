@@ -74,7 +74,7 @@ dotnet changelog
 
 For more information see [changelog generation](xref:changelog-gen-landing).
 
-To investiage other commands use the `--help` option or view all commands [here](git2semver-tool-commands).
+To investiage other commands use the `--help` option or view all commands [here](xref:git2semver-tool-commands).
 
 ## Uninstalling
 

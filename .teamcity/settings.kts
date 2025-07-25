@@ -54,7 +54,7 @@ project {
         githubIssues {
             id = "PROJECT_EXT_11"
             displayName = "NoeticTools/Git2SemVer.MSBuild"
-            repositoryURL = "https://github.com/NoeticTools/Git2SemVer.MSBuild"
+            repositoryURL = "https://github.com/NoeticTools/Git2SemVer"
             authType = storedToken {
                 tokenId = "tc_token_id:CID_3de2c2727993edab40e4371046ac9db7:-1:9e7b82f7-5941-476b-ba54-211a20bbb5ca"
             }
@@ -212,8 +212,8 @@ object DeployLocalTeamCityPackage : BuildType({
 })
 
 object HttpsGithubComNoetictoolsGit2semverMsbuildRefsHeadsMain : GitVcsRoot({
-    name = "https://github.com/noetictools/git2semver.msbuild#refs/heads/main"
-    url = "git@github.com:NoeticTools/Git2SemVer.MSBuild.git"
+    name = "https://github.com/noetictools/git2semver#refs/heads/main"
+    url = "git@github.com:NoeticTools/Git2SemVer.git"
     branch = "refs/heads/main"
     branchSpec = """
         +:refs/heads/*

@@ -29,4 +29,4 @@ Any changes to the template's `version` section will impact the `next release` s
 ## Model
 
 Values are passed to the [Scriban](https://github.com/scriban/scriban) template in a model. See class 
-[ChangelogScribanModel](https://https://github.com/NoeticTools/Git2SemVer.MSBuild/blob/main/src/Framework/ChangeLogging/ChangelogScribanModel.cs).
+[ChangelogScribanModel](https://https://github.com/NoeticTools/Git2SemVer/blob/main/src/Framework/ChangeLogging/ChangelogScribanModel.cs).

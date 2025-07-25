@@ -52,7 +52,7 @@ a
         <div class="col">
             <div class="card" style="min-height: 140px; min-width: 170px">
                 <div class="card-body" >
-                    <p class="fw-semibold"><a href="/articles/Git2SemVer.MSBuild/GettingStarted/Installing.html">Getting Started</a></p>
+                    <p class="fw-semibold"><a href="/articles/Git2SemVer/GettingStarted/Installing.html">Getting Started</a></p>
                     <p>Installing and quick start tutorials.</p>
                 </div>
             </div>
@@ -60,7 +60,7 @@ a
         <div class="col">
             <div class="card" style="min-height: 140px; min-width: 170px" >
                 <div class="card-body">
-                    <p class="fw-semibold"><a href="/articles/Git2SemVer.MSBuild/Usage/MSbuildProperties.html">MSBuild Properties</a></p>
+                    <p class="fw-semibold"><a href="/articles/Git2SemVer/Usage/MSbuildProperties.html">MSBuild Properties</a></p>
                     <p>Versioning tutorials and documentation.</p>
                 </div>
             </div>

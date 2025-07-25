@@ -245,7 +245,7 @@ The MSBuild input poperties are:
                 Default is "v%VERSION%"` which will match "v1.2.3".
             </p>
             <p>
-                See: <a href="https://noetictools.github.io/Git2SemVer.MSBuild/Usage/ReleaseTagging.html">Release Tagging</a>
+                See: <a href="https://noetictools.github.io/Git2SemVer/articles/Versioning/Usage/ReleaseTagging.html">Release Tagging</a>
             </p>
             <p>
                 <i>Available in Git2SemVer.MSBuild 3.1.0 or later.</i>

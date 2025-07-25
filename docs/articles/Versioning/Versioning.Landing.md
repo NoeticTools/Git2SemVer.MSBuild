@@ -220,7 +220,7 @@ gitGraph
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-           <a href="https://noetictools.github.io/Git2SemVer/Usage/CSharpScripting/CSharpScript.html">C# Scripting</a>
+           <a href="https://noetictools.github.io/Git2SemVer/articles/Versioning/Usage/CSharpScripting/CSharpScript.html">C# Scripting</a>
         </p>
         <p>
            <b>No limits customisable</b> by built-in C# scripting with a versioning API.
@@ -257,13 +257,13 @@ gitGraph
 <!-- TeamCity -->
 <tr>
     <td class="iconcolumn">
-      <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/TeamCity.html">
+      <a href="https://noetictools.github.io/Git2SemVer/articles/Versioning/Usage/BuildHosts/TeamCity.html">
         <img src="https://noetictools.github.io/Git2SemVer/Images/TeamCity_128x128.png" height=64 width=64 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-           <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/TeamCity.html">
+           <a href="https://noetictools.github.io/Git2SemVer/articles/Versioning/Usage/BuildHosts/TeamCity.html">
             TeamCity Integration
            </a>
         </p>
@@ -278,13 +278,13 @@ gitGraph
 <!-- GitHub Workflows -->
 <tr>
     <td class="iconcolumn">
-      <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/GitHubWorkflows.html">
+      <a href="https://noetictools.github.io/Git2SemVer/articles/Versioning/Usage/BuildHosts/GitHubWorkflows.html">
         <img src="https://noetictools.github.io/Git2SemVer/Images/github_gray_128x128.png" height=64 width=64 />
       </a>
     </td>
     <td class="featureBody" style="vertical-align:center; text-align:left">
         <p class="featureTitle">
-          <a href="https://noetictools.github.io/Git2SemVer/Usage/BuildHosts/GitHubWorkflows.html">
+          <a href="https://noetictools.github.io/Git2SemVer/articles/Versioning/Usage/BuildHosts/GitHubWorkflows.html">
             GitHub Workflows
           </a>
         </p>
