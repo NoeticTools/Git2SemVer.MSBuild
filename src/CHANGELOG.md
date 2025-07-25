@@ -1,46 +1,26 @@
 
-# Changelog
-
-All notable changes to this project will be documented in this file.
-                 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-
-
-## NOT RELEASED: 5.8.0 - _Saturday, 28 June 2025_
-
-    Generated metadata. Do not edit this section.
-    This will not appear on a release build.
-    
-    Up to head commit 1.006.0 on branch master.
-    8 contributing commits.
-    Prior releases contributing to this changelog:
-      * 5.7.0
-      * 5.7.1
-      * 5.6.99
-
-
-## Added
-
-* added feature.
-
-## Changed
-
-None.
-
-## Fixed
-
-* fixed bug.
-
-
-
 # Git2SemVer.MSBuild Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+
+## 3.3.0 - _July 25, 2025_
+
+### Added
+
+* Add versioning waypoint tag support(#55).
+* Add option to set release tag format (#63).
+
+### Changed
+
+None.
+
+### Fixed
+
+None.
 
 ## 3.2.0 - _June 23, 2025_
 
