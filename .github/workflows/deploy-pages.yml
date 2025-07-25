@@ -36,12 +36,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.x
-    - name: Build & pack
-      run: |
-          dotnet build --configuration Release -p:Git2SemVer_HostType=GitHub -p:Git2SemVer_BuildNumber=${{ env.RUN_NUMBER }} -p:Git2SemVer_BuildContext=${{ env.RUN_ATTEMPT }}
-      env:
-        RUN_NUMBER: ${{ github.run_number }}
-        RUN_ATTEMPT: ${{ github.run_attempt }}
 
     - run: dotnet tool update -g docfx
     - run: docfx docs/docfx.json
