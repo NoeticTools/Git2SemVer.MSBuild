@@ -5,7 +5,7 @@ Provides versioning _out of box_. It is fully customisable by by built-in C# scr
 
 Just works on every **Visual Studio** or dotnet CLI build on every box.
 
-Go to [documentation](https://noetictools.github.io/Git2SemVer.MSBuild/) for more information.
+Go to [documentation](https://noetictools.github.io/Git2SemVer/) for more information.
 
 ## Features
 
@@ -21,4 +21,4 @@ Go to [documentation](https://noetictools.github.io/Git2SemVer.MSBuild/) for mor
 * Branching model (such as GitHub Flow or GitFlow) agnostic. No model configuration.
 * Easy solution setup with dotnet tool Git2SemVer.Tool.
 
-See more about features [here](https://noetictools.github.io/Git2SemVer.MSBuild).
+See more about features [here](https://noetictools.github.io/Git2SemVer).
