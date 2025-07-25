@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Add versioning waypoint tag support(#55).
 * Add option to set release tag format (#63).
+* Support Conventional Commits multiline footers (#64).
 
 ### Changed
 
