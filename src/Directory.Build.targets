@@ -1,3 +1,93 @@
 <Project>
 
+  <PropertyGroup>
+    <Git2SemVer_VersioningProjectPath>$(Git2SemVer_VersioningProjectDirectory)\$(Git2SemVer_VersioningProjectName).csproj</Git2SemVer_VersioningProjectPath>
+    <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.props</Git2SemVer_SharedVersioningPropsFile>
+    <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.json</Git2SemVer_SharedVersioningJsonFile>
+  </PropertyGroup>
+
+  <UsingTask TaskName="WaitFor" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <FilePath ParameterType="System.String" Required="true" />
+      <Delay ParameterType="System.Int32" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+int iterations = 10;
+var sleep = this.Delay / iterations;
+
+var i = 0;
+do
+{
+    if (System.IO.File.Exists(this.FilePath))
+    {
+        return true;
+    }
+    Log.LogMessage($"Waiting ({i}x) {sleep}ms for {this.FilePath}.");
+    System.Threading.Thread.Sleep(sleep);
+} while (++i < iterations);
+Log.LogError(
+          subcategory: "Versioning", 
+          errorCode: "GSV001",
+          helpKeyword: null, 
+          helpLink: "https://noetictools.github.io/Git2SemVer.MSBuild/Reference/ErrorCodes/GSV001.html", 
+          file: null, 
+          lineNumber: 0, 
+          columnNumber: 0, 
+          endLineNumber: 0, 
+          endColumnNumber: 0, 
+          message: "Waited but couldn't find file '{0}'.", 
+          messageArgs: this.FilePath);
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <!-- Ensure that the Git2SemVer version information JSON file is available.  -->
+  <Target Name="Git2SemVerEnsureVersionInfoBuilt"
+          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
+          AfterTargets="PrepareResources" BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
+
+    <PropertyGroup>
+      <SharedPropsFileExists Condition="Exists($(Git2SemVer_SharedVersioningJsonFile))">true</SharedPropsFileExists>
+      <SharedPropsFileExists Condition="'$(SharedPropsFileExists)' == ''">false</SharedPropsFileExists>
+    </PropertyGroup>
+
+    <Message Text="Git2SemVer: Generating versioning information." Importance="high" Condition=" '$(SharedPropsFileExists)' == 'false' " />
+
+    <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)"
+             Condition=" '$(SharedPropsFileExists)' == 'false' "
+             Targets="Rebuild" />
+
+    <WaitFor FilePath="$(Git2SemVer_SharedVersioningJsonFile)" Delay="30000" />
+
+  </Target>
+
+  <!-- Load generated versioning information -->
+  <!-- ReSharper disable once UnknownTarget -->
+  <Target Name="Git2SemVerLoadVersionInformation"
+          Condition="'$(MSBuildProjectName)' != '$(Git2SemVer_VersioningProjectName)'"
+          DependsOnTargets="Git2SemVerEnsureVersionInfoBuilt"
+          AfterTargets="PrepareResources" BeforeTargets="CoreBuild;Build;Pack;GetAssemblyVersion">
+
+    <Message Text="Git2SemVer: Loading versioning information." Importance="normal" />
+
+    <!-- ReSharper disable once UnknownTask -->
+    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.Git2SemVerVersionInfo">
+      <Output TaskParameter="Result" ItemName="Git2SemVerVersionInfo" />
+    </JsonPeek>
+
+    <PropertyGroup>
+      <Version>@(Git2SemVerVersionInfo -> '%(Version)')</Version>
+      <VersionPrefix>@(Git2SemVerVersionInfo -> '%(VersionPrefix)')</VersionPrefix>
+      <VersionSuffix>@(Git2SemVerVersionInfo -> '%(VersionSuffix)')</VersionSuffix>
+      <PackageVersion>@(Git2SemVerVersionInfo -> '%(PackageVersion)')</PackageVersion>
+      <InformationalVersion>@(Git2SemVerVersionInfo -> '%(InformationalVersion)')</InformationalVersion>
+      <AssemblyVersion>@(Git2SemVerVersionInfo -> '%(AssemblyVersion)')</AssemblyVersion>
+      <FileVersion>@(Git2SemVerVersionInfo -> '%(FileVersion)')</FileVersion>
+    </PropertyGroup>
+
+  </Target>
+
 </Project>

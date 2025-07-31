@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Git2SemVer_UpdateHostBuildLabel>false</Git2SemVer_UpdateHostBuildLabel>
+    <TargetFrameworks>net8.0;net472</TargetFrameworks>
+    <Git2SemVer_UpdateHostBuildLabel>true</Git2SemVer_UpdateHostBuildLabel>
   </PropertyGroup>
 
   <PropertyGroup>
