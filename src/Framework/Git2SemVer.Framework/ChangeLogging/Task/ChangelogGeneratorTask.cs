@@ -1,12 +1,11 @@
 ﻿using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.MSBuild.Tasks;
 
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 
-public sealed class ChangelogGeneratorTask(IChangelogTaskOptions options, ILogger logger)
+public sealed class ChangelogGeneratorTask(IChangeGeneratorOptions options, ILogger logger)
 {
     public void Execute(IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData)
     {

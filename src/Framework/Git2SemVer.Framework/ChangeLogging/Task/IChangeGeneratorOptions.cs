@@ -1,6 +1,6 @@
-﻿namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
+﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 
-public interface IChangelogTaskOptions
+public interface IChangeGeneratorOptions
 {
     /// <summary>
     ///     Optional changelog url to a version's artifacts. May contain version placeholder '%VERSION%'.

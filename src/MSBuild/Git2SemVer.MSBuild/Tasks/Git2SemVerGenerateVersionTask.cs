@@ -30,7 +30,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 /// </remarks>
 // ReSharper disable once UnusedType.Global
 [ExcludeFromCodeCoverage]
-public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGeneratorInputs, IChangelogTaskOptions
+public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGeneratorInputs, IChangeGeneratorOptions
 {
     /// <summary>
     ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "beta".
@@ -125,7 +125,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public string ChangelogArtifactLinkPattern { get; set; } = "";
 
     /// <summary>
-    ///     Path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
+    ///     Optional path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
     /// </summary>
     public string ChangelogDataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
 
@@ -135,7 +135,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public bool ChangelogEnable { get; set; }
 
     /// <summary>
-    ///     Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
+    ///     Optional generated changelog file path. It may be a relative (to given working directory) or absolute path. Set to empty string to disable file write.
     /// </summary>
     public string ChangelogOutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
 
@@ -364,7 +364,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
 
             if (ChangelogEnable)
             {
-                new ChangelogGeneratorTask(this, logger)
+                new ChangelogGeneratorTask(new ChangeGeneratorOptions(this, WorkingDirectory), logger)
                     .Execute(versionOutputs.versionOutputs, versionOutputs.calcData);
             }
 
