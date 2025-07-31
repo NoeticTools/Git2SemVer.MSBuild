@@ -10,19 +10,6 @@ public sealed class ChangelogRunCommandSettingsValidator : AbstractValidator<Cha
     {
         RuleFor(settings => settings.Verbosity).Must(BeAValidVerbosity)
                                                .WithMessage("The verbosity must be 'Trace', 'Debug', 'Info', 'Warning', or 'Error'.");
-
-        RuleFor(settings => settings.ConvCommitsInfoFilePath).Must(BeAValidConvCommitsInfoPath)
-                                                             .WithMessage("The Conventional Commits info file does not exist.");
-    }
-
-    private static bool BeAValidConvCommitsInfoPath(string path)
-    {
-        if (path.Length == 0)
-        {
-            return true;
-        }
-
-        return File.Exists(path);
     }
 
     private static bool BeAValidVerbosity(string verbosity)

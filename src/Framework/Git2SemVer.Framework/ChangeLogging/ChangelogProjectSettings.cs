@@ -1,6 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.Build.Utilities;
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
+using System.Text.Json.Serialization;
 
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
@@ -13,7 +14,7 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 /// <remarks>
 ///     Git repository (project) settings. To be located with the git repository.
 /// </remarks>
-public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
+public sealed class ChangelogProjectSettings : IEquatable<ChangelogProjectSettings>
 {
     /// <summary>
     ///     Categories to include in the changelog.
@@ -43,7 +44,7 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     [JsonPropertyOrder(-10)]
     public string Rev { get; set; } = "1";
 
-    public bool Equals(ChangelogLocalSettings? other)
+    public bool Equals(ChangelogProjectSettings? other)
     {
         if (other is null)
         {
@@ -60,7 +61,7 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
 
     public override bool Equals(object? obj)
     {
-        return ReferenceEquals(this, obj) || (obj is ChangelogLocalSettings other && Equals(other));
+        return ReferenceEquals(this, obj) || (obj is ChangelogProjectSettings other && Equals(other));
     }
 
     public override int GetHashCode()
@@ -79,9 +80,25 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     ///         If the file does not exist it is created.
     ///     </para>
     /// </remarks>
-    public static ChangelogLocalSettings Load(string filePath)
+    private static ChangelogProjectSettings Load(string filePath)
     {
-        return Git2SemVerJsonSerializer.Read<ChangelogLocalSettings>(filePath);
+        return Git2SemVerJsonSerializer.Read<ChangelogProjectSettings>(filePath);
+    }
+
+    public static ChangelogProjectSettings Load(string dataDirectory, string filename)
+    {
+        var filePath = Path.Combine(dataDirectory, filename);
+        if (File.Exists(filePath))
+        {
+            return Load(filePath);
+        }
+
+        var config = new ChangelogProjectSettings
+        {
+            Categories = ChangelogConstants.DefaultCategories
+        };
+        config.Save(dataDirectory, filename);
+        return config;
     }
 
     /// <summary>
@@ -92,8 +109,19 @@ public sealed class ChangelogLocalSettings : IEquatable<ChangelogLocalSettings>
     ///         Saves the user's Git2SemVer configuration file.
     ///     </para>
     /// </remarks>
-    public void Save(string filePath)
+    public void Save(string dataDirectory, string filename)
     {
+        // ReSharper disable once InvertIf
+        if (dataDirectory.Length > 0)
+        {
+            if (Directory.Exists(dataDirectory))
+            {
+                return;
+            }
+            Directory.CreateDirectory(dataDirectory);
+        }
+
+        var filePath = Path.Combine(dataDirectory, filename);
         Git2SemVerJsonSerializer.Write(filePath, this);
     }
 }

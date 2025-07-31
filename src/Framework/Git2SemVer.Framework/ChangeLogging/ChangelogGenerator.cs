@@ -8,31 +8,47 @@ using Semver;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
-public class ChangelogGenerator(ChangelogLocalSettings projectSettings, ILogger logger)
+public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogger logger)
 {
     /// <summary>
     ///     Generate changelog document.
     /// </summary>
     /// <param name="inputs"></param>
-    /// <param name="lastRunData"></param>
-    /// <param name="scribanTemplate"></param>
-    /// <param name="changelogToUpdate"></param>
     /// <param name="releaseUrl"></param>
     /// <param name="releaseAs"></param>
+    /// <param name="dataDirectory"></param>
+    /// <param name="outputFilePath"></param>
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
     public string Execute(ConventionalCommitsVersionInfo inputs,
-                          LastRunData lastRunData,
-                          string scribanTemplate,
-                          string changelogToUpdate,
                           string releaseUrl,
-                          string releaseAs)
+                          string releaseAs,
+                          string dataDirectory,
+                          string outputFilePath)
     {
         Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
-        Git2SemVerArgumentException.ThrowIfNullOrEmpty(scribanTemplate, nameof(scribanTemplate));
-        Git2SemVerArgumentException.ThrowIfNull(changelogToUpdate, nameof(changelogToUpdate));
 
+        var createNewChangelog = !File.Exists(outputFilePath);
+        var changelogToUpdate = createNewChangelog ? "" : File.ReadAllText(outputFilePath);
+        var lastRunData = createNewChangelog ? new LastRunData() : LastRunData.Load(dataDirectory, outputFilePath, logger);
+        var scribanTemplate = new ChangelogTemplateReader(logger).Load(dataDirectory);
+
+        var changelog = Execute(inputs, scribanTemplate, releaseUrl, releaseAs, lastRunData, changelogToUpdate);
+
+        if (outputFilePath.Length > 0)
+        {
+            lastRunData.Update(inputs);
+            lastRunData.ForcedReleasedTitle = releaseAs;
+            lastRunData.Save(dataDirectory, outputFilePath);
+        }
+
+        return changelog;
+    }
+
+    private string Execute(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl, string releaseAs, LastRunData lastRunData,
+                           string changelogToUpdate)
+    {
         var contributingReleases = inputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
         var addNewRelease = lastRunData.ContributingReleasesChanged(contributingReleases);
         if (addNewRelease)

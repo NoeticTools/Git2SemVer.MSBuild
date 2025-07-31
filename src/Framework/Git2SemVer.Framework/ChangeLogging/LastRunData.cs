@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core;
+using NoeticTools.Git2SemVer.Core.Diagnostics;
+using NoeticTools.Git2SemVer.Core.Logging;
 using Semver;
 
 
@@ -52,9 +54,14 @@ public sealed class LastRunData
         return new DirectoryInfo(Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunDataFileSuffix));
     }
 
-    public static LastRunData Load(string directory, string filename)
+    public static LastRunData Load(string directory, string filename, ILogger logger)
     {
-        return Git2SemVerJsonSerializer.Read<LastRunData>(GetFilePath(directory, filename).FullName);
+        var data = Git2SemVerJsonSerializer.Read<LastRunData>(GetFilePath(directory, filename).FullName);
+        if (data.NoData)
+        {
+            logger.LogWarning(new GSV201(directory, filename));
+        }
+        return data;
     }
 
     public void Save(string directory, string filePath)
