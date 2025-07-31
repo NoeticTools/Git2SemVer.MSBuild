@@ -8,7 +8,7 @@ public interface IVersioningEngine : IDisposable
     /// <summary>
     ///     Get information including contributing conventional commits since last (direct) releases.
     /// </summary>
-    ConventionalCommitsVersionInfo OutsideOfBuildRun();
+    (VersionOutputs Outputs, SemanticVersionCalcResult Results) OutsideOfBuildRun();
 
     /// <summary>
     ///     Perform a prebuild versioning run. Depending on the host may bump the build number.

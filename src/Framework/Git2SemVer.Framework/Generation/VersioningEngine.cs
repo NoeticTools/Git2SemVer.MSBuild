@@ -28,10 +28,9 @@ internal sealed class VersioningEngine(
         gitTool.Dispose();
     }
 
-    public ConventionalCommitsVersionInfo OutsideOfBuildRun()
+    public (VersionOutputs Outputs, SemanticVersionCalcResult Results) OutsideOfBuildRun()
     {
-        var (outputs, results) = GetVersionOutputs();
-        return new ConventionalCommitsVersionInfo(outputs, results.Contributing);
+        return GetVersionOutputs();
     }
 
     public (IVersionOutputs versionOutputs, SemanticVersionCalcResult calcData) PrebuildRun()
@@ -90,14 +89,15 @@ internal sealed class VersioningEngine(
     private void SaveConventionalCommitsInfo(VersionOutputs outputs, ContributingCommits contributing)
     {
         var conventionalCommitsInfo = new ConventionalCommitsVersionInfo(outputs, contributing);
-        const string commitsInfoFilename = ChangelogConstants.DefaultConvCommitsInfoFilename;
-        var filePath = Path.Combine(inputs.IntermediateOutputDirectory, commitsInfoFilename);
-        conventionalCommitsInfo.Write(filePath);
-        if (inputs.VersioningMode != VersioningMode.StandAloneProject)
+        var filePath = Path.Combine(inputs.IntermediateOutputDirectory, ChangelogConstants.DefaultConvCommitsInfoFilename);
+        conventionalCommitsInfo.Save(filePath);
+        if (inputs.VersioningMode == VersioningMode.StandAloneProject)
         {
-            logger.LogDebug("Saving conventional commits info file to '{0}'.", filePath);
-            conventionalCommitsInfo.Write(Path.Combine(inputs.SolutionSharedDirectory, commitsInfoFilename));
+            return;
         }
+
+        logger.LogDebug("Saving conventional commits info file to '{0}'.", filePath);
+        conventionalCommitsInfo.Save(Path.Combine(inputs.SolutionSharedDirectory, ChangelogConstants.DefaultConvCommitsInfoFilename));
     }
 
     private void SaveGeneratedVersions(VersionOutputs outputs)

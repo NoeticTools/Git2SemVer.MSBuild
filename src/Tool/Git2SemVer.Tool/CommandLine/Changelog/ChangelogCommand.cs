@@ -27,10 +27,10 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         var createNewChangelog = !File.Exists(cmdLineSettings.OutputFilePath);
         var priorChangelog = createNewChangelog ? "" : File.ReadAllText(cmdLineSettings.OutputFilePath);
         var projectSettings = ChangelogProjectSettings.Load(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename);
-        var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings.ConvCommits);
+        var versioningResult = RunVersionGenerator(cmdLineSettings, projectSettings.ConvCommits);
 
         var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
-        var changelog = changelogGenerator.Execute(changeLogInputs,
+        var changelog = changelogGenerator.Execute(versioningResult,
                                                    cmdLineSettings.ArtifactLinkPattern,
                                                    cmdLineSettings.ReleaseAs,
                                                    cmdLineSettings.DataDirectory,
@@ -66,7 +66,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
     }
 
-    private ConventionalCommitsVersionInfo RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ConventionalCommitsSettings convCommits)
+    private (VersionOutputs Outputs, SemanticVersionCalcResult Results) RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ConventionalCommitsSettings convCommits)
     {
         var inputs = new VersionGeneratorInputs
         {

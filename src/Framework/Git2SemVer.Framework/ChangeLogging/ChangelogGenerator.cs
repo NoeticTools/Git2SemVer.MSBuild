@@ -2,6 +2,7 @@
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Exceptions;
+using NoeticTools.Git2SemVer.Framework.Generation;
 using Scriban;
 using Semver;
 
@@ -21,7 +22,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
-    public string Execute(ConventionalCommitsVersionInfo inputs,
+    public string Execute((IVersionOutputs Outputs, SemanticVersionCalcResult CalcData) inputs,
                           string releaseUrl,
                           string releaseAs,
                           string dataDirectory,
@@ -34,14 +35,15 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
         var lastRunData = createNewChangelog ? new LastRunData() : LastRunData.Load(dataDirectory, outputFilePath, logger);
         var scribanTemplate = new ChangelogTemplateReader(logger).Load(dataDirectory);
 
-        var changelog = Execute(inputs, scribanTemplate, releaseUrl, releaseAs, lastRunData, changelogToUpdate);
+        var conventionalCommitsVersionInfo = new ConventionalCommitsVersionInfo(inputs.Outputs, inputs.CalcData.Contributing);
+        var changelog = Execute(conventionalCommitsVersionInfo, scribanTemplate, releaseUrl, releaseAs, lastRunData, changelogToUpdate);
 
         if (outputFilePath.Length <= 0)
         {
             return changelog;
         }
 
-        lastRunData.Update(inputs);
+        lastRunData.Update(conventionalCommitsVersionInfo);
         lastRunData.ForcedReleasedTitle = releaseAs;
         lastRunData.Save(dataDirectory, outputFilePath);
 

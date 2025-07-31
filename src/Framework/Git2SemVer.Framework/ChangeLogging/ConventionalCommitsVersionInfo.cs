@@ -59,7 +59,7 @@ public class ConventionalCommitsVersionInfo
         return Git2SemVerJsonSerializer.Read<ConventionalCommitsVersionInfo>(filePath);
     }
 
-    public void Write(string filePath)
+    public void Save(string filePath)
     {
         var directory = Path.GetDirectoryName(filePath);
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))

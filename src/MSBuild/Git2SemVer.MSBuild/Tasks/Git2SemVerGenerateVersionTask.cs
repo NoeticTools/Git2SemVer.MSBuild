@@ -364,7 +364,6 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
 
             if (ChangelogEnable)
             {
-                var projectSettings = ChangelogProjectSettings.Load(ChangelogDataDirectory, ChangelogConstants.ProjectSettingsFilename);
                 new ChangelogGeneratorTask(this, logger)
                     .Execute(versionOutputs.versionOutputs, versionOutputs.calcData);
             }

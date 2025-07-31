@@ -1,4 +1,5 @@
-﻿using NoeticTools.Git2SemVer.Core.Logging;
+﻿using NoeticTools.Git2SemVer.Core.Exceptions;
+using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.MSBuild.Tasks;
 
@@ -9,13 +10,15 @@ public sealed class ChangelogGeneratorTask(IChangelogTaskOptions options, ILogge
 {
     public void Execute(IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData)
     {
-        if (calcData == null)
+        Git2SemVerArgumentException.ThrowIfNull(versionOutputs, nameof(versionOutputs));
+
+        if (!options.ChangelogEnable || calcData == null)
         {
             return;
         }
 
         var projectSettings = ChangelogProjectSettings.Load(options.ChangelogDataDirectory, ChangelogConstants.ProjectSettingsFilename);
-        new ChangelogGenerator(projectSettings, logger).Execute(new ConventionalCommitsVersionInfo(versionOutputs, calcData.Contributing),
+        new ChangelogGenerator(projectSettings, logger).Execute((versionOutputs, calcData),
                                                                 options.ChangelogArtifactLinkPattern,
                                                                 options.ChangelogReleaseAs,
                                                                 options.ChangelogDataDirectory,
