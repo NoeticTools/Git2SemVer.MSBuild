@@ -5,31 +5,25 @@
 
   The other projects obtain the generated version information json file using MSBuild json peek task.
   The downside is that the version only bumps on solution rebuild.
-
-  This file is a copy of the standard Directory.Versioning.Build.props keeping changes minimal.
-  Change marked with "Modification:" prefix.
 -->
 
 <Project>
 
   <PropertyGroup>
-    <Git2SemVer_PropsSchemaVersion>1.0.0</Git2SemVer_PropsSchemaVersion>
+    <Git2SemVer_PropsSchemaVersion Condition="'$(Git2SemVer_PropsSchemaVersion)' == ''">1.0.0</Git2SemVer_PropsSchemaVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <!-- Modification: Versioning project name set manually. -->
-    <Git2SemVer_VersioningProjectName>SolutionVersioningProject</Git2SemVer_VersioningProjectName>
-    <Git2SemVer_VersioningProjectDirectory>$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
-    <Git2SemVer_VersioningProjectPath>$(Git2SemVer_VersioningProjectDirectory)\$(Git2SemVer_VersioningProjectName).csproj</Git2SemVer_VersioningProjectPath>
-    <Git2SemVer_ScriptPath Condition="'$(Git2SemVer_ScriptPath)' == ''">$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/Git2SemVer.csx</Git2SemVer_ScriptPath>
-    <!-- Modification: Installed flag set manually. -->
+    <Git2SemVer_VersioningProjectName Condition="'$(Git2SemVer_VersioningProjectName)' == ''">Git2SemVer.MSBuild.SlnVersioningProject</Git2SemVer_VersioningProjectName>
+    <Git2SemVer_VersioningProjectDirectory  Condition="'$(Git2SemVer_VersioningProjectDirectory)' == ''">$(MSBuildThisFileDirectory)MSBuild\$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
+    <Git2SemVer_ShareDirectory>$(MSBuildThisFileDirectory)../.git2semver/msbuild/</Git2SemVer_ShareDirectory>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Git2SemVer_Installed Condition="'$(Git2SemVer_Installed)' == ''">true</Git2SemVer_Installed>
     <Git2SemVer_Enabled Condition="'$(Git2SemVer_Enabled)' == ''">true</Git2SemVer_Enabled>
+    <Git2SemVer_ScriptPath Condition="'$(Git2SemVer_ScriptPath)' == ''">$(MSBuildThisFileDirectory)$(Git2SemVer_VersioningProjectName)/Git2SemVer.csx</Git2SemVer_ScriptPath>
     <Git2SemVer_ExcludeProject Condition="'$(Git2SemVer_ExcludeProject)' == ''">false</Git2SemVer_ExcludeProject>
-    <Git2SemVer_ShareDirectory>$(Git2SemVer_VersioningProjectDirectory)/.git2semver/</Git2SemVer_ShareDirectory>
-    <Git2SemVer_SharedVersioningPropsFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.props</Git2SemVer_SharedVersioningPropsFile>
-    <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.json</Git2SemVer_SharedVersioningJsonFile>
-    <!-- Modification: Only the solutioning project imports Git2SemVer.MSBuild -->
     <Git2SemVer_NuGetLoad_Disable>true</Git2SemVer_NuGetLoad_Disable>
   </PropertyGroup>
 

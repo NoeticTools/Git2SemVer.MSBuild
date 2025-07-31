@@ -17,7 +17,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Git2SemVer_TestSolutionsDirectory>$(MSBuildThisFileDirectory)/MSBuild.TestSolutions/</Git2SemVer_TestSolutionsDirectory>
+    <Git2SemVer_SrcDirectory>$(MSBuildThisFileDirectory)../src/</Git2SemVer_SrcDirectory>
+    <Git2SemVer_TestsDirectory>$(MSBuildThisFileDirectory)</Git2SemVer_TestsDirectory>
   </PropertyGroup>
 
   <PropertyGroup>

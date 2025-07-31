@@ -23,7 +23,6 @@
     <Git2SemVer_SrcDirectory>$(MSBuildThisFileDirectory)</Git2SemVer_SrcDirectory>
     <Git2SemVer_TestsDirectory>$(MSBuildThisFileDirectory)../tests/</Git2SemVer_TestsDirectory>
     <Git2SemVer_ArtifactsDirectory>$(MSBuildThisFileDirectory)../artifacts/</Git2SemVer_ArtifactsDirectory>
-    <Git2SemVer_TestSolutionsDirectory>$(Git2SemVer_TestsDirectory)MSBuild.TestSolutions/</Git2SemVer_TestSolutionsDirectory>
   </PropertyGroup>
 
   <!-- NuGet package properties -->

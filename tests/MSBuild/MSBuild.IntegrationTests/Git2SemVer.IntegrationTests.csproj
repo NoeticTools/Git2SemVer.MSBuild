@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Scripts\ForceProperties1.csx" />
+    <None Remove="Resources\Scripts\ForceProperties2.csx" />
+    <None Remove="Resources\Scripts\ForceProperties3.csx" />
+    <None Remove="Resources\Scripts\Git2SemVer.csx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\CrossTargetingTestSolution.zip" />
+    <EmbeddedResource Include="Resources\Scripts\Git2SemVer.csx" />
+    <EmbeddedResource Include="Resources\StandAloneTestSolution.zip" />
+    <EmbeddedResource Include="Resources\Scripts\ForceProperties1.csx" />
+    <EmbeddedResource Include="Resources\Scripts\ForceProperties3.csx" />
+    <EmbeddedResource Include="Resources\Scripts\ForceProperties2.csx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="[17.11.4]" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.14.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit.Analyzers" Version="4.9.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(Git2SemVer_TestsDirectory)..\src\MSBuild\Git2SemVer.MSBuild\Git2SemVer.MSBuild.csproj" />
+    <ProjectReference Include="$(Git2SemVer_TestsDirectory)Framework\Testing.Core\Git2SemVer.Testing.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NUnit.Framework" />
+  </ItemGroup>
+
+</Project>

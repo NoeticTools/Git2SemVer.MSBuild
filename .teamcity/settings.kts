@@ -4,6 +4,7 @@ import jetbrains.buildServer.configs.kotlin.CustomChart.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.nuGetFeedCredentials
 import jetbrains.buildServer.configs.kotlin.buildFeatures.approval
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
+import jetbrains.buildServer.configs.kotlin.buildFeatures.parallelTests
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetNugetPush
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetRestore
@@ -40,44 +41,44 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2025.03"
+version = "2025.07"
 
 project {
-    description = "MSBuild task to version projects"
+    description = "Git2SemVer Tool and MSBuild"
 
-    vcsRoot(HttpsGithubComNoetictoolsGit2semverMsbuildRefsHeadsMain)
+    vcsRoot(GithubNoetictoolsGit2semverRefsHeadsMain)
 
-    buildType(DeployLocalTeamCityPackage)
-    buildType(BuildAndTest)
+    subProject {
+        id("All")
+        name = "All"
+        description = "Build and test MSBuild and Tool"
 
-    features {
-        githubIssues {
-            id = "PROJECT_EXT_11"
-            displayName = "NoeticTools/Git2SemVer.MSBuild"
-            repositoryURL = "https://github.com/NoeticTools/Git2SemVer"
-            authType = storedToken {
-                tokenId = "tc_token_id:CID_3de2c2727993edab40e4371046ac9db7:-1:9e7b82f7-5941-476b-ba54-211a20bbb5ca"
+        val buildConfig = BuildAndTest("BuildAndTest", "")
+        buildConfig.paused = false
+        buildType(buildConfig)
+
+        features {
+            buildTypeCustomChart {
+                id = "PROJECT_EXT_6"
+                title = "Versioning time"
+                seriesTitle = "Serie"
+                format = CustomChart.Format.TEXT
+                series = listOf(
+                    Serie(title = "git2semver.runtime.seconds", key = SeriesKey("git2semver.runtime.seconds"))
+                )
             }
-        }
-        buildTypeCustomChart {
-            id = "PROJECT_EXT_6"
-            title = "Versioning time"
-            seriesTitle = "Serie"
-            format = CustomChart.Format.TEXT
-            series = listOf(
-                Serie(title = "git2semver.runtime.seconds", key = SeriesKey("git2semver.runtime.seconds"))
-            )
         }
     }
 }
 
-object BuildAndTest : BuildType({
+class BuildAndTest(subId: String, solutionDir: String) : BuildType({
     name = "Build and test"
+    id(subId)
 
     artifactRules = """
         +:artifacts/NoeticTools.*.nupkg
-        +:src/SolutionVersioningProject/obj/Git2SemVer.MSBuild.log
-        +:src/SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.json
+        +:src/MSBuild/SolutionVersioningProject/obj/Git2SemVer.MSBuild.log
+        +:src/MSBuild/SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.json
     """.trimIndent()
 
     params {
@@ -94,7 +95,7 @@ object BuildAndTest : BuildType({
         script {
             name = "Clear NuGet caches"
             id = "Clear_NuGet_caches"
-            enabled = true
+            enabled = false
             scriptContent = "dotnet nuget locals all --clear"
         }
         dotnetRestore {
@@ -109,6 +110,7 @@ object BuildAndTest : BuildType({
             id = "dotnet"
             configuration = "%BuildConfiguration%"
             args = "-p:Git2SemVer_BuildNumber=%build.number% --verbosity normal"
+            workingDir = solutionDir
         }
         dotnetTest {
             name = "Test"
@@ -120,6 +122,7 @@ object BuildAndTest : BuildType({
                 +:NoeticTools.*
                 -:NoeticTools.*Tests
             """.trimIndent())
+            workingDir = solutionDir
         }
     }
 
@@ -142,7 +145,7 @@ object BuildAndTest : BuildType({
         }
         failOnMetricChange {
             metric = BuildFailureOnMetric.MetricType.ARTIFACT_SIZE
-            threshold = 25
+            threshold = 50
             units = BuildFailureOnMetric.MetricUnit.PERCENTS
             comparison = BuildFailureOnMetric.MetricComparison.LESS
             compareTo = build {
@@ -173,45 +176,8 @@ object BuildAndTest : BuildType({
     }
 })
 
-object DeployLocalTeamCityPackage : BuildType({
-    name = "Deploy (local TeamCity) - package"
-    description = "Deploy NuGet package"
 
-    enablePersonalBuilds = false
-    type = BuildTypeSettings.Type.DEPLOYMENT
-    buildNumberPattern = "%build.counter% (${BuildAndTest.depParamRefs.buildNumber})"
-    maxRunningBuilds = 1
-
-    steps {
-        dotnetNugetPush {
-            name = "Push NuGet package"
-            id = "Publish2"
-            packages = "NoeticTools.*.nupkg"
-            serverUrl = "http://10.1.10.78:8111/httpAuth/app/nuget/feed/RobSmyth/TeamCity/v3/index.json"
-            apiKey = "credentialsJSON:bd18b974-1188-423d-9efd-8836806c3669"
-        }
-    }
-
-    features {
-        approval {
-            approvalRules = "user:robert"
-            manualRunsApproved = false
-        }
-    }
-
-    dependencies {
-        artifacts(BuildAndTest) {
-            buildRule = lastSuccessful("""
-                +:<default>
-                +:*
-            """.trimIndent())
-            cleanDestination = true
-            artifactRules = "+:NoeticTools.Git2SemVer.MSBuild.*.nupkg"
-        }
-    }
-})
-
-object HttpsGithubComNoetictoolsGit2semverMsbuildRefsHeadsMain : GitVcsRoot({
+object GithubNoetictoolsGit2semverRefsHeadsMain : GitVcsRoot({
     name = "https://github.com/noetictools/git2semver#refs/heads/main"
     url = "git@github.com:NoeticTools/Git2SemVer.git"
     branch = "refs/heads/main"

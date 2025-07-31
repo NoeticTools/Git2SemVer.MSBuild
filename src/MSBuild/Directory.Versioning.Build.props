@@ -5,6 +5,9 @@
 
   The other projects obtain the generated version information json file using MSBuild json peek task.
   The downside is that the version only bumps on solution rebuild.
+
+  This file is a copy of the standard Directory.Versioning.Build.props keeping changes minimal.
+  Change marked with "Modification:" prefix.
 -->
 
 <Project>
@@ -13,13 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Git2SemVer_ReleaseTagFormat Condition="'$(Git2SemVer_ReleaseTagFormat)' == ''">tool.v%VERSION%</Git2SemVer_ReleaseTagFormat>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <Git2SemVer_VersioningProjectName Condition="'$(Git2SemVer_VersioningProjectName)' == ''">Git2SemVer.Tool.SlnVersioningProject</Git2SemVer_VersioningProjectName>
-    <Git2SemVer_VersioningProjectDirectory  Condition="'$(Git2SemVer_VersioningProjectDirectory)' == ''">$(MSBuildThisFileDirectory)MSBuild\$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
-    <Git2SemVer_ShareDirectory>$(MSBuildThisFileDirectory)../../.git2semver/tool/</Git2SemVer_ShareDirectory>
+    <Git2SemVer_ReleaseTagFormat Condition="'$(Git2SemVer_ReleaseTagFormat)' == ''">v%VERSION%</Git2SemVer_ReleaseTagFormat>
   </PropertyGroup>
 
 </Project>
