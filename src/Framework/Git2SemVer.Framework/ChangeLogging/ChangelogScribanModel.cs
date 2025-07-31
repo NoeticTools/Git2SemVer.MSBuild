@@ -14,7 +14,9 @@ internal sealed class ChangelogScribanModel
         IsRelease = forceReleaseAs.Length > 0 || inputs.Version.IsRelease;
         var version = forceReleaseAs.Length > 0 ? forceReleaseAs : inputs.Version.ToString();
         SemVersion = version;
-        ReleaseUrl = releaseUrl.Contains(ChangelogConstants.VersionPlaceholder) ? releaseUrl.Replace(ChangelogConstants.VersionPlaceholder, version) : releaseUrl;
+        ReleaseUrl = releaseUrl.Contains(ChangelogConstants.VersionPlaceholder)
+            ? releaseUrl.Replace(ChangelogConstants.VersionPlaceholder, version)
+            : releaseUrl;
     }
 
     /// <summary>

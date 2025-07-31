@@ -1,4 +1,6 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Microsoft.Build.Framework;
 using NoeticTools.Git2SemVer.Core.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
@@ -8,8 +10,6 @@ using NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 
@@ -32,31 +32,6 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 [ExcludeFromCodeCoverage]
 public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGeneratorInputs, IChangelogTaskOptions
 {
-    /// <summary>
-    /// Optional changelog generation/update enable.
-    /// </summary>
-    public bool ChangelogEnable { get; set; }
-
-    /// <summary>
-    /// Optional changelog url to a version's artifacts. May contain version placeholder '%VERSION%'.
-    /// </summary>
-    public string ChangelogArtifactLinkPattern { get; set; } = "";
-
-    /// <summary>
-    /// Path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
-    /// </summary>
-    public string ChangelogDataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
-
-    /// <summary>
-    /// Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
-    /// </summary>
-    public string ChangelogOutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
-
-    /// <summary>
-    /// If not an empty string, sets the changelog's changes version (normally version or 'Unreleased'). Any text permitted.
-    /// </summary>
-    public string ChangelogReleaseAs { get; set; } = "";
-
     /// <summary>
     ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "beta".
     /// </summary>
@@ -143,6 +118,32 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     /// </remarks>
     [Required]
     public string BuildScriptPath { get; set; } = "";
+
+    /// <summary>
+    ///     Optional changelog url to a version's artifacts. May contain version placeholder '%VERSION%'.
+    /// </summary>
+    public string ChangelogArtifactLinkPattern { get; set; } = "";
+
+    /// <summary>
+    ///     Path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
+    /// </summary>
+    public string ChangelogDataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
+
+    /// <summary>
+    ///     Optional changelog generation/update enable.
+    /// </summary>
+    public bool ChangelogEnable { get; set; }
+
+    /// <summary>
+    ///     Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
+    /// </summary>
+    public string ChangelogOutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
+
+    /// <summary>
+    ///     If not an empty string, sets the changelog's changes version (normally version or 'Unreleased'). Any text
+    ///     permitted.
+    /// </summary>
+    public string ChangelogReleaseAs { get; set; } = "";
 
     /// <summary>
     ///     Optional input MSBuild <c>Git2SemVer_HostType</c> property.
@@ -313,7 +314,7 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public string WorkingDirectory { get; set; } = "";
 
     /// <summary>
-    /// If true conventional commits info file is created. This can be used for changelog generation.
+    ///     If true conventional commits info file is created. This can be used for changelog generation.
     /// </summary>
     /// <remarks>Default is false.</remarks>
     public bool WriteConventionalCommitsInfo { get; set; } = false;

@@ -5,19 +5,18 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 public static class ChangelogConstants
 {
-    public const string VersionPlaceholder = TagParsingConstants.VersionPlaceholder;
-
     public const string DefaultConvCommitsInfoFilename = "conventionalcommits.data.g.json";
+
+    public const string DefaultDataDirectory = ".git2semver/changelog";
+
+    public const string DefaultFilename = "CHANGELOG.md";
 
     public const string DefaultMarkdownTemplateFilename = "markdown.template.scriban";
 
     public const string LastRunDataFileSuffix = ".g2sv.data.g.json";
 
     public const string ProjectSettingsFilename = "git2semver.changelog.settings.json";
-
-    public const string DefaultDataDirectory = ".git2semver/changelog";
-
-    public const string DefaultFilename = "CHANGELOG.md";
+    public const string VersionPlaceholder = TagParsingConstants.VersionPlaceholder;
 
     public static readonly CategorySettings[] DefaultCategories =
     [

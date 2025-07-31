@@ -251,9 +251,11 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
                                          new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", CommitMessageMetadata.Null),
                                          new Commit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0", CommitMessageMetadata.Null),
-                                         new Commit("1.004.0000", ["1.003.0000"], "added feature", "", new FeatureMessageMetadataStub("", "added feature", "")),
+                                         new Commit("1.004.0000", ["1.003.0000"], "added feature", "",
+                                                    new FeatureMessageMetadataStub("", "added feature", "")),
                                          new Commit("1.005.0000", ["1.004.0000", "2.003.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "", new FeatureMessageMetadataStub("", "fixed bug", "")),
+                                         new Commit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "",
+                                                    new FeatureMessageMetadataStub("", "fixed bug", "")),
                                          new Commit("1.007.0000", ["1.006.0000"], "Head commit", "", CommitMessageMetadata.Null),
 
                                          // branch 2 (middle)

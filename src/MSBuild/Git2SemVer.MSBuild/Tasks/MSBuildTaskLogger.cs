@@ -41,16 +41,16 @@ public class MSBuildTaskLogger : TaskLoggerBase
 
         public void LogError(DiagnosticCodeBase code)
         {
-            _inner.LogError(subcategory: code.SubCategory,
-                            errorCode: code.Code,
-                            helpKeyword: null,
-                            helpLink: code.HelpLink,
-                            file: null,
-                            lineNumber: 0,
-                            columnNumber: 0,
-                            endLineNumber: 0,
-                            endColumnNumber: 0,
-                            message: code.Message);
+            _inner.LogError(code.SubCategory,
+                            code.Code,
+                            null,
+                            code.HelpLink,
+                            null,
+                            0,
+                            0,
+                            0,
+                            0,
+                            code.Message);
         }
 
         public void LogInfo(string message)
@@ -75,16 +75,16 @@ public class MSBuildTaskLogger : TaskLoggerBase
 
         public void LogWarning(DiagnosticCodeBase code)
         {
-            _inner.LogWarning(subcategory: code.SubCategory,
-                              warningCode: code.Code,
-                              helpKeyword: null,
-                              helpLink: code.HelpLink,
-                              file: null,
-                              lineNumber: 0,
-                              columnNumber: 0,
-                              endLineNumber: 0,
-                              endColumnNumber: 0,
-                              message: code.Message);
+            _inner.LogWarning(code.SubCategory,
+                              code.Code,
+                              null,
+                              code.HelpLink,
+                              null,
+                              0,
+                              0,
+                              0,
+                              0,
+                              code.Message);
         }
     }
 }

@@ -15,7 +15,7 @@
 
   <PropertyGroup>
     <Git2SemVer_VersioningProjectName Condition="'$(Git2SemVer_VersioningProjectName)' == ''">Git2SemVer.MSBuild.SlnVersioningProject</Git2SemVer_VersioningProjectName>
-    <Git2SemVer_VersioningProjectDirectory  Condition="'$(Git2SemVer_VersioningProjectDirectory)' == ''">$(MSBuildThisFileDirectory)MSBuild\$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
+    <Git2SemVer_VersioningProjectDirectory Condition="'$(Git2SemVer_VersioningProjectDirectory)' == ''">$(MSBuildThisFileDirectory)MSBuild\$(Git2SemVer_VersioningProjectName)</Git2SemVer_VersioningProjectDirectory>
     <Git2SemVer_ShareDirectory>$(MSBuildThisFileDirectory)../.git2semver/msbuild/</Git2SemVer_ShareDirectory>
   </PropertyGroup>
 

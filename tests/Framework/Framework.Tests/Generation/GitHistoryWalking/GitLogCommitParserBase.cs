@@ -25,7 +25,8 @@ public abstract class GitLogCommitParserBase(
            \|$)?
         """;
 
-    private readonly IConventionalCommitsParser _conventionalCommitParser = conventionalCommitParser ?? new ConventionalCommitsParser(new ConventionalCommitsSettings());
+    private readonly IConventionalCommitsParser _conventionalCommitParser =
+        conventionalCommitParser ?? new ConventionalCommitsParser(new ConventionalCommitsSettings());
 
     // todo - document this, needed to capture git graph for tests
     public string FormatArgs { get; } = "--graph --pretty=\"format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e\"";

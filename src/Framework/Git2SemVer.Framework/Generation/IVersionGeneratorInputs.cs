@@ -105,6 +105,8 @@ public interface IVersionGeneratorInputs
     /// </summary>
     string IntermediateOutputDirectory { get; }
 
+    string ReleaseTagFormat { get; }
+
     /// <summary>
     ///     Optional MSBuild <c>Git2SemVer_RunScript</c> property.
     /// </summary>
@@ -189,8 +191,6 @@ public interface IVersionGeneratorInputs
     /// </summary>
     /// <remarks>Default is false.</remarks>
     bool WriteConventionalCommitsInfo { get; }
-
-    string ReleaseTagFormat { get; }
 
     bool ValidateScriptInputs(ILogger logger);
 }

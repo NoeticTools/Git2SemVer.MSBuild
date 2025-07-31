@@ -50,7 +50,8 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
         return changelog;
     }
 
-    private string Execute(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl, string releaseAs, LastRunData lastRunData,
+    private string Execute(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl, string releaseAs,
+                           LastRunData lastRunData,
                            string changelogToUpdate)
     {
         var contributingReleases = inputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();

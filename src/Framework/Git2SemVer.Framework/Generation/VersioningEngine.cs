@@ -28,7 +28,7 @@ internal sealed class VersioningEngine(
         gitTool.Dispose();
     }
 
-    public ConventionalCommitsVersionInfo GetConventionalCommitsInfo()
+    public ConventionalCommitsVersionInfo OutsideOfBuildRun()
     {
         var (outputs, results) = GetVersionOutputs();
         return new ConventionalCommitsVersionInfo(outputs, results.Contributing);

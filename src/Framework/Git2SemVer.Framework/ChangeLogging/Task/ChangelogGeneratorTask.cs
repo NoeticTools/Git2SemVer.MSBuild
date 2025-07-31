@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Utilities;
-using NoeticTools.Git2SemVer.Core.Logging;
+﻿using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.MSBuild.Tasks;
 
@@ -14,6 +13,7 @@ public sealed class ChangelogGeneratorTask(IChangelogTaskOptions options, ILogge
         {
             return;
         }
+
         var projectSettings = ChangelogProjectSettings.Load(options.ChangelogDataDirectory, ChangelogConstants.ProjectSettingsFilename);
         new ChangelogGenerator(projectSettings, logger).Execute(new ConventionalCommitsVersionInfo(versionOutputs, calcData.Contributing),
                                                                 options.ChangelogArtifactLinkPattern,

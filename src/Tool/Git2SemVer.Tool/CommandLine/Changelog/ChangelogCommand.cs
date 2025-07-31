@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using NoeticTools.Git2SemVer.Core.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.Generation;
@@ -34,7 +33,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         var changelog = changelogGenerator.Execute(changeLogInputs,
                                                    cmdLineSettings.ArtifactLinkPattern,
                                                    cmdLineSettings.ReleaseAs,
-                                                   cmdLineSettings.DataDirectory, 
+                                                   cmdLineSettings.DataDirectory,
                                                    cmdLineSettings.OutputFilePath);
 
         if (string.Equals(priorChangelog, changelog, StringComparison.Ordinal))
@@ -80,11 +79,11 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         using var versioningLogger = CreateLogger(cmdLineSettings.Verbosity);
         var host = GetBuildHost(versioningLogger, inputs);
         var versionGenerator = new VersioningEngineFactory(versioningLogger).Create(inputs,
-                                                                          new NullMSBuildGlobalProperties(),
-                                                                          new NullJsonFileIO(),
-                                                                          host,
-                                                                          convCommits);
-        return versionGenerator.GetConventionalCommitsInfo();
+                                                                                    new NullMSBuildGlobalProperties(),
+                                                                                    new NullJsonFileIO(),
+                                                                                    host,
+                                                                                    convCommits);
+        return versionGenerator.OutsideOfBuildRun();
     }
 
     private bool WriteConsolePreamble(ChangelogCommandSettings cmdLineSettings)

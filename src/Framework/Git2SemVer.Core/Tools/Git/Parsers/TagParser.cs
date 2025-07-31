@@ -66,7 +66,8 @@ public sealed class TagParser : ITagParser
     {
         if (string.IsNullOrWhiteSpace(releaseTagFormat))
         {
-            return $"(({TagParsingConstants.DefaultVersionPrefix}{VersionPattern})|({WaypointTagPrefix}{TagParsingConstants.DefaultVersionPrefix}{PriorVersionPattern}{WaypointTagSuffix}))";
+            return
+                $"(({TagParsingConstants.DefaultVersionPrefix}{VersionPattern})|({WaypointTagPrefix}{TagParsingConstants.DefaultVersionPrefix}{PriorVersionPattern}{WaypointTagSuffix}))";
         }
 
         var versionPattern = ReplacePlaceholderInPattern(releaseTagFormat!);

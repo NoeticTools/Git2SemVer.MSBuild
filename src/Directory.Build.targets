@@ -6,7 +6,8 @@
     <Git2SemVer_SharedVersioningJsonFile>$(Git2SemVer_ShareDirectory)Git2SemVer.VersionInfo.g.json</Git2SemVer_SharedVersioningJsonFile>
   </PropertyGroup>
 
-  <UsingTask TaskName="WaitFor" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+  <UsingTask TaskName="WaitFor" TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
       <FilePath ParameterType="System.String" Required="true" />
       <Delay ParameterType="System.Int32" Required="true" />
@@ -54,7 +55,8 @@ Log.LogError(
       <SharedPropsFileExists Condition="'$(SharedPropsFileExists)' == ''">false</SharedPropsFileExists>
     </PropertyGroup>
 
-    <Message Text="Git2SemVer: Generating versioning information." Importance="high" Condition=" '$(SharedPropsFileExists)' == 'false' " />
+    <Message Text="Git2SemVer: Generating versioning information." Importance="high"
+             Condition=" '$(SharedPropsFileExists)' == 'false' " />
 
     <MSBuild Projects="$(Git2SemVer_VersioningProjectPath)"
              Condition=" '$(SharedPropsFileExists)' == 'false' "

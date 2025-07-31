@@ -1,7 +1,6 @@
-﻿using Microsoft.Build.Utilities;
+﻿using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using System.Text.Json.Serialization;
 
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
@@ -71,20 +70,6 @@ public sealed class ChangelogProjectSettings : IEquatable<ChangelogProjectSettin
         // ReSharper restore NonReadonlyMemberInGetHashCode
     }
 
-    /// <summary>
-    ///     Load the configuration. May return cached configuration.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Loads the user's Git2SemVer configuration file.
-    ///         If the file does not exist it is created.
-    ///     </para>
-    /// </remarks>
-    private static ChangelogProjectSettings Load(string filePath)
-    {
-        return Git2SemVerJsonSerializer.Read<ChangelogProjectSettings>(filePath);
-    }
-
     public static ChangelogProjectSettings Load(string dataDirectory, string filename)
     {
         var filePath = Path.Combine(dataDirectory, filename);
@@ -118,10 +103,25 @@ public sealed class ChangelogProjectSettings : IEquatable<ChangelogProjectSettin
             {
                 return;
             }
+
             Directory.CreateDirectory(dataDirectory);
         }
 
         var filePath = Path.Combine(dataDirectory, filename);
         Git2SemVerJsonSerializer.Write(filePath, this);
+    }
+
+    /// <summary>
+    ///     Load the configuration. May return cached configuration.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         Loads the user's Git2SemVer configuration file.
+    ///         If the file does not exist it is created.
+    ///     </para>
+    /// </remarks>
+    private static ChangelogProjectSettings Load(string filePath)
+    {
+        return Git2SemVerJsonSerializer.Read<ChangelogProjectSettings>(filePath);
     }
 }

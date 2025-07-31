@@ -8,20 +8,23 @@ using Semver;
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
 /// <summary>
-/// Data from the last run when generating a specific changelog.
+///     Data from the last run when generating a specific changelog.
 /// </summary>
 public sealed class LastRunData
 {
-    [JsonPropertyOrder(10)]
-    // ReSharper disable once MemberCanBePrivate.Global
-    public string ForcedReleasedTitle { get; set; } = "";
-
     [JsonPropertyOrder(40)]
     // ReSharper disable once MemberCanBePrivate.Global
     public IReadOnlyList<string> ContributingReleases { get; set; } = [];
 
+    [JsonPropertyOrder(10)]
+    // ReSharper disable once MemberCanBePrivate.Global
+    public string ForcedReleasedTitle { get; set; } = "";
+
     [JsonPropertyOrder(50)]
     public List<HandledChange> HandledChanges { get; set; } = [];
+
+    [JsonIgnore]
+    public bool NoData => string.IsNullOrEmpty(Rev);
 
     /// <summary>
     ///     This file's schema revision. To allow for file migration.
@@ -29,9 +32,6 @@ public sealed class LastRunData
     [JsonPropertyOrder(-10)]
     // ReSharper disable once MemberCanBePrivate.Global
     public string Rev { get; set; } = "";
-
-    [JsonIgnore]
-    public bool NoData => string.IsNullOrEmpty(Rev);
 
     public bool ContributingReleasesChanged(SemVersion[] priorContributingReleases)
     {
@@ -48,12 +48,6 @@ public sealed class LastRunData
         return !priorContributingReleases.All(ver => ContributingReleases.Contains(ver.ToString()));
     }
 
-    private static DirectoryInfo GetFilePath(string dataDirectory, string targetFilePath)
-    {
-        var targetFilename = targetFilePath.Length == 0 ? "no_target" : Path.GetFileName(targetFilePath);
-        return new DirectoryInfo(Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunDataFileSuffix));
-    }
-
     public static LastRunData Load(string directory, string filename, ILogger logger)
     {
         var data = Git2SemVerJsonSerializer.Read<LastRunData>(GetFilePath(directory, filename).FullName);
@@ -61,6 +55,7 @@ public sealed class LastRunData
         {
             logger.LogWarning(new GSV201(directory, filename));
         }
+
         return data;
     }
 
@@ -74,5 +69,11 @@ public sealed class LastRunData
     public void Update(ConventionalCommitsVersionInfo outputs)
     {
         ContributingReleases = outputs.ContributingReleases.Select(x => x.ToString()).ToReadOnlyList();
+    }
+
+    private static DirectoryInfo GetFilePath(string dataDirectory, string targetFilePath)
+    {
+        var targetFilename = targetFilePath.Length == 0 ? "no_target" : Path.GetFileName(targetFilePath);
+        return new DirectoryInfo(Path.Combine(dataDirectory, targetFilename + ChangelogConstants.LastRunDataFileSuffix));
     }
 }

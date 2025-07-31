@@ -346,7 +346,7 @@ internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
                              *               .|0019|0020|build: REDACTED|||
                              *               .|0020||REDACTED|||
                              """);
-    
+
     /// <summary>
     ///     Tests waypoint tag with feature bump.
     /// </summary>

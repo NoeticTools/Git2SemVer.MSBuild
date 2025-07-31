@@ -24,7 +24,7 @@ public sealed class SolutionCommands : ISolutionCommands
         var returnCode = _inner.RunReturningStdOut("sln list", out var standardOutput);
         // ReSharper disable once UseCollectionExpression
         // FxCop CS0121 fails the build build without the "new char[]".
-        return (returnCode, standardOutput.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
+        return (returnCode, standardOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
     }
 
     public (int returnCode, IReadOnlyList<string> projects) GetProjects(string solutionName)
@@ -32,7 +32,7 @@ public sealed class SolutionCommands : ISolutionCommands
         var returnCode = _inner.RunReturningStdOut($"sln {solutionName} list", out var standardOutput);
         // ReSharper disable once UseCollectionExpression
         // FxCop CS0121 fails the build build without the "new char[]".
-        return (returnCode, standardOutput.Split(new char[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries));
+        return (returnCode, standardOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
     }
 
     public void New(string solutionName)

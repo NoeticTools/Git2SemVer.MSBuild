@@ -68,6 +68,27 @@ public sealed class GitTool : IGitTool
         set => _repositoryDirectory = DiscoverRepositoryDirectory(value);
     }
 
+    public static string DiscoverRepositoryDirectory(string currentDirectory)
+    {
+        if (string.IsNullOrEmpty(currentDirectory))
+        {
+            currentDirectory = Environment.CurrentDirectory;
+        }
+
+        if (currentDirectory.EndsWith(".git"))
+        {
+            return currentDirectory;
+        }
+
+        var discoveredDirectory = Repository.Discover(currentDirectory);
+        if (discoveredDirectory == null)
+        {
+            throw new Git2SemVerRepositoryException($"Unable to find git repository from directory '{currentDirectory}'.");
+        }
+
+        return new DirectoryInfo(discoveredDirectory).Parent!.FullName;
+    }
+
     public void Dispose()
     {
         _repository?.Dispose();
@@ -112,27 +133,6 @@ public sealed class GitTool : IGitTool
         }
 
         return commit;
-    }
-
-    public static string DiscoverRepositoryDirectory(string currentDirectory)
-    {
-        if (string.IsNullOrEmpty(currentDirectory))
-        {
-            currentDirectory = Environment.CurrentDirectory;
-        }
-
-        if (currentDirectory.EndsWith(".git"))
-        {
-            return currentDirectory;
-        }
-
-        var discoveredDirectory = Repository.Discover(currentDirectory);
-        if (discoveredDirectory == null)
-        {
-            throw new Git2SemVerRepositoryException($"Unable to find git repository from directory '{currentDirectory}'.");
-        }
-
-        return new DirectoryInfo(discoveredDirectory).Parent!.FullName;
     }
 
     private bool GetHasLocalChanges()
