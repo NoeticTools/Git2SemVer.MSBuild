@@ -33,7 +33,7 @@ internal abstract class ProjectVersioningUnitTestsBase
         OutputsCacheJsonFile.Setup(x => x.Load("SolutionSharedDirectory")).Returns(SharedCachedOutputs.Object);
 
         GeneratedOutputs = new Mock<IVersionOutputs>();
-        VersionGenerator.Setup(x => x.PrebuildRun()).Returns(GeneratedOutputs.Object);
+        VersionGenerator.Setup(x => x.PrebuildRun()).Returns((GeneratedOutputs.Object, new SemanticVersionCalcResult()));
     }
 
     [TearDown]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -15,7 +16,7 @@ public class ChangelogCommandSettings : CommonCommandSettings
     public string ArtifactLinkPattern { get; set; } = "";
 
     [CommandOption("-d|--data-directory <DIRECTORY>")]
-    [DefaultValue(".git2semver/changelog")]
+    [DefaultValue(ChangelogConstants.DefaultDataDirectory)]
     [Description("Path to generator's data and configuration files directory. May be a relative or absolute path.")]
     public string DataDirectory { get; set; } = "";
 
@@ -24,7 +25,7 @@ public class ChangelogCommandSettings : CommonCommandSettings
     public string? HostType { get; set; } = null;
 
     [CommandOption("-o|--output <FILEPATH>")]
-    [DefaultValue("CHANGELOG.md")]
+    [DefaultValue(ChangelogConstants.DefaultFilename)]
     [Description("Generated changelog file path. May be a relative or absolute path. Set to empty string to disable file write.")]
     public string OutputFilePath { get; set; } = "";
 

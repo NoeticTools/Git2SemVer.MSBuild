@@ -13,5 +13,5 @@ public interface IVersioningEngine : IDisposable
     /// <summary>
     ///     Perform a prebuild versioning run. Depending on the host may bump the build number.
     /// </summary>
-    IVersionOutputs PrebuildRun();
+    (IVersionOutputs versionOutputs, SemanticVersionCalcResult calcData) PrebuildRun();
 }

@@ -20,7 +20,7 @@ internal class StandAloneProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Once);
-        Assert.That(result, Is.SameAs(GeneratedOutputs.Object));
+        Assert.That(result.versionOutputs, Is.SameAs(GeneratedOutputs.Object));
         OutputsCacheJsonFile.Verify(x => x.Load(It.IsAny<string>()), Times.Never);
         OutputsCacheJsonFile.Verify(x => x.Write(It.IsAny<string>(), It.IsAny<IVersionOutputs>()), Times.Never);
     }

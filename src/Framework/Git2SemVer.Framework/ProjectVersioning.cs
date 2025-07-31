@@ -36,11 +36,11 @@ public sealed class ProjectVersioning : IDisposable
         _host.Dispose();
     }
 
-    public IVersionOutputs Run()
+    public (IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData) Run()
     {
         try
         {
-            var handlers = new Dictionary<VersioningMode, Func<IVersionOutputs>>
+            var handlers = new Dictionary<VersioningMode, Func<(IVersionOutputs, SemanticVersionCalcResult?)>>
             {
                 { VersioningMode.SolutionVersioningProject, PerformSolutionVersioningProjectVersioning },
                 { VersioningMode.SolutionClientProject, PerformSolutionClientVersioning },
@@ -70,7 +70,7 @@ public sealed class ProjectVersioning : IDisposable
         return !shared.IsValid ? _host.BuildNumber : shared.BuildNumber;
     }
 
-    private IVersionOutputs PerformSolutionClientVersioning()
+    private (IVersionOutputs outputs, SemanticVersionCalcResult?) PerformSolutionClientVersioning()
     {
         _logger.LogTrace("Versioning mode: Client");
 
@@ -82,27 +82,27 @@ public sealed class ProjectVersioning : IDisposable
 
         var output = _outputsCacheJsonFile.Load(_inputs.SolutionSharedDirectory);
         _outputsCacheJsonFile.Write(_inputs.IntermediateOutputDirectory, output);
-        return output;
+        return (output, null);
     }
 
-    private IVersionOutputs PerformSolutionVersioningProjectVersioning()
+    private (IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData) PerformSolutionVersioningProjectVersioning()
     {
         _logger.LogTrace("Versioning mode: Solution");
         var output = _outputsCacheJsonFile.Load(_inputs.SolutionSharedDirectory);
-        return !output.IsValid ? _versioningEngine.PrebuildRun() : output;
+        return !output.IsValid ? _versioningEngine.PrebuildRun() : (versionOutputs: output, null);
     }
 
-    private IVersionOutputs PerformStandAloneProjectVersioning()
+    private (IVersionOutputs versionOutputs, SemanticVersionCalcResult calcData) PerformStandAloneProjectVersioning()
     {
         _logger.LogTrace("Versioning mode: Stand-alone project");
         return _versioningEngine.PrebuildRun();
     }
 
-    private void UpdateHostBuildLabel(IVersionOutputs output)
+    private void UpdateHostBuildLabel((IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData) output)
     {
-        if (_inputs.UpdateHostBuildLabel && output.BuildSystemVersion != null)
+        if (_inputs.UpdateHostBuildLabel && output.versionOutputs.BuildSystemVersion != null)
         {
-            _host.SetBuildLabel(output.BuildSystemVersion.ToString());
+            _host.SetBuildLabel(output.versionOutputs.BuildSystemVersion.ToString());
         }
     }
 }

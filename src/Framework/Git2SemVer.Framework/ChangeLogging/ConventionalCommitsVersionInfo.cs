@@ -17,7 +17,7 @@ public class ConventionalCommitsVersionInfo
     {
     }
 
-    public ConventionalCommitsVersionInfo(VersionOutputs outputs, ContributingCommits contributing)
+    public ConventionalCommitsVersionInfo(IVersionOutputs outputs, ContributingCommits contributing)
     {
         ContributingReleases = outputs.Git.ContributingReleases.Select(x => x.ToString()).ToArray();
         ConventionalCommits = contributing.Commits.Where(HasConventionalCommitInfo).Select(x => new ConventionalCommit(x)).ToList();

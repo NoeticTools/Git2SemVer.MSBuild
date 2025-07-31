@@ -24,7 +24,7 @@ internal class SolutionClientProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Once);
-        Assert.That(result, Is.SameAs(GeneratedOutputs.Object));
+        Assert.That(result.versionOutputs, Is.SameAs(GeneratedOutputs.Object));
     }
 
     [Test]
@@ -37,7 +37,7 @@ internal class SolutionClientProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Once);
-        Assert.That(result, Is.SameAs(GeneratedOutputs.Object));
+        Assert.That(result.versionOutputs, Is.SameAs(GeneratedOutputs.Object));
     }
 
     [Test]
@@ -50,7 +50,7 @@ internal class SolutionClientProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Once);
-        Assert.That(result, Is.SameAs(GeneratedOutputs.Object));
+        Assert.That(result.versionOutputs, Is.SameAs(GeneratedOutputs.Object));
     }
 
     [Test]
@@ -63,7 +63,7 @@ internal class SolutionClientProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Never);
-        Assert.That(result, Is.SameAs(SharedCachedOutputs.Object));
+        Assert.That(result.versionOutputs, Is.SameAs(SharedCachedOutputs.Object));
     }
 
     [Test]
@@ -76,6 +76,6 @@ internal class SolutionClientProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Never);
-        Assert.That(result, Is.SameAs(SharedCachedOutputs.Object));
+        Assert.That(result.versionOutputs, Is.SameAs(SharedCachedOutputs.Object));
     }
 }

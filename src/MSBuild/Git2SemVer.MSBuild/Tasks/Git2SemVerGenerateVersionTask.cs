@@ -3,14 +3,13 @@ using NoeticTools.Git2SemVer.Core.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging;
+using NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using NoeticTools.Git2SemVer.Framework.ChangeLogging;
-using NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 
@@ -46,12 +45,12 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     /// <summary>
     /// Path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
     /// </summary>
-    public string ChangelogDataDirectory { get; set; } = ".git2semver/changelog"; // todo - constant
+    public string ChangelogDataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
 
     /// <summary>
     /// Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
     /// </summary>
-    public string ChangelogOutputFilePath { get; set; } = "CHANGELOG.md";
+    public string ChangelogOutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
 
     /// <summary>
     /// If not an empty string, sets the changelog's changes version (normally version or 'Unreleased'). Any text permitted.
@@ -360,11 +359,13 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
                 new ProjectVersioningFactory(msg => Log.LogMessage(MessageImportance.High, msg), versioningEngineFactory, logger)
                     .Create(this, new MSBuildGlobalProperties(BuildEngine6));
             var versionOutputs = projectVersioning.Run();
-            SetOutputs(versionOutputs);
+            SetOutputs(versionOutputs.versionOutputs);
 
             if (ChangelogEnable)
             {
-                new ChangelogGeneratorTask(this, versionOutputs, logger).Execute();
+                var projectSettings = ChangelogProjectSettings.Load(ChangelogDataDirectory, ChangelogConstants.ProjectSettingsFilename);
+                new ChangelogGeneratorTask(this, logger)
+                    .Execute(versionOutputs.versionOutputs, versionOutputs.calcData);
             }
 
             return !Log.HasLoggedErrors;

@@ -34,12 +34,12 @@ internal sealed class VersioningEngine(
         return new ConventionalCommitsVersionInfo(outputs, results.Contributing);
     }
 
-    public IVersionOutputs PrebuildRun()
+    public (IVersionOutputs versionOutputs, SemanticVersionCalcResult calcData) PrebuildRun()
     {
         var stopwatch = Stopwatch.StartNew();
 
         host.BumpBuildNumber();
-        var (outputs, _) = GetVersionOutputs();
+        var (outputs, calcData) = GetVersionOutputs();
 
         SaveGeneratedVersions(outputs);
 
@@ -49,25 +49,25 @@ internal sealed class VersioningEngine(
         logger.LogDebug($"Version generation completed (in {stopwatch.Elapsed.TotalSeconds:F1} seconds).");
         host.ReportBuildStatistic("git2semver.runtime.seconds", stopwatch.Elapsed.TotalSeconds);
 
-        return outputs;
+        return (outputs, calcData);
     }
 
     private (VersionOutputs Outputs, SemanticVersionCalcResult Results) GetVersionOutputs()
     {
-        var results = gitWalker.CalculateSemanticVersion();
+        var calcResult = gitWalker.CalculateSemanticVersion();
         var outputs = new VersionOutputs(new GitOutputs(gitTool,
-                                                        results.PriorReleaseVersion,
-                                                        results.PriorReleaseCommitId,
-                                                        results.PriorVersions),
-                                         results.Version);
+                                                        calcResult.PriorReleaseVersion,
+                                                        calcResult.PriorReleaseCommitId,
+                                                        calcResult.PriorVersions),
+                                         calcResult.Version);
         RunBuilders(outputs);
 
         if (inputs.WriteConventionalCommitsInfo)
         {
-            SaveConventionalCommitsInfo(outputs, results.Contributing);
+            SaveConventionalCommitsInfo(outputs, calcResult.Contributing);
         }
 
-        return (outputs, results);
+        return (outputs, calcResult);
     }
 
     private void RunBuilders(VersionOutputs outputs)

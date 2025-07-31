@@ -15,6 +15,10 @@ public static class ChangelogConstants
 
     public const string ProjectSettingsFilename = "git2semver.changelog.settings.json";
 
+    public const string DefaultDataDirectory = ".git2semver/changelog";
+
+    public const string DefaultFilename = "CHANGELOG.md";
+
     public static readonly CategorySettings[] DefaultCategories =
     [
         new(1, "Added", "feat"),

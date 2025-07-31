@@ -11,7 +11,7 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogger logger)
 {
     /// <summary>
-    ///     Generate changelog document.
+    ///     Generate or update changelog document.
     /// </summary>
     /// <param name="inputs"></param>
     /// <param name="releaseUrl"></param>
@@ -36,12 +36,16 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
 
         var changelog = Execute(inputs, scribanTemplate, releaseUrl, releaseAs, lastRunData, changelogToUpdate);
 
-        if (outputFilePath.Length > 0)
+        if (outputFilePath.Length <= 0)
         {
-            lastRunData.Update(inputs);
-            lastRunData.ForcedReleasedTitle = releaseAs;
-            lastRunData.Save(dataDirectory, outputFilePath);
+            return changelog;
         }
+
+        lastRunData.Update(inputs);
+        lastRunData.ForcedReleasedTitle = releaseAs;
+        lastRunData.Save(dataDirectory, outputFilePath);
+
+        File.WriteAllText(outputFilePath, changelog);
 
         return changelog;
     }

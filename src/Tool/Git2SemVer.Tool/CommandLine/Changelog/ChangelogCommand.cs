@@ -27,14 +27,12 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
 
         var createNewChangelog = !File.Exists(cmdLineSettings.OutputFilePath);
         var priorChangelog = createNewChangelog ? "" : File.ReadAllText(cmdLineSettings.OutputFilePath);
-
-        var projectSettings = ChangelogProjectSettings.Load(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename); //>>>
+        var projectSettings = ChangelogProjectSettings.Load(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename);
         var changeLogInputs = RunVersionGenerator(cmdLineSettings, projectSettings.ConvCommits);
-        var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
-        var releaseUrl = cmdLineSettings.ArtifactLinkPattern;
 
+        var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
         var changelog = changelogGenerator.Execute(changeLogInputs,
-                                                   releaseUrl,
+                                                   cmdLineSettings.ArtifactLinkPattern,
                                                    cmdLineSettings.ReleaseAs,
                                                    cmdLineSettings.DataDirectory, 
                                                    cmdLineSettings.OutputFilePath);
@@ -62,7 +60,6 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
 
         Console.WriteLine();
         Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
-        File.WriteAllText(cmdLineSettings.OutputFilePath, changelog);
 
         stopwatch.Stop();
 
