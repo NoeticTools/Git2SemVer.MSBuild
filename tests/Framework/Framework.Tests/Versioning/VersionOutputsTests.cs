@@ -3,7 +3,7 @@ using NoeticTools.Git2SemVer.Framework.Versioning;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning;
 
 [TestFixture]
 internal class VersionOutputsTests
