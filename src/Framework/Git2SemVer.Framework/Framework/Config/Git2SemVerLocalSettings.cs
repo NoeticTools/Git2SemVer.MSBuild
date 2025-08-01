@@ -9,9 +9,9 @@ using NoeticTools.Git2SemVer.Framework.Tools.CI;
 namespace NoeticTools.Git2SemVer.Framework.Framework.Config;
 
 /// <summary>
-///     User's local Git2SemVer configuration.
+///     User's local (host) Git2SemVer settings.
 /// </summary>
-public sealed class Git2SemVerConfiguration : IConfiguration
+public sealed class Git2SemVerLocalSettings : ILocalSettings
 {
     private static readonly Mutex FileMutex = new(false, "G2SemVerConfigFileMutex");
 
@@ -66,9 +66,9 @@ public sealed class Git2SemVerConfiguration : IConfiguration
     ///         If the file does not exist it is created.
     ///     </para>
     /// </remarks>
-    public static Git2SemVerConfiguration Load()
+    public static ILocalSettings Load()
     {
-        Git2SemVerConfiguration instance;
+        Git2SemVerLocalSettings instance;
 
         var filePath = GetFilePath();
 
@@ -82,7 +82,7 @@ public sealed class Git2SemVerConfiguration : IConfiguration
             }
             else
             {
-                instance = new Git2SemVerConfiguration();
+                instance = new Git2SemVerLocalSettings();
             }
         }
         finally
@@ -94,9 +94,9 @@ public sealed class Git2SemVerConfiguration : IConfiguration
         return instance;
     }
 
-    public static Git2SemVerConfiguration Load(string json)
+    public static Git2SemVerLocalSettings Load(string json)
     {
-        return JsonSerializer.Deserialize<Git2SemVerConfiguration>(json)!;
+        return JsonSerializer.Deserialize<Git2SemVerLocalSettings>(json)!;
     }
 
     /// <summary>

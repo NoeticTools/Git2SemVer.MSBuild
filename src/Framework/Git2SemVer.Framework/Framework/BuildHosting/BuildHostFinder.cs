@@ -13,7 +13,7 @@ internal class BuildHostFinder
     private readonly IReadOnlyList<IDetectableBuildHost> _detectableBuildHosts;
     private readonly ILogger _logger;
 
-    public BuildHostFinder(IConfiguration config, 
+    public BuildHostFinder(ILocalSettings config, 
                            ITeamCityWriter teamCityWriter, 
                            ILogger logger)
     {

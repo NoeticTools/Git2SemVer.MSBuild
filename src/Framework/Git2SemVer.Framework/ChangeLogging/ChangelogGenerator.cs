@@ -8,6 +8,7 @@ using Semver;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 
+[RegisterTransient]
 public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogger logger)
 {
     /// <summary>

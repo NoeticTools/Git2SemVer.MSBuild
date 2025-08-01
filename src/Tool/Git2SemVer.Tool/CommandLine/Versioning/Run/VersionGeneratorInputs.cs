@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Versioning;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 
 namespace NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Run;

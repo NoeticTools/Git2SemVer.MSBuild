@@ -124,8 +124,10 @@ public sealed class GitTool : IGitTool
             var tags = Repository.Tags.Where(x => x.Target.Equals(rawCommit)).Select(x => new GitTag(x)).ToList();
 
             commit = new Commit(rawCommit.Sha,
-                                parents, rawCommit.MessageShort,
-                                metadata, _tagParser,
+                                parents, 
+                                rawCommit.MessageShort,
+                                metadata, 
+                                _tagParser,
                                 tags,
                                 rawCommit.Author.When);
 

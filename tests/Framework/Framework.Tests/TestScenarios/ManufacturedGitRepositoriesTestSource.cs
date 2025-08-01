@@ -48,26 +48,26 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                        | first commit
                                      """,
                                      [
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002.0000", ["1.001.0000"], "", "tag: A tag", CommitMessageMetadata.Null),
-                                         new Commit("1.003.0000", ["1.002.0000"], "", "tag: A6.7.8", CommitMessageMetadata.Null),
-                                         new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.005.0000", ["1.004.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.006.0000", ["1.005.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.007.0000", ["1.006.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.008.0000", ["1.007.0000", "3.005.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.009.0000", ["1.008.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.010.0000", ["1.009.0000"], "Head commit", "", CommitMessageMetadata.Null),
+                                         NewCommit("1.001.0000", [], "First commit in repo"),
+                                         NewCommit("1.002.0000", ["1.001.0000"], "", "tag: A tag"),
+                                         NewCommit("1.003.0000", ["1.002.0000"], "", "tag: A6.7.8"),
+                                         NewCommit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge"),
+                                         NewCommit("1.005.0000", ["1.004.0000"], ""),
+                                         NewCommit("1.006.0000", ["1.005.0000"], ""),
+                                         NewCommit("1.007.0000", ["1.006.0000"], ""),
+                                         NewCommit("1.008.0000", ["1.007.0000", "3.005.0000"], "Merge"),
+                                         NewCommit("1.009.0000", ["1.008.0000"], ""),
+                                         NewCommit("1.010.0000", ["1.009.0000"], "Head commit"),
 
-                                         new Commit("2.001.0000", ["1.001.0000"], "Branch commit", "", CommitMessageMetadata.Null),
-                                         new Commit("2.002.0000", ["2.001.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("2.003.0000", ["2.002.0000"], "", "", CommitMessageMetadata.Null),
+                                         NewCommit("2.001.0000", ["1.001.0000"], "Branch commit"),
+                                         NewCommit("2.002.0000", ["2.001.0000"], ""),
+                                         NewCommit("2.003.0000", ["2.002.0000"], ""),
 
-                                         new Commit("3.001.0000", ["1.007.0000"], "Branch commit", "", CommitMessageMetadata.Null),
-                                         new Commit("3.002.0000", ["3.001.0000"], "", "tag: v1.2.3", CommitMessageMetadata.Null),
-                                         new Commit("3.003.0000", ["3.002.0000"], "", "tag: v1.2.4", CommitMessageMetadata.Null),
-                                         new Commit("3.004.0000", ["3.003.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("3.005.0000", ["3.004.0000"], "", "", CommitMessageMetadata.Null)
+                                         NewCommit("3.001.0000", ["1.007.0000"], "Branch commit"),
+                                         NewCommit("3.002.0000", ["3.001.0000"], "", "tag: v1.2.3"),
+                                         NewCommit("3.003.0000", ["3.002.0000"], "", "tag: v1.2.4"),
+                                         NewCommit("3.004.0000", ["3.003.0000"], ""),
+                                         NewCommit("3.005.0000", ["3.004.0000"], "")
                                      ],
                                      "1.010.0000",
                                      3,
@@ -96,16 +96,15 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      1.001  | first commit
                                      """,
                                      [
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.007.0000", ["1.001.0000"], "", "Branched from", CommitMessageMetadata.Null),
-                                         new Commit("1.008.0000", ["1.007.0000", "2.005.0000"], "Merge commit", "tag: v1.2.2",
-                                                    CommitMessageMetadata.Null),
-                                         new Commit("1.009.0000", ["1.008.0000"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.010.0000", ["1.009.0000"], "Head commit", "", CommitMessageMetadata.Null),
+                                         NewCommit("1.001.0000", [], "First commit in repo"),
+                                         NewCommit("1.007.0000", ["1.001.0000"], "", "Branched from"),
+                                         NewCommit("1.008.0000", ["1.007.0000", "2.005.0000"], "Merge commit", "tag: v1.2.2"),
+                                         NewCommit("1.009.0000", ["1.008.0000"], ""),
+                                         NewCommit("1.010.0000", ["1.009.0000"], "Head commit"),
 
-                                         new Commit("2.001.0000", ["1.007.0000"], "Branch commit", "", CommitMessageMetadata.Null),
-                                         new Commit("2.003.0000", ["2.001.0000"], "", "tag: v1.2.4", CommitMessageMetadata.Null),
-                                         new Commit("2.005.0000", ["2.003.0000"], "", "", CommitMessageMetadata.Null)
+                                         NewCommit("2.001.0000", ["1.007.0000"], "Branch commit"),
+                                         NewCommit("2.003.0000", ["2.001.0000"], "", "tag: v1.2.4"),
+                                         NewCommit("2.005.0000", ["2.003.0000"], "")
                                      ],
                                      "1.010.0000",
                                      1,
@@ -130,12 +129,12 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      1.001  | first commit
                                      """,
                                      [
-                                         new Commit("1.001", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002", ["1.001"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.003", ["1.002"], "", "tag: v2.2.2", CommitMessageMetadata.Null),
-                                         new Commit("1.004", ["1.003"], "", "", CommitMessageMetadata.Null),
-                                         new Commit("1.005", ["1.004"], "", "tag: V1.5.9", CommitMessageMetadata.Null),
-                                         new Commit("1.006", ["1.005"], "", "Head commit", CommitMessageMetadata.Null)
+                                         NewCommit("1.001", [], "First commit in repo"),
+                                         NewCommit("1.002", ["1.001"], ""),
+                                         NewCommit("1.003", ["1.002"], "", "tag: v2.2.2"),
+                                         NewCommit("1.004", ["1.003"], ""),
+                                         NewCommit("1.005", ["1.004"], "", "tag: V1.5.9"),
+                                         NewCommit("1.006", ["1.005"], "", "Head commit")
                                      ],
                                      "1.006",
                                      1,
@@ -152,7 +151,7 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      1.001  | head
                                      """,
                                      [
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null)
+                                         NewCommit("1.001.0000", [], "First commit in repo")
                                      ],
                                      "1.001.0000",
                                      1,
@@ -172,9 +171,9 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      1.001  | 
                                      """,
                                      [
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002.0000", ["1.001.0000"], "fix:bug1", "", new FixMessageMetadataStub()),
-                                         new Commit("1.003.0000", ["1.002.0000"], "head", "", CommitMessageMetadata.Null)
+                                         NewCommit("1.001.0000", [], "First commit in repo"),
+                                         NewCommit("1.002.0000", ["1.001.0000"], "fix:bug1", "", new FixMessageMetadataStub()),
+                                         NewCommit("1.003.0000", ["1.002.0000"], "head")
                                      ],
                                      "1.003.0000",
                                      1,
@@ -202,22 +201,22 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      """,
                                      [
                                          // left (main) branch
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", CommitMessageMetadata.Null),
-                                         new Commit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0", CommitMessageMetadata.Null),
-                                         new Commit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.005.0000", ["1.004.0000", "3.003.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.006.0000", ["1.005.0000"], "Head commit", "", CommitMessageMetadata.Null),
+                                         NewCommit("1.001.0000", [], "First commit in repo"),
+                                         NewCommit("1.002.0000", ["1.001.0000"], "Branch from"),
+                                         NewCommit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0"),
+                                         NewCommit("1.004.0000", ["1.003.0000", "2.003.0000"], "Merge"),
+                                         NewCommit("1.005.0000", ["1.004.0000", "3.003.0000"], "Merge"),
+                                         NewCommit("1.006.0000", ["1.005.0000"], "Head commit"),
 
                                          // branch 2 (middle)
-                                         new Commit("2.001.0000", ["1.002.0000"], "Branch", "", CommitMessageMetadata.Null),
-                                         new Commit("2.002.0000", ["2.001.0000"], "", "tag: v5.7.1", CommitMessageMetadata.Null),
-                                         new Commit("2.003.0000", ["2.002.0000"], "", "", CommitMessageMetadata.Null),
+                                         NewCommit("2.001.0000", ["1.002.0000"], "Branch"),
+                                         NewCommit("2.002.0000", ["2.001.0000"], "", "tag: v5.7.1"),
+                                         NewCommit("2.003.0000", ["2.002.0000"], ""),
 
                                          // branch 3 (right)
-                                         new Commit("3.001.0000", ["1.002.0000"], "Branch", "", CommitMessageMetadata.Null),
-                                         new Commit("3.002.0000", ["3.001.0000"], "", "tag: v5.6.99", CommitMessageMetadata.Null),
-                                         new Commit("3.003.0000", ["3.002.0000"], "", "", CommitMessageMetadata.Null)
+                                         NewCommit("3.001.0000", ["1.002.0000"], "Branch"),
+                                         NewCommit("3.002.0000", ["3.001.0000"], "", "tag: v5.6.99"),
+                                         NewCommit("3.003.0000", ["3.002.0000"], "")
                                      ],
                                      "1.006.0000",
                                      3,
@@ -248,25 +247,25 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      """,
                                      [
                                          // left (main) branch
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", CommitMessageMetadata.Null),
-                                         new Commit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0", CommitMessageMetadata.Null),
-                                         new Commit("1.004.0000", ["1.003.0000"], "added feature", "",
+                                         NewCommit("1.001.0000", [], "First commit in repo"),
+                                         NewCommit("1.002.0000", ["1.001.0000"], "Branch from"),
+                                         NewCommit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0"),
+                                         NewCommit("1.004.0000", ["1.003.0000"], "added feature", "",
                                                     new FeatureMessageMetadataStub("", "added feature", "")),
-                                         new Commit("1.005.0000", ["1.004.0000", "2.003.0000"], "Merge", "", CommitMessageMetadata.Null),
-                                         new Commit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "",
+                                         NewCommit("1.005.0000", ["1.004.0000", "2.003.0000"], "Merge"),
+                                         NewCommit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "",
                                                     new FeatureMessageMetadataStub("", "fixed bug", "")),
-                                         new Commit("1.007.0000", ["1.006.0000"], "Head commit", "", CommitMessageMetadata.Null),
+                                         NewCommit("1.007.0000", ["1.006.0000"], "Head commit"),
 
                                          // branch 2 (middle)
-                                         new Commit("2.001.0000", ["1.002.0000"], "Branch", "", CommitMessageMetadata.Null),
-                                         new Commit("2.002.0000", ["2.001.0000"], "", "tag: v5.7.1", CommitMessageMetadata.Null),
-                                         new Commit("2.003.0000", ["2.002.0000"], "", "", CommitMessageMetadata.Null),
+                                         NewCommit("2.001.0000", ["1.002.0000"], "Branch"),
+                                         NewCommit("2.002.0000", ["2.001.0000"], "", "tag: v5.7.1"),
+                                         NewCommit("2.003.0000", ["2.002.0000"], ""),
 
                                          // branch 3 (right)
-                                         new Commit("3.001.0000", ["1.002.0000"], "Branch", "", CommitMessageMetadata.Null),
-                                         new Commit("3.002.0000", ["3.001.0000"], "", "tag: v5.6.99", CommitMessageMetadata.Null),
-                                         new Commit("3.003.0000", ["3.002.0000"], "", "", CommitMessageMetadata.Null)
+                                         NewCommit("3.001.0000", ["1.002.0000"], "Branch"),
+                                         NewCommit("3.002.0000", ["3.001.0000"], "", "tag: v5.6.99"),
+                                         NewCommit("3.003.0000", ["3.002.0000"], "")
                                      ],
                                      "1.006.0000",
                                      3,
@@ -294,18 +293,18 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                      """,
                                      [
                                          // bottom segment
-                                         new Commit("1.001.0000", [], "First commit in repo", "", CommitMessageMetadata.Null),
-                                         new Commit("1.002.0000", ["1.001.0000"], "Branch from", "", CommitMessageMetadata.Null),
+                                         NewCommit("1.001.0000", [], "First commit in repo"),
+                                         NewCommit("1.002.0000", ["1.001.0000"], "Branch from"),
 
                                          // mid right segment
-                                         new Commit("2.001.0000", ["1.002.0000"], "", "", CommitMessageMetadata.Null),
+                                         NewCommit("2.001.0000", ["1.002.0000"], ""),
 
                                          // mid left segment
-                                         new Commit("1.003.0000", ["1.002.0000"], "", "", CommitMessageMetadata.Null),
+                                         NewCommit("1.003.0000", ["1.002.0000"], ""),
 
                                          //top segment
-                                         new Commit("1.004.0000", ["1.003.0000", "2.001.0000"], "Merge commit", "", CommitMessageMetadata.Null),
-                                         new Commit("1.005.0000", ["1.004.0000"], "Head commit", "", CommitMessageMetadata.Null)
+                                         NewCommit("1.004.0000", ["1.003.0000", "2.001.0000"], "Merge commit"),
+                                         NewCommit("1.005.0000", ["1.004.0000"], "Head commit")
                                      ],
                                      "1.005.0000",
                                      2,
@@ -332,5 +331,10 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                                 011.002  .
                                                 000.001  | first commit
                                                 """);
+    }
+
+    private static Commit NewCommit(string sha, string[] parents, string summary, string? refs = "", ICommitMessageMetadata? metadata = null)
+    {
+        return new Commit(sha, parents, summary, refs, metadata ?? CommitMessageMetadata.Null);
     }
 }

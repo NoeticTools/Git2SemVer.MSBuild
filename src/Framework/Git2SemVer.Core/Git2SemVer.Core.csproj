@@ -37,6 +37,8 @@
 
   <ItemGroup>
     <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
     <PackageReference Include="NoeticTools.JsonPeek" Version="1.0.2" />
     <PackageReference Include="Semver" Version="[2.3.0]" />
     <PackageReference Include="Injectio" Version="5.0.0" />

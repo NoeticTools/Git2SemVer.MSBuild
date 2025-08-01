@@ -6,7 +6,7 @@
 namespace NoeticTools.Git2SemVer.Framework.Tests.Config;
 
 [TestFixture]
-internal class Git2SemVerConfigurationTests
+internal class Git2SemVerLocalSettingsTests
 {
     [Test]
     public void V0CanLoadTest()
@@ -18,7 +18,7 @@ internal class Git2SemVerConfigurationTests
                    }
                    """;
 
-        var result = Git2SemVerConfiguration.Load(json);
+        var result = Git2SemVerLocalSettings.Load(json);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Rev, Is.EqualTo(1));
@@ -36,7 +36,7 @@ internal class Git2SemVerConfigurationTests
                    }
                    """;
 
-        var result = Git2SemVerConfiguration.Load(json);
+        var result = Git2SemVerLocalSettings.Load(json);
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Rev, Is.EqualTo(1));

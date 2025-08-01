@@ -14,7 +14,7 @@ namespace NoeticTools.Git2SemVer.Framework.Versioning;
 
 [ExcludeFromCodeCoverage]
 [RegisterSingleton]
-public sealed class VersioningEngineFactory(ILogger logger)
+public sealed class VersioningEngineFactory(ILogger logger) : IVersioningEngineFactory
 {
     public IVersioningEngine Create(IVersionGeneratorInputs inputs,
                                     IMSBuildGlobalProperties msBuildGlobalProperties,

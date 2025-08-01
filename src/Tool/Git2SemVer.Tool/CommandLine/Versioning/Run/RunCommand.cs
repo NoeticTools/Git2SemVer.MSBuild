@@ -1,6 +1,7 @@
 ﻿using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework;
+using NoeticTools.Git2SemVer.Framework.Framework.Config;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Framework.Tools.CI;
 using NoeticTools.Git2SemVer.Framework.Versioning;
@@ -37,15 +38,17 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
 
 #pragma warning disable CA2000
         using var logger = new CompositeLogger();
-        //logger.Add(new NoDisposeLoggerDecorator(_logger));
         logger.Add(new ConsoleLogger());
 #pragma warning restore CA2000
         logger.Level = GetVerbosity(settings.Verbosity);
 
         IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new OutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
         var versionGeneratorFactory = new VersioningEngineFactory(logger);
-        var projectVersioning = new ProjectVersioningFactory(new TeamCityLoggerWriterFactory(logger).Create(), versionGeneratorFactory, logger)
-            .Create(inputs, new NullMSBuildGlobalProperties(), outputJsonIO);
+        var configuration = Git2SemVerLocalSettings.Load();
+        var hostFactory = new BuildHostFactory(configuration, new TeamCityLoggerWriterFactory(logger).Create(), logger);
+        var projectVersioning = new ProjectVersioningFactory(inputs, new NullMSBuildGlobalProperties(), 
+                                                             versionGeneratorFactory, hostFactory, logger)
+            .Create(outputJsonIO);
         projectVersioning.Run();
 
         Console.WriteMarkupInfoLine("");

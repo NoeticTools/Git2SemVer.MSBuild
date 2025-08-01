@@ -7,7 +7,7 @@ namespace NoeticTools.Git2SemVer.Framework.Versioning;
 /// <summary>
 ///     Inputs into the MSBuild task read from MSBuild properties.
 /// </summary>
-public interface IVersionGeneratorInputs
+public interface IVersionGeneratorInputs : ICommonOptions
 {
     /// <summary>
     ///     Optional input  MSBuild <c>Git2SemVer_BranchMaturityPattern</c> property.
@@ -173,18 +173,6 @@ public interface IVersionGeneratorInputs
     ///     </para>
     /// </remarks>
     string VersionSuffix { get; }
-
-    /// <summary>
-    ///     The directory that will be used to run git.exe from.
-    ///     This may usually be any folder within the cloned repository directory,
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         The default is for this to be the project's directory.
-    ///         It must be possible to execute git.exe from this directory.
-    ///     </para>
-    /// </remarks>
-    string WorkingDirectory { get; }
 
     /// <summary>
     ///     If true conventional commits info file is created. This can be used for changelog generation.

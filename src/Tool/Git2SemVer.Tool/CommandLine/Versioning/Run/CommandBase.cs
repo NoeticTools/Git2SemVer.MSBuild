@@ -44,7 +44,7 @@ internal abstract class CommandBase(IConsoleIO console)
 
     protected static IBuildHost GetBuildHost(CompositeLogger logger, VersionGeneratorInputs inputs)
     {
-        var config = Git2SemVerConfiguration.Load();
+        var config = Git2SemVerLocalSettings.Load();
 
         var host = new BuildHostFactory(config, new TeamCityLoggerWriterFactory(logger).Create(), logger)
             .Create(inputs.HostType,

@@ -10,10 +10,10 @@ namespace NoeticTools.Git2SemVer.Framework.Tools.CI;
 [RegisterTransient]
 internal sealed class UncontrolledHost : BuildHostBase, IDetectableBuildHost
 {
-    private readonly IConfiguration _config;
+    private readonly ILocalSettings _config;
     private readonly ILogger _logger;
 
-    public UncontrolledHost(IConfiguration config, ILogger logger) : base(logger)
+    public UncontrolledHost(ILocalSettings config, ILogger logger) : base(logger)
     {
         _config = config;
         _logger = logger;

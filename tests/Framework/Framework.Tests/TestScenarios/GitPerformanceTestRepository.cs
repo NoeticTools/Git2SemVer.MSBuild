@@ -11,7 +11,7 @@ public class GitPerformanceTestRepository : GitTestRepository
     {
         var commits = new List<Commit>
         {
-            new("00.0.01.000", [], "First commit in repo", "", CommitMessageMetadata.Null)
+            NewCommit("00.0.01.000", [], "First commit in repo")
         };
 
         var endOfPriorBlockCommitId = "00.0.01.000";
@@ -24,26 +24,22 @@ public class GitPerformanceTestRepository : GitTestRepository
             commits.AddRange(
             [
                 // left (main) branch
-                new Commit(branchPrefix + ".1.01.000", [endOfPriorBlockCommitId], $"bottom (oldest) end of block {blockNumber}", "",
-                           CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".1.02.000", [branchPrefix + ".1.01.000"], "Branch from", "", CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".1.03.000", [branchPrefix + ".1.02.000"], "", "", CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".1.04.000", [branchPrefix + ".1.03.000", branchPrefix + ".2.03.000"], "Merge", "",
-                           CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".1.05.000", [branchPrefix + ".1.04.000", branchPrefix + ".3.03.000"], "Merge", "",
-                           CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".1.06.000", [branchPrefix + ".1.05.000"], $"top (newest) of block {blockNumber}", "",
-                           CommitMessageMetadata.Null),
+                NewCommit(branchPrefix + ".1.01.000", [endOfPriorBlockCommitId], $"bottom (oldest) end of block {blockNumber}"),
+                NewCommit(branchPrefix + ".1.02.000", [branchPrefix + ".1.01.000"], "Branch from"),
+                NewCommit(branchPrefix + ".1.03.000", [branchPrefix + ".1.02.000"], ""),
+                NewCommit(branchPrefix + ".1.04.000", [branchPrefix + ".1.03.000", branchPrefix + ".2.03.000"], "Merge"),
+                NewCommit(branchPrefix + ".1.05.000", [branchPrefix + ".1.04.000", branchPrefix + ".3.03.000"], "Merge"),
+                NewCommit(branchPrefix + ".1.06.000", [branchPrefix + ".1.05.000"], $"top (newest) of block {blockNumber}"),
 
                 // branch 2 (middle)
-                new Commit(branchPrefix + ".2.01.000", [branchPrefix + ".1.02.000"], "Branch", "", CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".2.02.000", [branchPrefix + ".2.01.000"], "", "", CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".2.03.000", [branchPrefix + ".2.02.000"], "", "", CommitMessageMetadata.Null),
+                NewCommit(branchPrefix + ".2.01.000", [branchPrefix + ".1.02.000"], "Branch"),
+                NewCommit(branchPrefix + ".2.02.000", [branchPrefix + ".2.01.000"], ""),
+                NewCommit(branchPrefix + ".2.03.000", [branchPrefix + ".2.02.000"], ""),
 
                 // branch 3 (right)
-                new Commit(branchPrefix + ".3.01.000", [branchPrefix + ".1.02.000"], "Branch", "", CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".3.02.000", [branchPrefix + ".3.01.000"], "", "", CommitMessageMetadata.Null),
-                new Commit(branchPrefix + ".3.03.000", [branchPrefix + ".3.02.000"], "", "", CommitMessageMetadata.Null)
+                NewCommit(branchPrefix + ".3.01.000", [branchPrefix + ".1.02.000"], "Branch"),
+                NewCommit(branchPrefix + ".3.02.000", [branchPrefix + ".3.01.000"], ""),
+                NewCommit(branchPrefix + ".3.03.000", [branchPrefix + ".3.02.000"], "")
             ]);
 
             headCommitId = branchPrefix + ".1.06.000";
@@ -52,5 +48,10 @@ public class GitPerformanceTestRepository : GitTestRepository
 
         Commits = commits.ToArray();
         HeadCommitId = headCommitId;
+    }
+
+    private static Commit NewCommit(string sha, string[] parents, string summary, string? refs = "", ICommitMessageMetadata? metadata = null)
+    {
+        return new Commit(sha, parents, summary, refs, metadata ?? CommitMessageMetadata.Null);
     }
 }

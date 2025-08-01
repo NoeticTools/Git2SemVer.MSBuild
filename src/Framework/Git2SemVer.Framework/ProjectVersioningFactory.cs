@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using JetBrains.TeamCity.ServiceMessages.Write.Special;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
-using NoeticTools.Git2SemVer.Framework.Framework.Config;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Framework.Tools.CI;
 using NoeticTools.Git2SemVer.Framework.Versioning;
@@ -14,14 +12,13 @@ namespace NoeticTools.Git2SemVer.Framework;
 [ExcludeFromCodeCoverage]
 [RegisterTransient]
 public sealed class ProjectVersioningFactory(
-    ITeamCityWriter teamCityWriter,
-    VersioningEngineFactory versioningEngineFactory,
+    IVersionGeneratorInputs inputs,
+    IMSBuildGlobalProperties msBuildGlobalProperties,
+    IVersioningEngineFactory versioningEngineFactory,
+    IBuildHostFactory buildHostFactory,
     ILogger logger)
 {
-    public ProjectVersioning Create(IVersionGeneratorInputs inputs,
-                                    IMSBuildGlobalProperties msBuildGlobalProperties,
-                                    IOutputsJsonIO? outputsJsonIO = null,
-                                    IConfiguration? config = null)
+    public ProjectVersioning Create(IOutputsJsonIO? outputsJsonIO = null)
     {
         if (inputs == null)
         {
@@ -29,9 +26,8 @@ public sealed class ProjectVersioningFactory(
         }
 
         outputsJsonIO ??= new OutputsJsonFileIO();
-        config ??= Git2SemVerConfiguration.Load();
 
-        var host = new BuildHostFactory(config, teamCityWriter, logger).Create(inputs.HostType,
+        var host = buildHostFactory.Create(inputs.HostType,
                                                                                inputs.BuildNumber,
                                                                                inputs.BuildContext,
                                                                                inputs.BuildIdFormat);

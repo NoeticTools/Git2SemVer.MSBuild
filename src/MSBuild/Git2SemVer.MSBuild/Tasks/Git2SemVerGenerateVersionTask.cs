@@ -1,4 +1,6 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Microsoft.Build.Framework;
 using Microsoft.Extensions.DependencyInjection;
 using NoeticTools.Git2SemVer.Core.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Exceptions;
@@ -8,10 +10,6 @@ using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Versioning;
-using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using JetBrains.TeamCity.ServiceMessages.Write.Special;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 
@@ -127,7 +125,8 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public string ChangelogArtifactLinkPattern { get; set; } = "";
 
     /// <summary>
-    ///     Optional path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
+    ///     Optional path to changelog generator's data and configuration files directory. It may be a relative or absolute
+    ///     path.
     /// </summary>
     public string ChangelogDataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
 
@@ -137,7 +136,8 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     public bool ChangelogEnable { get; set; }
 
     /// <summary>
-    ///     Optional generated changelog file path. It may be a relative (to given working directory) or absolute path. Set to empty string to disable file write.
+    ///     Optional generated changelog file path. It may be a relative (to given working directory) or absolute path. Set to
+    ///     empty string to disable file write.
     /// </summary>
     public string ChangelogOutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
 
@@ -357,19 +357,20 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
                 throw new Git2SemVerConfigurationException($"Invalid Git2SemVer_Mode value '{Mode}'.", exception);
             }
 
-            var servicesProvider = Services.ConfigureServices(logger, Log);
+            var servicesProvider = Services.ConfigureServices(this, logger, Log);
 
             using var projectVersioning = servicesProvider.GetService<ProjectVersioningFactory>()!
-                    .Create(this, new MSBuildGlobalProperties(BuildEngine6));
+                                                          .Create();
 
             var versioningOutputs = projectVersioning.Run();
             SetOutputs(versioningOutputs.Versions);
 
-            if (ChangelogEnable)
+            if (!ChangelogEnable)
             {
-                var options = new ChangeGeneratorOptions(this, WorkingDirectory);
-                new ChangelogGeneratorTask(options, logger).Execute(versioningOutputs);
+                return !Log.HasLoggedErrors;
             }
+
+            servicesProvider.GetService<ChangelogGeneratorTask>()!.Execute(versioningOutputs);
 
             return !Log.HasLoggedErrors;
         }

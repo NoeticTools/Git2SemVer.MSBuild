@@ -1,6 +1,9 @@
-﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
+﻿using NoeticTools.Git2SemVer.Framework.Versioning;
 
-public interface IChangeGeneratorOptions
+
+namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
+
+public interface IChangeGeneratorOptions : ICommonOptions
 {
     /// <summary>
     ///     Optional changelog url to a version's artifacts. May contain version placeholder '%VERSION%'.
@@ -8,7 +11,7 @@ public interface IChangeGeneratorOptions
     string ChangelogArtifactLinkPattern { get; set; }
 
     /// <summary>
-    ///     Path to changelog generator's data and configuration files directory. May be a relative or absolute path.
+    ///     Path to changelog generator's data and configuration files directory. It may be a relative or absolute path.
     /// </summary>
     string ChangelogDataDirectory { get; set; } // todo - constant
 
@@ -18,7 +21,7 @@ public interface IChangeGeneratorOptions
     bool ChangelogEnable { get; set; }
 
     /// <summary>
-    ///     Generated changelog file path. May be a relative or absolute path. Set to empty string to disable file write.
+    ///     Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
     /// </summary>
     string ChangelogOutputFilePath { get; set; }
 

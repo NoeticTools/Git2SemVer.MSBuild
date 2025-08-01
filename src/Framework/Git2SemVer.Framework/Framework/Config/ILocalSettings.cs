@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Git2SemVer.Framework.Framework.Config;
 
-public interface IConfiguration
+public interface ILocalSettings
 {
     /// <summary>
     ///     The next local build number. Default is 1.

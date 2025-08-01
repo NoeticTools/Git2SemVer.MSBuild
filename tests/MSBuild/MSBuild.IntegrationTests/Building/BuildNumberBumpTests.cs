@@ -27,7 +27,7 @@ public class UncontrolledHostBuildTests
     [Explicit("Can only be run on an uncontrolled host (dev box)")]
     public void HostDetectedTest()
     {
-        var config = Git2SemVerConfiguration.Load();
+        var config = Git2SemVerLocalSettings.Load();
         using var context = CreateTestContext();
         var logger = new CompositeLogger(context.Logger);
         var host = new BuildHost(new BuildHostFinder(config, new TeamCityWriterFactoryStub().Create(), logger).Find(""), logger);
