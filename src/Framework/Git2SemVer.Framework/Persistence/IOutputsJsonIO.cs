@@ -1,4 +1,4 @@
-﻿using NoeticTools.Git2SemVer.Framework.Generation;
+﻿using NoeticTools.Git2SemVer.Framework.Versioning;
 
 
 namespace NoeticTools.Git2SemVer.Framework.Persistence;

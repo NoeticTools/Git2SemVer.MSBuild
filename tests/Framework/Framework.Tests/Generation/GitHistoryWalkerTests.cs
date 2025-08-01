@@ -1,8 +1,8 @@
 ﻿using Moq;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
-using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
 using NoeticTools.Git2SemVer.Framework.Tests.TestScenarios;
+using NoeticTools.Git2SemVer.Framework.Versioning.GitHistoryWalking;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 

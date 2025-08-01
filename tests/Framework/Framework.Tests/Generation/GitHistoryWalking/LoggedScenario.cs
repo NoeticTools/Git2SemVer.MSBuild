@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.GitHistoryWalking;
+﻿namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.GitHistoryWalking;
 
 internal sealed class LoggedScenario
 {

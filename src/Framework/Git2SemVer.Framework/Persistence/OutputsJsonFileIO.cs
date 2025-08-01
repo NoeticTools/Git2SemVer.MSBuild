@@ -2,8 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
+using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Git2SemVer;
-using NoeticTools.Git2SemVer.Framework.Generation;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 
 
 namespace NoeticTools.Git2SemVer.Framework.Persistence;
@@ -44,28 +45,18 @@ public sealed class OutputsJsonFileIO : IOutputsJsonIO
 
     public static string ToJson(IVersionOutputs outputs)
     {
+        Git2SemVerArgumentException.ThrowIfNull(outputs, nameof(outputs));
+
         var versionInfo = new VersioningInfo { Git2SemVerVersionInfo = (VersionOutputs)outputs };
         return JsonSerializer.Serialize(versionInfo, SerialiseOptions);
     }
 
     public void Write(string directory, IVersionOutputs outputs)
     {
-        WriteToFile(directory, outputs);
-    }
+        Git2SemVerArgumentException.ThrowIfNullOrEmpty(directory, nameof(directory));
+        Git2SemVerArgumentException.ThrowIfNull(outputs, nameof(outputs));
+        Git2SemVerArgumentException.ThrowIf(outputs, nameof(outputs), o => o is not VersionOutputs);
 
-    private static string GetFilePath(string directory)
-    {
-        return Path.Combine(directory, Git2SemVerConstants.SharedVersionJsonPropertiesFilename);
-    }
-
-    private static string LoadJson(string directory)
-    {
-        var propertiesFilePath = GetFilePath(directory);
-        return !File.Exists(propertiesFilePath) ? "" : File.ReadAllText(propertiesFilePath);
-    }
-
-    private static void WriteToFile(string directory, IVersionOutputs outputs)
-    {
         if (directory.Length > 0 && !Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
@@ -79,6 +70,17 @@ public sealed class OutputsJsonFileIO : IOutputsJsonIO
         }
 
         File.WriteAllText(GetFilePath(directory), json);
+    }
+
+    private static string GetFilePath(string directory)
+    {
+        return Path.Combine(directory, Git2SemVerConstants.SharedVersionJsonPropertiesFilename);
+    }
+
+    private static string LoadJson(string directory)
+    {
+        var propertiesFilePath = GetFilePath(directory);
+        return !File.Exists(propertiesFilePath) ? "" : File.ReadAllText(propertiesFilePath);
     }
 
     private sealed class VersioningInfo

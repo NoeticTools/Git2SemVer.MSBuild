@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 
 
-namespace NoeticTools.Git2SemVer.Core.ConventionCommits.Json;
+namespace NoeticTools.Git2SemVer.Core.ConventionCommits.Serializing;
 
 public class FooterKeyValuesJsonConverter : JsonConverter<FooterKeyValues?>
 {

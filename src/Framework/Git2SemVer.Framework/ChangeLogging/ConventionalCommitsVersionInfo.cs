@@ -3,8 +3,8 @@ using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Framework.Framework.Semver;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.GitHistoryWalking;
 using Semver;
 
 

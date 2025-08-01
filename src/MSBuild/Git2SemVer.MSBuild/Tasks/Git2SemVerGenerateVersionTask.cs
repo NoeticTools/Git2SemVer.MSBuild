@@ -8,8 +8,8 @@ using NoeticTools.Git2SemVer.Framework;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 
@@ -359,13 +359,12 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
             using var projectVersioning =
                 new ProjectVersioningFactory(msg => Log.LogMessage(MessageImportance.High, msg), versioningEngineFactory, logger)
                     .Create(this, new MSBuildGlobalProperties(BuildEngine6));
-            var versionOutputs = projectVersioning.Run();
-            SetOutputs(versionOutputs.versionOutputs);
+            var versioningOutputs = projectVersioning.Run();
+            SetOutputs(versioningOutputs.Versions);
 
             if (ChangelogEnable)
             {
-                new ChangelogGeneratorTask(new ChangeGeneratorOptions(this, WorkingDirectory), logger)
-                    .Execute(versionOutputs.versionOutputs, versionOutputs.calcData);
+                new ChangelogGeneratorTask(new ChangeGeneratorOptions(this, WorkingDirectory), logger).Execute(versioningOutputs);
             }
 
             return !Log.HasLoggedErrors;

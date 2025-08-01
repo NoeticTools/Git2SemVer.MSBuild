@@ -1,10 +1,10 @@
 ﻿using Moq;
-using NoeticTools.Git2SemVer.Framework.Generation;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 
 
 // ReSharper disable InconsistentNaming
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.ProjectVersioningTests;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.ProjectVersioningTests;
 
 internal class StandAloneProjectUnitTests : ProjectVersioningUnitTestsBase
 {
@@ -20,7 +20,7 @@ internal class StandAloneProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Once);
-        Assert.That(result.versionOutputs, Is.SameAs(GeneratedOutputs.Object));
+        Assert.That(result.Versions, Is.SameAs(GeneratedOutputs.Object));
         OutputsCacheJsonFile.Verify(x => x.Load(It.IsAny<string>()), Times.Never);
         OutputsCacheJsonFile.Verify(x => x.Write(It.IsAny<string>(), It.IsAny<IVersionOutputs>()), Times.Never);
     }

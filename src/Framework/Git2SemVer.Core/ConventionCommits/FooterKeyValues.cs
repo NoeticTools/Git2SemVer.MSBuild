@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Text.Json.Serialization;
-using NoeticTools.Git2SemVer.Core.ConventionCommits.Json;
+using NoeticTools.Git2SemVer.Core.ConventionCommits.Serializing;
 
 
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;

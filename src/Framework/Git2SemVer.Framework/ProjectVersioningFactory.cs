@@ -2,10 +2,10 @@
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Framework.Config;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
 using NoeticTools.Git2SemVer.Framework.Tools.CI;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 
 
 namespace NoeticTools.Git2SemVer.Framework;

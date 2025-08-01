@@ -3,14 +3,14 @@ using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Framework.Semver;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 using NoeticTools.Git2SemVer.Testing.Core;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.Builders;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.Builders;
 
 [TestFixture]
 internal class DefaultVersionBuilderTests

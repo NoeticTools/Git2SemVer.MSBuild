@@ -2,10 +2,11 @@
 using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Logging;
+using NoeticTools.Git2SemVer.Framework;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 using NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Run;
 
 
@@ -66,7 +67,7 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
         Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
     }
 
-    private (VersionOutputs Outputs, SemanticVersionCalcResult Results) RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ConventionalCommitsSettings convCommits)
+    private VersioningOutputs RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ConventionalCommitsSettings convCommits)
     {
         var inputs = new VersionGeneratorInputs
         {

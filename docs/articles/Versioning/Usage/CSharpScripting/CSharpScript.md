@@ -36,15 +36,15 @@ Examples setting script path:
 
 ## API
 
-The script is given reference to the versioning API `NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting.IVersioningContext`.
+The script is given reference to the versioning API `NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting.IVersioningContext`.
 The API's properties are available as globals. 
 
-An instance of the API is also available from the static `NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting.VersioningContext.Instance`.
+An instance of the API is also available from the static `NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting.VersioningContext.Instance`.
 This can be used for class context coding. 
 
 Both global and class context approaches are explained in following sections.
 
-`NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting.IVersioningContext` properties:
+`NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting.IVersioningContext` properties:
 
 | Property     | Description   |
 |:---          |:---           |
@@ -53,7 +53,7 @@ Both global and class context approaches are explained in following sections.
 | Logger       | An MSBuild logger. Logging an error will cause the build to fail.                                     |
 | Outputs      | Outputs that the script may optionally write to. These will be available to other MSBuild tasks.      |
 
-`NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting.VersioningContext.Instance` is a static property that gives access to the VersioningContext instance. 
+`NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting.VersioningContext.Instance` is a static property that gives access to the VersioningContext instance. 
 Required for class context code.
 
 
@@ -72,7 +72,7 @@ It is the same instance but will be easier to edit.
 ## Using the global context (recommened)
 
 The C# script has a global context and a class context.
-The global context is given `NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting.IVersioningContext`
+The global context is given `NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting.IVersioningContext`
 properties as globals.
 
 For example the `Logger` property can be accessed as a global:

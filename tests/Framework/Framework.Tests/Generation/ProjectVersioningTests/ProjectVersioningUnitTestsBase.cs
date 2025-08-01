@@ -1,11 +1,11 @@
 ﻿using Moq;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
-using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Persistence;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.ProjectVersioningTests;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.ProjectVersioningTests;
 
 internal abstract class ProjectVersioningUnitTestsBase
 {
@@ -33,7 +33,7 @@ internal abstract class ProjectVersioningUnitTestsBase
         OutputsCacheJsonFile.Setup(x => x.Load("SolutionSharedDirectory")).Returns(SharedCachedOutputs.Object);
 
         GeneratedOutputs = new Mock<IVersionOutputs>();
-        VersionGenerator.Setup(x => x.PrebuildRun()).Returns((GeneratedOutputs.Object, new SemanticVersionCalcResult()));
+        VersionGenerator.Setup(x => x.PrebuildRun()).Returns(new VersioningOutputs(GeneratedOutputs.Object, null));
     }
 
     [TearDown]

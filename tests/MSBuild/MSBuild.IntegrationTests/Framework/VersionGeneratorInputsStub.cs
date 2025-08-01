@@ -1,5 +1,5 @@
 ﻿using Microsoft.Build.Framework;
-using NoeticTools.Git2SemVer.Framework.Generation;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 

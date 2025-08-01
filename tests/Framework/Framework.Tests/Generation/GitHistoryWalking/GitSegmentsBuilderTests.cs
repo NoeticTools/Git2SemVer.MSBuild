@@ -1,9 +1,9 @@
-﻿using NoeticTools.Git2SemVer.Framework.Generation.GitHistoryWalking;
+﻿using NoeticTools.Git2SemVer.Framework.Versioning.GitHistoryWalking;
 
 
 //#pragma warning disable NUnit2045
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.GitHistoryWalking;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.GitHistoryWalking;
 
 [TestFixture]
 [Parallelizable(ParallelScope.All)]

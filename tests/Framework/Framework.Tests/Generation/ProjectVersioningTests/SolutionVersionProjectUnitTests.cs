@@ -1,10 +1,10 @@
 ﻿using Moq;
-using NoeticTools.Git2SemVer.Framework.Generation;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 
 
 // ReSharper disable InconsistentNaming
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.ProjectVersioningTests;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.ProjectVersioningTests;
 
 internal class SolutionVersionProjectUnitTests : ProjectVersioningUnitTestsBase
 {
@@ -23,7 +23,7 @@ internal class SolutionVersionProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Once);
-        Assert.That(result.versionOutputs, Is.SameAs(GeneratedOutputs.Object));
+        Assert.That(result.Versions, Is.SameAs(GeneratedOutputs.Object));
         OutputsCacheJsonFile.Verify(x => x.Load("IntermediateOutputDirectory"), Times.Never);
     }
 
@@ -35,7 +35,7 @@ internal class SolutionVersionProjectUnitTests : ProjectVersioningUnitTestsBase
         var result = Target.Run();
 
         VersionGenerator.Verify(x => x.PrebuildRun(), Times.Never);
-        Assert.That(result.versionOutputs, Is.SameAs(SharedCachedOutputs.Object));
+        Assert.That(result.Versions, Is.SameAs(SharedCachedOutputs.Object));
         OutputsCacheJsonFile.Verify(x => x.Load("IntermediateOutputDirectory"), Times.Never);
     }
 }

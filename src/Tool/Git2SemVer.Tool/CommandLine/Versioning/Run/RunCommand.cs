@@ -1,9 +1,9 @@
 ﻿using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
 using NoeticTools.Git2SemVer.Framework.Persistence;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 
 
 namespace NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Run;

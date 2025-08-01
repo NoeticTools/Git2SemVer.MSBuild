@@ -2,7 +2,6 @@
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.ChangeLogging.Exceptions;
-using NoeticTools.Git2SemVer.Framework.Generation;
 using Scriban;
 using Semver;
 
@@ -14,7 +13,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
     /// <summary>
     ///     Generate or update changelog document.
     /// </summary>
-    /// <param name="inputs"></param>
+    /// <param name="versioning"></param>
     /// <param name="releaseUrl"></param>
     /// <param name="releaseAs"></param>
     /// <param name="dataDirectory"></param>
@@ -22,7 +21,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
     /// <returns>
     ///     Created or updated changelog content.
     /// </returns>
-    public string Execute((IVersionOutputs Outputs, SemanticVersionCalcResult CalcData) inputs,
+    public string Execute(VersioningOutputs versioning,
                           string releaseUrl,
                           string releaseAs,
                           string dataDirectory,
@@ -35,7 +34,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
         var lastRunData = createNewChangelog ? new LastRunData() : LastRunData.Load(dataDirectory, outputFilePath, logger);
         var scribanTemplate = new ChangelogTemplateReader(logger).Load(dataDirectory);
 
-        var conventionalCommitsVersionInfo = new ConventionalCommitsVersionInfo(inputs.Outputs, inputs.CalcData.Contributing);
+        var conventionalCommitsVersionInfo = new ConventionalCommitsVersionInfo(versioning.Versions, versioning.Metadata.Contributing);
         var changelog = Execute(conventionalCommitsVersionInfo, scribanTemplate, releaseUrl, releaseAs, lastRunData, changelogToUpdate);
 
         if (outputFilePath.Length <= 0)
@@ -52,11 +51,14 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
         return changelog;
     }
 
-    private string Execute(ConventionalCommitsVersionInfo inputs, string scribanTemplate, string releaseUrl, string releaseAs,
+    private string Execute(ConventionalCommitsVersionInfo convCommits, 
+                           string scribanTemplate, 
+                           string releaseUrl, 
+                           string releaseAs,
                            LastRunData lastRunData,
                            string changelogToUpdate)
     {
-        var contributingReleases = inputs.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
+        var contributingReleases = convCommits.ContributingReleases.Select(x => SemVersion.Parse(x, SemVersionStyles.Strict)).ToArray();
         var addNewRelease = lastRunData.ContributingReleasesChanged(contributingReleases);
         if (addNewRelease)
         {
@@ -64,7 +66,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
             lastRunData = new LastRunData();
         }
 
-        var messagesWithChanges = GetUnhandledChanges(inputs.ConventionalCommits, lastRunData.HandledChanges);
+        var messagesWithChanges = GetUnhandledChanges(convCommits.ConventionalCommits, lastRunData.HandledChanges);
 
         var issueMarkdownFormatter = new MarkdownLinkFormatter(projectSettings.IssueLinkFormat);
         var orderedCategories = projectSettings.Categories.OrderBy(x => x.Order);
@@ -75,7 +77,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
             return changelogToUpdate;
         }
 
-        var newChangesContent = RenderContent(inputs, scribanTemplate, releaseUrl, releaseAs, changeCategories);
+        var newChangesContent = RenderContent(convCommits, scribanTemplate, releaseUrl, releaseAs, changeCategories);
 
         if (changelogToUpdate.Length == 0)
         {

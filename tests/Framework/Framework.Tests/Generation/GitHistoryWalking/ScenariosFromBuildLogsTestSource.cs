@@ -6,7 +6,7 @@ using NoeticTools.Git2SemVer.Core;
 
 // ReSharper disable InconsistentNaming
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.GitHistoryWalking;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.GitHistoryWalking;
 
 internal sealed class ScenariosFromBuildLogsTestSource : IEnumerable
 {

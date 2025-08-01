@@ -3,7 +3,7 @@ using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.GitHistoryWalking;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.GitHistoryWalking;
 
 #pragma warning disable CS1591
 public class GitResponseParser : GitLogCommitParserBase

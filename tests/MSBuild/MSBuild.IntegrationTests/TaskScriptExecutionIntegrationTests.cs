@@ -1,6 +1,6 @@
 ﻿using NoeticTools.Git2SemVer.Core;
-using NoeticTools.Git2SemVer.Framework.Generation;
-using NoeticTools.Git2SemVer.Framework.Generation.Builders.Scripting;
+using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 using NoeticTools.Git2SemVer.IntegrationTests.Framework;
 
 

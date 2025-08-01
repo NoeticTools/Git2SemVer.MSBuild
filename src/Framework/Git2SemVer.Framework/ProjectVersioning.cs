@@ -1,7 +1,7 @@
 ﻿using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
-using NoeticTools.Git2SemVer.Framework.Generation;
 using NoeticTools.Git2SemVer.Framework.Persistence;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 
 
 #pragma warning disable CA1859
@@ -36,11 +36,11 @@ public sealed class ProjectVersioning : IDisposable
         _host.Dispose();
     }
 
-    public (IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData) Run()
+    public VersioningOutputs Run()
     {
         try
         {
-            var handlers = new Dictionary<VersioningMode, Func<(IVersionOutputs, SemanticVersionCalcResult?)>>
+            var handlers = new Dictionary<VersioningMode, Func<VersioningOutputs>>
             {
                 { VersioningMode.SolutionVersioningProject, PerformSolutionVersioningProjectVersioning },
                 { VersioningMode.SolutionClientProject, PerformSolutionClientVersioning },
@@ -70,7 +70,7 @@ public sealed class ProjectVersioning : IDisposable
         return !shared.IsValid ? _host.BuildNumber : shared.BuildNumber;
     }
 
-    private (IVersionOutputs outputs, SemanticVersionCalcResult?) PerformSolutionClientVersioning()
+    private VersioningOutputs PerformSolutionClientVersioning()
     {
         _logger.LogTrace("Versioning mode: Client");
 
@@ -82,27 +82,27 @@ public sealed class ProjectVersioning : IDisposable
 
         var output = _outputsCacheJsonFile.Load(_inputs.SolutionSharedDirectory);
         _outputsCacheJsonFile.Write(_inputs.IntermediateOutputDirectory, output);
-        return (output, null);
+        return new VersioningOutputs(output, null);
     }
 
-    private (IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData) PerformSolutionVersioningProjectVersioning()
+    private VersioningOutputs PerformSolutionVersioningProjectVersioning()
     {
         _logger.LogTrace("Versioning mode: Solution");
         var output = _outputsCacheJsonFile.Load(_inputs.SolutionSharedDirectory);
-        return !output.IsValid ? _versioningEngine.PrebuildRun() : (versionOutputs: output, null);
+        return !output.IsValid ? _versioningEngine.PrebuildRun() : new VersioningOutputs(output, null);
     }
 
-    private (IVersionOutputs versionOutputs, SemanticVersionCalcResult calcData) PerformStandAloneProjectVersioning()
+    private VersioningOutputs PerformStandAloneProjectVersioning()
     {
         _logger.LogTrace("Versioning mode: Stand-alone project");
         return _versioningEngine.PrebuildRun();
     }
 
-    private void UpdateHostBuildLabel((IVersionOutputs versionOutputs, SemanticVersionCalcResult? calcData) output)
+    private void UpdateHostBuildLabel(VersioningOutputs output)
     {
-        if (_inputs.UpdateHostBuildLabel && output.versionOutputs.BuildSystemVersion != null)
+        if (_inputs.UpdateHostBuildLabel && output.Versions.BuildSystemVersion != null)
         {
-            _host.SetBuildLabel(output.versionOutputs.BuildSystemVersion.ToString());
+            _host.SetBuildLabel(output.Versions.BuildSystemVersion.ToString());
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using NoeticTools.Git2SemVer.Framework;
-using NoeticTools.Git2SemVer.Framework.Generation;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 using Semver;
 
 

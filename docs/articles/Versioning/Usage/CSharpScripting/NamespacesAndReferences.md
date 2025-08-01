@@ -34,7 +34,7 @@ NoeticTools.Common.Tools.DotnetCli
 NoeticTools.Common.Tools.Git
 NoeticTools.Git2SemVer.MSBuild.Tools.CI
 NoeticTools.Git2SemVer.MSBuild.Framework.BuildHosting
-NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting
+NoeticTools.Git2SemVer.MSBuild.Versioning.Versioning.Builders.Scripting
 NoeticTools.Common.Logging
 NoeticTools.MSBuild.Tasking
 ```

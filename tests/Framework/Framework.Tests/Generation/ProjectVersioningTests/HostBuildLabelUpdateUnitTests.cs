@@ -1,9 +1,9 @@
 ﻿using Moq;
-using NoeticTools.Git2SemVer.Framework.Generation;
+using NoeticTools.Git2SemVer.Framework.Versioning;
 using Semver;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.ProjectVersioningTests;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.ProjectVersioningTests;
 
 internal class HostBuildLabelUpdateUnitTests : ProjectVersioningUnitTestsBase
 {
@@ -12,7 +12,7 @@ internal class HostBuildLabelUpdateUnitTests : ProjectVersioningUnitTestsBase
     {
         SharedCachedOutputs.Setup(x => x.IsValid).Returns(true);
         GeneratedOutputs.Setup(x => x.IsValid).Returns(true);
-        VersionGenerator.Setup(x => x.PrebuildRun()).Returns((GeneratedOutputs.Object, new SemanticVersionCalcResult()));
+        VersionGenerator.Setup(x => x.PrebuildRun()).Returns(new VersioningOutputs(GeneratedOutputs.Object, null));
     }
 
     [TestCase(VersioningMode.SolutionVersioningProject)]

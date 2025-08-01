@@ -2,7 +2,7 @@
 using Microsoft.Build.Utilities;
 using NoeticTools.Git2SemVer.MSBuild;
 using NoeticTools.Git2SemVer.MSBuild.Framework.Semver;
-using NoeticTools.Git2SemVer.MSBuild.Versioning.Generation.Builders.Scripting;
+using NoeticTools.Git2SemVer.MSBuild.Versioning.Versioning.Builders.Scripting;
 using Semver;
 
 var context = VersioningContext.Instance!;

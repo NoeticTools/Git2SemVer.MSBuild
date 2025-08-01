@@ -5,7 +5,7 @@ using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Testing.Core;
 
 
-namespace NoeticTools.Git2SemVer.Framework.Tests.Generation.GitHistoryWalking;
+namespace NoeticTools.Git2SemVer.Framework.Tests.Versioning.GitHistoryWalking;
 
 internal class GitHistoryWalkingTestsContext : IDisposable
 {
