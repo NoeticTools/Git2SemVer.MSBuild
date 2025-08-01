@@ -7,17 +7,10 @@ namespace NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 ///     Help for executing dotnet cli commands.
 /// </summary>
 [RegisterTransient]
-public sealed class DotNetTool : IDotNetTool
+public sealed class DotNetTool(ProcessCli inner) : IDotNetTool
 {
-    private readonly ProcessCli _inner;
-
     public DotNetTool() : this(new ProcessCli(new NullTaskLogger()))
     {
-    }
-
-    public DotNetTool(ProcessCli inner)
-    {
-        _inner = inner;
     }
 
     public IProjectCommands Projects => new ProjectCommands(this);
@@ -32,9 +25,8 @@ public sealed class DotNetTool : IDotNetTool
     /// </remarks>
     public int Build(string solution, string configuration, params string[] arguments)
     {
-        _inner.Logger.LogInfo($"Building solution {solution}.");
-        var dotNetCommandLine =
-            $"build {solution} --configuration {configuration} --disable-build-servers {string.Join(" ", arguments)}";
+        inner.Logger.LogInfo($"Building solution {solution}.");
+        var dotNetCommandLine = $"build {solution} --configuration {configuration} --disable-build-servers {string.Join(" ", arguments)}";
         return Run(dotNetCommandLine);
     }
 
@@ -43,8 +35,8 @@ public sealed class DotNetTool : IDotNetTool
     /// </summary>
     public int Pack(string project, string configuration, params string[] arguments)
     {
-        _inner.Logger.LogInfo($"Packing project {project}.");
-        var dotNetCommandLine = $"pack {project} --configuration {configuration} {string.Join(" ", arguments)}";
+        inner.Logger.LogInfo($"Packing project {project}.");
+        var dotNetCommandLine = $"pack {project} --configuration {configuration} --disable-build-servers {string.Join(" ", arguments)}";
         return Run(dotNetCommandLine);
     }
 
@@ -53,11 +45,11 @@ public sealed class DotNetTool : IDotNetTool
     /// </summary>
     public int Run(string commandLineArguments)
     {
-        return _inner.Run("dotnet", commandLineArguments);
+        return inner.Run("dotnet", commandLineArguments);
     }
 
     public int RunReturningStdOut(string commandLineArguments, out string standardOutput)
     {
-        return _inner.Run("dotnet", commandLineArguments, out standardOutput);
+        return inner.Run("dotnet", commandLineArguments, out standardOutput);
     }
 }
