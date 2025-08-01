@@ -4,6 +4,7 @@ using NoeticTools.Git2SemVer.Core.Logging;
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 
+[RegisterTransient]
 public sealed class ChangelogGeneratorTask(IChangeGeneratorOptions options, ILogger logger)
 {
     public void Execute(VersioningOutputs versioningOutput)

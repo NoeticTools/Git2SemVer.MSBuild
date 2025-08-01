@@ -13,6 +13,7 @@ using NoeticTools.Git2SemVer.Framework.Versioning.GitHistoryWalking;
 namespace NoeticTools.Git2SemVer.Framework.Versioning;
 
 [ExcludeFromCodeCoverage]
+[RegisterSingleton]
 public sealed class VersioningEngineFactory(ILogger logger)
 {
     public IVersioningEngine Create(IVersionGeneratorInputs inputs,

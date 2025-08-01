@@ -2,6 +2,7 @@
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework;
 using NoeticTools.Git2SemVer.Framework.Persistence;
+using NoeticTools.Git2SemVer.Framework.Tools.CI;
 using NoeticTools.Git2SemVer.Framework.Versioning;
 using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 
@@ -43,7 +44,7 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
 
         IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new OutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
         var versionGeneratorFactory = new VersioningEngineFactory(logger);
-        var projectVersioning = new ProjectVersioningFactory(msg => logger.LogInfo(msg), versionGeneratorFactory, logger)
+        var projectVersioning = new ProjectVersioningFactory(new TeamCityLoggerWriterFactory(logger).Create(), versionGeneratorFactory, logger)
             .Create(inputs, new NullMSBuildGlobalProperties(), outputJsonIO);
         projectVersioning.Run();
 

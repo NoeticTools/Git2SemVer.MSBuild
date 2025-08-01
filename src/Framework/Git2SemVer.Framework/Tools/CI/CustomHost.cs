@@ -4,6 +4,7 @@ using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 
 namespace NoeticTools.Git2SemVer.Framework.Tools.CI;
 
+[RegisterTransient]
 internal class CustomHost : BuildHostBase, IDetectableBuildHost
 {
     public CustomHost(ILogger logger) : base(logger)

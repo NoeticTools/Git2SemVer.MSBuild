@@ -46,10 +46,11 @@ internal abstract class CommandBase(IConsoleIO console)
     {
         var config = Git2SemVerConfiguration.Load();
 
-        var host = new BuildHostFactory(config, logger.LogInfo, logger).Create(inputs.HostType,
-                                                                               inputs.BuildNumber,
-                                                                               inputs.BuildContext,
-                                                                               inputs.BuildIdFormat);
+        var host = new BuildHostFactory(config, new TeamCityLoggerWriterFactory(logger).Create(), logger)
+            .Create(inputs.HostType,
+                    inputs.BuildNumber,
+                    inputs.BuildContext,
+                    inputs.BuildIdFormat);
         return host;
     }
 }

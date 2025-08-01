@@ -7,6 +7,7 @@ using NoeticTools.Git2SemVer.Framework.Framework.Semver;
 
 namespace NoeticTools.Git2SemVer.Framework.Tools.CI;
 
+[RegisterTransient]
 internal sealed class UncontrolledHost : BuildHostBase, IDetectableBuildHost
 {
     private readonly IConfiguration _config;

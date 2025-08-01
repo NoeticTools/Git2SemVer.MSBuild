@@ -1,6 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using Microsoft.Build.Framework;
+﻿using Microsoft.Build.Framework;
+using Microsoft.Extensions.DependencyInjection;
 using NoeticTools.Git2SemVer.Core.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
@@ -10,6 +9,9 @@ using NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Versioning;
 using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using JetBrains.TeamCity.ServiceMessages.Write.Special;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 
@@ -355,16 +357,18 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
                 throw new Git2SemVerConfigurationException($"Invalid Git2SemVer_Mode value '{Mode}'.", exception);
             }
 
-            var versioningEngineFactory = new VersioningEngineFactory(logger);
-            using var projectVersioning =
-                new ProjectVersioningFactory(msg => Log.LogMessage(MessageImportance.High, msg), versioningEngineFactory, logger)
+            var servicesProvider = Services.ConfigureServices(logger, Log);
+
+            using var projectVersioning = servicesProvider.GetService<ProjectVersioningFactory>()!
                     .Create(this, new MSBuildGlobalProperties(BuildEngine6));
+
             var versioningOutputs = projectVersioning.Run();
             SetOutputs(versioningOutputs.Versions);
 
             if (ChangelogEnable)
             {
-                new ChangelogGeneratorTask(new ChangeGeneratorOptions(this, WorkingDirectory), logger).Execute(versioningOutputs);
+                var options = new ChangeGeneratorOptions(this, WorkingDirectory);
+                new ChangelogGeneratorTask(options, logger).Execute(versioningOutputs);
             }
 
             return !Log.HasLoggedErrors;

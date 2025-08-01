@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using NoeticTools.Git2SemVer.Core.Logging;
+﻿using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
 using NoeticTools.Git2SemVer.Framework.Framework.Config;
 using NoeticTools.Git2SemVer.IntegrationTests.Framework;
+using System.Text.RegularExpressions;
 
 
 namespace NoeticTools.Git2SemVer.IntegrationTests.Building;
@@ -30,7 +30,7 @@ public class UncontrolledHostBuildTests
         var config = Git2SemVerConfiguration.Load();
         using var context = CreateTestContext();
         var logger = new CompositeLogger(context.Logger);
-        var host = new BuildHost(new BuildHostFinder(config, Console.WriteLine, logger).Find(""), logger);
+        var host = new BuildHost(new BuildHostFinder(config, new TeamCityWriterFactoryStub().Create(), logger).Find(""), logger);
 
         Assert.That(host.HostTypeId, Is.EqualTo(HostTypeIds.Uncontrolled));
         Assert.That(int.Parse(host.BuildNumber), Is.GreaterThan(0));

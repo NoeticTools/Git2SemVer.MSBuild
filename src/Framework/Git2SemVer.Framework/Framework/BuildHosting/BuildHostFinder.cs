@@ -1,4 +1,5 @@
-﻿using NoeticTools.Git2SemVer.Core.Exceptions;
+﻿using JetBrains.TeamCity.ServiceMessages.Write.Special;
+using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Framework.Framework.Config;
 using NoeticTools.Git2SemVer.Framework.Tools.CI;
@@ -12,13 +13,15 @@ internal class BuildHostFinder
     private readonly IReadOnlyList<IDetectableBuildHost> _detectableBuildHosts;
     private readonly ILogger _logger;
 
-    public BuildHostFinder(IConfiguration config, Action<string> buildOutput, ILogger logger)
+    public BuildHostFinder(IConfiguration config, 
+                           ITeamCityWriter teamCityWriter, 
+                           ILogger logger)
     {
         _logger = logger;
         _allBuildHosts =
         [
             // other supported hosts go here in order of detection precedence
-            new TeamCityHost(buildOutput, logger),
+            new TeamCityHost(teamCityWriter, logger),
             new GitHubHost(logger),
             new UncontrolledHost(config, logger),
             new CustomHost(logger)
