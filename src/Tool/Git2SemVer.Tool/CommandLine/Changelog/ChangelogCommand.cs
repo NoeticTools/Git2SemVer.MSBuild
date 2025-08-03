@@ -17,54 +17,62 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
 {
     public void Execute(ChangelogCommandSettings cmdLineSettings)
     {
-        var proceed = WriteConsolePreamble(cmdLineSettings);
-        if (!proceed)
+        try
         {
-            Console.WriteErrorLine("Aborted.");
-        }
+            var proceed = WriteConsolePreamble(cmdLineSettings);
+            if (!proceed)
+            {
+                Console.WriteErrorLine("Aborted.");
+            }
 
-        var stopwatch = Stopwatch.StartNew();
+            var stopwatch = Stopwatch.StartNew();
 
-        var createNewChangelog = !File.Exists(cmdLineSettings.OutputFilePath);
-        var priorChangelog = createNewChangelog ? "" : File.ReadAllText(cmdLineSettings.OutputFilePath);
-        var projectSettings = ChangelogProjectSettings.Load(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename);
-        var versioningResult = RunVersionGenerator(cmdLineSettings, projectSettings.ConvCommits);
+            var createNewChangelog = !File.Exists(cmdLineSettings.OutputFilePath);
+            var priorChangelog = createNewChangelog ? "" : File.ReadAllText(cmdLineSettings.OutputFilePath);
+            var projectSettings = ChangelogProjectSettings.Load(cmdLineSettings.DataDirectory, ChangelogConstants.ProjectSettingsFilename);
+            var versioningResult = RunVersionGenerator(cmdLineSettings, projectSettings.ConvCommits);
 
-        var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
-        var changelog = changelogGenerator.Execute(versioningResult,
-                                                   cmdLineSettings.ArtifactLinkPattern,
-                                                   cmdLineSettings.ReleaseAs,
-                                                   cmdLineSettings.DataDirectory,
-                                                   cmdLineSettings.OutputFilePath);
+            var changelogGenerator = new ChangelogGenerator(projectSettings, logger);
+            var changelog = changelogGenerator.Execute(versioningResult,
+                                                       cmdLineSettings.ArtifactLinkPattern,
+                                                       cmdLineSettings.ReleaseAs,
+                                                       cmdLineSettings.DataDirectory,
+                                                       cmdLineSettings.OutputFilePath);
 
-        if (string.Equals(priorChangelog, changelog, StringComparison.Ordinal))
-        {
-            Console.WriteMarkupInfoLine("No updates found.");
-        }
+            if (string.Equals(priorChangelog, changelog, StringComparison.Ordinal))
+            {
+                Console.WriteMarkupInfoLine("No updates found.");
+            }
 
-        var verb = !createNewChangelog ? "Updated" : "Created";
-        if (cmdLineSettings.WriteToConsole)
-        {
-            Console.WriteLine($"\n{verb} changelog:");
-            Console.WriteHorizontalLine();
-            Console.WriteCodeLine(changelog.TrimEnd());
-            Console.WriteHorizontalLine();
-        }
+            var verb = !createNewChangelog ? "Updated" : "Created";
+            if (cmdLineSettings.WriteToConsole)
+            {
+                Console.WriteLine($"\n{verb} changelog:");
+                Console.WriteHorizontalLine();
+                Console.WriteCodeLine(changelog.TrimEnd());
+                Console.WriteHorizontalLine();
+            }
 
-        if (cmdLineSettings.OutputFilePath.Length == 0)
-        {
+            if (cmdLineSettings.OutputFilePath.Length == 0)
+            {
+                Console.WriteLine();
+                Console.WriteMarkupDebugLine("Write changelog to file is disabled as the file output path is an empty string.");
+                return;
+            }
+
             Console.WriteLine();
-            Console.WriteMarkupDebugLine("Write changelog to file is disabled as the file output path is an empty string.");
-            return;
+            Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
+
+            stopwatch.Stop();
+
+            Console.WriteLine("");
+            Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
+
         }
-
-        Console.WriteLine();
-        Console.WriteMarkupInfoLine($"{verb} changelog file: {cmdLineSettings.OutputFilePath}");
-
-        stopwatch.Stop();
-
-        Console.WriteLine("");
-        Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
+        catch (Exception exception)
+        {
+            Console.WriteErrorLine($"Unexpected exception: {exception.GetType().Name} - {exception.Message} ");
+        }
     }
 
     private VersioningOutputs RunVersionGenerator(ChangelogCommandSettings cmdLineSettings, ConventionalCommitsSettings convCommits)

@@ -4,7 +4,7 @@ uid: changelog-settings
 
 #  Settings
 
-**Git2SemVer** settings are found in file `git2semver.changelog.settings.json` in the `.git2semver\changelog` folder.
+**Git2SemVer** settings are found in file `git2semver.changelog.settings.json` in the `.git2semver` folder.
 
 If the file does not exist **Git2SemVer** creates a default settings file as shown below:.
 

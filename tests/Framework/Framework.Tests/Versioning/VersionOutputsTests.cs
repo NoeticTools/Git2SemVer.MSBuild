@@ -66,7 +66,7 @@ internal class VersionOutputsTests
                                }
                                """;
 
-        var result = OutputsJsonFileIO.FromJson(content);
+        var result = VersioningOutputsJsonFileIO.FromJson(content);
 
         Assert.That(result.AssemblyVersion!.ToString(), Is.EqualTo("10.11.12"));
         Assert.That(result.BuildContext, Is.EqualTo("CONTEXT"));
@@ -84,7 +84,7 @@ internal class VersionOutputsTests
             BuildSystemVersion = new SemVersion(5, 6, 7).WithPrerelease("TEST")
         };
 
-        var result = OutputsJsonFileIO.ToJson(target);
+        var result = VersioningOutputsJsonFileIO.ToJson(target);
 
         Assert.That(result, Is.Not.Null);
 

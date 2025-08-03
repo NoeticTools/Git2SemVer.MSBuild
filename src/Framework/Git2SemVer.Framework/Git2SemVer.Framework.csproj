@@ -74,7 +74,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="ChangeLogging\markdown.template.scriban" />
+    <EmbeddedResource Include="ChangeLogging\changelog.markdown.template.scriban" />
   </ItemGroup>
 
   <ItemGroup>

@@ -77,8 +77,8 @@ class BuildAndTest(subId: String, solutionDir: String) : BuildType({
 
     artifactRules = """
         +:artifacts/NoeticTools.*.nupkg
-        +:src/MSBuild/SolutionVersioningProject/obj/Git2SemVer.MSBuild.log
-        +:src/MSBuild/SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.json
+        +:src/MSBuild/Git2SemVer.MSBuild.SlnVersioningProject/obj/Git2SemVer.MSBuild.log
+        +:src/MSBuild/Git2SemVer.MSBuild.SlnVersioningProject/.git2semver/**/Git2SemVer.VersionInfo.g.json
     """.trimIndent()
 
     params {

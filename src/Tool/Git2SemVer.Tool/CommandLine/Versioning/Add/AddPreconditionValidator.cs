@@ -12,20 +12,12 @@ using Spectre.Console;
 namespace NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Add;
 
 [RegisterSingleton]
-internal sealed class AddPreconditionValidator : IAddPreconditionValidator
+internal sealed class AddPreconditionValidator(
+    IProjectDocumentReader projectDocumentReader,
+    IConsoleIO console,
+    ILogger logger)
+    : IAddPreconditionValidator
 {
-    private readonly IConsoleIO _console;
-    private readonly ILogger _logger;
-    private readonly IProjectDocumentReader _projectDocumentReader;
-
-    public AddPreconditionValidator(IProjectDocumentReader projectDocumentReader,
-                                    IConsoleIO console, ILogger logger)
-    {
-        _projectDocumentReader = projectDocumentReader;
-        _console = console;
-        _logger = logger;
-    }
-
     public bool Validate(DirectoryInfo directory, bool unattended)
     {
         if (!ValidateCritical(directory))
@@ -51,17 +43,18 @@ internal sealed class AddPreconditionValidator : IAddPreconditionValidator
             return true;
         }
 
-        _console.WriteMarkupErrorLine($"[error]The properties file '[em]{buildPropsFile.Name}[/]' contains a \"Directory.Versioning.Build.Props\" entry. Remove manually.[/]");
+        console.WriteMarkupErrorLine($"[error]The properties file '[em]{buildPropsFile.Name}[/]' contains a \"Directory.Versioning.Build.Props\" entry. Remove manually.[/]");
         return false;
     }
 
     private bool ValidateNonCritical(DirectoryInfo directory, bool unattended)
     {
         var priorSetupEvidence = new List<string>();
-        var shareDirectory = directory.WithSubDirectory(Git2SemVerConstants.ShareFolderName);
+
+        var shareDirectory = directory.WithSubDirectory(Git2SemVerConstants.DataFolderName);
         if (shareDirectory.Exists)
         {
-            priorSetupEvidence.Add($"The Git2SemVer share directory `[em]{Git2SemVerConstants.ShareFolderName}[/]` already exists.");
+            priorSetupEvidence.Add($"The Git2SemVer share directory `[em]{Git2SemVerConstants.DataFolderName}[/]` already exists.");
         }
 
         var versioningProjectDirectory = directory.WithSubDirectory(SolutionVersioningConstants.DefaultVersioningProjectName);
@@ -76,7 +69,7 @@ internal sealed class AddPreconditionValidator : IAddPreconditionValidator
         {
             priorSetupEvidence.Add($"The properties file '[em]{versioningPropsFile.Name}[/]' already exists.");
 
-            var propertiesDocument = _projectDocumentReader.Read(versioningPropsFile);
+            var propertiesDocument = projectDocumentReader.Read(versioningPropsFile);
             if (propertiesDocument.Properties["Git2SemVer_Installed"].BoolValue)
             {
                 priorSetupEvidence.Add("The properties file's installed flag (`Git2SemVer_Installed`) is true.");
@@ -85,7 +78,7 @@ internal sealed class AddPreconditionValidator : IAddPreconditionValidator
 
         if (priorSetupEvidence.Count == 0)
         {
-            _logger.LogTrace("No prior setup evidence found.");
+            logger.LogTrace("No prior setup evidence found.");
             return true;
         }
 
@@ -100,12 +93,12 @@ internal sealed class AddPreconditionValidator : IAddPreconditionValidator
         if (unattended)
         {
             message.AppendLine("[error]Aborting as in unattended mode.[/]");
-            _console.WriteMarkupErrorLine(message.ToString());
+            console.WriteMarkupErrorLine(message.ToString());
             return false;
         }
 
         message.AppendLine("This may not be a problem but this setup may fail if the prior setup has not been fully removed.");
-        _console.WriteMarkupWarningLine("[warn]" + message + "[/]");
+        console.WriteMarkupWarningLine("[warn]" + message + "[/]");
 
         Console.WriteLine();
         var proceed = AnsiConsole.Prompt(new TextPrompt<bool>("Proceed?")

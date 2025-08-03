@@ -126,7 +126,7 @@ OPTIONS:
                                                                  and choices defaults are used
     -a, --artifact-url <URL>                                     Optional url to a version's artifacts. May contain version placeholder
                                                                  '%VERSION%'
-    -d, --data-directory <DIRECTORY>    .git2semver/changelog    Path to generator's data and configuration files directory. May be a
+    -d, --data-directory <DIRECTORY>    .git2semver              Path to generator's data and configuration files directory. May be a
                                                                  relative or absolute path
         --host-type <TYPE>                                       Force the host type. Use for testing expected behaviour on other hosts.
                                                                  Valid values are 'Custom', 'Uncontrolled', 'TeamCity', or 'GitHub'

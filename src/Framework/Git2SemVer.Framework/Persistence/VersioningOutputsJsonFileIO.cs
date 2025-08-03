@@ -2,15 +2,16 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
-using NoeticTools.Git2SemVer.Core.Git2SemVer;
 using NoeticTools.Git2SemVer.Framework.Versioning;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders;
 
 
 namespace NoeticTools.Git2SemVer.Framework.Persistence;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public sealed class OutputsJsonFileIO : IOutputsJsonIO
+public sealed class VersioningOutputsJsonFileIO : IOutputsJsonIO
 {
     private static readonly JsonSerializerOptions SerialiseOptions = new()
     {
@@ -74,7 +75,7 @@ public sealed class OutputsJsonFileIO : IOutputsJsonIO
 
     private static string GetFilePath(string directory)
     {
-        return Path.Combine(directory, Git2SemVerConstants.SharedVersionJsonPropertiesFilename);
+        return Path.Combine(directory, VersioningConstants.SharedVersionJsonPropertiesFilename);
     }
 
     private static string LoadJson(string directory)
@@ -101,6 +102,7 @@ public sealed class OutputsJsonFileIO : IOutputsJsonIO
         ///     </para>
         /// </remarks>
         [JsonPropertyOrder(1)]
+        // ReSharper disable once PropertyCanBeMadeInitOnly.Local
         public int Rev { get; set; } = 3;
     }
 }

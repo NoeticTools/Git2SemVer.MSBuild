@@ -54,11 +54,6 @@ public class ConventionalCommitsVersionInfo
     [JsonConverter(typeof(SemVersionJsonConverter))]
     public SemVersion Version { get; set; } = new(0, 0, 0);
 
-    public static ConventionalCommitsVersionInfo Load(string filePath)
-    {
-        return Git2SemVerJsonSerializer.Read<ConventionalCommitsVersionInfo>(filePath);
-    }
-
     public void Save(string filePath)
     {
         var directory = Path.GetDirectoryName(filePath);

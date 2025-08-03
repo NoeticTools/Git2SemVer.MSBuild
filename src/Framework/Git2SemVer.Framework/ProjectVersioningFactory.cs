@@ -25,7 +25,7 @@ public sealed class ProjectVersioningFactory(
             throw new ArgumentNullException(nameof(inputs), "Inputs is required.");
         }
 
-        outputsJsonIO ??= new OutputsJsonFileIO();
+        outputsJsonIO ??= new VersioningOutputsJsonFileIO();
 
         var host = buildHostFactory.Create(inputs.HostType,
                                                                                inputs.BuildNumber,

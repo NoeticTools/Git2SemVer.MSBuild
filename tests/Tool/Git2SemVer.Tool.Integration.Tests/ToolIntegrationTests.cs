@@ -48,7 +48,7 @@ internal class ToolIntegrationTests : SolutionTestsBase
     [Test]
     public void ChangelogCommandTest()
     {
-        var dataFolderPath = Path.Combine(TestSolutionDirectory, ".git2semver/changelog");
+        var dataFolderPath = Path.Combine(TestSolutionDirectory, ".git2semver");
         var changelogFilePath = Path.Combine(TestSolutionDirectory, "CHANGELOG.md");
         if (File.Exists(changelogFilePath))
         {

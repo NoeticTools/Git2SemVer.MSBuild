@@ -13,13 +13,23 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 /// <remarks>
 ///     Git repository (project) settings. To be located with the git repository.
 /// </remarks>
-public sealed class ChangelogProjectSettings : IEquatable<ChangelogProjectSettings>
+// ReSharper disable once ClassNeverInstantiated.Global
+public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogProjectSettings>, IEquatable<ChangelogProjectSettings>
 {
     /// <summary>
     ///     Categories to include in the changelog.
     /// </summary>
     [JsonPropertyOrder(20)]
-    public CategorySettings[] Categories { get; set; } = [];
+    public CategorySettings[] Categories { get; set; } =
+    [
+        new(1, "Added", "feat"),
+        new(2, "Changed", "change"),
+        new(3, "Depreciated", "deprecate"),
+        new(4, "Removed", "remove"),
+        new(5, "Fixed", "fix"),
+        new(6, "Security", "security"),
+        new(7, "Other", "^(?!dev|Dev|refactor).*$")
+    ];
 
     [JsonPropertyOrder(10)]
     public ConventionalCommitsSettings ConvCommits { get; set; } = new();
@@ -41,6 +51,7 @@ public sealed class ChangelogProjectSettings : IEquatable<ChangelogProjectSettin
     ///     Configuration file schema revision.
     /// </summary>
     [JsonPropertyOrder(-10)]
+    // ReSharper disable once MemberCanBePrivate.Global
     public string Rev { get; set; } = "1";
 
     public bool Equals(ChangelogProjectSettings? other)
@@ -68,60 +79,5 @@ public sealed class ChangelogProjectSettings : IEquatable<ChangelogProjectSettin
         // ReSharper disable NonReadonlyMemberInGetHashCode
         return HashCode.Combine(Rev, Categories);
         // ReSharper restore NonReadonlyMemberInGetHashCode
-    }
-
-    public static ChangelogProjectSettings Load(string dataDirectory, string filename)
-    {
-        var filePath = Path.Combine(dataDirectory, filename);
-        if (File.Exists(filePath))
-        {
-            return Load(filePath);
-        }
-
-        var config = new ChangelogProjectSettings
-        {
-            Categories = ChangelogConstants.DefaultCategories
-        };
-        config.Save(dataDirectory, filename);
-        return config;
-    }
-
-    /// <summary>
-    ///     Save configuration to file.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Saves the user's Git2SemVer configuration file.
-    ///     </para>
-    /// </remarks>
-    public void Save(string dataDirectory, string filename)
-    {
-        // ReSharper disable once InvertIf
-        if (dataDirectory.Length > 0)
-        {
-            if (Directory.Exists(dataDirectory))
-            {
-                return;
-            }
-
-            Directory.CreateDirectory(dataDirectory);
-        }
-
-        var filePath = Path.Combine(dataDirectory, filename);
-        Git2SemVerJsonSerializer.Write(filePath, this);
-    }
-
-    /// <summary>
-    ///     Load the configuration. May return cached configuration.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Loads the user's Git2SemVer configuration file.
-    ///         If the file does not exist it is created.
-    ///     </para>
-    /// </remarks>
-    private static ChangelogProjectSettings Load(string filePath)
-    {
-        return Git2SemVerJsonSerializer.Read<ChangelogProjectSettings>(filePath);
     }
 }

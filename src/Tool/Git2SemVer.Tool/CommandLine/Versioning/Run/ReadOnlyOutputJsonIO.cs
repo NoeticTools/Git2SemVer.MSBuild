@@ -8,7 +8,7 @@ internal class ReadOnlyOutputJsonIO : IOutputsJsonIO
 {
     public IVersionOutputs Load(string directory)
     {
-        return new OutputsJsonFileIO().Load(directory);
+        return new VersioningOutputsJsonFileIO().Load(directory);
     }
 
     public void Write(string directory, IVersionOutputs outputs)

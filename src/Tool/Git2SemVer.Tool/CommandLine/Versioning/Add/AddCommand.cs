@@ -3,6 +3,7 @@ using NoeticTools.Git2SemVer.Core.Console;
 using NoeticTools.Git2SemVer.Core.Git2SemVer;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
+using NoeticTools.Git2SemVer.Framework.Versioning.Builders;
 using NoeticTools.Git2SemVer.Tool.MSBuild;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Projects;
 using NoeticTools.Git2SemVer.Tool.MSBuild.Solutions;
@@ -95,17 +96,18 @@ internal sealed class AddCommand(
 
     private void CreateSharedDirectory(DirectoryInfo parentDirectory)
     {
-        var sharedDirectory = parentDirectory.WithSubDirectory(Git2SemVerConstants.ShareFolderName);
+        var sharedDirectory = parentDirectory.WithSubDirectory(Git2SemVerConstants.DataFolderName);
         if (sharedDirectory.Exists)
         {
             logger.LogTrace("`{0}` already existed. Overwriting files in directory.", sharedDirectory.Name);
         }
-
         sharedDirectory.Create();
 
-        embeddedResources.WriteResourceFile(Git2SemVerConstants.SharedVersionJsonPropertiesFilename, sharedDirectory);
+        var tempDataDirectory = parentDirectory.WithSubDirectory(Git2SemVerConstants.TemporaryDataFolderName);
+        tempDataDirectory.Create();
+        embeddedResources.WriteResourceFile(VersioningConstants.SharedVersionJsonPropertiesFilename, tempDataDirectory);
 
-        console.WriteMarkupInfoLine($"\t- Added '{Git2SemVerConstants.ShareFolderName}' shared directory to versioning project directory.");
+        console.WriteMarkupInfoLine($"\t- Added '{Git2SemVerConstants.DataFolderName}' shared directory to versioning project directory.");
     }
 
     private void CreateVersioningProject(UserOptions userOptions, FileInfo solution)
@@ -113,8 +115,8 @@ internal sealed class AddCommand(
         var projectName = userOptions.VersioningProjectName;
         dotNetCli.Projects.New("classlib", $"{projectName}");
         dotNetCli.Solution.AddProject(solution.Name, $"{projectName}/{projectName}.csproj");
-        var csxFileDestination = solution.Directory!.WithSubDirectory(projectName).WithFile(Git2SemVerConstants.DefaultScriptFilename);
-        embeddedResources.WriteResourceFile(Git2SemVerConstants.DefaultScriptFilename, csxFileDestination.FullName);
+        var csxFileDestination = solution.Directory!.WithSubDirectory(projectName).WithFile(VersioningConstants.DefaultScriptFilename);
+        embeddedResources.WriteResourceFile(VersioningConstants.DefaultScriptFilename, csxFileDestination.FullName);
         console.WriteMarkupInfoLine($"\t- Added '{projectName}' project to solution.");
 
         var versioningProjectDirectory = solution.Directory!.WithSubDirectory(userOptions.VersioningProjectName);
@@ -161,20 +163,20 @@ internal sealed class AddCommand(
         {
             var fullName = gitIgnoreFile.FullName;
             var content = File.ReadAllText(fullName);
-            if (content.Contains(Git2SemVerConstants.ShareFolderName, StringComparison.Ordinal))
+            if (content.Contains(Git2SemVerConstants.TemporaryDataFolderName, StringComparison.Ordinal))
             {
-                console.WriteWarningLine($"The .gitignore file already had an entry for {Git2SemVerConstants.ShareFolderName}.");
+                console.WriteWarningLine($"The .gitignore file already had an entry for {Git2SemVerConstants.TemporaryDataFolderName}.");
                 return;
             }
 
             content += $"""
 
                         # Generated version properties file
-                        {Git2SemVerConstants.ShareFolderName}/{Git2SemVerConstants.SharedVersionJsonPropertiesFilename}
+                        {Git2SemVerConstants.TemporaryDataFolderName}/{VersioningConstants.SharedVersionJsonPropertiesFilename}
 
                         """;
             File.WriteAllText(fullName, content);
-            console.WriteMarkupInfoLine($"\t- Added generated version properties file '{Git2SemVerConstants.SharedVersionJsonPropertiesFilename}' to .gitignore file.");
+            console.WriteMarkupInfoLine($"\t- Added generated version properties file '{VersioningConstants.SharedVersionJsonPropertiesFilename}' to .gitignore file.");
         }
         else
         {

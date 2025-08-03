@@ -42,7 +42,7 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
 #pragma warning restore CA2000
         logger.Level = GetVerbosity(settings.Verbosity);
 
-        IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new OutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
+        IOutputsJsonIO outputJsonIO = settings.EnableJsonFileWrite ? new VersioningOutputsJsonFileIO() : new ReadOnlyOutputJsonIO();
         var versionGeneratorFactory = new VersioningEngineFactory(logger);
         var configuration = Git2SemVerLocalSettings.Load();
         var hostFactory = new BuildHostFactory(configuration, new TeamCityLoggerWriterFactory(logger).Create(), logger);

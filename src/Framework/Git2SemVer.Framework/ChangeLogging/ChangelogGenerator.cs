@@ -32,6 +32,7 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
 
         var createNewChangelog = !File.Exists(outputFilePath);
         var changelogToUpdate = createNewChangelog ? "" : File.ReadAllText(outputFilePath);
+
         var lastRunData = createNewChangelog ? new LastRunData() : LastRunData.Load(dataDirectory, outputFilePath, logger);
         var scribanTemplate = new ChangelogTemplateReader(logger).Load(dataDirectory);
 

@@ -4,7 +4,7 @@ uid: changelog-templating
 
 # Changelog - Templating
 
-**Git2SemVer** generates the changelog using [Scriban](https://github.com/scriban/scriban) scripting language template file `.git2semver/changelog/markdown.template.scriban`.
+**Git2SemVer** generates the changelog using [Scriban](https://github.com/scriban/scriban) scripting language template file `.git2semver/changelog.markdown.template.scriban`.
 If no template is provided **Git2SemVer** will install and its default template file.
 
 ## Essentials
