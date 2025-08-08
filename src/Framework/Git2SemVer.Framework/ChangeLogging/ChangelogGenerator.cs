@@ -28,7 +28,9 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
                           string dataDirectory,
                           string outputFilePath)
     {
-        Git2SemVerArgumentException.ThrowIfNull(releaseUrl, nameof(releaseUrl));
+        releaseUrl = MergeOption(releaseUrl, projectSettings.ArtifactLinkPattern, ChangelogConstants.DefaultArtifactLinkPattern);
+        dataDirectory = MergeOption(dataDirectory, projectSettings.DataDirectory, ChangelogConstants.DefaultDataDirectory);
+        outputFilePath =MergeOption(outputFilePath, projectSettings.OutputFilePath, ChangelogConstants.DefaultFilename); // todo - does this need the working directory?
 
         var createNewChangelog = !File.Exists(outputFilePath);
         var changelogToUpdate = createNewChangelog ? "" : File.ReadAllText(outputFilePath);
@@ -51,6 +53,22 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
         File.WriteAllText(outputFilePath, changelog);
 
         return changelog;
+    }
+
+    private static string MergeOption(string primaryValue, string secondaryValue, string defaultValue)
+    {
+        if (!string.IsNullOrEmpty(primaryValue))
+        {
+            return primaryValue;
+        }
+
+        var value = secondaryValue;
+        if (string.IsNullOrEmpty(value))
+        {
+            value = defaultValue;
+        }
+
+        return value;
     }
 
     private string Execute(ConventionalCommitsVersionInfo convCommits,

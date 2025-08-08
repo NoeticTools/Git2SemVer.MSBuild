@@ -7,16 +7,13 @@ public class GitTestRepository(
     string description,
     Commit[] commits,
     string headCommitId,
-    int expectedPathCount,
-    string expectedVersion)
+    string expectedVersion) : GitTestBase
 {
-    public Commit[] Commits { get; protected set; } = commits;
+    public Commit[] Commits { get; protected init; } = commits;
 
     public string Description { get; } = description;
 
-    public int ExpectedPathCount { get; protected set; } = expectedPathCount;
-
     public string ExpectedVersion { get; } = expectedVersion;
 
-    public string HeadCommitId { get; protected set; } = headCommitId;
+    public string HeadCommitId { get; protected init; } = headCommitId;
 }

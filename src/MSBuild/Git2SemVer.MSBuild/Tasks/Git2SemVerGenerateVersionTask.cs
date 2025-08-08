@@ -30,7 +30,7 @@ namespace NoeticTools.Git2SemVer.MSBuild.Tasks;
 /// </remarks>
 // ReSharper disable once UnusedType.Global
 [ExcludeFromCodeCoverage]
-public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGeneratorInputs, IChangeGeneratorOptions
+public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGeneratorInputs, IChangeLogGeneratorTaskOptions
 {
     /// <summary>
     ///     Optional case-insensitive regular expression that maps branch name to build maturity such as "release" or "beta".
@@ -128,18 +128,19 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
     ///     Optional path to changelog generator's data and configuration files directory. It may be a relative or absolute
     ///     path.
     /// </summary>
-    public string ChangelogDataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
+    public string ChangelogDataDirectory { get; set; } = "";
 
     /// <summary>
     ///     Optional changelog generation/update enable.
     /// </summary>
+    [Required]
     public bool ChangelogEnable { get; set; }
 
     /// <summary>
     ///     Optional generated changelog file path. It may be a relative (to given working directory) or absolute path. Set to
     ///     empty string to disable file write.
     /// </summary>
-    public string ChangelogOutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
+    public string ChangelogOutputFilePath { get; set; } = "";
 
     /// <summary>
     ///     If not an empty string, sets the changelog's changes version (normally version or 'Unreleased'). Any text
@@ -371,7 +372,6 @@ public class Git2SemVerGenerateVersionTask : Git2SemVerTaskBase, IVersionGenerat
             }
 
             servicesProvider.GetService<ChangelogGeneratorTask>()!.Execute(versioningOutputs);
-
             return !Log.HasLoggedErrors;
         }
         catch (Git2SemVerDiagnosticCodeException diagnosticException)

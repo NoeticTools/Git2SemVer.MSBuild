@@ -6,7 +6,7 @@ using NoeticTools.Git2SemVer.Testing.Core.ConventionalCommits;
 
 namespace NoeticTools.Git2SemVer.Framework.Tests.TestScenarios;
 
-public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
+public sealed class ManufacturedGitRepositoriesTestSource : GitTestBase, IEnumerable
 {
     public IEnumerator GetEnumerator()
     {
@@ -70,7 +70,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("3.005.0000", ["3.004.0000"], "")
                                      ],
                                      "1.010.0000",
-                                     3,
                                      "1.2.5");
     }
 
@@ -107,7 +106,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("2.005.0000", ["2.003.0000"], "")
                                      ],
                                      "1.010.0000",
-                                     1,
                                      "1.2.3");
     }
 
@@ -137,7 +135,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("1.006", ["1.005"], "", "Head commit")
                                      ],
                                      "1.006",
-                                     1,
                                      "1.5.10");
     }
 
@@ -154,7 +151,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("1.001.0000", [], "First commit in repo")
                                      ],
                                      "1.001.0000",
-                                     1,
                                      "0.1.0");
     }
 
@@ -176,7 +172,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("1.003.0000", ["1.002.0000"], "head")
                                      ],
                                      "1.003.0000",
-                                     1,
                                      "0.1.1");
     }
 
@@ -219,7 +214,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("3.003.0000", ["3.002.0000"], "")
                                      ],
                                      "1.006.0000",
-                                     3,
                                      "5.7.2");
     }
 
@@ -251,10 +245,10 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("1.002.0000", ["1.001.0000"], "Branch from"),
                                          NewCommit("1.003.0000", ["1.002.0000"], "", "tag: v5.7.0"),
                                          NewCommit("1.004.0000", ["1.003.0000"], "added feature", "",
-                                                    new FeatureMessageMetadataStub("", "added feature", "")),
+                                                   new FeatureMessageMetadataStub("", "added feature", "")),
                                          NewCommit("1.005.0000", ["1.004.0000", "2.003.0000"], "Merge"),
                                          NewCommit("1.006.0000", ["1.005.0000", "3.003.0000"], "Merge", "",
-                                                    new FeatureMessageMetadataStub("", "fixed bug", "")),
+                                                   new FeatureMessageMetadataStub("", "fixed bug", "")),
                                          NewCommit("1.007.0000", ["1.006.0000"], "Head commit"),
 
                                          // branch 2 (middle)
@@ -268,7 +262,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("3.003.0000", ["3.002.0000"], "")
                                      ],
                                      "1.006.0000",
-                                     3,
                                      "5.8.0");
     }
 
@@ -307,7 +300,6 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                          NewCommit("1.005.0000", ["1.004.0000"], "Head commit")
                                      ],
                                      "1.005.0000",
-                                     2,
                                      "0.1.0");
     }
 
@@ -331,10 +323,5 @@ public sealed class ManufacturedGitRepositoriesTestSource : IEnumerable
                                                 011.002  .
                                                 000.001  | first commit
                                                 """);
-    }
-
-    private static Commit NewCommit(string sha, string[] parents, string summary, string? refs = "", ICommitMessageMetadata? metadata = null)
-    {
-        return new Commit(sha, parents, summary, refs, metadata ?? CommitMessageMetadata.Null);
     }
 }

@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 
-public interface IChangeGeneratorOptions : ICommonOptions
+public interface IChangeLogGeneratorTaskOptions : ICommonTaskOptions
 {
     /// <summary>
     ///     Optional changelog url to a version's artifacts. May contain version placeholder '%VERSION%'.
@@ -16,7 +16,7 @@ public interface IChangeGeneratorOptions : ICommonOptions
     string ChangelogDataDirectory { get; set; } // todo - constant
 
     /// <summary>
-    ///     Optional changelog generation/update enable.
+    ///     Optional changelog generate/update enable.
     /// </summary>
     bool ChangelogEnable { get; set; }
 

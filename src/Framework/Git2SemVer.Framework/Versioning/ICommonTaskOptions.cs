@@ -1,6 +1,6 @@
 ﻿namespace NoeticTools.Git2SemVer.Framework.Versioning;
 
-public interface ICommonOptions
+public interface ICommonTaskOptions
 {
     /// <summary>
     ///     The working directory.

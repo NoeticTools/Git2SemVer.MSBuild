@@ -7,7 +7,7 @@ namespace NoeticTools.Git2SemVer.Framework.Versioning;
 /// <summary>
 ///     Inputs into the MSBuild task read from MSBuild properties.
 /// </summary>
-public interface IVersionGeneratorInputs : ICommonOptions
+public interface IVersionGeneratorInputs : ICommonTaskOptions
 {
     /// <summary>
     ///     Optional input  MSBuild <c>Git2SemVer_BranchMaturityPattern</c> property.

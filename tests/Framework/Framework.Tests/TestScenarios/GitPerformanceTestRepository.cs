@@ -7,7 +7,7 @@ namespace NoeticTools.Git2SemVer.Framework.Tests.TestScenarios;
 public class GitPerformanceTestRepository : GitTestRepository
 {
     public GitPerformanceTestRepository(string description)
-        : base(description, [], "000.01.000", 0, "0.1.0")
+        : base(description, [], "000.01.000", "0.1.0")
     {
         var commits = new List<Commit>
         {
@@ -48,10 +48,5 @@ public class GitPerformanceTestRepository : GitTestRepository
 
         Commits = commits.ToArray();
         HeadCommitId = headCommitId;
-    }
-
-    private static Commit NewCommit(string sha, string[] parents, string summary, string? refs = "", ICommitMessageMetadata? metadata = null)
-    {
-        return new Commit(sha, parents, summary, refs, metadata ?? CommitMessageMetadata.Null);
     }
 }

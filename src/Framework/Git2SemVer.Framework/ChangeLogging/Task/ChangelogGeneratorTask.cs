@@ -5,24 +5,24 @@ using NoeticTools.Git2SemVer.Core.Logging;
 namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 
 [RegisterTransient]
-public sealed class ChangelogGeneratorTask(IChangeGeneratorOptions options, ILogger logger)
+public sealed class ChangelogGeneratorTask(IChangeLogGeneratorTaskOptions taskOptions, ILogger logger)
 {
     public void Execute(VersioningOutputs versioningOutput)
     {
         Git2SemVerArgumentException.ThrowIfNull(versioningOutput, nameof(versioningOutput));
 
-        if (!options.ChangelogEnable || !versioningOutput.Metadata.CalculationPerformed)
+        if (!taskOptions.ChangelogEnable || !versioningOutput.Metadata.CalculationPerformed)
         {
             return;
         }
 
         logger.LogInfo("Generating changelog.");
 
-        var projectSettings = ChangelogProjectSettings.Load(options.ChangelogDataDirectory, ChangelogConstants.ProjectSettingsFilename);
+        var projectSettings = ChangelogProjectSettings.Load(taskOptions.ChangelogDataDirectory, ChangelogConstants.ProjectSettingsFilename);
         new ChangelogGenerator(projectSettings, logger).Execute(versioningOutput,
-                                                                options.ChangelogArtifactLinkPattern,
-                                                                options.ChangelogReleaseAs,
-                                                                options.ChangelogDataDirectory,
-                                                                options.ChangelogOutputFilePath);
+                                                                taskOptions.ChangelogArtifactLinkPattern,
+                                                                taskOptions.ChangelogReleaseAs,
+                                                                taskOptions.ChangelogDataDirectory,
+                                                                taskOptions.ChangelogOutputFilePath);
     }
 }

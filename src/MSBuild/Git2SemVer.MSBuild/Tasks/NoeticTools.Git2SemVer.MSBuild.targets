@@ -13,6 +13,11 @@
     <Git2SemVer_WriteConventionalCommitsInfo Condition="'$(Git2SemVer_WriteConventionalCommitsInfo)'==''">false</Git2SemVer_WriteConventionalCommitsInfo>
   </PropertyGroup>
 
+  <!--Changelog generation properties -->
+  <PropertyGroup>
+    <Git2SemVer_ChangelogEnable Condition="'$(Git2SemVer_ChangelogEnable)'==''">false</Git2SemVer_ChangelogEnable>
+  </PropertyGroup>
+
   <!-- Multitargeting project properties -->
   <PropertyGroup>
     <CrossTargetingBuild Condition=" '$(TargetFrameworks)' != '' ">true</CrossTargetingBuild>
@@ -98,7 +103,12 @@
                                    Mode="$(Git2SemVer_Mode)"
                                    RunScript="$(Git2SemVer_RunScript)"
                                    ReleaseTagFormat="$(Git2SemVer_ReleaseTagFormat)"
-                                   WriteConventionalCommitsInfo="$(Git2SemVer_WriteConventionalCommitsInfo)">
+                                   WriteConventionalCommitsInfo="$(Git2SemVer_WriteConventionalCommitsInfo)"
+                                   ChangelogEnable="$(Git2SemVer_ChangelogEnable)"
+                                   ChangelogArtifactLinkPattern="$(Git2SemVer_ChangelogArtifactLinkPattern)"
+                                   ChangelogDataDirectory="$(Git2SemVer_ChangelogDataDirectory)"
+                                   ChangelogOutputFilePath="$(Git2SemVer_ChangelogOutputFilePath)"
+                                   ChangelogReleaseAs="$(Git2SemVer_ChangelogReleaseAs)">
 
       <Output TaskParameter="AssemblyVersion" PropertyName="Git2SemVer_AssemblyVersion" />
       <Output TaskParameter="FileVersion" PropertyName="Git2SemVer_FileVersion" />

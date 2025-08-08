@@ -16,9 +16,15 @@ namespace NoeticTools.Git2SemVer.Framework.ChangeLogging;
 public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogProjectSettings>, IEquatable<ChangelogProjectSettings>
 {
     /// <summary>
+    ///     Optional url to a version's artifacts. May contain version placeholder '%VERSION%'.
+    /// </summary>
+    [JsonPropertyOrder(50)]
+    public string ArtifactLinkPattern { get; set; } = "";
+
+    /// <summary>
     ///     Categories to include in the changelog.
     /// </summary>
-    [JsonPropertyOrder(20)]
+    [JsonPropertyOrder(120)]
     public CategorySettings[] Categories { get; set; } =
     [
         new(1, "Added", "feat"),
@@ -30,8 +36,14 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
         new(7, "Other", "^(?!dev|Dev|refactor).*$")
     ];
 
-    [JsonPropertyOrder(10)]
+    [JsonPropertyOrder(110)]
     public ConventionalCommitsSettings ConvCommits { get; set; } = new();
+
+    /// <summary>
+    ///     Path to generator's data and configuration files directory. It may be a relative or absolute path.
+    /// </summary>
+    [JsonPropertyOrder(20)]
+    public string DataDirectory { get; set; } = "";
 
     // ReSharper disable once GrammarMistakeInComment
     /// <summary>
@@ -43,8 +55,14 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
     ///         "https://organisation-name/project-name/issues/{0}"
     ///     </example>
     /// </remarks>
-    [JsonPropertyOrder(5)]
-    public string IssueLinkFormat { get; set; } = "{0}";
+    [JsonPropertyOrder(60)]
+    public string IssueLinkFormat { get; set; } = ChangelogConstants.IssueLinkFormat;
+
+    /// <summary>
+    ///     Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
+    /// </summary>
+    [JsonPropertyOrder(10)]
+    public string OutputFilePath { get; set; } = "";
 
     /// <summary>
     ///     Configuration file schema revision.

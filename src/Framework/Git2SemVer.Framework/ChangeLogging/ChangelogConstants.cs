@@ -18,4 +18,13 @@ public static class ChangelogConstants
     public const string ProjectSettingsFilename = "git2semver.changelog.settings.json";
 
     public const string VersionPlaceholder = TagParsingConstants.VersionPlaceholder;
+
+    public const string IssueLinkFormat = "{0}";
+
+    public const string DefaultLogLevel = "info";
+
+    /// <summary>
+    ///     The default url to a version's artifacts using version placeholder '%VERSION%'. No link is generated if an empty string.
+    /// </summary>
+    public const string DefaultArtifactLinkPattern = "";
 }
