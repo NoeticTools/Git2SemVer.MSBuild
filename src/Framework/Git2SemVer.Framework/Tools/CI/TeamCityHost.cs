@@ -1,7 +1,7 @@
-﻿using JetBrains.TeamCity.ServiceMessages.Write.Special;
+﻿using System.Globalization;
+using JetBrains.TeamCity.ServiceMessages.Write.Special;
 using NoeticTools.Git2SemVer.Core.Tools.CI;
 using NoeticTools.Git2SemVer.Framework.Framework.BuildHosting;
-using System.Globalization;
 using ILogger = NoeticTools.Git2SemVer.Core.Logging.ILogger;
 
 
@@ -29,7 +29,7 @@ internal sealed class TeamCityHost : BuildHostBase, IDetectableBuildHost
         _serviceMessagesWriter = messageWriter;
     }
 
-    public TeamCityHost(Action<string> buildOutput, ILogger logger) 
+    public TeamCityHost(Action<string> buildOutput, ILogger logger)
         : this(new TeamCityServiceMessages().CreateWriter(buildOutput), logger)
     {
     }

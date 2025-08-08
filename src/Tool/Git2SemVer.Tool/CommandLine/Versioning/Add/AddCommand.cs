@@ -101,6 +101,7 @@ internal sealed class AddCommand(
         {
             logger.LogTrace("`{0}` already existed. Overwriting files in directory.", sharedDirectory.Name);
         }
+
         sharedDirectory.Create();
 
         var tempDataDirectory = parentDirectory.WithSubDirectory(Git2SemVerConstants.TemporaryDataFolderName);

@@ -14,6 +14,8 @@ public class ChangeGeneratorOptions(IChangeGeneratorOptions options) : IChangeGe
 
     public string ChangelogReleaseAs { get; set; } = options.ChangelogReleaseAs;
 
+    public string WorkingDirectory { get; } = options.WorkingDirectory;
+
     private static string ToAbsolutePath(string path, string defaultPath, string workingDirectory)
     {
         if (path.Length == 0)
@@ -28,6 +30,4 @@ public class ChangeGeneratorOptions(IChangeGeneratorOptions options) : IChangeGe
 
         return Path.Combine(workingDirectory, path);
     }
-
-    public string WorkingDirectory { get; } = options.WorkingDirectory;
 }

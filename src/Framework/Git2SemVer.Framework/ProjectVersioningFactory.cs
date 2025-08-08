@@ -28,9 +28,9 @@ public sealed class ProjectVersioningFactory(
         outputsJsonIO ??= new VersioningOutputsJsonFileIO();
 
         var host = buildHostFactory.Create(inputs.HostType,
-                                                                               inputs.BuildNumber,
-                                                                               inputs.BuildContext,
-                                                                               inputs.BuildIdFormat);
+                                           inputs.BuildNumber,
+                                           inputs.BuildContext,
+                                           inputs.BuildIdFormat);
         var convCommitSettings = new ConventionalCommitsSettings();
         var versionGenerator = versioningEngineFactory.Create(inputs, msBuildGlobalProperties, outputsJsonIO, host, convCommitSettings);
         var projectVersioning = new ProjectVersioning(inputs, host,

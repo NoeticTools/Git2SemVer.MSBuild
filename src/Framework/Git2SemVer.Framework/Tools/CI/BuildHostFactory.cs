@@ -7,9 +7,10 @@ using NoeticTools.Git2SemVer.Framework.Framework.Config;
 namespace NoeticTools.Git2SemVer.Framework.Tools.CI;
 
 [RegisterTransient]
-public sealed class BuildHostFactory(ILocalSettings config, 
-                                     ITeamCityWriter teamCityWriter, 
-                                     ILogger logger) : IBuildHostFactory
+public sealed class BuildHostFactory(
+    ILocalSettings config,
+    ITeamCityWriter teamCityWriter,
+    ILogger logger) : IBuildHostFactory
 {
     public IBuildHost Create(string hostType, string buildNumber, string buildContext, string inputsBuildIdFormat)
     {

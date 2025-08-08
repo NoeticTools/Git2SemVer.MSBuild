@@ -53,9 +53,9 @@ public class ChangelogGenerator(ChangelogProjectSettings projectSettings, ILogge
         return changelog;
     }
 
-    private string Execute(ConventionalCommitsVersionInfo convCommits, 
-                           string scribanTemplate, 
-                           string releaseUrl, 
+    private string Execute(ConventionalCommitsVersionInfo convCommits,
+                           string scribanTemplate,
+                           string releaseUrl,
                            string releaseAs,
                            LastRunData lastRunData,
                            string changelogToUpdate)

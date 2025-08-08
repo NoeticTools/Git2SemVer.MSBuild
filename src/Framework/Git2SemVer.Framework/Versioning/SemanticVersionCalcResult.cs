@@ -9,8 +9,10 @@ namespace NoeticTools.Git2SemVer.Framework.Versioning;
 #pragma warning disable CS1591
 public sealed class SemanticVersionCalcResult
 {
-    private readonly List<SemVersion> _priorVersions = [];
     private static readonly SemVersion NullVersion = new(0, 0, 0);
+    private readonly List<SemVersion> _priorVersions = [];
+
+    public bool CalculationPerformed => !ReferenceEquals(Version, NullVersion);
 
     /// <summary>
     ///     Aggregated change flags from all prior releases to head commit.
@@ -27,8 +29,6 @@ public sealed class SemanticVersionCalcResult
     ///     The calculated semantic version.
     /// </summary>
     public SemVersion Version { get; set; } = NullVersion;
-
-    public bool CalculationPerformed => !ReferenceEquals(Version, NullVersion);
 
     public void AddPriorVersion(SemVersion version)
     {

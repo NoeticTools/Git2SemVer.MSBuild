@@ -2,10 +2,10 @@
 
 public static class VersioningConstants
 {
-    public const string DefaultScriptFilename = "Git2SemVer.csx";
-
     public const string DefaultBranchMaturityPattern =
         "^((?<rc>(main|master|release)[\\\\\\/_](.*[\\\\\\/_])?rc.*)|(?<release>main|release)|(?<beta>feature)|(?<alpha>.+))[\\\\\\/_]?";
+
+    public const string DefaultScriptFilename = "Git2SemVer.csx";
 
     public const string InitialDevelopmentLabel = "InitialDev";
     public const string ReleaseGroupName = "release";

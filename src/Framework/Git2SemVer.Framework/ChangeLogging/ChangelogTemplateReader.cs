@@ -30,6 +30,7 @@ public sealed class ChangelogTemplateReader(ILogger logger)
         {
             throw new Git2SemVerOperationException($"The code resource file '{resourceFilename}' is required but not found.");
         }
+
         using var stream = assembly.GetManifestResourceStream(resourcePath!)!;
         using var reader = new StreamReader(stream);
         return reader.ReadToEnd();

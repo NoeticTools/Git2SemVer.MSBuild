@@ -46,7 +46,7 @@ internal sealed class RunCommand(IConsoleIO console) : CommandBase(console), IRu
         var versionGeneratorFactory = new VersioningEngineFactory(logger);
         var configuration = Git2SemVerLocalSettings.Load();
         var hostFactory = new BuildHostFactory(configuration, new TeamCityLoggerWriterFactory(logger).Create(), logger);
-        var projectVersioning = new ProjectVersioningFactory(inputs, new NullMSBuildGlobalProperties(), 
+        var projectVersioning = new ProjectVersioningFactory(inputs, new NullMSBuildGlobalProperties(),
                                                              versionGeneratorFactory, hostFactory, logger)
             .Create(outputJsonIO);
         projectVersioning.Run();

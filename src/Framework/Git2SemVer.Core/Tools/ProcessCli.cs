@@ -83,6 +83,7 @@ public sealed class ProcessCli : IProcessCli
             {
                 process.BeginErrorReadLine();
             }
+
             standardOut?.Write(process.StandardOutput.ReadToEnd());
 
             var completed = process.WaitForExit(TimeLimitMilliseconds);

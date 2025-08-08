@@ -10,6 +10,8 @@ using NoeticTools.Git2SemVer.Framework.Versioning.Builders.Scripting;
 using NoeticTools.Git2SemVer.Tool.CommandLine.Versioning.Run;
 
 
+#pragma warning disable CA1031
+
 namespace NoeticTools.Git2SemVer.Tool.CommandLine.Changelog;
 
 [RegisterSingleton]
@@ -67,7 +69,6 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
 
             Console.WriteLine("");
             Console.WriteMarkupLine($"[good]Completed[/] (in {stopwatch.ElapsedMilliseconds:D0} ms)");
-
         }
         catch (Exception exception)
         {

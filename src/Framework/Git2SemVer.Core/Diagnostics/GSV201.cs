@@ -15,10 +15,10 @@ public sealed class GSV201 : DiagnosticCodeBase
                             """,
                resolution: """
                            If this is the first time the generator has been run then it is safe to ignore.
-                           
+
                            Otherwise, check that the last run data file ({1}.g2sv.data.g.json) exists. If it does, open it in an editor to see if the JSON formating is corrupted.
                            If it does not exist add the last run data file ({1}.g2sv.data.g.json), that the generator has created, to the repository
-                           
+
                            Ensure that the data directory option used is correct.
                            ```
                            """,
