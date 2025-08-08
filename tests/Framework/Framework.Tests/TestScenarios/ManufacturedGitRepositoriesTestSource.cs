@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Testing.Core.ConventionalCommits;
 
 

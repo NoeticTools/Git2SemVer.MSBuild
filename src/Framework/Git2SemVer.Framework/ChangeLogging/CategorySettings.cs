@@ -35,4 +35,11 @@ public sealed class CategorySettings
     ///     Lower number appears before higher numbers.
     /// </summary>
     public int Order { get; set; }
+
+    public override int GetHashCode()
+    {
+        // ReSharper disable NonReadonlyMemberInGetHashCode
+        return HashCode.Combine(ChangeTypePattern, Name, Order);
+        // ReSharper restore NonReadonlyMemberInGetHashCode
+    }
 }

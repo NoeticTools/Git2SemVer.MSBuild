@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using NoeticTools.Git2SemVer.Core;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 
@@ -19,7 +20,7 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
     ///     Optional url to a version's artifacts. May contain version placeholder '%VERSION%'.
     /// </summary>
     [JsonPropertyOrder(50)]
-    public string ArtifactLinkPattern { get; set; } = "";
+    public string ArtifactLinkPattern { get; set; } = ChangelogConstants.DefaultArtifactLinkPattern;
 
     /// <summary>
     ///     Categories to include in the changelog.
@@ -43,7 +44,7 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
     ///     Path to generator's data and configuration files directory. It may be a relative or absolute path.
     /// </summary>
     [JsonPropertyOrder(20)]
-    public string DataDirectory { get; set; } = "";
+    public string DataDirectory { get; set; } = ChangelogConstants.DefaultDataDirectory;
 
     // ReSharper disable once GrammarMistakeInComment
     /// <summary>
@@ -62,7 +63,7 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
     ///     Generated changelog file path. It may be a relative or absolute path. Set to empty string to disable file write.
     /// </summary>
     [JsonPropertyOrder(10)]
-    public string OutputFilePath { get; set; } = "";
+    public string OutputFilePath { get; set; } = ChangelogConstants.DefaultFilename;
 
     /// <summary>
     ///     Configuration file schema revision.
@@ -78,12 +79,7 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
             return false;
         }
 
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        return Rev == other.Rev && Categories.Equals(other.Categories);
+        return GetHashCode() == other.GetHashCode();
     }
 
     public override bool Equals(object? obj)
@@ -94,7 +90,12 @@ public sealed class ChangelogProjectSettings : JsonSettingsFileBase<ChangelogPro
     public override int GetHashCode()
     {
         // ReSharper disable NonReadonlyMemberInGetHashCode
-        return HashCode.Combine(Rev, Categories);
-        // ReSharper restore NonReadonlyMemberInGetHashCode
+        var categoriesCode = Categories.Aggregate(17, (current, item) => current * 23 + item.GetHashCode());
+        return HashCode.Combine(ArtifactLinkPattern, categoriesCode, ConvCommits.GetHashCode(), DataDirectory, IssueLinkFormat, OutputFilePath, Rev);
+    }
+
+    public static ChangelogProjectSettings FromJson(string json)
+    {
+        return Git2SemVerJsonSerializer.Deserialise<ChangelogProjectSettings>(json);
     }
 }

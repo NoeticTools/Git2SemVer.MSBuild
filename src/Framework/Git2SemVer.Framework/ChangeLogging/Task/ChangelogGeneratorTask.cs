@@ -23,6 +23,7 @@ public sealed class ChangelogGeneratorTask(IChangeLogGeneratorTaskOptions taskOp
                                                                 taskOptions.ChangelogArtifactLinkPattern,
                                                                 taskOptions.ChangelogReleaseAs,
                                                                 taskOptions.ChangelogDataDirectory,
-                                                                taskOptions.ChangelogOutputFilePath);
+                                                                taskOptions.ChangelogOutputFilePath, 
+                                                                taskOptions.WorkingDirectory);
     }
 }

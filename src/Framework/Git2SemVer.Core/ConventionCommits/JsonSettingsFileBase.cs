@@ -34,4 +34,9 @@ public abstract class JsonSettingsFileBase<T>
         var filePath = Path.Combine(dataDirectory, filename);
         Git2SemVerJsonSerializer.Write(filePath, this);
     }
+
+    public string ToJson()
+    {
+        return Git2SemVerJsonSerializer.Serialise(this);
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace NoeticTools.Git2SemVer.Framework.ChangeLogging.Task;
 
-public class ChangeGeneratorTaskOptions(IChangeLogGeneratorTaskOptions taskOptions) : IChangeLogGeneratorTaskOptions
+public class ChangeGeneratorTaskExpandedOptions(IChangeLogGeneratorTaskOptions taskOptions) : IChangeLogGeneratorTaskOptions
 {
     public string ChangelogArtifactLinkPattern { get; set; } = taskOptions.ChangelogArtifactLinkPattern;
 

@@ -39,7 +39,8 @@ internal sealed class ChangelogCommand(IConsoleIO console, ILogger logger) : Com
                                                        cmdLineSettings.ArtifactLinkPattern,
                                                        cmdLineSettings.ReleaseAs,
                                                        cmdLineSettings.DataDirectory,
-                                                       cmdLineSettings.OutputFilePath);
+                                                       cmdLineSettings.OutputFilePath, 
+                                                       Environment.CurrentDirectory);
 
             if (string.Equals(priorChangelog, changelog, StringComparison.Ordinal))
             {

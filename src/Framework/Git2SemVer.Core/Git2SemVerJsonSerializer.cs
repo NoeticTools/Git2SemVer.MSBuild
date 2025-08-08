@@ -37,9 +37,19 @@ public static class Git2SemVerJsonSerializer
         }
     }
 
+    public static T Deserialise<T>(string json)
+    {
+        return JsonSerializer.Deserialize<T>(json)!;
+    }
+
+    public static string Serialise(object target)
+    {
+        return JsonSerializer.Serialize(target, SerialiseOptions);
+    }
+
     public static void Write(string filePath, object target)
     {
-        var json = JsonSerializer.Serialize(target, SerialiseOptions);
+        var json = Serialise(target);
 
         FileMutex.WaitOne(TimeSpan.FromSeconds(10));
         try
